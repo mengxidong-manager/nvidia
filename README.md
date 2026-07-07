@@ -6,6 +6,7 @@
 
 | 文档 | 内容 |
 |------|------|
+| [GPU 集群常见问题与故障排查手册](docs/GPU集群常见问题与故障排查手册.md) | **XID 错误速查 · ECC/PCIe/NVLink 诊断 · 训练故障 · 推理问题 · 散热供电 · 预防性维护** |
 | [Vera Rubin NVL72 技术全解](docs/Vera_Rubin_NVL72_技术全解.md) | 架构 / 六大芯片 / 45°C 液冷 / 供电 / 存储 / 网络 |
 | [B300/GB300 NVL72 技术全解](docs/B300_GB300_NVL72_技术全解.md) | Blackwell Ultra 架构 / B300 vs B200 / 散热 / 供电 / 内存 / 网络 |
 | [nvidia-smi 运维命令速查手册](docs/nvidia-smi运维命令速查手册.md) | GPU 监控 / 健康检查 / 性能调优 / NVLink 诊断 |
