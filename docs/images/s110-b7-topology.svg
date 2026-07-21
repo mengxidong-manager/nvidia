@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 690" font-family="Segoe UI, Arial, sans-serif">
+  <rect x="0" y="0" width="900" height="690" fill="#ffffff"/>
+  <text x="30" y="30" font-size="18" font-weight="700" fill="#0f172a">s110-b7 · Aivres KR6288 (HGX H200 8-GPU) 节点网络拓扑</text>
+  <text x="30" y="50" font-size="12" fill="#64748b">8︰8︰2 架构 — 计算后端 IB ×8 · 存储/前端 ×2 · IPMI ×1 · 电源 8× PSU</text>
+
+  <rect x="95" y="66" width="150" height="52" rx="6" fill="#e6fbff" stroke="#0ea5b7" stroke-width="2"/>
+  <text x="170" y="90" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle">bz-leaf-1</text>
+  <text x="170" y="107" font-size="10.5" fill="#0e7490" text-anchor="middle">Quantum-2 · c23/U57</text>
+
+  <rect x="285" y="66" width="150" height="52" rx="6" fill="#e6fbff" stroke="#0ea5b7" stroke-width="2"/>
+  <text x="360" y="90" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle">bz-leaf-2</text>
+  <text x="360" y="107" font-size="10.5" fill="#0e7490" text-anchor="middle">Quantum-2 · d23/U31</text>
+
+  <rect x="502" y="66" width="150" height="52" rx="6" fill="#e8effc" stroke="#2563eb" stroke-width="2"/>
+  <text x="577" y="90" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle">storage-leaf</text>
+  <text x="577" y="107" font-size="10.5" fill="#1d4ed8" text-anchor="middle">存储/前端 (North-South)</text>
+
+  <rect x="685" y="66" width="150" height="52" rx="6" fill="#eef1f5" stroke="#475569" stroke-width="2"/>
+  <text x="760" y="90" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle">mgmt-sw</text>
+  <text x="760" y="107" font-size="10.5" fill="#475569" text-anchor="middle">带外管理 (OOB)</text>
+
+  <line x1="100" y1="352" x2="170" y2="118" stroke="#0ea5b7" stroke-width="2.2"/>
+  <line x1="142" y1="352" x2="170" y2="118" stroke="#0ea5b7" stroke-width="2.2"/>
+  <line x1="184" y1="352" x2="170" y2="118" stroke="#0ea5b7" stroke-width="2.2"/>
+  <line x1="226" y1="352" x2="170" y2="118" stroke="#0ea5b7" stroke-width="2.2"/>
+  <line x1="268" y1="352" x2="360" y2="118" stroke="#0ea5b7" stroke-width="2.2"/>
+  <line x1="310" y1="352" x2="360" y2="118" stroke="#0ea5b7" stroke-width="2.2"/>
+  <line x1="352" y1="352" x2="360" y2="118" stroke="#0ea5b7" stroke-width="2.2"/>
+  <line x1="394" y1="352" x2="360" y2="118" stroke="#0ea5b7" stroke-width="2.2"/>
+  <line x1="558" y1="352" x2="577" y2="118" stroke="#2563eb" stroke-width="1.8"/>
+  <line x1="595" y1="352" x2="577" y2="118" stroke="#2563eb" stroke-width="1.8"/>
+  <line x1="752" y1="352" x2="760" y2="118" stroke="#475569" stroke-width="1.8"/>
+
+  <rect x="95" y="350" width="10" height="10" fill="#0ea5b7"/>
+  <rect x="137" y="350" width="10" height="10" fill="#0ea5b7"/>
+  <rect x="179" y="350" width="10" height="10" fill="#0ea5b7"/>
+  <rect x="221" y="350" width="10" height="10" fill="#0ea5b7"/>
+  <rect x="263" y="350" width="10" height="10" fill="#0ea5b7"/>
+  <rect x="305" y="350" width="10" height="10" fill="#0ea5b7"/>
+  <rect x="347" y="350" width="10" height="10" fill="#0ea5b7"/>
+  <rect x="389" y="350" width="10" height="10" fill="#0ea5b7"/>
+  <rect x="553" y="350" width="10" height="10" fill="#2563eb"/>
+  <rect x="590" y="350" width="10" height="10" fill="#2563eb"/>
+  <rect x="747" y="350" width="10" height="10" fill="#475569"/>
+
+  <rect x="70" y="360" width="760" height="182" rx="8" fill="#f8fafc" stroke="#1f2937" stroke-width="2"/>
+  <text x="90" y="385" font-size="13" font-weight="700" fill="#0f172a">节点 s110-b7 — KR6288V2 / HGX H200 8-GPU · 6U</text>
+
+  <text x="242" y="406" font-size="11" font-weight="600" fill="#0e7490" text-anchor="middle">① 计算后端 · 8×400G InfiniBand (IBBZ)</text>
+  <text x="577" y="406" font-size="11" font-weight="600" fill="#1d4ed8" text-anchor="middle">② 存储/前端 ×2</text>
+  <text x="752" y="406" font-size="11" font-weight="600" fill="#475569" text-anchor="middle">③ IPMI</text>
+
+  <circle cx="122" cy="478" r="22" fill="#16a34a" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="122" y="483" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">G0</text>
+  <circle cx="206" cy="478" r="22" fill="#16a34a" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="206" y="483" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">G1</text>
+  <circle cx="290" cy="478" r="22" fill="#16a34a" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="290" y="483" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">G2</text>
+  <circle cx="374" cy="478" r="22" fill="#16a34a" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="374" y="483" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">G3</text>
+  <circle cx="458" cy="478" r="22" fill="#16a34a" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="458" y="483" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">G4</text>
+  <circle cx="542" cy="478" r="22" fill="#16a34a" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="542" y="483" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">G5</text>
+  <circle cx="626" cy="478" r="22" fill="#16a34a" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="626" y="483" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">G6</text>
+  <circle cx="710" cy="478" r="22" fill="#16a34a" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="710" y="483" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">G7</text>
+
+  <text x="450" y="522" font-size="11.5" fill="#334155" text-anchor="middle">8 × H200 SXM · 141GB HBM3e · NVLink 全互联 (Scale-up)</text>
+
+  <text x="450" y="562" font-size="12" font-weight="600" fill="#9a3412" text-anchor="middle">电源：8 × PSU · 54V + 12V 分离 · N+N 冗余</text>
+
+  <rect x="90" y="572" width="60" height="24" rx="3" fill="#fdeede" stroke="#ea7317" stroke-width="1.5"/>
+  <text x="120" y="588" font-size="9.5" fill="#9a3412" text-anchor="middle">PSU0</text>
+  <rect x="183" y="572" width="60" height="24" rx="3" fill="#fdeede" stroke="#ea7317" stroke-width="1.5"/>
+  <text x="213" y="588" font-size="9.5" fill="#9a3412" text-anchor="middle">PSU1</text>
+  <rect x="276" y="572" width="60" height="24" rx="3" fill="#fdeede" stroke="#ea7317" stroke-width="1.5"/>
+  <text x="306" y="588" font-size="9.5" fill="#9a3412" text-anchor="middle">PSU2</text>
+  <rect x="369" y="572" width="60" height="24" rx="3" fill="#fdeede" stroke="#ea7317" stroke-width="1.5"/>
+  <text x="399" y="588" font-size="9.5" fill="#9a3412" text-anchor="middle">PSU3</text>
+  <rect x="462" y="572" width="60" height="24" rx="3" fill="#fdeede" stroke="#ea7317" stroke-width="1.5"/>
+  <text x="492" y="588" font-size="9.5" fill="#9a3412" text-anchor="middle">PSU4</text>
+  <rect x="555" y="572" width="60" height="24" rx="3" fill="#fdeede" stroke="#ea7317" stroke-width="1.5"/>
+  <text x="585" y="588" font-size="9.5" fill="#9a3412" text-anchor="middle">PSU5</text>
+  <rect x="648" y="572" width="60" height="24" rx="3" fill="#fdeede" stroke="#ea7317" stroke-width="1.5"/>
+  <text x="678" y="588" font-size="9.5" fill="#9a3412" text-anchor="middle">PSU6</text>
+  <rect x="741" y="572" width="60" height="24" rx="3" fill="#fdeede" stroke="#ea7317" stroke-width="1.5"/>
+  <text x="771" y="588" font-size="9.5" fill="#9a3412" text-anchor="middle">PSU7</text>
+
+  <line x1="120" y1="596" x2="275" y2="628" stroke="#ea7317" stroke-width="1.4"/>
+  <line x1="213" y1="596" x2="275" y2="628" stroke="#ea7317" stroke-width="1.4"/>
+  <line x1="306" y1="596" x2="275" y2="628" stroke="#ea7317" stroke-width="1.4"/>
+  <line x1="399" y1="596" x2="275" y2="628" stroke="#ea7317" stroke-width="1.4"/>
+  <line x1="492" y1="596" x2="645" y2="628" stroke="#ea7317" stroke-width="1.4"/>
+  <line x1="585" y1="596" x2="645" y2="628" stroke="#ea7317" stroke-width="1.4"/>
+  <line x1="678" y1="596" x2="645" y2="628" stroke="#ea7317" stroke-width="1.4"/>
+  <line x1="771" y1="596" x2="645" y2="628" stroke="#ea7317" stroke-width="1.4"/>
+
+  <rect x="150" y="628" width="250" height="26" rx="4" fill="#fde9d3" stroke="#ea7317" stroke-width="1.5"/>
+  <text x="275" y="645" font-size="11" font-weight="700" fill="#9a3412" text-anchor="middle">PDU-A (馈电 A 路)</text>
+  <rect x="520" y="628" width="250" height="26" rx="4" fill="#fde9d3" stroke="#ea7317" stroke-width="1.5"/>
+  <text x="645" y="645" font-size="11" font-weight="700" fill="#9a3412" text-anchor="middle">PDU-B (馈电 B 路)</text>
+
+  <rect x="90" y="668" width="12" height="12" fill="#0ea5b7"/>
+  <text x="108" y="678" font-size="10.5" fill="#334155">计算网 InfiniBand</text>
+  <rect x="250" y="668" width="12" height="12" fill="#2563eb"/>
+  <text x="268" y="678" font-size="10.5" fill="#334155">存储/前端</text>
+  <rect x="390" y="668" width="12" height="12" fill="#475569"/>
+  <text x="408" y="678" font-size="10.5" fill="#334155">管理 OOB</text>
+  <rect x="520" y="668" width="12" height="12" fill="#ea7317"/>
+  <text x="538" y="678" font-size="10.5" fill="#334155">电源</text>
+</svg>
