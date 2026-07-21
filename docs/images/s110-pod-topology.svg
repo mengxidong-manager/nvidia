@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 520" font-family="Segoe UI, Arial, sans-serif">
+  <rect x="0" y="0" width="940" height="520" fill="#ffffff"/>
+  <text x="30" y="30" font-size="18" font-weight="700" fill="#0f172a">s110 Pod 网络架构 — 交换机与 CPU 服务器</text>
+  <text x="30" y="50" font-size="12" fill="#64748b">三张网分层：计算后端 IB (Spine-Leaf 胖树) · 存储/前端 Ethernet · 带外管理 OOB</text>
+
+  <rect x="260" y="76" width="420" height="50" rx="6" fill="#e6fbff" stroke="#0ea5b7" stroke-width="2"/>
+  <text x="470" y="100" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle">计算后端 IB Spine</text>
+  <text x="470" y="117" font-size="10.5" fill="#0e7490" text-anchor="middle">Quantum-2 · Fat-Tree · SHARP 在网计算</text>
+
+  <rect x="70" y="176" width="150" height="50" rx="6" fill="#e6fbff" stroke="#0ea5b7" stroke-width="2"/>
+  <text x="145" y="199" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">bz-leaf-1</text>
+  <text x="145" y="216" font-size="10" fill="#0e7490" text-anchor="middle">Quantum-2 · c23/U57</text>
+
+  <rect x="245" y="176" width="150" height="50" rx="6" fill="#e6fbff" stroke="#0ea5b7" stroke-width="2"/>
+  <text x="320" y="199" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">bz-leaf-2</text>
+  <text x="320" y="216" font-size="10" fill="#0e7490" text-anchor="middle">Quantum-2 · d23/U31</text>
+
+  <rect x="470" y="176" width="190" height="50" rx="6" fill="#e8effc" stroke="#2563eb" stroke-width="2"/>
+  <text x="565" y="199" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">storage-leaf</text>
+  <text x="565" y="216" font-size="10" fill="#1d4ed8" text-anchor="middle">Spectrum SN · 存储/前端</text>
+
+  <rect x="700" y="176" width="170" height="50" rx="6" fill="#eef1f5" stroke="#475569" stroke-width="2"/>
+  <text x="785" y="199" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">mgmt-sw</text>
+  <text x="785" y="216" font-size="10" fill="#475569" text-anchor="middle">1G 带外管理 OOB</text>
+
+  <line x1="470" y1="126" x2="145" y2="176" stroke="#0ea5b7" stroke-width="2.2"/>
+  <line x1="470" y1="126" x2="320" y2="176" stroke="#0ea5b7" stroke-width="2.2"/>
+
+  <line x1="145" y1="226" x2="200" y2="372" stroke="#0ea5b7" stroke-width="2.2"/>
+  <line x1="320" y1="226" x2="370" y2="372" stroke="#0ea5b7" stroke-width="2.2"/>
+  <text x="235" y="305" font-size="10.5" font-weight="600" fill="#0e7490" text-anchor="middle">8× rail / 节点</text>
+
+  <line x1="565" y1="226" x2="455" y2="372" stroke="#2563eb" stroke-width="1.8"/>
+  <line x1="565" y1="226" x2="650" y2="372" stroke="#2563eb" stroke-width="1.8"/>
+
+  <line x1="785" y1="226" x2="495" y2="372" stroke="#475569" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <line x1="785" y1="226" x2="770" y2="372" stroke="#475569" stroke-width="1.6" stroke-dasharray="5 4"/>
+
+  <rect x="70" y="372" width="430" height="98" rx="8" fill="#eafaf0" stroke="#16a34a" stroke-width="2"/>
+  <text x="285" y="398" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle">GPU 节点 ×8 — s110-b0 … b7</text>
+  <text x="285" y="420" font-size="11" fill="#166534" text-anchor="middle">Aivres KR6288 · HGX H200 8-GPU · 6U</text>
+  <text x="285" y="440" font-size="10.5" fill="#166534" text-anchor="middle">每节点 8×400G IB rail + 2×存储/前端 + 1×IPMI + 8×PSU</text>
+  <text x="285" y="458" font-size="10" fill="#15803d" text-anchor="middle">8 条 rail 分别上行到各 bz-leaf（rail-optimized）</text>
+
+  <rect x="560" y="372" width="310" height="98" rx="8" fill="#f3effc" stroke="#7c3aed" stroke-width="2"/>
+  <text x="715" y="398" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle">CPU 服务器</text>
+  <text x="715" y="419" font-size="11" fill="#5b21b6" text-anchor="middle">管理/头节点 · 登录节点 · 存储节点</text>
+  <text x="715" y="438" font-size="10.5" fill="#5b21b6" text-anchor="middle">1U/2U 双路 Xeon/EPYC</text>
+  <text x="715" y="457" font-size="10" fill="#6d28d9" text-anchor="middle">仅接 存储/前端 + 管理网，不上 IB 计算网</text>
+
+  <rect x="70" y="492" width="12" height="12" fill="#0ea5b7"/>
+  <text x="88" y="502" font-size="10.5" fill="#334155">计算网 InfiniBand</text>
+  <rect x="230" y="492" width="12" height="12" fill="#2563eb"/>
+  <text x="248" y="502" font-size="10.5" fill="#334155">存储/前端</text>
+  <rect x="360" y="492" width="12" height="12" fill="#475569"/>
+  <text x="378" y="502" font-size="10.5" fill="#334155">管理 OOB（虚线）</text>
+  <rect x="530" y="492" width="12" height="12" fill="#16a34a"/>
+  <text x="548" y="502" font-size="10.5" fill="#334155">GPU 节点</text>
+  <rect x="650" y="492" width="12" height="12" fill="#7c3aed"/>
+  <text x="668" y="502" font-size="10.5" fill="#334155">CPU 服务器</text>
+</svg>
