@@ -10,6 +10,7 @@
 | [数据中心制冷技术详解](docs/数据中心制冷技术详解.md) | CRAC/CRAH 传统风冷 / 房间行级机柜级 / 冷板式浸没式喷淋式液冷 / 风液混合 |
 | [GPU 集群常见问题与故障排查手册](docs/GPU集群常见问题与故障排查手册.md) | XID 错误速查 · ECC/PCIe/NVLink 诊断 · 训练故障 · 推理问题 · 散热供电 · 预防性维护 |
 | [Gigabyte HGX B300 (G894系列) 服务器运维手册](docs/Gigabyte_HGX_B300_服务器运维手册.md) | 硬件规格 / 前后面板I/O / BMC带外管理 / 供电冗余 / 布线标签体系 / 故障排查 |
+| [800G/400G 光模块与 Leaf 交换机连接方式详解](docs/800G光模块与Leaf交换机连接方式详解.md) | MPO连接器 / DR8拆2×DR4实机核实 / RHS-IHS散热外壳 / Rail-optimized拓扑 / 故障排查 |
 | [Vera Rubin NVL72 技术全解](docs/Vera_Rubin_NVL72_技术全解.md) | 架构 / 六大芯片 / 45°C 液冷 / 供电 / 存储 / 网络 |
 | [B300/GB300 NVL72 技术全解](docs/B300_GB300_NVL72_技术全解.md) | Blackwell Ultra 架构 / B300 vs B200 / 散热 / 供电 / 内存 / 网络 |
 | [Aivres KR6288 (HGX H200) 训练节点网络结构 — s110-b7](docs/HGX_H200训练节点网络结构_s110-b7.md) | 铭牌解码 / 8:8:2 网络 / IBBZ 计算网 / 接线表 / 拓扑 SVG |
