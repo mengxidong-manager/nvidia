@@ -12,12 +12,12 @@
 
 > ⚠️ **`s110` 是机房/场地编号（Site 110），不是单一集群的名字。** 同一场地内实际部署了两套 GPU 硬件完全不同、计算网完全独立的集群：
 
-| 集群 | GPU 服务器 | 计算网协议 | 计算网 Leaf 交换机 |
+| 集群 | GPU 服务器 | 计算网协议 | 计算网 Leaf/Spine 交换机 |
 |------|-----------|-----------|---------------------|
-| **H200 集群** | Aivres KR6288（HGX H200，如 [s110-b7](HGX_H200训练节点网络结构_s110-b7.md)） | **InfiniBand NDR 400G** | NVIDIA **MQM9790-NS2F**（Quantum-2 液冷版）【实拍确认】，编号 `lbbz-leaf-1~6...` |
+| **H200 集群** | Aivres KR6288（HGX H200，如 [s110-b7](HGX_H200训练节点网络结构_s110-b7.md)） | **InfiniBand NDR 400G** | NVIDIA **MQM9790-NS2F**（Quantum-2 液冷版）【实拍确认】，两层胖树：Leaf `lbbz-leaf-1~6...`（A3 机柜）+ Spine `lbbz-spine-1~8`（A1/A2 机柜） |
 | **B300 集群** | Gigabyte HGX B300（详见 [Gigabyte_HGX_B300_服务器运维手册.md](Gigabyte_HGX_B300_服务器运维手册.md)） | **RoCEv2 以太网** | H3C Densivelo **S9827-128DH**【实拍确认】，编号 `roce-leaf-3/7/8/9/11/17/18/20/24/25/27/31/32...` |
 
-**两套集群的计算网物理上完全隔离**（H200 走 IB 浅绿色 OM3 多模光纤 + `IBBZ`/`lbbz-leaf` 命名；B300 走 RoCE 黄色单模 DR4 光纤 + `roce-leaf` 命名），不要把两者的 leaf 交换机型号混用。
+**两套集群的计算网物理上完全隔离**（H200 走 IB 浅绿色 OM3 多模光纤 + `IBBZ`/`lbbz-leaf`/`lbbz-spine` 命名；B300 走 RoCE 黄色单模 DR4 光纤 + `roce-leaf` 命名），不要把两者的 leaf/spine 交换机型号混用。
 
 本文 §2.2/§3 记录的 **存储/CPU 网（H3C S9825 系列，leaf-3/leaf-4、mgt-leaf-1/2）** 服务器侧标签同样带 `s110` 前缀，目前判断这是**两套集群共用的场地级存储/CPU 网络基础设施**（同一场地内的 GPU 和 CPU/存储节点接入同一套存储网），但具体是否严格共用，或者两套集群各自也有独立的存储网分支，仍需现场进一步核实。
 
@@ -30,7 +30,7 @@
 延续节点侧的 8︰8︰2，场地内每套集群同样是三张物理隔离的网 + 带外，但两套集群的计算网彼此独立：
 
 - **计算网**（集群专属，两套集群完全独立）：
-  - H200 集群：InfiniBand NDR 400G，NVIDIA **MQM9790-NS2F**（Quantum-2 液冷版）【实拍确认】
+  - H200 集群：InfiniBand NDR 400G，NVIDIA **MQM9790-NS2F**（Quantum-2 液冷版）【实拍确认】，标准两层胖树（Leaf + Spine 同型号硬件）
   - B300 集群：RoCEv2 以太网，H3C S9827-128DH【实拍确认】（详见 [800G光模块与Leaf交换机连接方式详解.md](800G光模块与Leaf交换机连接方式详解.md)）
 - **存储 / CPU 网（Ethernet）**：读写存储、CPU/管理节点接入、in-band 管理，目前判断为场地级共用设施。【实拍确认】由 H3C S9825 系列承载。
 - **带外管理网（OOB）**：BMC/IPMI，1G 铜缆，独立平面。
@@ -56,18 +56,48 @@
 
 > ⚠️ 以下信息属于 **H200 集群专属**，与 B300 集群无关。
 
+**Leaf 层：**
+
 | 项 | 内容 |
 |------|------|
-| Leaf 型号【实拍确认】 | NVIDIA **MQM9790-NS2F**（Quantum-2 系列**液冷版**，NS2F = 水冷型号后缀） |
+| 型号【实拍确认】 | NVIDIA **MQM9790-NS2F**（Quantum-2 系列**液冷版**，NS2F = 水冷型号后缀） |
 | S/N（样本） | MT2410J00CH1，RS S/N RS81-2000-0024 |
 | 规格 | Quantum-2 平台，64×400G NDR OSFP，51.2Tbps，SHARP 在网计算加速 |
-| Leaf 编号【实拍确认】 | `lbbz-leaf-1` 至 `lbbz-leaf-6...`（机柜 A3，垂直堆叠，U38/U34/U30/U26/U22/U18 等），对应节点侧的 `IBBZ`/`bz-leaf` 标签体系 |
+| 编号【实拍确认】 | `lbbz-leaf-1` 至 `lbbz-leaf-6...`（机柜 **A3**，垂直堆叠，U38/U34/U30/U26/U22/U18 等） |
+
+**Spine 层（本次新确认）：**
+
+| 项 | 内容 |
+|------|------|
+| 型号【实拍确认】 | 同为 NVIDIA **MQM9790-NS2F**（与 Leaf 层同款硬件，标准两层胖树设计） |
+| S/N（样本） | MT2410J00E2K，RS S/N RS81-2000-0006 |
+| 编号【实拍确认】 | `lbbz-spine-1~4`（机柜 **A1**，U22/U18/U14/U10）、`lbbz-spine-5~8`（机柜 **A2**，U22/U18/U14/U10），共 8 台 |
+| 电源 | 独立 PDU 分组供电（Bank-1/Bank-2/Bank-3/Bank-4），浅绿色 OM3 电源导轨线缆标识 |
+
+**通用信息：**
+
+| 项 | 内容 |
+|------|------|
 | 线缆【实拍确认】 | 浅绿色（Aqua）OM3/OM4 多模光纤，与 B300 集群 RoCE 网的黄色单模 DR4 光纤明显区分 |
 | 协议 | InfiniBand NDR 400G，非 RoCE |
 | 服务的 GPU 服务器 | Aivres KR6288（HGX H200） |
 | 详细分析 | 见 [Aivres KR6288 (HGX H200) 训练节点网络结构 — s110-b7](HGX_H200训练节点网络结构_s110-b7.md) |
 
-> 修正：此前文档【典型配置】推测型号为 Quantum-2 QM9700/QM9790（风冷/液冷两种可能），现场实拍确认为 **MQM9790-NS2F 液冷版**，且单机柜（A3）至少垂直部署 6 台，编号 `lbbz-leaf-1~6`。
+> 修正：此前文档【典型配置】推测型号为 Quantum-2 QM9700/QM9790（风冷/液冷两种可能），现场实拍确认为 **MQM9790-NS2F 液冷版**，且 Leaf（A3，6台+）与 Spine（A1+A2，8台）均为同款硬件——这是 NVIDIA Quantum-2 两层胖树的标准做法，全网络仅一种交换机型号，简化备件管理和故障排查。
+
+### 2.1.2 H200 集群 IB 网络完整拓扑
+
+```
+                Spine 层（A1 + A2 机柜，8 台 MQM9790-NS2F）
+        A1: lbbz-spine-1/2/3/4    A2: lbbz-spine-5/6/7/8
+                        ↕（浅绿 OM3 光纤全互联）
+                Leaf 层（A3 机柜，6 台+ MQM9790-NS2F）
+                    lbbz-leaf-1/2/3/4/5/6...
+                        ↕
+              GPU 训练节点（如 s110-b7，8× IB rail）
+```
+
+Leaf 层直连各 GPU 节点的 8 条 rail，Spine 层负责跨 Leaf 的流量交换，形成标准的**非阻塞两层胖树（Fat-Tree）**拓扑——这是 NVIDIA Quantum-2 InfiniBand 集群的经典组网方式。
 
 ### 2.2 存储 / CPU 网（Ethernet，场地级共用设施，本次实拍确认更新）
 
@@ -193,7 +223,7 @@ CPU/存储服务器
 
 ## 4. 与 GPU 节点侧文档的关系
 
-- H200 集群单节点接线细节见 [Aivres KR6288 (HGX H200) 训练节点网络结构 — s110-b7](HGX_H200训练节点网络结构_s110-b7.md)：节点的 8 条 IB rail 上行到 §2.1.1 的 `lbbz-leaf`（NVIDIA MQM9790-NS2F，已实拍确认）。
+- H200 集群单节点接线细节见 [Aivres KR6288 (HGX H200) 训练节点网络结构 — s110-b7](HGX_H200训练节点网络结构_s110-b7.md)：节点的 8 条 IB rail 上行到 §2.1.1 的 `lbbz-leaf`（NVIDIA MQM9790-NS2F，已实拍确认），Leaf 再上联到 §2.1.2 的 `lbbz-spine`（同款硬件，已实拍确认）。
 - B300 集群服务器硬件见 [Gigabyte_HGX_B300_服务器运维手册.md](Gigabyte_HGX_B300_服务器运维手册.md)：节点的 8 条 RoCE rail 上行到 §2.1 的 `roce-leaf`（S9827-128DH，已实拍确认）。
 - 两套集群的 GPU 服务器均通过 2 条存储网卡（ST-1/ST-2）上行到 §2.2 的 leaf-3/leaf-4；1 条 IPMI 上行到 §2.3 的 mgmt-sw；CPU/存储服务器则接入就近的 mgt-leaf 对（§3.2）。
 
@@ -206,15 +236,17 @@ CPU/存储服务器
 | `s110` | **场地/机房编号（Site 110），非单一集群名**，场地内共存 H200 与 B300 两套独立集群 |
 | `b*` | GPU 节点序号（H200 集群命名，如 b7） |
 | `h*/i*/j*/k*` | 机柜列编号（h11、i9、j7、k23 等，多为 GPU 训练机柜） |
-| `a3` | 机柜列编号（H200 集群 Leaf 交换机所在机柜，垂直堆叠 6 台 MQM9790-NS2F） |
+| `a1/a2` | 机柜列编号（H200 集群 **Spine** 交换机所在机柜，各堆叠 4 台 MQM9790-NS2F，共 8 台） |
+| `a3` | 机柜列编号（H200 集群 **Leaf** 交换机所在机柜，垂直堆叠 6 台+ MQM9790-NS2F） |
 | `c*` | 机柜列编号（c19、c20 等，多为 CPU/存储专用机柜） |
-| `u15/u18/u22/u26/u30/u31/u34/u36/u38` | 机柜内 U 位 |
+| `u10/u14/u15/u18/u22/u26/u30/u31/u34/u36/u38` | 机柜内 U 位 |
 | `ST-1 / ST-2` | GPU 服务器存储网卡端口 1/2（双网卡冗余，分别接不同 leaf） |
-| `IBBZ` / `lbbz-leaf-N` | **H200 集群专属**：InfiniBand 计算网标识 / Leaf 编号（NVIDIA MQM9790-NS2F，如 lbbz-leaf-1~6...） |
+| `IBBZ` / `lbbz-leaf-N` | **H200 集群专属**：InfiniBand 计算网 Leaf 标识 / 编号（NVIDIA MQM9790-NS2F，如 lbbz-leaf-1~6...，A3 机柜） |
+| `lbbz-spine-N` | **H200 集群专属**：InfiniBand 计算网 Spine 编号（NVIDIA MQM9790-NS2F，同款硬件，如 lbbz-spine-1~8，A1/A2 机柜） |
 | `roce-leaf-N` | **B300 集群专属**：RoCE 计算网 Leaf 编号（H3C S9827-128DH，如 leaf-8/11/31...） |
 | `leaf-3 / leaf-4` | 存储/CPU 网 Leaf 交换机编号（H3C S9825 系列，部署于 J01/K01） |
 | `mgt-leaf-1 / mgt-leaf-2` | 存储/CPU 网 Leaf 交换机编号（H3C S9825 系列，部署于 C19/C20） |
-| `spine-N-M` | 上联 Spine 层，N=spine 编号，M=端口 |
+| `spine-N-M` | 存储/CPU 网上联 Spine 层，N=spine 编号，M=端口（与 IB 网 `lbbz-spine` 命名体系独立） |
 | `C-XXX / D-XXX / A-XXX` | 布线工单/跳线批次编号前缀 |
 | `mgmt-sw` | 带外管理交换机（区别于 `mgt-leaf`，后者是存储/CPU 数据网 leaf，命名相近但层级不同，需留意区分） |
 
@@ -223,6 +255,7 @@ CPU/存储服务器
 ## 6. 待确认事项清单
 
 - [x] ~~H200 集群计算网 Leaf 交换机具体型号~~ → **已实拍确认为 NVIDIA MQM9790-NS2F（Quantum-2 液冷版）**
+- [x] ~~H200 集群计算网 Spine 层信息~~ → **已实拍确认：A1/A2 机柜共 8 台 lbbz-spine-1~8，同款 MQM9790-NS2F 硬件**
 - [ ] leaf-3/leaf-4（J01/K01）的 ST-1/ST-2 存储端口具体服务哪个集群的 GPU 机柜，还是两个集群共用
 - [ ] H200 集群是否也有独立的 RoCE/IB 存储网分支，还是与 B300 完全共用 H3C S9825 这套存储网
 - [ ] A3 机柜内 `lbbz-leaf-1~6` 是否为该 H200 集群计算网 leaf 的完整数量，还是仍有更多台分布在其他机柜
