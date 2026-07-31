@@ -1,31 +1,31 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 640" font-family="Segoe UI, Arial, sans-serif">
   <rect x="0" y="0" width="940" height="640" fill="#ffffff"/>
-  <text x="30" y="30" font-size="18" font-weight="700" fill="#0f172a">HGX B300 集群 · Spectrum-X 双平面计算网（128 节点 / 1024 GPU）</text>
-  <text x="30" y="50" font-size="12" fill="#64748b">rail-optimized 无阻塞 · 每 GPU 800G 拆为 2×400G 分入两个平面 · 全部 SN5600</text>
+  <text x="30" y="30" font-size="18" font-weight="700" fill="#0f172a">HGX B300 集群 · H3C 双平面计算网（RoCEv2）（128 节点 / 1024 GPU）</text>
+  <text x="30" y="50" font-size="12" fill="#64748b">rail-optimized 无阻塞 · 每 GPU 800G 拆为 2×400G 分入两个平面 · 全部 H3C S9827-64E（64×800G · 51.2T）</text>
 
   <rect x="60" y="76" width="380" height="46" rx="6" fill="#e6fbff" stroke="#0ea5b7" stroke-width="2"/>
   <text x="250" y="97" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle">平面 1 · Spine</text>
-  <text x="250" y="114" font-size="10.5" fill="#0e7490" text-anchor="middle">8 × SN5600（64×800G）</text>
+  <text x="250" y="114" font-size="10.5" fill="#0e7490" text-anchor="middle">8 × S9827-64E（64×800G）</text>
 
   <rect x="500" y="76" width="380" height="46" rx="6" fill="#f3effc" stroke="#7c3aed" stroke-width="2"/>
   <text x="690" y="97" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle">平面 2 · Spine</text>
-  <text x="690" y="114" font-size="10.5" fill="#5b21b6" text-anchor="middle">8 × SN5600（64×800G）</text>
+  <text x="690" y="114" font-size="10.5" fill="#5b21b6" text-anchor="middle">8 × S9827-64E（64×800G）</text>
 
   <rect x="60" y="196" width="180" height="54" rx="6" fill="#e6fbff" stroke="#0ea5b7" stroke-width="2"/>
   <text x="150" y="217" font-size="12" font-weight="700" fill="#0f172a" text-anchor="middle">Block A · 平面1 Leaf</text>
-  <text x="150" y="234" font-size="10" fill="#0e7490" text-anchor="middle">8 × SN5600（rail 1-8）</text>
+  <text x="150" y="234" font-size="10" fill="#0e7490" text-anchor="middle">8 × S9827-64E（rail 1-8）</text>
 
   <rect x="260" y="196" width="180" height="54" rx="6" fill="#f3effc" stroke="#7c3aed" stroke-width="2"/>
   <text x="350" y="217" font-size="12" font-weight="700" fill="#0f172a" text-anchor="middle">Block A · 平面2 Leaf</text>
-  <text x="350" y="234" font-size="10" fill="#5b21b6" text-anchor="middle">8 × SN5600（rail 1-8）</text>
+  <text x="350" y="234" font-size="10" fill="#5b21b6" text-anchor="middle">8 × S9827-64E（rail 1-8）</text>
 
   <rect x="500" y="196" width="180" height="54" rx="6" fill="#e6fbff" stroke="#0ea5b7" stroke-width="2"/>
   <text x="590" y="217" font-size="12" font-weight="700" fill="#0f172a" text-anchor="middle">Block B · 平面1 Leaf</text>
-  <text x="590" y="234" font-size="10" fill="#0e7490" text-anchor="middle">8 × SN5600（rail 1-8）</text>
+  <text x="590" y="234" font-size="10" fill="#0e7490" text-anchor="middle">8 × S9827-64E（rail 1-8）</text>
 
   <rect x="700" y="196" width="180" height="54" rx="6" fill="#f3effc" stroke="#7c3aed" stroke-width="2"/>
   <text x="790" y="217" font-size="12" font-weight="700" fill="#0f172a" text-anchor="middle">Block B · 平面2 Leaf</text>
-  <text x="790" y="234" font-size="10" fill="#5b21b6" text-anchor="middle">8 × SN5600（rail 1-8）</text>
+  <text x="790" y="234" font-size="10" fill="#5b21b6" text-anchor="middle">8 × S9827-64E（rail 1-8）</text>
 
   <line x1="180" y1="122" x2="150" y2="196" stroke="#0ea5b7" stroke-width="2"/>
   <line x1="330" y1="122" x2="590" y2="196" stroke="#0ea5b7" stroke-width="2"/>
@@ -67,7 +67,7 @@
   <text x="805" y="497" font-size="10.5" fill="#9a3412" text-anchor="middle">12× 3000W PSU</text>
 
   <text x="80" y="530" font-size="10.5" fill="#334155">8 个 OSFP 800G 口各 breakout 为 2×400G，分别接入两个平面 — 即 CX-8 不支持 800G 以太网口，故采用双平面设计</text>
-  <text x="80" y="545" font-size="10.5" fill="#334155">NVLink 5 在节点内提供 1.8 TB/s GPU-to-GPU 互联（Scale-up），双平面 Spectrum-X 负责跨节点（Scale-out）</text>
+  <text x="80" y="545" font-size="10.5" fill="#334155">NVLink 5 在节点内提供 1.8 TB/s GPU-to-GPU 互联（Scale-up），双平面 H3C RoCEv2 负责跨节点（Scale-out）</text>
 
   <rect x="60" y="576" width="12" height="12" fill="#0ea5b7"/>
   <text x="78" y="586" font-size="10.5" fill="#334155">平面 1（400G）</text>
@@ -80,5 +80,5 @@
   <rect x="580" y="576" width="12" height="12" fill="#ea7317"/>
   <text x="598" y="586" font-size="10.5" fill="#334155">供电</text>
 
-  <text x="60" y="616" font-size="10.5" font-weight="600" fill="#0f172a">合计：计算网 48× SN5600（32 leaf + 16 spine） · 存储网 4× SN5600 + 2× SN4600 · 管理 8× SN2201</text>
+  <text x="60" y="616" font-size="10.5" font-weight="600" fill="#0f172a">合计：计算网 48× H3C S9827-64E（32 leaf + 16 spine） · 存储网 6× H3C S9825 系列 · 管理 8× H3C S5130S 系列</text>
 </svg>
