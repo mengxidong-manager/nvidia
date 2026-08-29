@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 760" font-family="Segoe UI, Arial, sans-serif">
+  <rect x="0" y="0" width="940" height="760" fill="#ffffff"/>
+  <text x="30" y="30" font-size="18" font-weight="700" fill="#0f172a">GPU 掉卡故障处理流程 — 推理 / 训练双分支</text>
+  <text x="30" y="50" font-size="12" fill="#64748b">推理靠冗余做到不中断 · 训练靠 Checkpoint 缩短损失</text>
+
+  <rect x="330" y="72" width="280" height="60" rx="8" fill="#fff8ec" stroke="#ea7317" stroke-width="2"/>
+  <text x="470" y="95" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle">① 检测</text>
+  <text x="470" y="113" font-size="10.5" fill="#9a3412" text-anchor="middle">XID 79 / NCCL timeout / nvidia-smi ERR!</text>
+  <text x="470" y="127" font-size="10" fill="#9a3412" text-anchor="middle">DCGM + node-problem-detector</text>
+
+  <line x1="470" y1="132" x2="470" y2="160" stroke="#334155" stroke-width="2"/>
+  <path d="M 466 154 L 470 162 L 474 154 Z" fill="#334155"/>
+
+  <rect x="360" y="162" width="220" height="38" rx="6" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+  <text x="470" y="186" font-size="12" font-weight="700" fill="#0f172a" text-anchor="middle">判断业务类型</text>
+
+  <line x1="360" y1="181" x2="240" y2="181" stroke="#2563eb" stroke-width="2"/>
+  <line x1="240" y1="181" x2="240" y2="222" stroke="#2563eb" stroke-width="2"/>
+  <path d="M 236 216 L 240 224 L 244 216 Z" fill="#2563eb"/>
+  <line x1="580" y1="181" x2="700" y2="181" stroke="#16a34a" stroke-width="2"/>
+  <line x1="700" y1="181" x2="700" y2="222" stroke="#16a34a" stroke-width="2"/>
+  <path d="M 696 216 L 700 224 L 704 216 Z" fill="#16a34a"/>
+
+  <rect x="60" y="224" width="360" height="228" rx="8" fill="#eef6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="240" y="248" font-size="14" font-weight="700" fill="#1d4ed8" text-anchor="middle">推理集群 — 目标：业务不中断</text>
+
+  <rect x="80" y="262" width="320" height="40" rx="5" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="240" y="279" font-size="11.5" font-weight="600" fill="#0f172a" text-anchor="middle">② 自动摘流（秒级）</text>
+  <text x="240" y="294" font-size="10" fill="#1d4ed8" text-anchor="middle">readiness probe 探到 GPU 层 → 从 LB 摘除</text>
+
+  <rect x="80" y="310" width="320" height="40" rx="5" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="240" y="327" font-size="11.5" font-weight="600" fill="#0f172a" text-anchor="middle">③ 优雅退出</text>
+  <text x="240" y="342" font-size="10" fill="#1d4ed8" text-anchor="middle">preStop + grace period 保住在途请求</text>
+
+  <rect x="80" y="358" width="320" height="40" rx="5" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="240" y="375" font-size="11.5" font-weight="600" fill="#0f172a" text-anchor="middle">④ 副本重建到 spare 节点</text>
+  <text x="240" y="390" font-size="10" fill="#1d4ed8" text-anchor="middle">N+1 冗余 · 网关重试兜住窗口期</text>
+
+  <rect x="80" y="406" width="320" height="34" rx="5" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5"/>
+  <text x="240" y="428" font-size="11.5" font-weight="700" fill="#1d4ed8" text-anchor="middle">✓ 用户无感知</text>
+
+  <rect x="520" y="224" width="360" height="228" rx="8" fill="#eafaf0" stroke="#16a34a" stroke-width="2"/>
+  <text x="700" y="248" font-size="14" font-weight="700" fill="#166534" text-anchor="middle">训练集群 — 目标：少丢进度</text>
+
+  <rect x="540" y="262" width="320" height="40" rx="5" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="700" y="279" font-size="11.5" font-weight="600" fill="#0f172a" text-anchor="middle">② 作业整体失败（必然中断）</text>
+  <text x="700" y="294" font-size="10" fill="#166534" text-anchor="middle">NCCL 超时主动抛错，避免无限 hang</text>
+
+  <rect x="540" y="310" width="320" height="40" rx="5" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="700" y="327" font-size="11.5" font-weight="600" fill="#0f172a" text-anchor="middle">③ 打 taint 隔离坏节点</text>
+  <text x="700" y="342" font-size="10" fill="#166534" text-anchor="middle">务必先隔离，防止重调度回同一台</text>
+
+  <rect x="540" y="358" width="320" height="40" rx="5" fill="#ffffff" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="700" y="375" font-size="11.5" font-weight="600" fill="#0f172a" text-anchor="middle">④ 从 Checkpoint 恢复</text>
+  <text x="700" y="390" font-size="10" fill="#166534" text-anchor="middle">热备节点补位 · 同 block 内优先</text>
+
+  <rect x="540" y="406" width="320" height="34" rx="5" fill="#dcfce7" stroke="#166534" stroke-width="1.5"/>
+  <text x="700" y="428" font-size="11.5" font-weight="700" fill="#166534" text-anchor="middle">✓ 丢失 ≤ 半个 checkpoint 间隔</text>
+
+  <line x1="240" y1="452" x2="240" y2="482" stroke="#334155" stroke-width="2"/>
+  <line x1="700" y1="452" x2="700" y2="482" stroke="#334155" stroke-width="2"/>
+  <line x1="240" y1="482" x2="700" y2="482" stroke="#334155" stroke-width="2"/>
+  <line x1="470" y1="482" x2="470" y2="508" stroke="#334155" stroke-width="2"/>
+  <path d="M 466 502 L 470 510 L 474 502 Z" fill="#334155"/>
+
+  <rect x="230" y="510" width="480" height="180" rx="8" fill="#f8fafc" stroke="#1f2937" stroke-width="2"/>
+  <text x="470" y="534" font-size="13.5" font-weight="700" fill="#0f172a" text-anchor="middle">节点修复（两分支通用）</text>
+
+  <rect x="250" y="546" width="440" height="30" rx="5" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+  <text x="470" y="566" font-size="10.5" fill="#334155" text-anchor="middle">⑤ 软恢复：nvidia-smi -r · 重启 fabricmanager</text>
+
+  <rect x="250" y="582" width="440" height="30" rx="5" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+  <text x="470" y="602" font-size="10.5" fill="#334155" text-anchor="middle">⑥ 冷重启整机（断电，非 reboot）</text>
+
+  <rect x="250" y="618" width="440" height="30" rx="5" fill="#ffffff" stroke="#475569" stroke-width="1.4"/>
+  <text x="470" y="638" font-size="10.5" fill="#334155" text-anchor="middle">⑦ 仍不恢复 → 检查 SXM 座 / 供电 / 散热 → RMA 换卡</text>
+
+  <rect x="250" y="654" width="440" height="30" rx="5" fill="#fef3c7" stroke="#b45309" stroke-width="1.5"/>
+  <text x="470" y="674" font-size="10.5" font-weight="600" fill="#92400e" text-anchor="middle">⑧ dcgmi diag -r 3 验证通过后才 uncordon 回归</text>
+
+  <text x="470" y="720" font-size="11" font-weight="600" fill="#0f172a" text-anchor="middle">核心原则：推理靠冗余，训练靠 Checkpoint</text>
+  <text x="470" y="740" font-size="10" fill="#64748b" text-anchor="middle">带病节点未经验证直接放回生产，会反复掉卡，比持续隔离更糟</text>
+</svg>
