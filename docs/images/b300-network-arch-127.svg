@@ -1,23 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 836" font-family="Segoe UI, Arial, sans-serif">
   <rect x="0" y="0" width="1180" height="836" fill="#ffffff"/>
   <text x="30" y="32" font-size="19" font-weight="700" fill="#0f172a">HGX B300 训练集群网络架构 — 127 节点 / 1016 GPU</text>
-  <text x="30" y="53" font-size="12" fill="#64748b">计算网：双平面 RoCEv2 · 800G→2×400G · 单模 MPO　·　存储网：400G→2×200G 双归属 · 多模 MPO　·　全部 H3C S9827-64E</text>
+  <text x="30" y="53" font-size="12" fill="#64748b">计算网：双平面 RoCEv2 · 800G→2×400G · 单模 MPO　·　存储网：400G→2×200G 双归属 · 多模 MPO　·　计算 S9827-128DH / 存储 S9825-64D</text>
 
   <text x="30" y="86" font-size="12.5" font-weight="700" fill="#475569">SPINE 层</text>
 
   <rect x="70" y="94" width="250" height="58" rx="7" fill="#e6fbff" stroke="#0ea5b7" stroke-width="2.2"/>
   <text x="195" y="115" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">计算 Spine · 平面 1</text>
-  <text x="195" y="132" font-size="10.5" fill="#0e7490" text-anchor="middle">8 × S9827-64E</text>
-  <text x="195" y="146" font-size="9.5" fill="#0e7490" text-anchor="middle">64×800G / 台</text>
+  <text x="195" y="132" font-size="10.5" fill="#0e7490" text-anchor="middle">8 × S9827-128DH</text>
+  <text x="195" y="146" font-size="9.5" fill="#0e7490" text-anchor="middle">128×400G / 台</text>
 
   <rect x="335" y="94" width="250" height="58" rx="7" fill="#f3effc" stroke="#7c3aed" stroke-width="2.2"/>
   <text x="460" y="115" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">计算 Spine · 平面 2</text>
-  <text x="460" y="132" font-size="10.5" fill="#5b21b6" text-anchor="middle">8 × S9827-64E</text>
-  <text x="460" y="146" font-size="9.5" fill="#5b21b6" text-anchor="middle">64×800G / 台</text>
+  <text x="460" y="132" font-size="10.5" fill="#5b21b6" text-anchor="middle">8 × S9827-128DH</text>
+  <text x="460" y="146" font-size="9.5" fill="#5b21b6" text-anchor="middle">128×400G / 台</text>
 
   <rect x="790" y="94" width="290" height="58" rx="7" fill="#e8effc" stroke="#2563eb" stroke-width="2.2"/>
   <text x="935" y="115" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">存储 Spine</text>
-  <text x="935" y="132" font-size="10.5" fill="#1d4ed8" text-anchor="middle">2 × S9827-64E</text>
+  <text x="935" y="132" font-size="10.5" fill="#1d4ed8" text-anchor="middle">2 × S9825-64D</text>
   <text x="935" y="146" font-size="9.5" fill="#1d4ed8" text-anchor="middle">与计算 spine 物理隔离</text>
 
   <line x1="140" y1="152" x2="120" y2="212" stroke="#0ea5b7" stroke-width="2"/>
@@ -27,8 +27,8 @@
   <line x1="880" y1="152" x2="880" y2="212" stroke="#2563eb" stroke-width="2"/>
   <line x1="990" y1="152" x2="990" y2="212" stroke="#2563eb" stroke-width="2"/>
 
-  <text x="300" y="182" font-size="10" font-weight="600" fill="#334155">Leaf 上行 32×800G ＝ 下行 64×400G（1:1 无阻塞）</text>
-  <text x="935" y="182" font-size="10" font-weight="600" fill="#1d4ed8" text-anchor="middle">存储上行 800G</text>
+  <text x="300" y="182" font-size="10" font-weight="600" fill="#334155">Leaf 上行 64×400G ＝ 下行 64×400G（1:1 无阻塞）</text>
+  <text x="935" y="182" font-size="10" font-weight="600" fill="#1d4ed8" text-anchor="middle">存储上行 400G</text>
 
   <text x="30" y="228" font-size="12.5" font-weight="700" fill="#475569">LEAF 层</text>
 
@@ -51,7 +51,7 @@
   <text x="656" y="297" font-size="9.5" fill="#334155" text-anchor="middle">rail 0-7 各一台</text>
 
   <rect x="790" y="234" width="290" height="86" rx="7" fill="#eef6ff" stroke="#2563eb" stroke-width="2"/>
-  <text x="935" y="254" font-size="12" font-weight="700" fill="#0f172a" text-anchor="middle">存储 Leaf ×4（2 组冗余对）</text>
+  <text x="935" y="254" font-size="12" font-weight="700" fill="#0f172a" text-anchor="middle">存储 Leaf ×4 · S9825-64D（2 组冗余对）</text>
   <rect x="804" y="262" width="130" height="46" rx="5" fill="#e8effc" stroke="#2563eb" stroke-width="1.6"/>
   <text x="869" y="280" font-size="10.5" font-weight="600" fill="#1d4ed8" text-anchor="middle">st-leaf-1 / 2</text>
   <text x="869" y="297" font-size="9.5" fill="#334155" text-anchor="middle">冗余对 A</text>
@@ -111,7 +111,7 @@
   <text x="322" y="704" font-size="9" fill="#0e7490" text-anchor="middle">400G → 平面1 Leaf</text>
   <rect x="264" y="726" width="116" height="28" rx="4" fill="#f3effc" stroke="#7c3aed" stroke-width="1.4"/>
   <text x="322" y="744" font-size="9" fill="#5b21b6" text-anchor="middle">400G → 平面2 Leaf</text>
-  <text x="238" y="770" font-size="9" fill="#334155" text-anchor="middle">每节点 8 口 → 两平面各 8 条 · DR8→2×DR4 · 单模 500m</text>
+  <text x="238" y="770" font-size="9" fill="#334155" text-anchor="middle">每节点 8 口 → 两平面各 8 条 · 400G 直插，交换机侧免拆分</text>
 
   <rect x="410" y="632" width="312" height="146" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1.6"/>
   <text x="566" y="652" font-size="11.5" font-weight="700" fill="#1d4ed8" text-anchor="middle">② 存储网　400G → 2×200G　多模 MPO</text>
@@ -123,12 +123,12 @@
   <text x="646" y="704" font-size="9" fill="#166534" text-anchor="middle">200G → Server A</text>
   <rect x="586" y="726" width="120" height="28" rx="4" fill="#eafaf0" stroke="#16a34a" stroke-width="1.4"/>
   <text x="646" y="744" font-size="9" fill="#166534" text-anchor="middle">200G → Server B</text>
-  <text x="566" y="770" font-size="9" fill="#334155" text-anchor="middle">一口喂两台服务器 · SR8→2×SR4 · 多模 OM4 ≤100m</text>
+  <text x="566" y="770" font-size="9" fill="#334155" text-anchor="middle">一口喂两台服务器 · 400G→2×200G · 多模 OM4 ≤100m</text>
 
   <rect x="790" y="700" width="290" height="108" rx="8" fill="#fff8ec" stroke="#ea7317" stroke-width="2"/>
   <text x="810" y="722" font-size="12" font-weight="700" fill="#9a3412">规模汇总</text>
-  <text x="810" y="742" font-size="10" fill="#7c2d12">计算网端点：2032 × 400G（每平面 1016）</text>
-  <text x="810" y="759" font-size="10" fill="#7c2d12">存储网端点：310 × 200G（127×2 + 28×2）</text>
-  <text x="810" y="776" font-size="10" font-weight="600" fill="#9a3412">交换机合计：48 计算 + 6 存储 + 8 管理 ＝ 62</text>
+  <text x="810" y="742" font-size="10" fill="#7c2d12">计算网端点 2032×400G · Leaf-Spine 2048 条</text>
+  <text x="810" y="759" font-size="10" fill="#7c2d12">存储网端点 310×200G · 天花板 11.2 Tb/s</text>
+  <text x="810" y="776" font-size="10" font-weight="600" fill="#9a3412">交换机：48× S9827-128DH + 6× S9825-64D + 8 管理</text>
   <text x="810" y="793" font-size="9.5" fill="#7c2d12">光纤：计算网单模 MPO · 存储网多模 MPO</text>
 </svg>
