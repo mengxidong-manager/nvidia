@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 820" font-family="Segoe UI, Arial, sans-serif">
+  <rect x="0" y="0" width="1180" height="820" fill="#ffffff"/>
+  <text x="30" y="32" font-size="19" font-weight="700" fill="#0f172a">HGX B300 训练集群网络架构 — 127 节点 / 1016 GPU</text>
+  <text x="30" y="53" font-size="12" fill="#64748b">计算网：双平面 rail-optimized RoCEv2（800G→2×400G）　·　存储网：400G→2×200G 双归属　·　全部 H3C S9827-64E</text>
+
+  <text x="30" y="86" font-size="12.5" font-weight="700" fill="#475569">SPINE 层</text>
+
+  <rect x="70" y="94" width="250" height="58" rx="7" fill="#e6fbff" stroke="#0ea5b7" stroke-width="2.2"/>
+  <text x="195" y="115" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">计算 Spine · 平面 1</text>
+  <text x="195" y="132" font-size="10.5" fill="#0e7490" text-anchor="middle">8 × S9827-64E</text>
+  <text x="195" y="146" font-size="9.5" fill="#0e7490" text-anchor="middle">64×800G / 台</text>
+
+  <rect x="335" y="94" width="250" height="58" rx="7" fill="#f3effc" stroke="#7c3aed" stroke-width="2.2"/>
+  <text x="460" y="115" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">计算 Spine · 平面 2</text>
+  <text x="460" y="132" font-size="10.5" fill="#5b21b6" text-anchor="middle">8 × S9827-64E</text>
+  <text x="460" y="146" font-size="9.5" fill="#5b21b6" text-anchor="middle">64×800G / 台</text>
+
+  <rect x="790" y="94" width="290" height="58" rx="7" fill="#e8effc" stroke="#2563eb" stroke-width="2.2"/>
+  <text x="935" y="115" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">存储 Spine</text>
+  <text x="935" y="132" font-size="10.5" fill="#1d4ed8" text-anchor="middle">2 × S9827-64E</text>
+  <text x="935" y="146" font-size="9.5" fill="#1d4ed8" text-anchor="middle">与计算 spine 物理隔离</text>
+
+  <line x1="140" y1="152" x2="120" y2="212" stroke="#0ea5b7" stroke-width="2"/>
+  <line x1="250" y1="152" x2="330" y2="212" stroke="#0ea5b7" stroke-width="2"/>
+  <line x1="400" y1="152" x2="500" y2="212" stroke="#7c3aed" stroke-width="2"/>
+  <line x1="520" y1="152" x2="690" y2="212" stroke="#7c3aed" stroke-width="2"/>
+  <line x1="880" y1="152" x2="880" y2="212" stroke="#2563eb" stroke-width="2"/>
+  <line x1="990" y1="152" x2="990" y2="212" stroke="#2563eb" stroke-width="2"/>
+
+  <text x="300" y="182" font-size="10" font-weight="600" fill="#334155">Leaf 上行 32×800G ＝ 下行 64×400G（1:1 无阻塞）</text>
+  <text x="935" y="182" font-size="10" font-weight="600" fill="#1d4ed8" text-anchor="middle">存储上行 800G</text>
+
+  <text x="30" y="228" font-size="12.5" font-weight="700" fill="#475569">LEAF 层</text>
+
+  <rect x="60" y="234" width="330" height="86" rx="7" fill="#f0fdff" stroke="#0ea5b7" stroke-width="2"/>
+  <text x="225" y="254" font-size="12" font-weight="700" fill="#0f172a" text-anchor="middle">Block A · 计算 Leaf ×16</text>
+  <rect x="74" y="262" width="150" height="46" rx="5" fill="#e6fbff" stroke="#0ea5b7" stroke-width="1.6"/>
+  <text x="149" y="280" font-size="10.5" font-weight="600" fill="#0e7490" text-anchor="middle">平面1 · 8 台</text>
+  <text x="149" y="297" font-size="9.5" fill="#334155" text-anchor="middle">rail 0-7 各一台</text>
+  <rect x="232" y="262" width="148" height="46" rx="5" fill="#f3effc" stroke="#7c3aed" stroke-width="1.6"/>
+  <text x="306" y="280" font-size="10.5" font-weight="600" fill="#5b21b6" text-anchor="middle">平面2 · 8 台</text>
+  <text x="306" y="297" font-size="9.5" fill="#334155" text-anchor="middle">rail 0-7 各一台</text>
+
+  <rect x="410" y="234" width="330" height="86" rx="7" fill="#f0fdff" stroke="#0ea5b7" stroke-width="2"/>
+  <text x="575" y="254" font-size="12" font-weight="700" fill="#0f172a" text-anchor="middle">Block B · 计算 Leaf ×16</text>
+  <rect x="424" y="262" width="150" height="46" rx="5" fill="#e6fbff" stroke="#0ea5b7" stroke-width="1.6"/>
+  <text x="499" y="280" font-size="10.5" font-weight="600" fill="#0e7490" text-anchor="middle">平面1 · 8 台</text>
+  <text x="499" y="297" font-size="9.5" fill="#334155" text-anchor="middle">rail 0-7 各一台</text>
+  <rect x="582" y="262" width="148" height="46" rx="5" fill="#f3effc" stroke="#7c3aed" stroke-width="1.6"/>
+  <text x="656" y="280" font-size="10.5" font-weight="600" fill="#5b21b6" text-anchor="middle">平面2 · 8 台</text>
+  <text x="656" y="297" font-size="9.5" fill="#334155" text-anchor="middle">rail 0-7 各一台</text>
+
+  <rect x="790" y="234" width="290" height="86" rx="7" fill="#eef6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="935" y="254" font-size="12" font-weight="700" fill="#0f172a" text-anchor="middle">存储 Leaf ×4（2 组冗余对）</text>
+  <rect x="804" y="262" width="130" height="46" rx="5" fill="#e8effc" stroke="#2563eb" stroke-width="1.6"/>
+  <text x="869" y="280" font-size="10.5" font-weight="600" fill="#1d4ed8" text-anchor="middle">st-leaf-1 / 2</text>
+  <text x="869" y="297" font-size="9.5" fill="#334155" text-anchor="middle">冗余对 A</text>
+  <rect x="942" y="262" width="130" height="46" rx="5" fill="#e8effc" stroke="#2563eb" stroke-width="1.6"/>
+  <text x="1007" y="280" font-size="10.5" font-weight="600" fill="#1d4ed8" text-anchor="middle">st-leaf-3 / 4</text>
+  <text x="1007" y="297" font-size="9.5" fill="#334155" text-anchor="middle">冗余对 B</text>
+
+  <line x1="149" y1="320" x2="200" y2="420" stroke="#0ea5b7" stroke-width="2.2"/>
+  <line x1="306" y1="320" x2="250" y2="420" stroke="#7c3aed" stroke-width="2.2"/>
+  <line x1="499" y1="320" x2="560" y2="420" stroke="#0ea5b7" stroke-width="2.2"/>
+  <line x1="656" y1="320" x2="610" y2="420" stroke="#7c3aed" stroke-width="2.2"/>
+  <line x1="869" y1="320" x2="700" y2="420" stroke="#2563eb" stroke-width="1.8" stroke-dasharray="6 3"/>
+  <line x1="1007" y1="320" x2="935" y2="600" stroke="#2563eb" stroke-width="1.8"/>
+
+  <text x="225" y="372" font-size="10" fill="#334155" text-anchor="middle">每 leaf 收 1 条 rail</text>
+  <text x="575" y="372" font-size="10" fill="#334155" text-anchor="middle">每 leaf 收 1 条 rail</text>
+  <text x="800" y="360" font-size="9.5" fill="#1d4ed8">存储网下行</text>
+
+  <text x="30" y="436" font-size="12.5" font-weight="700" fill="#475569">服务器层</text>
+
+  <rect x="60" y="420" width="330" height="150" rx="7" fill="#eafaf0" stroke="#16a34a" stroke-width="2"/>
+  <text x="225" y="444" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">Block A — GPU 节点 ×64</text>
+  <text x="225" y="463" font-size="10.5" fill="#166534" text-anchor="middle">技嘉 G894-ZD3-AAX7 · 8U · HGX B300</text>
+  <text x="225" y="481" font-size="10" fill="#166534" text-anchor="middle">一柜一台 · 64 个机柜</text>
+  <line x1="80" y1="492" x2="370" y2="492" stroke="#86efac" stroke-width="1.2"/>
+  <text x="225" y="510" font-size="10" fill="#15803d" text-anchor="middle">8× CX-8 OSFP 800G → 16×400G</text>
+  <text x="225" y="527" font-size="10" fill="#15803d" text-anchor="middle">2× 存储网卡 200G 口</text>
+  <text x="225" y="546" font-size="10" fill="#15803d" text-anchor="middle">1× IPMI · 12× 3000W PSU</text>
+  <text x="225" y="562" font-size="9.5" font-weight="600" fill="#166534" text-anchor="middle">512 GPU</text>
+
+  <rect x="410" y="420" width="330" height="150" rx="7" fill="#eafaf0" stroke="#16a34a" stroke-width="2"/>
+  <text x="575" y="444" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">Block B — GPU 节点 ×63</text>
+  <text x="575" y="463" font-size="10.5" fill="#166534" text-anchor="middle">技嘉 G894-ZD3-AAX7 · 8U · HGX B300</text>
+  <text x="575" y="481" font-size="10" fill="#166534" text-anchor="middle">一柜一台 · 63 个机柜</text>
+  <line x1="430" y1="492" x2="720" y2="492" stroke="#86efac" stroke-width="1.2"/>
+  <text x="575" y="510" font-size="10" fill="#15803d" text-anchor="middle">8× CX-8 OSFP 800G → 16×400G</text>
+  <text x="575" y="527" font-size="10" fill="#15803d" text-anchor="middle">2× 存储网卡 200G 口</text>
+  <text x="575" y="546" font-size="10" fill="#15803d" text-anchor="middle">1× IPMI · 12× 3000W PSU</text>
+  <text x="575" y="562" font-size="9.5" font-weight="600" fill="#166534" text-anchor="middle">504 GPU</text>
+
+  <rect x="790" y="590" width="290" height="96" rx="7" fill="#e8effc" stroke="#2563eb" stroke-width="2"/>
+  <text x="935" y="614" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">存储节点 ×28</text>
+  <text x="935" y="633" font-size="10.5" fill="#1d4ed8" text-anchor="middle">FusionServer 2158H V8 · 2U</text>
+  <text x="935" y="651" font-size="10" fill="#1d4ed8" text-anchor="middle">24× NVMe · WEKA</text>
+  <text x="935" y="669" font-size="10" fill="#1d4ed8" text-anchor="middle">2× 200G 光口 → 不同 leaf</text>
+
+  <rect x="60" y="596" width="680" height="196" rx="8" fill="#f8fafc" stroke="#1f2937" stroke-width="2"/>
+  <text x="80" y="620" font-size="13" font-weight="700" fill="#0f172a">连接方式详解</text>
+
+  <rect x="78" y="632" width="320" height="146" rx="6" fill="#ffffff" stroke="#0ea5b7" stroke-width="1.6"/>
+  <text x="238" y="652" font-size="11.5" font-weight="700" fill="#0e7490" text-anchor="middle">① 计算网　800G → 2×400G</text>
+  <rect x="96" y="662" width="130" height="30" rx="4" fill="#eafaf0" stroke="#16a34a" stroke-width="1.4"/>
+  <text x="161" y="681" font-size="9.5" fill="#166534" text-anchor="middle">CX-8 OSFP 800G</text>
+  <line x1="226" y1="677" x2="262" y2="700" stroke="#0ea5b7" stroke-width="1.8"/>
+  <line x1="226" y1="677" x2="262" y2="740" stroke="#7c3aed" stroke-width="1.8"/>
+  <rect x="264" y="686" width="116" height="28" rx="4" fill="#e6fbff" stroke="#0ea5b7" stroke-width="1.4"/>
+  <text x="322" y="704" font-size="9" fill="#0e7490" text-anchor="middle">400G → 平面1 Leaf</text>
+  <rect x="264" y="726" width="116" height="28" rx="4" fill="#f3effc" stroke="#7c3aed" stroke-width="1.4"/>
+  <text x="322" y="744" font-size="9" fill="#5b21b6" text-anchor="middle">400G → 平面2 Leaf</text>
+  <text x="238" y="770" font-size="9" fill="#334155" text-anchor="middle">每节点 8 口 → 两平面各 8 条 400G</text>
+
+  <rect x="410" y="632" width="312" height="146" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1.6"/>
+  <text x="566" y="652" font-size="11.5" font-weight="700" fill="#1d4ed8" text-anchor="middle">② 存储网　400G → 2×200G</text>
+  <rect x="428" y="662" width="120" height="30" rx="4" fill="#e8effc" stroke="#2563eb" stroke-width="1.4"/>
+  <text x="488" y="681" font-size="9.5" fill="#1d4ed8" text-anchor="middle">Leaf 400G 端口</text>
+  <line x1="548" y1="677" x2="584" y2="700" stroke="#2563eb" stroke-width="1.8"/>
+  <line x1="548" y1="677" x2="584" y2="740" stroke="#2563eb" stroke-width="1.8"/>
+  <rect x="586" y="686" width="120" height="28" rx="4" fill="#eafaf0" stroke="#16a34a" stroke-width="1.4"/>
+  <text x="646" y="704" font-size="9" fill="#166534" text-anchor="middle">200G → Server A</text>
+  <rect x="586" y="726" width="120" height="28" rx="4" fill="#eafaf0" stroke="#16a34a" stroke-width="1.4"/>
+  <text x="646" y="744" font-size="9" fill="#166534" text-anchor="middle">200G → Server B</text>
+  <text x="566" y="770" font-size="9" fill="#334155" text-anchor="middle">一个交换机口喂两台服务器（各一个 200G 口）</text>
+
+  <rect x="790" y="700" width="290" height="92" rx="8" fill="#fff8ec" stroke="#ea7317" stroke-width="2"/>
+  <text x="810" y="722" font-size="12" font-weight="700" fill="#9a3412">规模汇总</text>
+  <text x="810" y="742" font-size="10" fill="#7c2d12">计算网端点：2032 × 400G（每平面 1016）</text>
+  <text x="810" y="759" font-size="10" fill="#7c2d12">存储网端点：310 × 200G（127×2 + 28×2）</text>
+  <text x="810" y="776" font-size="10" font-weight="600" fill="#9a3412">交换机合计：48 计算 + 6 存储 + 8 管理 ＝ 62</text>
+</svg>
