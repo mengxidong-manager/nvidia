@@ -1,7 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 820" font-family="Segoe UI, Arial, sans-serif">
-  <rect x="0" y="0" width="1180" height="820" fill="#ffffff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 836" font-family="Segoe UI, Arial, sans-serif">
+  <rect x="0" y="0" width="1180" height="836" fill="#ffffff"/>
   <text x="30" y="32" font-size="19" font-weight="700" fill="#0f172a">HGX B300 训练集群网络架构 — 127 节点 / 1016 GPU</text>
-  <text x="30" y="53" font-size="12" fill="#64748b">计算网：双平面 rail-optimized RoCEv2（800G→2×400G）　·　存储网：400G→2×200G 双归属　·　全部 H3C S9827-64E</text>
+  <text x="30" y="53" font-size="12" fill="#64748b">计算网：双平面 RoCEv2 · 800G→2×400G · 单模 MPO　·　存储网：400G→2×200G 双归属 · 多模 MPO　·　全部 H3C S9827-64E</text>
 
   <text x="30" y="86" font-size="12.5" font-weight="700" fill="#475569">SPINE 层</text>
 
@@ -102,7 +102,7 @@
   <text x="80" y="620" font-size="13" font-weight="700" fill="#0f172a">连接方式详解</text>
 
   <rect x="78" y="632" width="320" height="146" rx="6" fill="#ffffff" stroke="#0ea5b7" stroke-width="1.6"/>
-  <text x="238" y="652" font-size="11.5" font-weight="700" fill="#0e7490" text-anchor="middle">① 计算网　800G → 2×400G</text>
+  <text x="238" y="652" font-size="11.5" font-weight="700" fill="#0e7490" text-anchor="middle">① 计算网　800G → 2×400G　单模 MPO</text>
   <rect x="96" y="662" width="130" height="30" rx="4" fill="#eafaf0" stroke="#16a34a" stroke-width="1.4"/>
   <text x="161" y="681" font-size="9.5" fill="#166534" text-anchor="middle">CX-8 OSFP 800G</text>
   <line x1="226" y1="677" x2="262" y2="700" stroke="#0ea5b7" stroke-width="1.8"/>
@@ -111,10 +111,10 @@
   <text x="322" y="704" font-size="9" fill="#0e7490" text-anchor="middle">400G → 平面1 Leaf</text>
   <rect x="264" y="726" width="116" height="28" rx="4" fill="#f3effc" stroke="#7c3aed" stroke-width="1.4"/>
   <text x="322" y="744" font-size="9" fill="#5b21b6" text-anchor="middle">400G → 平面2 Leaf</text>
-  <text x="238" y="770" font-size="9" fill="#334155" text-anchor="middle">每节点 8 口 → 两平面各 8 条 400G</text>
+  <text x="238" y="770" font-size="9" fill="#334155" text-anchor="middle">每节点 8 口 → 两平面各 8 条 · DR8→2×DR4 · 单模 500m</text>
 
   <rect x="410" y="632" width="312" height="146" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1.6"/>
-  <text x="566" y="652" font-size="11.5" font-weight="700" fill="#1d4ed8" text-anchor="middle">② 存储网　400G → 2×200G</text>
+  <text x="566" y="652" font-size="11.5" font-weight="700" fill="#1d4ed8" text-anchor="middle">② 存储网　400G → 2×200G　多模 MPO</text>
   <rect x="428" y="662" width="120" height="30" rx="4" fill="#e8effc" stroke="#2563eb" stroke-width="1.4"/>
   <text x="488" y="681" font-size="9.5" fill="#1d4ed8" text-anchor="middle">Leaf 400G 端口</text>
   <line x1="548" y1="677" x2="584" y2="700" stroke="#2563eb" stroke-width="1.8"/>
@@ -123,11 +123,12 @@
   <text x="646" y="704" font-size="9" fill="#166534" text-anchor="middle">200G → Server A</text>
   <rect x="586" y="726" width="120" height="28" rx="4" fill="#eafaf0" stroke="#16a34a" stroke-width="1.4"/>
   <text x="646" y="744" font-size="9" fill="#166534" text-anchor="middle">200G → Server B</text>
-  <text x="566" y="770" font-size="9" fill="#334155" text-anchor="middle">一个交换机口喂两台服务器（各一个 200G 口）</text>
+  <text x="566" y="770" font-size="9" fill="#334155" text-anchor="middle">一口喂两台服务器 · SR8→2×SR4 · 多模 OM4 ≤100m</text>
 
-  <rect x="790" y="700" width="290" height="92" rx="8" fill="#fff8ec" stroke="#ea7317" stroke-width="2"/>
+  <rect x="790" y="700" width="290" height="108" rx="8" fill="#fff8ec" stroke="#ea7317" stroke-width="2"/>
   <text x="810" y="722" font-size="12" font-weight="700" fill="#9a3412">规模汇总</text>
   <text x="810" y="742" font-size="10" fill="#7c2d12">计算网端点：2032 × 400G（每平面 1016）</text>
   <text x="810" y="759" font-size="10" fill="#7c2d12">存储网端点：310 × 200G（127×2 + 28×2）</text>
   <text x="810" y="776" font-size="10" font-weight="600" fill="#9a3412">交换机合计：48 计算 + 6 存储 + 8 管理 ＝ 62</text>
+  <text x="810" y="793" font-size="9.5" fill="#7c2d12">光纤：计算网单模 MPO · 存储网多模 MPO</text>
 </svg>
