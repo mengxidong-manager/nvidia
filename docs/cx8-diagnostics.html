@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ConnectX / InfiniBand 网络诊断命令手册</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E7ECEF; --surface:#FFFFFF; --sunk:#F2F5F7;
+  --ink:#152029; --muted:#5A6B77; --faint:#8A9AA5;
+  --rule:#C6D1D8; --hair:#DCE4E9;
+  --green:#1C9B47; --amber:#C97A05; --chassis:#1B45C4;
+  --shadow:rgba(21,32,41,.10);
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F171D; --surface:#17222B; --sunk:#111B22;
+    --ink:#DCE6EC; --muted:#93A5B1; --faint:#6B7D89;
+    --rule:#2B3A45; --hair:#22303A;
+    --green:#3ECB6D; --amber:#F0A32E; --chassis:#6E96FF;
+    --shadow:rgba(0,0,0,.45);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F171D; --surface:#17222B; --sunk:#111B22;
+  --ink:#DCE6EC; --muted:#93A5B1; --faint:#6B7D89;
+  --rule:#2B3A45; --hair:#22303A;
+  --green:#3ECB6D; --amber:#F0A32E; --chassis:#6E96FF;
+  --shadow:rgba(0,0,0,.45);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:calc(78px + env(safe-area-inset-top,0px));-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  font-weight:400;line-height:1.75;font-size:16px;
+}
+code,kbd{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+/* ---------- masthead ---------- */
+.mast{padding:52px 24px 30px;max-width:1180px;margin:0 auto}
+.mast h1{
+  font-size:clamp(28px,4.4vw,46px);line-height:1.18;font-weight:700;
+  letter-spacing:-.02em;margin:0 0 14px;max-width:16ch;
+}
+.mast .sub{margin:0 0 26px;color:var(--muted);font-size:clamp(15px,1.6vw,18px);font-weight:300;max-width:52ch}
+.devchip{
+  display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;
+  background:var(--surface);border:1px solid var(--rule);
+  padding:9px 15px;border-radius:2px;font-size:14px;color:var(--muted);
+}
+.devchip code{color:var(--chassis);font-weight:600;font-size:13.5px;word-break:break-all}
+
+/* ---------- sticky bar ---------- */
+.bar{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:40;
+  background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--rule);
+}
+.barin{max-width:1180px;margin:0 auto;padding:11px 24px;display:flex;gap:18px;align-items:center}
+.nav{display:flex;gap:4px;overflow-x:auto;flex:1;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{
+  color:var(--muted);text-decoration:none;font-size:14px;white-space:nowrap;
+  padding:6px 11px;border-radius:2px;
+}
+.nav a:hover{color:var(--ink);background:var(--sunk)}
+.nav a:focus-visible,.copy:focus-visible,#q:focus-visible{outline:2px solid var(--chassis);outline-offset:2px}
+#q{
+  font:inherit;font-size:14px;width:190px;flex:none;
+  background:var(--surface);color:var(--ink);
+  border:1px solid var(--rule);border-radius:2px;padding:7px 11px;
+}
+#q::placeholder{color:var(--faint)}
+@media (max-width:760px){
+  .barin{flex-direction:column;align-items:stretch;gap:9px;padding:10px 16px}
+  #q{width:100%}
+}
+
+/* ---------- shell ---------- */
+main{max-width:1180px;margin:0 auto;padding:0 24px 96px}
+@media (max-width:760px){.mast{padding:36px 16px 24px}main{padding:0 16px 72px}}
+
+/* ---------- hero: diagnostic rail ---------- */
+.rail{margin:44px 0 12px}
+.rail>h2{font-size:22px;font-weight:700;margin:0 0 6px;letter-spacing:-.01em}
+.rail>.lead{color:var(--muted);margin:0 0 28px;font-weight:300;max-width:58ch}
+ol.steps{list-style:none;margin:0;padding:0 0 0 32px;position:relative}
+ol.steps::before{
+  content:"";position:absolute;left:7px;top:9px;bottom:9px;width:2px;
+  background:linear-gradient(to bottom,var(--amber),var(--chassis) 55%,var(--green));
+  opacity:.5;
+}
+.step{position:relative;padding-bottom:30px}
+.step:last-child{padding-bottom:6px}
+.step h3{margin:0 0 11px;font-size:17px;font-weight:500;line-height:1.5}
+.step .n{
+  position:absolute;left:-32px;top:5px;width:16px;height:16px;border-radius:50%;
+  background:var(--surface);border:2px solid var(--chassis);
+  display:block;font-size:0;
+}
+.step:first-child .n{border-color:var(--amber);box-shadow:0 0 0 4px color-mix(in srgb,var(--amber) 18%,transparent)}
+.step:last-child .n{border-color:var(--green)}
+.steplines{
+  background:var(--sunk);border:1px solid var(--hair);border-left:2px solid var(--rule);
+  padding:12px 15px;overflow-x:auto;margin-bottom:10px;
+}
+.steplines code{display:block;font-size:13.5px;line-height:2.05;white-space:pre;color:var(--ink)}
+.step p{margin:0;color:var(--muted);font-size:14.5px;font-weight:300;max-width:66ch}
+
+/* ---------- sections ---------- */
+section{margin-top:66px;scroll-margin-top:calc(86px + env(safe-area-inset-top,0px))}
+section>h2{
+  font-size:22px;font-weight:700;margin:0 0 6px;letter-spacing:-.01em;
+  padding-bottom:9px;border-bottom:2px solid var(--ink);
+}
+.intro{color:var(--muted);margin:14px 0 4px;font-weight:300;max-width:62ch}
+.gh{
+  font-size:13px;font-weight:600;color:var(--chassis);
+  margin:32px 0 2px;letter-spacing:.01em;
+}
+.group{margin-top:18px}
+
+.row{
+  display:grid;grid-template-columns:minmax(0,46%) minmax(0,54%);
+  gap:8px 28px;align-items:baseline;
+  padding:13px 0;border-bottom:1px solid var(--hair);
+}
+.row:hover{background:color-mix(in srgb,var(--sunk) 60%,transparent)}
+.cmd{display:flex;align-items:baseline;gap:9px;min-width:0}
+.cmd code{
+  font-size:13.5px;line-height:1.65;color:var(--ink);font-weight:400;
+  word-break:break-all;flex:1;min-width:0;
+}
+.copy{
+  font:inherit;font-size:11.5px;font-family:"Noto Sans SC",sans-serif;
+  color:var(--faint);background:none;border:1px solid var(--hair);
+  border-radius:2px;padding:2px 7px;cursor:pointer;flex:none;opacity:0;
+  transition:opacity .12s,color .12s,border-color .12s;
+}
+.row:hover .copy,.copy:focus-visible{opacity:1}
+.copy:hover{color:var(--chassis);border-color:var(--chassis)}
+.copy.ok{opacity:1;color:var(--green);border-color:var(--green)}
+@media (hover:none){.copy{opacity:1}}
+.desc{margin:0;color:var(--muted);font-size:14.5px;font-weight:300;line-height:1.7}
+@media (max-width:760px){
+  .row{grid-template-columns:1fr;gap:6px;padding:15px 0}
+  .desc{font-size:14px}
+}
+.row.hide{display:none}
+#empty{display:none;color:var(--faint);padding:40px 0;font-weight:300}
+#empty.on{display:block}
+
+/* ---------- tables ---------- */
+.tblwrap{overflow-x:auto;margin-top:18px;border:1px solid var(--hair)}
+table{border-collapse:collapse;width:100%;min-width:440px;font-size:14.5px}
+th,td{text-align:left;padding:11px 15px;border-bottom:1px solid var(--hair);vertical-align:top}
+thead th{
+  background:var(--sunk);font-weight:500;font-size:13px;color:var(--muted);
+  border-bottom:1px solid var(--rule);
+}
+tbody tr:last-child td{border-bottom:none}
+td.v{font-family:"JetBrains Mono",monospace;font-weight:600;color:var(--chassis);width:56px}
+td.st{font-weight:500;white-space:nowrap}
+td:last-child{color:var(--muted);font-weight:300}
+
+/* ---------- notes ---------- */
+.notes{margin-top:26px;display:grid;gap:0}
+.note{padding:17px 0;border-top:1px solid var(--hair)}
+.note:first-child{border-top:2px solid var(--rule)}
+.note h3{margin:0 0 5px;font-size:14.5px;font-weight:500}
+.note p{margin:0;color:var(--muted);font-size:14.5px;font-weight:300;max-width:74ch}
+
+footer{
+  max-width:1180px;margin:0 auto;padding:30px 24px 60px;
+  border-top:1px solid var(--hair);color:var(--faint);font-size:13px;font-weight:300;
+}
+@media (max-width:760px){footer{padding:26px 16px 48px}}
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <h1>ConnectX / InfiniBand 网络诊断命令手册</h1>
+  <p class="sub">面向 CX8 端口告警与链路故障的现场排查参考</p>
+  <span class="devchip">设备标识 <code>/dev/mst/mt4131_pciconf0</code></span>
+</header>
+
+<div class="bar"><div class="barin">
+  <nav class="nav"><a href="#mft">MFT 工具</a>
+<a href="#topo">设备与拓扑映射</a>
+<a href="#eth">网口与光模块</a>
+<a href="#ib">InfiniBand 层</a>
+<a href="#perf">连通性与性能验证</a>
+<a href="#sys">日志与系统层</a></nav>
+  <input id="q" type="search" placeholder="筛选命令…" autocomplete="off" aria-label="筛选命令">
+</div></div>
+
+<main>
+  <div class="rail">
+    <h2>排查顺序</h2>
+    <p class="lead">端口亮告警灯或链路建立失败时，按这个顺序走一遍，每一步都在缩小故障范围。</p>
+    <ol class="steps"><li class="step"><h3><span class="n">1</span>确认设备存在与 PCIe 协商</h3><div class="steplines"><code>mst status -v</code>
+<code>lspci -d 15b3: -vvv | grep -E &quot;LnkCap|LnkSta&quot;</code>
+<code>ibdev2netdev -v</code></div><p>先拿到真实设备名与网口映射。LnkCap 与 LnkSta 不一致说明 PCIe 没协商到应有的速率或宽度，可能是插槽接触问题。</p></li>
+<li class="step"><h3><span class="n">2</span>查物理层状态与 down reason</h3><div class="steplines"><code>cat /sys/class/infiniband/mlx5_0/ports/1/phys_state</code>
+<code>mlxlink -d /dev/mst/mt4131_pciconf0 -p 1 -m -e -c</code>
+<code>mlxreg -d /dev/mst/mt4131_pciconf0 --reg_name PDDR --get --indexes &quot;local_port=1,page_select=1&quot;</code></div><p>phys_state 直接区分“插接问题”和“配置问题”。PDDR 寄存器会给出链路失败的具体原因编码。</p></li>
+<li class="step"><h3><span class="n">3</span>交叉验证光模块</h3><div class="steplines"><code>ethtool -m &lt;iface&gt;</code></div><p>ethtool 走内核驱动路径，mlxlink 走 MFT 路径。一个能读一个不能，指向 I2C 通路问题；两个都读不出，优先怀疑模块未插到位或已损坏。</p></li>
+<li class="step"><h3><span class="n">4</span>核对固件与驱动版本</h3><div class="steplines"><code>flint -d /dev/mst/mt4131_pciconf0 query</code>
+<code>ofed_info -s</code></div><p>固件与 OFED 版本不匹配是隐蔽且常见的故障原因。flint query 输出里的 PSID 是板卡唯一型号标识。</p></li>
+<li class="step"><h3><span class="n">5</span>对齐时间线</h3><div class="steplines"><code>dmesg -T | grep -i -E &quot;mlx5|i2c|osfp|module|link&quot;</code></div><p>把内核报错时间和应用日志里的失败时间对上，基本就能锁定因果关系。</p></li></ol>
+  </div>
+
+  <section id="mft"><h2>MFT 工具</h2><p class="intro">NVIDIA Firmware Tools 套件。绝大部分命令需要 root 权限，且必须先执行 mst start。</p><div class="group"><h3 class="gh">设备发现</h3><div class="row"><div class="cmd"><code>mst start</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">加载 MST 内核模块，在 /dev/mst/ 下创建设备节点。所有 MFT 命令的前提。</p></div>
+<div class="row"><div class="cmd"><code>mst status -v</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">列出识别到的设备。-v 额外显示 PCI 地址、网口名、RDMA 设备名的对应关系。</p></div>
+<div class="row"><div class="cmd"><code>mst cable add</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">额外扫描线缆和光模块，生成 *_cable_* 节点，之后才能使用 mlxcables。</p></div>
+<div class="row"><div class="cmd"><code>mst stop</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">卸载驱动。设备被占用时会失败。</p></div></div>
+<div class="group"><h3 class="gh">链路与模块诊断</h3><div class="row"><div class="cmd"><code>mlxlink -d /dev/mst/mt4131_pciconf0 -p 1</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">端口 1 的链路概览：状态、协商速率、FEC 模式、链路 down 原因。</p></div>
+<div class="row"><div class="cmd"><code>mlxlink -d /dev/mst/mt4131_pciconf0 -m</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">光模块信息：厂商、型号、序列号、温度、电压、各通道收发光功率。读不出通常意味着 I2C 故障或模块未插好。</p></div>
+<div class="row"><div class="cmd"><code>mlxlink -d /dev/mst/mt4131_pciconf0 -c</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">物理层计数器：纠错前后误码率、有效错误数、链路 down 次数。</p></div>
+<div class="row"><div class="cmd"><code>mlxlink -d /dev/mst/mt4131_pciconf0 -e</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">眼图张开度。数值偏小说明信号质量差，常见于光纤脏污、弯折半径过小、模块老化。</p></div>
+<div class="row"><div class="cmd"><code>mlxlink -d /dev/mst/mt4131_pciconf0 --show_module</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">模块状态的详细展开，包含 CMIS 状态机所处阶段。</p></div>
+<div class="row"><div class="cmd"><code>mlxlink -d /dev/mst/mt4131_pciconf0 --port_type PCIE -c</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">把诊断对象切到 PCIe 侧，看主机总线链路而非网络链路。</p></div>
+<div class="row"><div class="cmd"><code>mlxlink -d /dev/mst/mt4131_pciconf0 -p 1 --amber_collect amber.csv</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">一次性打包导出全部链路遥测到 CSV。向 NVIDIA 报障时最省事的做法。</p></div>
+<div class="row"><div class="cmd"><code>mlxlink -d /dev/mst/mt4131_pciconf0 -p 1 --rx_fec_histogram</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">FEC 纠错分布直方图，判断误码是偶发还是持续。</p></div>
+<div class="row"><div class="cmd"><code>mlxcables</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">列出所有已识别的线缆与模块设备节点。</p></div>
+<div class="row"><div class="cmd"><code>mlxcables -d /dev/mst/mt4131_pciconf0_cable_0 -q</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">查询指定模块的详细参数。</p></div>
+<div class="row"><div class="cmd"><code>mlxcables -d /dev/mst/mt4131_pciconf0_cable_0 --dump</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">导出模块 EEPROM 原始内容。</p></div>
+<div class="row"><div class="cmd"><code>mget_temp -d /dev/mst/mt4131_pciconf0</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">读取 ASIC 芯片温度。过热会触发降速或直接关闭端口。</p></div></div>
+<div class="group"><h3 class="gh">固件查询与升级</h3><div class="row"><div class="cmd"><code>mlxfwmanager --query</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">查询系统内所有 NVIDIA 设备的当前固件版本、PSID 与可用更新。</p></div>
+<div class="row"><div class="cmd"><code>mlxfwmanager -d /dev/mst/mt4131_pciconf0 --query</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">只查询指定设备。</p></div>
+<div class="row"><div class="cmd"><code>mlxfwmanager --online -u -d /dev/mst/mt4131_pciconf0</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">联网自动匹配并下载固件后升级，需要能访问 NVIDIA 服务器。</p></div>
+<div class="row"><div class="cmd"><code>mlxfwmanager -u -i fw.mfa2 --skip_if_same</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">从本地 mfa2 包升级，版本一致则跳过。</p></div>
+<div class="row"><div class="cmd"><code>flint -d /dev/mst/mt4131_pciconf0 query</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">查固件版本、PSID、GUID/MAC。PSID 是板卡唯一型号标识，下载固件必须对上。</p></div>
+<div class="row"><div class="cmd"><code>flint -d /dev/mst/mt4131_pciconf0 q full</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">更完整的输出，包含镜像各段信息。</p></div>
+<div class="row"><div class="cmd"><code>flint -d /dev/mst/mt4131_pciconf0 hw query</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">Flash 硬件信息与写保护状态。</p></div>
+<div class="row"><div class="cmd"><code>flint -i fw.bin verify</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">校验镜像文件完整性。针对文件操作，不带 -d。</p></div>
+<div class="row"><div class="cmd"><code>flint -d /dev/mst/mt4131_pciconf0 -i fw.bin burn</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">直接烧录 Flash。风险较高，日常升级优先用 mlxfwmanager。</p></div></div>
+<div class="group"><h3 class="gh">配置修改与重置</h3><div class="row"><div class="cmd"><code>mlxconfig -d /dev/mst/mt4131_pciconf0 query</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">查看全部当前配置项。</p></div>
+<div class="row"><div class="cmd"><code>mlxconfig -d /dev/mst/mt4131_pciconf0 -e query</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">同时显示默认值、当前值、下次启动生效值。排查“改了没生效”时用。</p></div>
+<div class="row"><div class="cmd"><code>mlxconfig -d /dev/mst/mt4131_pciconf0 query LINK_TYPE_P1</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">只查询单个配置项。</p></div>
+<div class="row"><div class="cmd"><code>mlxconfig -d /dev/mst/mt4131_pciconf0 set LINK_TYPE_P1=2</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">设置端口 1 工作模式，1 为 InfiniBand，2 为 Ethernet。模式配错会导致完全连不上。</p></div>
+<div class="row"><div class="cmd"><code>mlxconfig -d /dev/mst/mt4131_pciconf0 set SRIOV_EN=1 NUM_OF_VFS=8</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">启用 SR-IOV 并设置 VF 数量。</p></div>
+<div class="row"><div class="cmd"><code>mlxconfig -d /dev/mst/mt4131_pciconf0 reset</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">全部配置恢复出厂默认。</p></div>
+<div class="row"><div class="cmd"><code>mlxconfig -d /dev/mst/mt4131_pciconf0 -j /tmp/cfg.json query</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">配置导出为 JSON，便于比对多台机器的差异。</p></div>
+<div class="row"><div class="cmd"><code>mlxfwreset -d /dev/mst/mt4131_pciconf0 query</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">查询当前平台支持哪些 reset level。</p></div>
+<div class="row"><div class="cmd"><code>mlxfwreset -d /dev/mst/mt4131_pciconf0 -l 3 reset</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">Level 3 重置，PCIe 设备的默认级别。</p></div>
+<div class="row"><div class="cmd"><code>mlxfwreset -d /dev/mst/mt4131_pciconf0 -l 4 reset</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">Level 4 重置，加载新 mlxconfig 配置需要。不支持则冷启动（断电，而非 reboot）。</p></div>
+<div class="row"><div class="cmd"><code>mlxprivhost -d /dev/mst/mt4131_pciconf0 q</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">多主机场景下查询当前 host 的权限等级。</p></div></div>
+<div class="group"><h3 class="gh">底层调试</h3><div class="row"><div class="cmd"><code>mlxreg -d /dev/mst/mt4131_pciconf0 --reg_name PAOS --get --indexes &quot;local_port=1&quot;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">读端口管理状态寄存器，确认端口是否被管理端 disable。</p></div>
+<div class="row"><div class="cmd"><code>mlxreg -d /dev/mst/mt4131_pciconf0 --reg_name PMLP --get --indexes &quot;local_port=1&quot;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">查看端口到物理 lane 的映射关系。</p></div>
+<div class="row"><div class="cmd"><code>mlxreg -d /dev/mst/mt4131_pciconf0 --reg_name PDDR --get --indexes &quot;local_port=1,page_select=1&quot;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">读取链路 down reason code。排障价值最高的寄存器。</p></div>
+<div class="row"><div class="cmd"><code>mstregdump /dev/mst/mt4131_pciconf0 &gt; dump.txt</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">全寄存器快照。设备是位置参数，不用 -d。</p></div>
+<div class="row"><div class="cmd"><code>mlxdump -d /dev/mst/mt4131_pciconf0 fsdump --type FT &gt; fsdump.txt</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">固件内部状态 dump，报障时提交给支持团队。</p></div>
+<div class="row"><div class="cmd"><code>mlxvpd -d /dev/mst/mt4131_pciconf0</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">读板卡 VPD：序列号、部件号。走 RMA 流程时需要。</p></div></div></section>
+<section id="topo"><h2>设备与拓扑映射</h2><p class="intro">把物理端口、PCI 地址、RDMA 设备名、网口名对应起来。跨工具排障的第一步。</p><div class="group"><div class="row"><div class="cmd"><code>ibdev2netdev -v</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">RDMA 设备、网口名、PCI 地址的对应表。后续所有命令的参数都从这里来。</p></div>
+<div class="row"><div class="cmd"><code>ibv_devinfo -v</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">RDMA 设备能力、端口状态、固件版本、MTU、链路层类型。</p></div>
+<div class="row"><div class="cmd"><code>ibv_devices</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">简表，只列设备名和 GUID。</p></div>
+<div class="row"><div class="cmd"><code>lspci -d 15b3: -vvv</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">15b3 是 Mellanox 厂商号。重点看 LnkCap 与 LnkSta，两者不一致说明插槽或信号有问题。</p></div>
+<div class="row"><div class="cmd"><code>lspci -d 15b3: -tv</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">树状拓扑，确认卡挂在哪个 root port 或 PCIe switch 下，用于判断 NUMA 亲和性。</p></div></div></section>
+<section id="eth"><h2>网口与光模块</h2><p class="intro">不依赖 MFT 的路径，走内核驱动。与 mlxlink 的结果交叉验证，能有效区分故障层次。</p><div class="group"><h3 class="gh">ethtool</h3><div class="row"><div class="cmd"><code>ethtool &lt;iface&gt;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">速率、双工、自协商、链路状态。</p></div>
+<div class="row"><div class="cmd"><code>ethtool -m &lt;iface&gt;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">读模块 EEPROM 与 DOM 数据。与 mlxlink -m 走不同代码路径，交叉验证价值大。</p></div>
+<div class="row"><div class="cmd"><code>ethtool -i &lt;iface&gt;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">驱动版本、固件版本、总线地址。</p></div>
+<div class="row"><div class="cmd"><code>ethtool -S &lt;iface&gt;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">全部统计计数器，mlx5 驱动会暴露上百项。</p></div>
+<div class="row"><div class="cmd"><code>ethtool -S &lt;iface&gt; | grep -i -E &quot;err|drop|discard|crc&quot;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">只看错误类计数。CRC 错误持续增长指向物理层。</p></div>
+<div class="row"><div class="cmd"><code>ethtool -l &lt;iface&gt;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">收发队列数量配置。</p></div>
+<div class="row"><div class="cmd"><code>ethtool --show-fec &lt;iface&gt;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">FEC 模式。两端 FEC 配置不一致会导致链路起不来。</p></div>
+<div class="row"><div class="cmd"><code>ethtool -d &lt;iface&gt;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">寄存器 dump。</p></div></div>
+<div class="group"><h3 class="gh">sysfs 直读</h3><div class="row"><div class="cmd"><code>cat /sys/class/net/&lt;iface&gt;/carrier</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">1 表示物理链路 up，0 表示 down。最快的物理层判断方式。</p></div>
+<div class="row"><div class="cmd"><code>cat /sys/class/net/&lt;iface&gt;/operstate</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">接口运行状态：up / down / unknown。</p></div>
+<div class="row"><div class="cmd"><code>cat /sys/class/infiniband/mlx5_0/ports/1/state</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">逻辑端口状态，4: ACTIVE 为正常。</p></div>
+<div class="row"><div class="cmd"><code>cat /sys/class/infiniband/mlx5_0/ports/1/phys_state</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">物理状态。取值含义见文末对照表，是判断“没插好”还是“被关掉”的关键。</p></div>
+<div class="row"><div class="cmd"><code>grep . /sys/class/infiniband/mlx5_0/ports/1/counters/*</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">标准 IB 错误计数器。</p></div>
+<div class="row"><div class="cmd"><code>grep . /sys/class/infiniband/mlx5_0/ports/1/hw_counters/*</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">硬件级计数器，含 RoCE 拥塞与重传统计。</p></div></div></section>
+<section id="ib"><h2>InfiniBand 层</h2><p class="intro">运行在 IB 模式时使用。Ethernet 模式下这些命令大多无输出。</p><div class="group"><div class="row"><div class="cmd"><code>ibstat</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">端口状态、LID、速率、物理状态。IB 侧最常用的一条。</p></div>
+<div class="row"><div class="cmd"><code>ibstatus</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">同 ibstat，输出格式更简洁。</p></div>
+<div class="row"><div class="cmd"><code>ibping -S</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">端到端连通性测试的服务端。</p></div>
+<div class="row"><div class="cmd"><code>ibping -G &lt;dest_gid&gt;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">端到端连通性测试的客户端。</p></div>
+<div class="row"><div class="cmd"><code>ibhosts</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">列出子网内所有主机节点。</p></div>
+<div class="row"><div class="cmd"><code>ibswitches</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">列出子网内所有交换机。</p></div>
+<div class="row"><div class="cmd"><code>iblinkinfo</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">全网链路速率与对端连接关系。查找降速端口非常好用。</p></div>
+<div class="row"><div class="cmd"><code>ibdiagnet -r --pm_pause_time 30</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">全网体检。自动标出误码超标、速率不一致、固件版本不统一的链路，IB 排障主力工具。</p></div>
+<div class="row"><div class="cmd"><code>perfquery -x &lt;lid&gt; &lt;port&gt;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">查端口性能与错误计数器，-x 为扩展计数器。</p></div>
+<div class="row"><div class="cmd"><code>perfquery -R &lt;lid&gt; &lt;port&gt;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">读完清零，用于观察一段时间内的增量。</p></div>
+<div class="row"><div class="cmd"><code>ibnetdiscover</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">完整拓扑发现，输出全网连接图。</p></div>
+<div class="row"><div class="cmd"><code>saquery</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">查询子网管理器。SM 未运行是“链路 up 但通信失败”的常见原因。</p></div></div></section>
+<section id="perf"><h2>连通性与性能验证</h2><p class="intro">链路恢复后用来确认实际可用。需要两台机器配合，先起服务端再起客户端。</p><div class="group"><div class="row"><div class="cmd"><code>ib_write_bw -d mlx5_0 -i 1 -F</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">RDMA Write 带宽测试服务端。-i 指端口号，-F 忽略 CPU 频率告警。</p></div>
+<div class="row"><div class="cmd"><code>ib_write_bw -d mlx5_0 -i 1 -F &lt;server_ip&gt;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">客户端侧，跑出实际带宽。</p></div>
+<div class="row"><div class="cmd"><code>ib_write_lat -d mlx5_0 -i 1 -F &lt;server_ip&gt;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">时延测试。</p></div>
+<div class="row"><div class="cmd"><code>ib_send_bw -d mlx5_0 -i 1 -F &lt;server_ip&gt;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">换用 Send 操作类型，不同场景表现可能不同。</p></div>
+<div class="row"><div class="cmd"><code>ib_read_bw -d mlx5_0 -i 1 -F &lt;server_ip&gt;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">换用 Read 操作类型。</p></div>
+<div class="row"><div class="cmd"><code>qperf &lt;server&gt; rc_bw rc_lat</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">轻量替代方案，一条命令同时测带宽与时延。</p></div>
+<div class="row"><div class="cmd"><code>ucx_info -d</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">列出 UCX 可用的传输层。NCCL、MPI 等上层框架走不通时查这个。</p></div></div></section>
+<section id="sys"><h2>日志与系统层</h2><p class="intro">找时间线、确认版本匹配、排除系统配置干扰。</p><div class="group"><div class="row"><div class="cmd"><code>dmesg -T | grep -i -E &quot;mlx5|i2c|osfp|module|link|pcie&quot;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">内核日志过滤。-T 显示可读时间戳，便于与应用日志对齐。</p></div>
+<div class="row"><div class="cmd"><code>journalctl -k -b | grep -i mlx5</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">本次启动以来的内核日志。</p></div>
+<div class="row"><div class="cmd"><code>journalctl -u openibd -u opensmd --since &quot;1 hour ago&quot;</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">IB 驱动服务与子网管理器的服务日志。</p></div>
+<div class="row"><div class="cmd"><code>ofed_info -s</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">OFED 版本号。版本与固件不匹配是隐蔽的常见问题。</p></div>
+<div class="row"><div class="cmd"><code>/etc/init.d/openibd status</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">IB 驱动栈加载状态。</p></div>
+<div class="row"><div class="cmd"><code>lsmod | grep mlx5</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">确认 mlx5_core 与 mlx5_ib 已加载。</p></div>
+<div class="row"><div class="cmd"><code>modinfo mlx5_core | head -20</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">驱动模块版本与可用参数。</p></div>
+<div class="row"><div class="cmd"><code>mlnx_tune -r</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">系统调优体检，报出 PCIe 速率、IRQ 绑定、NUMA 亲和、节能模式等层面的问题。</p></div>
+<div class="row"><div class="cmd"><code>hca_self_test.ofed</code><button class="copy" type="button" aria-label="复制命令">复制</button></div><p class="desc">网卡自检脚本，一次性跑完基础检查项。</p></div></div></section>
+
+  <section id="ref">
+    <h2>状态码对照</h2>
+    <p class="intro">排查中最常查的两张表。phys_state 判断链路卡在哪一步，LED 判断硬件在报什么。</p>
+    <h3 class="gh">phys_state 取值</h3>
+    <div class="tblwrap"><table>
+      <thead><tr><th>值</th><th>状态</th><th>含义与处理方向</th></tr></thead>
+      <tbody><tr><td class="v">1</td><td class="st">Sleep</td><td>端口处于休眠，通常是被软件置位</td></tr>
+<tr><td class="v">2</td><td class="st">Polling</td><td>正在寻找对端。指向对端未通、光纤未插好或模块故障</td></tr>
+<tr><td class="v">3</td><td class="st">Disabled</td><td>被管理端主动关闭，检查配置而非硬件</td></tr>
+<tr><td class="v">4</td><td class="st">PortConfigurationTraining</td><td>正在做链路训练，短暂停留正常，长期停留说明协商失败</td></tr>
+<tr><td class="v">5</td><td class="st">LinkUp</td><td>物理链路正常</td></tr>
+<tr><td class="v">6</td><td class="st">LinkErrorRecovery</td><td>正在做链路错误恢复，反复出现说明信号质量差</td></tr>
+<tr><td class="v">7</td><td class="st">PhyTest</td><td>处于物理层测试模式</td></tr></tbody>
+    </table></div>
+    <h3 class="gh">端口 LED</h3>
+    <div class="tblwrap"><table>
+      <thead><tr><th>LED 状态</th><th>含义</th><th>处理</th></tr></thead>
+      <tbody><tr><td class="st">熄灭</td><td>链路未建立</td><td>检查模块是否插到位、对端是否上电</td></tr>
+<tr><td class="st">绿色常亮</td><td>链路有效，无流量</td><td>正常状态</td></tr>
+<tr><td class="st">绿色闪烁</td><td>链路有效，有流量</td><td>正常状态</td></tr>
+<tr><td class="st">琥珀色常亮</td><td>物理链路已建立（IB 模式）</td><td>等待逻辑链路建立，检查子网管理器</td></tr>
+<tr><td class="st">琥珀色 1 Hz 闪烁</td><td>beacon 定位命令</td><td>有人在执行点灯定位，不是故障</td></tr>
+<tr><td class="st">琥珀色 4 Hz 闪烁</td><td>链路错误</td><td>I2C 访问失败或端口过流，故障排除前会持续闪烁</td></tr></tbody>
+    </table></div>
+  </section>
+
+  <section id="notes">
+    <h2>使用须知</h2>
+    <div class="notes"><div class="note"><h3>设备标识</h3><p>本文档统一使用 /dev/mst/mt4131_pciconf0。实际编号随芯片型号变化，请先运行 mst status -v 确认后替换。双端口卡的第二个端口为 .1 后缀。</p></div>
+<div class="note"><h3>接口名占位</h3><p>&lt;iface&gt; 需替换为实际网口名，通过 ibdev2netdev -v 获取。mlx5_0 同理，多卡系统会有 mlx5_1、mlx5_2 等。</p></div>
+<div class="note"><h3>烧录风险</h3><p>flint burn 与 mlxfwmanager -u 中途断电存在变砖风险。务必确认 PSID 匹配，生产环境先在备件上验证。</p></div>
+<div class="note"><h3>开源替代</h3><p>mstflint 是 MFT 的开源精简版，命令名加 mst 前缀：mstflint、mstconfig、mstregdump、mstfwreset、mstlink。参数基本一致，但不含 mlxfwmanager。</p></div></div>
+  </section>
+
+  <p id="empty">没有匹配的命令。</p>
+</main>
+
+<footer>LED 行为依据 NVIDIA ConnectX 系列用户手册。不同代次、InfiniBand 与 Ethernet 模式的定义存在差异，以所用硬件的手册为准。</footer>
+
+<script>
+(function(){
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('.copy');
+    if(!b) return;
+    var txt = b.closest('.cmd').querySelector('code').textContent, done = function(){
+      var old = b.textContent;
+      b.textContent = '已复制'; b.classList.add('ok');
+      setTimeout(function(){ b.textContent = old; b.classList.remove('ok'); }, 1400);
+    };
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(txt).then(done).catch(fallback);
+    } else { fallback(); }
+    function fallback(){
+      var t = document.createElement('textarea');
+      t.value = txt; t.setAttribute('readonly','');
+      t.style.position='fixed'; t.style.opacity='0';
+      document.body.appendChild(t); t.select();
+      try { document.execCommand('copy'); done(); } catch(err){}
+      document.body.removeChild(t);
+    }
+  });
+
+  var q = document.getElementById('q'),
+      rowsAll = Array.prototype.slice.call(document.querySelectorAll('.row')),
+      idx = rowsAll.map(function(r){ return r.textContent.toLowerCase(); }),
+      empty = document.getElementById('empty');
+  q.addEventListener('input', function(){
+    var v = q.value.trim().toLowerCase(), hits = 0;
+    rowsAll.forEach(function(r, i){
+      var on = !v || idx[i].indexOf(v) > -1;
+      r.classList.toggle('hide', !on);
+      if(on) hits++;
+    });
+    document.querySelectorAll('.group').forEach(function(g){
+      var any = g.querySelector('.row:not(.hide)');
+      g.style.display = (!v || any) ? '' : 'none';
+    });
+    document.querySelectorAll('section').forEach(function(s){
+      if(s.id === 'ref' || s.id === 'notes'){ s.style.display = v ? 'none' : ''; return; }
+      var any = s.querySelector('.row:not(.hide)');
+      s.style.display = (!v || any) ? '' : 'none';
+    });
+    document.querySelector('.rail').style.display = v ? 'none' : '';
+    empty.classList.toggle('on', v && hits === 0);
+  });
+})();
+</script>
+</body>
+</html>
