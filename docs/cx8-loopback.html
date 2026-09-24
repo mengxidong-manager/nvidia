@@ -157,7 +157,7 @@ footer{max-width:1080px;margin:0 auto;padding:30px 24px 60px;border-top:1px soli
 <header class="mast">
   <h1>CX8 单机自环测试手册</h1>
   <p class="sub">没有对端设备时，用一台 B300 服务器验证全部 CX8 端口与光模块</p>
-  <span class="devchip">设备标识 <code>/dev/mst/mt4131_pciconf0</code> · 模块 800G 单模 2×400G · RoCE</span>
+  <span class="devchip">设备标识 <code>/dev/mst/mt4131_pciconf0</code> · 800G 单模 2×400G-DR4 · MPO-8 APC · RoCE</span>
 </header>
 
 <div class="bar"><div class="barin">
@@ -200,16 +200,19 @@ footer{max-width:1080px;margin:0 auto;padding:30px 24px 60px;border-top:1px soli
 <div class="tblwrap"><table>
 <thead><tr><th>物料</th><th>规格</th><th>说明</th></tr></thead>
 <tbody>
-<tr><td class="st">双工 LC 跳线</td><td>单模，接头研磨与模块一致</td><td>数量按「待测通道数 ÷ 2」准备。绿色接头为 APC，蓝色为 UPC，不可混插</td></tr>
-<tr><td class="st">单芯 LC 跳线</td><td>单模</td><td>仅单通道自环用，备 1~2 根即可</td></tr>
-<tr><td class="st">光衰减器</td><td>5~10 dB，LC 母对公</td><td>必备，数量与跳线相同</td></tr>
-<tr><td class="st">MPO 跳线</td><td>Type-B 交叉型</td><td>仅当模块是 2×DR4 等 MPO 接口时需要。Type-A 直通线接上不通</td></tr>
-<tr><td class="st">端面清洁笔</td><td>LC / MPO 对应型号</td><td>自环误码偏高，一半以上是端面脏污</td></tr>
+<tr><td class="st">MPO-8 APC 跳线</td><td>Base-8 单模，<strong>Type-B 反转极性</strong>，两端母头</td><td>数量按「待测通道数 ÷ 2」准备。Type-A 直通线接上去 Tx 对 Tx，完全不通</td></tr>
+<tr><td class="st">MPO-8 APC 自环模块</td><td>Base-8 单模，选带衰减的版本更省事</td><td>插在光口上完成 Tx 到 Rx 回接，仅单口自环用，备 1~2 个</td></tr>
+<tr><td class="st">MPO 内联衰减器</td><td>5~10 dB，MPO 母对公</td><td>与跳线数量相同。自环模块若自带衰减可省</td></tr>
+<tr><td class="st">MPO 端面清洁笔</td><td>MPO 专用，非 LC 型号</td><td>并行光 8 芯，任何一芯脏污都会拉高整体误码</td></tr>
 </tbody>
 </table></div>
 
 <div class="warn">
-<p><strong>衰减器不能省。</strong>800G 单模模块单通道发射功率典型在 -2 ~ +4 dBm，接收过载点也就 +3 ~ +4 dBm。短跳线直连几乎没有衰减，很容易把接收端打饱和，测出来的误码率不可信，长期还可能损伤接收机。</p>
+<p><strong>极性错了链路根本起不来。</strong>Type-B 是并行光模块的行业标准：这类模块把发射端排在连接器一侧、接收端排在另一侧，Type-B 的反转正好让两者自动对齐。MPO-8 沿用与 MPO-12 相同的 Method B 标准，反转逻辑适用于全部 8 个位置。订线时务必指明 Type-B。</p>
+</div>
+
+<div class="warn">
+<p><strong>衰减器建议加。</strong>DR4 是 500 米短距方案，发射功率比 FR4/LR4 低，自环过载风险没那么大，但短跳线几乎没有衰减，仍可能接近接收过载点。接好后用 <code>mlxlink -m</code> 确认各通道 Rx 功率落在规格内，顶到上限就加衰减。</p>
 </div>
 </section>
 
@@ -218,12 +221,12 @@ footer{max-width:1080px;margin:0 auto;padding:30px 24px 60px;border-top:1px soli
 <p class="lead">800G OSFP 模块跑 2×400G 拆分后，在系统里是两个独立的 400G 网口。三种接法覆盖范围和适用场景不同。</p>
 
 <h3>方式一：同模块双通道互环</h3>
-<p>一根双工 LC 跳线接在同一个模块的两个光口之间，通道 1 与通道 2 互为对端。一根线覆盖模块光路、两路 DSP、SerDes 和完整数据面，还能跑 RoCE 压带宽，性价比最高。</p>
+<p>一根 MPO-8 Type-B 跳线接在同一个模块的两个 MPO 口之间，通道 1 与通道 2 互为对端。一根线覆盖模块光路、两路 DSP、SerDes 和完整数据面，还能跑 RoCE 压带宽，性价比最高。</p>
 
 <figure class="fig">
 <svg viewBox="0 0 680 320" role="img" xmlns="http://www.w3.org/2000/svg">
 <title>同模块双通道互环</title>
-<desc>一块 CX8 网卡的 800G OSFP 单模模块拆分为两个 400G 通道，分别对应 eth0 与 eth1。模块的通道 1 与通道 2 用一根双工 LC 跳线互相对接，跳线中串入 5 到 10 dB 光衰减器。</desc>
+<desc>一块 CX8 网卡的 800G OSFP 单模模块拆分为两个 400G 通道，分别对应 eth0 与 eth1。模块的通道 1 与通道 2 用一根 MPO-8 APC Type-B 跳线互相对接，跳线中串入 5 到 10 dB 光衰减器。</desc>
 <defs><marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
 <g class="g-card"><rect x="40" y="40" width="400" height="250" rx="20"/><text class="sv-th" x="240" y="66" text-anchor="middle" dominant-baseline="central">CX8 网卡</text><text class="sv-ts" x="240" y="86" text-anchor="middle" dominant-baseline="central">800G 端口拆分为 2×400G</text></g>
 <g class="g-mod"><rect x="228" y="100" width="190" height="156" rx="12"/><text class="sv-th" x="323" y="120" text-anchor="middle" dominant-baseline="central">OSFP 800G 单模</text></g>
@@ -233,11 +236,11 @@ footer{max-width:1080px;margin:0 auto;padding:30px 24px 60px;border-top:1px soli
 <g class="g-net"><rect x="62" y="196" width="130" height="52" rx="8"/><text class="sv-th" x="127" y="214" text-anchor="middle" dominant-baseline="central">eth1</text><text class="sv-ts" x="127" y="232" text-anchor="middle" dominant-baseline="central">400G RoCE</text></g>
 <line x1="196" y1="156" x2="240" y2="156" class="arr" marker-end="url(#a1)" marker-start="url(#a1)"/>
 <line x1="196" y1="222" x2="240" y2="222" class="arr" marker-end="url(#a1)" marker-start="url(#a1)"/>
-<g class="g-jmp"><rect x="480" y="130" width="160" height="100" rx="12"/><text class="sv-th" x="560" y="168" text-anchor="middle" dominant-baseline="central">双工 LC 跳线</text><text class="sv-ts" x="560" y="192" text-anchor="middle" dominant-baseline="central">串 5–10 dB 衰减器</text></g>
+<g class="g-jmp"><rect x="480" y="130" width="160" height="100" rx="12"/><text class="sv-th" x="560" y="162" text-anchor="middle" dominant-baseline="central">MPO-8 APC 跳线</text><text class="sv-ts" x="560" y="182" text-anchor="middle" dominant-baseline="central">Type-B 反转极性</text><text class="sv-ts" x="560" y="200" text-anchor="middle" dominant-baseline="central">串 5–10 dB 衰减器</text></g>
 <line x1="420" y1="156" x2="476" y2="156" class="arr" marker-end="url(#a1)"/>
 <line x1="476" y1="214" x2="420" y2="214" class="arr" marker-end="url(#a1)"/>
 </svg>
-<figcaption>双工 LC 跳线本身是 A-B 交叉极性，两端分别插入通道 1 和通道 2，Tx→Rx 对接自动成立，不需手动调换。</figcaption>
+<figcaption>Type-B 跳线芯序反转，MPO-8 的映射为 1→8、2→7、3→6、4→5，正好把一端的 4 根发射芯落到另一端的 4 根接收芯上。DR4 的 4 个 100G 通道相互独立，lane 顺序反转由以太网 PCS 的 lane marker 自动对齐。</figcaption>
 </figure>
 
 <h3>方式二：跨卡互环</h3>
@@ -246,7 +249,7 @@ footer{max-width:1080px;margin:0 auto;padding:30px 24px 60px;border-top:1px soli
 <figure class="fig">
 <svg viewBox="0 0 680 300" role="img" xmlns="http://www.w3.org/2000/svg">
 <title>跨卡互环</title>
-<desc>两块 CX8 网卡各自的 800G OSFP 单模模块，取通道 1 用一根双工 LC 跳线互相对接，跳线中串入光衰减器。卡 A 的通道 1 对应 eth0，卡 B 的通道 1 对应 eth1。</desc>
+<desc>两块 CX8 网卡各自的 800G OSFP 单模模块，取通道 1 用一根 MPO-8 APC Type-B 跳线互相对接，跳线中串入光衰减器。卡 A 的通道 1 对应 eth0，卡 B 的通道 1 对应 eth1。</desc>
 <defs><marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
 <g class="g-card"><rect x="40" y="40" width="240" height="230" rx="20"/><text class="sv-th" x="160" y="66" text-anchor="middle" dominant-baseline="central">CX8 卡 A</text><text class="sv-ts" x="160" y="86" text-anchor="middle" dominant-baseline="central">mt4131_pciconf0</text></g>
 <g class="g-net"><rect x="62" y="104" width="196" height="48" rx="8"/><text class="sv-t" x="160" y="128" text-anchor="middle" dominant-baseline="central">eth0 · 400G RoCE</text></g>
@@ -256,7 +259,7 @@ footer{max-width:1080px;margin:0 auto;padding:30px 24px 60px;border-top:1px soli
 <g class="g-net"><rect x="422" y="104" width="196" height="48" rx="8"/><text class="sv-t" x="520" y="128" text-anchor="middle" dominant-baseline="central">eth1 · 400G RoCE</text></g>
 <g class="g-mod"><rect x="422" y="186" width="196" height="64" rx="12"/><text class="sv-th" x="520" y="208" text-anchor="middle" dominant-baseline="central">OSFP 800G 单模</text><text class="sv-ts" x="520" y="230" text-anchor="middle" dominant-baseline="central">通道 1</text></g>
 <line x1="520" y1="156" x2="520" y2="182" class="arr" marker-end="url(#a2)" marker-start="url(#a2)"/>
-<g class="g-jmp"><rect x="292" y="190" width="96" height="56" rx="12"/><text class="sv-th" x="340" y="210" text-anchor="middle" dominant-baseline="central">LC 跳线</text><text class="sv-ts" x="340" y="230" text-anchor="middle" dominant-baseline="central">+ 衰减器</text></g>
+<g class="g-jmp"><rect x="292" y="190" width="96" height="56" rx="12"/><text class="sv-th" x="340" y="210" text-anchor="middle" dominant-baseline="central">MPO-8</text><text class="sv-ts" x="340" y="230" text-anchor="middle" dominant-baseline="central">Type-B</text></g>
 <line x1="262" y1="218" x2="288" y2="218" class="arr" marker-end="url(#a2)" marker-start="url(#a2)"/>
 <line x1="392" y1="218" x2="418" y2="218" class="arr" marker-end="url(#a2)" marker-start="url(#a2)"/>
 </svg>
@@ -264,22 +267,22 @@ footer{max-width:1080px;margin:0 auto;padding:30px 24px 60px;border-top:1px soli
 </figure>
 
 <h3>方式三：单通道 Tx 回接 Rx</h3>
-<p>一根单芯跳线把同一通道的 Tx 直接接回自己的 Rx，光信号原路返回。端口在跟自己通信，MAC 和 GID 相同，链路协商与 FEC 无法正常建立，因此<strong>不能跑 RoCE</strong>，也做不了带宽测试。</p>
+<p>一个 MPO 自环模块插在光口上，模块内部把 4 根发射芯接回 4 根接收芯，光信号原路返回。端口在跟自己通信，MAC 和 GID 相同，链路协商与 FEC 无法正常建立，因此<strong>不能跑 RoCE</strong>，也做不了带宽测试。</p>
 
 <figure class="fig">
 <svg viewBox="0 0 680 310" role="img" xmlns="http://www.w3.org/2000/svg">
 <title>单通道 Tx 回接 Rx</title>
-<desc>一块 CX8 网卡的 800G OSFP 单模模块，取通道 1，用一根单芯跳线把该通道的 Tx 发射口经光衰减器直接接回同一通道的 Rx 接收口。仅用于物理层 PRBS 误码测试。</desc>
+<desc>一块 CX8 网卡的 800G OSFP 单模模块，取通道 1，用一个 MPO-8 自环模块把该通道的 4 根发射芯经衰减接回 4 根接收芯。仅用于物理层 PRBS 误码测试。</desc>
 <defs><marker id="a3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
 <g class="g-card"><rect x="40" y="40" width="340" height="236" rx="20"/><text class="sv-th" x="210" y="66" text-anchor="middle" dominant-baseline="central">CX8 网卡</text><text class="sv-ts" x="210" y="86" text-anchor="middle" dominant-baseline="central">仅物理层 PRBS 测试</text></g>
 <g class="g-mod"><rect x="62" y="104" width="296" height="150" rx="12"/><text class="sv-th" x="210" y="124" text-anchor="middle" dominant-baseline="central">OSFP 800G 单模 · 通道 1</text></g>
 <g class="g-pl"><rect x="80" y="140" width="260" height="40" rx="8"/><text class="sv-t" x="210" y="160" text-anchor="middle" dominant-baseline="central">Tx 发射</text></g>
 <g class="g-pl"><rect x="80" y="198" width="260" height="40" rx="8"/><text class="sv-t" x="210" y="218" text-anchor="middle" dominant-baseline="central">Rx 接收</text></g>
-<g class="g-jmp"><rect x="530" y="163" width="110" height="44" rx="8"/><text class="sv-th" x="585" y="178" text-anchor="middle" dominant-baseline="central">衰减器</text><text class="sv-ts" x="585" y="196" text-anchor="middle" dominant-baseline="central">5–10 dB</text></g>
+<g class="g-jmp"><rect x="530" y="163" width="110" height="44" rx="8"/><text class="sv-th" x="585" y="176" text-anchor="middle" dominant-baseline="central">MPO-8 自环模块</text><text class="sv-ts" x="585" y="195" text-anchor="middle" dominant-baseline="central">内含 5–10 dB 衰减</text></g>
 <path d="M344 160 L 585 160 L 585 161" class="arr"/>
 <path d="M585 207 L 585 218 L 348 218" class="arr" marker-end="url(#a3)"/>
 </svg>
-<figcaption>需要单芯（simplex）跳线，不是双工的。只在怀疑某个具体通道的光收发有问题、又想排除对端干扰时使用。</figcaption>
+<figcaption>用成品 MPO-8 APC 自环模块即可，不需要自己配跳线，也不涉及极性问题。只在怀疑某个具体通道的光收发有问题、又想排除对端干扰时使用。</figcaption>
 </figure>
 
 <h3>三者对比</h3>
@@ -465,11 +468,14 @@ ip netns del ns1</code></pre><button class="copy" type="button" aria-label="复�
 <h3>先清洁再测</h3>
 <p>自环出现高误码，先怀疑端面脏污而不是模块坏。清洁后重测一遍再下结论。反过来做会浪费大量时间在错误方向上。</p>
 
-<h3>接头类型不能混</h3>
-<p>绿色接头是 APC 斜面研磨，蓝色是 UPC 平面研磨。混插会有明显的回损劣化，表现为误码升高，很容易误判成模块故障。</p>
+<h3>极性先于一切</h3>
+<p>自环不通，第一件事是确认跳线是不是 Type-B。用可见光笔从 1 号位打光，另一端亮 8 号位才是 Type-B，亮 1 号位是 Type-A。手头分不清就买极性测试仪，比反复试错快。</p>
 
-<h3>MPO 跳线要用交叉型</h3>
-<p>2×DR4 等 MPO 接口的模块，自环需要 Type-B 交叉型跳线或专用 MPO 自环头。Type-A 直通线接上去 Tx 对 Tx，完全不通。</p>
+<h3>MPO-16 与 MPO-8 不通用</h3>
+<p>如果后续换成单口 MPO-16 的 800G DR8 模块，导向键是偏置的，机械上就插不进 MPO-8 适配器，极性要求也变成 Type-C。换模块前先核对数据手册。</p>
+
+<h3>逐通道看眼图</h3>
+<p>并行光有 8 根纤，任何一根脏污或错位都会拉高整体误码，但从 BER 数字上看不出是哪一根。用 <code>mlxlink -e</code> 看各 lane 的眼图张开度，明显劣化的那一路就是问题纤。</p>
 
 <h3>记录基线</h3>
 <p>阶段一的输出全部存档。上架后如果出问题，可以回头对比出厂前的状态，判断是运输损伤还是现场环境导致。</p>
@@ -477,7 +483,7 @@ ip netns del ns1</code></pre><button class="copy" type="button" aria-label="复�
 
 </main>
 
-<footer>本文档适用于 B300 服务器 + CX8 网卡、800G 单模模块 2×400G 拆分、RoCE 组网的场景。mlxlink 参数以所用 MFT 版本的 <code>--help</code> 输出为准，不同版本速率字符串与可选项存在差异。</footer>
+<footer>本文档适用于 B300 服务器 + CX8 网卡、800G 单模 2×400G-DR4、MPO-8 APC 接口、RoCE 组网的场景。mlxlink 参数以所用 MFT 版本的 <code>--help</code> 输出为准，不同版本速率字符串与可选项存在差异。</footer>
 
 <script>
 (function(){
