@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CX8 单机自环测试手册</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E7ECEF; --surface:#FFFFFF; --sunk:#F2F5F7;
+  --ink:#152029; --muted:#5A6B77; --faint:#8A9AA5;
+  --rule:#C6D1D8; --hair:#DCE4E9;
+  --green:#1C9B47; --amber:#C97A05; --chassis:#1B45C4;
+  --card-bg:#E6F1FB; --card-ln:#185FA5; --card-tx:#0C447C; --card-t2:#185FA5;
+  --mod-bg:#EEEDFE;  --mod-ln:#534AB7;  --mod-tx:#3C3489;  --mod-t2:#534AB7;
+  --net-bg:#E1F5EE;  --net-ln:#0F6E56;  --net-tx:#085041;  --net-t2:#0F6E56;
+  --jmp-bg:#FAEEDA;  --jmp-ln:#854F0B;  --jmp-tx:#633806;  --jmp-t2:#854F0B;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F171D; --surface:#17222B; --sunk:#111B22;
+    --ink:#DCE6EC; --muted:#93A5B1; --faint:#6B7D89;
+    --rule:#2B3A45; --hair:#22303A;
+    --green:#3ECB6D; --amber:#F0A32E; --chassis:#6E96FF;
+    --card-bg:#0C447C; --card-ln:#85B7EB; --card-tx:#E6F1FB; --card-t2:#B5D4F4;
+    --mod-bg:#3C3489;  --mod-ln:#AFA9EC;  --mod-tx:#EEEDFE;  --mod-t2:#CECBF6;
+    --net-bg:#085041;  --net-ln:#5DCAA5;  --net-tx:#E1F5EE;  --net-t2:#9FE1CB;
+    --jmp-bg:#633806;  --jmp-ln:#EF9F27;  --jmp-tx:#FAEEDA;  --jmp-t2:#FAC775;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F171D; --surface:#17222B; --sunk:#111B22;
+  --ink:#DCE6EC; --muted:#93A5B1; --faint:#6B7D89;
+  --rule:#2B3A45; --hair:#22303A;
+  --green:#3ECB6D; --amber:#F0A32E; --chassis:#6E96FF;
+  --card-bg:#0C447C; --card-ln:#85B7EB; --card-tx:#E6F1FB; --card-t2:#B5D4F4;
+  --mod-bg:#3C3489;  --mod-ln:#AFA9EC;  --mod-tx:#EEEDFE;  --mod-t2:#CECBF6;
+  --net-bg:#085041;  --net-ln:#5DCAA5;  --net-tx:#E1F5EE;  --net-t2:#9FE1CB;
+  --jmp-bg:#633806;  --jmp-ln:#EF9F27;  --jmp-tx:#FAEEDA;  --jmp-t2:#FAC775;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:calc(78px + env(safe-area-inset-top,0px));-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  font-weight:400;line-height:1.8;font-size:16px;
+}
+code,kbd,pre{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+.mast{padding:52px 24px 30px;max-width:1080px;margin:0 auto}
+.mast h1{font-size:clamp(28px,4.4vw,44px);line-height:1.2;font-weight:700;letter-spacing:-.02em;margin:0 0 14px;max-width:18ch}
+.mast .sub{margin:0 0 26px;color:var(--muted);font-size:clamp(15px,1.6vw,18px);font-weight:300;max-width:54ch}
+.devchip{
+  display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;
+  background:var(--surface);border:1px solid var(--rule);
+  padding:9px 15px;border-radius:2px;font-size:14px;color:var(--muted);
+}
+.devchip code{color:var(--chassis);font-weight:600;font-size:13.5px;word-break:break-all}
+
+.bar{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:40;
+  background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--rule);
+}
+.barin{max-width:1080px;margin:0 auto;padding:11px 24px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.barin::-webkit-scrollbar{display:none}
+.barin a{color:var(--muted);text-decoration:none;font-size:14px;white-space:nowrap;padding:6px 11px;border-radius:2px}
+.barin a:hover{color:var(--ink);background:var(--sunk)}
+.barin a:focus-visible,.copy:focus-visible{outline:2px solid var(--chassis);outline-offset:2px}
+@media (max-width:760px){.barin{padding:10px 16px}}
+
+main{max-width:1080px;margin:0 auto;padding:0 24px 96px}
+@media (max-width:760px){.mast{padding:36px 16px 24px}main{padding:0 16px 72px}}
+
+section{margin-top:64px;scroll-margin-top:calc(86px + env(safe-area-inset-top,0px))}
+section>h2{font-size:22px;font-weight:700;margin:0 0 6px;letter-spacing:-.01em;padding-bottom:9px;border-bottom:2px solid var(--ink)}
+h3{font-size:16px;font-weight:500;margin:34px 0 8px}
+h4{font-size:13px;font-weight:600;color:var(--chassis);margin:26px 0 6px}
+p{margin:12px 0;max-width:70ch}
+p.lead{color:var(--muted);font-weight:300;margin-top:14px}
+ul{margin:12px 0;padding-left:22px;max-width:70ch}
+li{margin:5px 0}
+strong{font-weight:500}
+
+.cb{position:relative;margin:16px 0}
+.cb pre{
+  margin:0;background:var(--sunk);border:1px solid var(--hair);border-left:2px solid var(--rule);
+  padding:14px 16px;overflow-x:auto;font-size:13.5px;line-height:1.95;
+}
+.cb code{color:var(--ink);white-space:pre}
+.copy{
+  position:absolute;top:8px;right:8px;
+  font-family:"Noto Sans SC",sans-serif;font-size:11.5px;
+  color:var(--faint);background:var(--surface);border:1px solid var(--hair);
+  border-radius:2px;padding:2px 8px;cursor:pointer;opacity:0;transition:opacity .12s,color .12s,border-color .12s;
+}
+.cb:hover .copy,.copy:focus-visible{opacity:1}
+.copy:hover{color:var(--chassis);border-color:var(--chassis)}
+.copy.ok{opacity:1;color:var(--green);border-color:var(--green)}
+@media (hover:none){.copy{opacity:1}}
+
+.fig{margin:26px 0;padding:0}
+.fig svg{display:block;width:100%;height:auto}
+.fig figcaption{margin-top:10px;color:var(--faint);font-size:13px;font-weight:300}
+
+.tblwrap{overflow-x:auto;margin:18px 0;border:1px solid var(--hair)}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:14.5px}
+th,td{text-align:left;padding:11px 15px;border-bottom:1px solid var(--hair);vertical-align:top}
+thead th{background:var(--sunk);font-weight:500;font-size:13px;color:var(--muted);border-bottom:1px solid var(--rule)}
+tbody tr:last-child td{border-bottom:none}
+td:last-child{color:var(--muted);font-weight:300}
+td.st{font-weight:500;white-space:nowrap}
+
+.warn{
+  margin:20px 0;padding:14px 18px;background:var(--sunk);
+  border:1px solid var(--hair);border-left:3px solid var(--amber);border-radius:0;
+}
+.warn p{margin:0;max-width:72ch}
+.warn strong{color:var(--amber)}
+
+.chk{list-style:none;padding-left:0}
+.chk li{padding-left:24px;position:relative}
+.chk li::before{content:"□";position:absolute;left:0;color:var(--faint)}
+
+.sv-t{font-size:14px}
+.sv-ts{font-size:12px}
+.sv-th{font-size:14px;font-weight:500}
+.g-card rect{fill:var(--card-bg);stroke:var(--card-ln);stroke-width:.5}
+.g-card>text{fill:var(--card-tx)}
+.g-card>text.sv-ts{fill:var(--card-t2)}
+.g-mod rect{fill:var(--mod-bg);stroke:var(--mod-ln);stroke-width:.5}
+.g-mod>text{fill:var(--mod-tx)}
+.g-mod>text.sv-ts{fill:var(--mod-t2)}
+.g-net rect{fill:var(--net-bg);stroke:var(--net-ln);stroke-width:.5}
+.g-net>text{fill:var(--net-tx)}
+.g-net>text.sv-ts{fill:var(--net-t2)}
+.g-jmp rect{fill:var(--jmp-bg);stroke:var(--jmp-ln);stroke-width:.5}
+.g-jmp>text{fill:var(--jmp-tx)}
+.g-jmp>text.sv-ts{fill:var(--jmp-t2)}
+.g-pl rect{fill:var(--surface);stroke:var(--rule);stroke-width:.5}
+.g-pl>text{fill:var(--ink)}
+.arr{stroke:var(--muted);stroke-width:1.5;fill:none;stroke-linecap:round}
+
+footer{max-width:1080px;margin:0 auto;padding:30px 24px 60px;border-top:1px solid var(--hair);color:var(--faint);font-size:13px;font-weight:300}
+@media (max-width:760px){footer{padding:26px 16px 48px}}
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <h1>CX8 单机自环测试手册</h1>
+  <p class="sub">没有对端设备时，用一台 B300 服务器验证全部 CX8 端口与光模块</p>
+  <span class="devchip">设备标识 <code>/dev/mst/mt4131_pciconf0</code> · 模块 800G 单模 2×400G · RoCE</span>
+</header>
+
+<div class="bar"><div class="barin">
+<a href="#scope">测试边界</a>
+<a href="#prep">物料准备</a>
+<a href="#topo">自环拓扑</a>
+<a href="#flow">测试流程</a>
+<a href="#roce">RoCE 验证</a>
+<a href="#criteria">判读标准</a>
+<a href="#restore">收尾</a>
+</div></div>
+
+<main>
+
+<section id="scope">
+<h2>测试边界</h2>
+<p class="lead">单机自环能覆盖从光模块到 PCIe 的整条本地通路，但替代不了上架联调。开始之前先明确哪些结论能下、哪些不能。</p>
+
+<h4>能验证</h4>
+<ul>
+<li>光模块本身：激光器输出、接收灵敏度、DSP、I2C 通路、温度表现</li>
+<li>NIC 侧 SerDes 信号质量、眼图张开度、FEC 纠错能力</li>
+<li>笼体触点与端口映射关系</li>
+<li>完整数据面：链路建立、RoCE 收发、实际带宽与时延</li>
+<li>PCIe 协商宽度与速率、NUMA 亲和性</li>
+</ul>
+
+<h4>不能验证</h4>
+<ul>
+<li>真实链路距离下的光功率预算</li>
+<li>对端交换机的兼容性与 FEC 协商行为</li>
+<li>机房布线质量、熔接损耗、配线架插损</li>
+<li>多打一场景下的拥塞控制与 PFC 行为</li>
+</ul>
+</section>
+
+<section id="prep">
+<h2>物料准备</h2>
+
+<div class="tblwrap"><table>
+<thead><tr><th>物料</th><th>规格</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td class="st">双工 LC 跳线</td><td>单模，接头研磨与模块一致</td><td>数量按「待测通道数 ÷ 2」准备。绿色接头为 APC，蓝色为 UPC，不可混插</td></tr>
+<tr><td class="st">单芯 LC 跳线</td><td>单模</td><td>仅单通道自环用，备 1~2 根即可</td></tr>
+<tr><td class="st">光衰减器</td><td>5~10 dB，LC 母对公</td><td>必备，数量与跳线相同</td></tr>
+<tr><td class="st">MPO 跳线</td><td>Type-B 交叉型</td><td>仅当模块是 2×DR4 等 MPO 接口时需要。Type-A 直通线接上不通</td></tr>
+<tr><td class="st">端面清洁笔</td><td>LC / MPO 对应型号</td><td>自环误码偏高，一半以上是端面脏污</td></tr>
+</tbody>
+</table></div>
+
+<div class="warn">
+<p><strong>衰减器不能省。</strong>800G 单模模块单通道发射功率典型在 -2 ~ +4 dBm，接收过载点也就 +3 ~ +4 dBm。短跳线直连几乎没有衰减，很容易把接收端打饱和，测出来的误码率不可信，长期还可能损伤接收机。</p>
+</div>
+</section>
+
+<section id="topo">
+<h2>自环拓扑</h2>
+<p class="lead">800G OSFP 模块跑 2×400G 拆分后，在系统里是两个独立的 400G 网口。三种接法覆盖范围和适用场景不同。</p>
+
+<h3>方式一：同模块双通道互环</h3>
+<p>一根双工 LC 跳线接在同一个模块的两个光口之间，通道 1 与通道 2 互为对端。一根线覆盖模块光路、两路 DSP、SerDes 和完整数据面，还能跑 RoCE 压带宽，性价比最高。</p>
+
+<figure class="fig">
+<svg viewBox="0 0 680 320" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>同模块双通道互环</title>
+<desc>一块 CX8 网卡的 800G OSFP 单模模块拆分为两个 400G 通道，分别对应 eth0 与 eth1。模块的通道 1 与通道 2 用一根双工 LC 跳线互相对接，跳线中串入 5 到 10 dB 光衰减器。</desc>
+<defs><marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<g class="g-card"><rect x="40" y="40" width="400" height="250" rx="20"/><text class="sv-th" x="240" y="66" text-anchor="middle" dominant-baseline="central">CX8 网卡</text><text class="sv-ts" x="240" y="86" text-anchor="middle" dominant-baseline="central">800G 端口拆分为 2×400G</text></g>
+<g class="g-mod"><rect x="228" y="100" width="190" height="156" rx="12"/><text class="sv-th" x="323" y="120" text-anchor="middle" dominant-baseline="central">OSFP 800G 单模</text></g>
+<g class="g-pl"><rect x="244" y="134" width="158" height="44" rx="8"/><text class="sv-t" x="323" y="156" text-anchor="middle" dominant-baseline="central">通道 1  Tx / Rx</text></g>
+<g class="g-pl"><rect x="244" y="192" width="158" height="44" rx="8"/><text class="sv-t" x="323" y="214" text-anchor="middle" dominant-baseline="central">通道 2  Tx / Rx</text></g>
+<g class="g-net"><rect x="62" y="130" width="130" height="52" rx="8"/><text class="sv-th" x="127" y="148" text-anchor="middle" dominant-baseline="central">eth0</text><text class="sv-ts" x="127" y="166" text-anchor="middle" dominant-baseline="central">400G RoCE</text></g>
+<g class="g-net"><rect x="62" y="196" width="130" height="52" rx="8"/><text class="sv-th" x="127" y="214" text-anchor="middle" dominant-baseline="central">eth1</text><text class="sv-ts" x="127" y="232" text-anchor="middle" dominant-baseline="central">400G RoCE</text></g>
+<line x1="196" y1="156" x2="240" y2="156" class="arr" marker-end="url(#a1)" marker-start="url(#a1)"/>
+<line x1="196" y1="222" x2="240" y2="222" class="arr" marker-end="url(#a1)" marker-start="url(#a1)"/>
+<g class="g-jmp"><rect x="480" y="130" width="160" height="100" rx="12"/><text class="sv-th" x="560" y="168" text-anchor="middle" dominant-baseline="central">双工 LC 跳线</text><text class="sv-ts" x="560" y="192" text-anchor="middle" dominant-baseline="central">串 5–10 dB 衰减器</text></g>
+<line x1="420" y1="156" x2="476" y2="156" class="arr" marker-end="url(#a1)"/>
+<line x1="476" y1="214" x2="420" y2="214" class="arr" marker-end="url(#a1)"/>
+</svg>
+<figcaption>双工 LC 跳线本身是 A-B 交叉极性，两端分别插入通道 1 和通道 2，Tx→Rx 对接自动成立，不需手动调换。</figcaption>
+</figure>
+
+<h3>方式二：跨卡互环</h3>
+<p>两块 CX8 各取通道 1 对接。相比方式一，额外覆盖了两个笼体、两块卡的 SerDes 和各自的 PCIe 路径。八块卡两两配对，四根跳线一轮跑完。</p>
+
+<figure class="fig">
+<svg viewBox="0 0 680 300" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>跨卡互环</title>
+<desc>两块 CX8 网卡各自的 800G OSFP 单模模块，取通道 1 用一根双工 LC 跳线互相对接，跳线中串入光衰减器。卡 A 的通道 1 对应 eth0，卡 B 的通道 1 对应 eth1。</desc>
+<defs><marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<g class="g-card"><rect x="40" y="40" width="240" height="230" rx="20"/><text class="sv-th" x="160" y="66" text-anchor="middle" dominant-baseline="central">CX8 卡 A</text><text class="sv-ts" x="160" y="86" text-anchor="middle" dominant-baseline="central">mt4131_pciconf0</text></g>
+<g class="g-net"><rect x="62" y="104" width="196" height="48" rx="8"/><text class="sv-t" x="160" y="128" text-anchor="middle" dominant-baseline="central">eth0 · 400G RoCE</text></g>
+<g class="g-mod"><rect x="62" y="186" width="196" height="64" rx="12"/><text class="sv-th" x="160" y="208" text-anchor="middle" dominant-baseline="central">OSFP 800G 单模</text><text class="sv-ts" x="160" y="230" text-anchor="middle" dominant-baseline="central">通道 1</text></g>
+<line x1="160" y1="156" x2="160" y2="182" class="arr" marker-end="url(#a2)" marker-start="url(#a2)"/>
+<g class="g-card"><rect x="400" y="40" width="240" height="230" rx="20"/><text class="sv-th" x="520" y="66" text-anchor="middle" dominant-baseline="central">CX8 卡 B</text><text class="sv-ts" x="520" y="86" text-anchor="middle" dominant-baseline="central">mt4131_pciconf1</text></g>
+<g class="g-net"><rect x="422" y="104" width="196" height="48" rx="8"/><text class="sv-t" x="520" y="128" text-anchor="middle" dominant-baseline="central">eth1 · 400G RoCE</text></g>
+<g class="g-mod"><rect x="422" y="186" width="196" height="64" rx="12"/><text class="sv-th" x="520" y="208" text-anchor="middle" dominant-baseline="central">OSFP 800G 单模</text><text class="sv-ts" x="520" y="230" text-anchor="middle" dominant-baseline="central">通道 1</text></g>
+<line x1="520" y1="156" x2="520" y2="182" class="arr" marker-end="url(#a2)" marker-start="url(#a2)"/>
+<g class="g-jmp"><rect x="292" y="190" width="96" height="56" rx="12"/><text class="sv-th" x="340" y="210" text-anchor="middle" dominant-baseline="central">LC 跳线</text><text class="sv-ts" x="340" y="230" text-anchor="middle" dominant-baseline="central">+ 衰减器</text></g>
+<line x1="262" y1="218" x2="288" y2="218" class="arr" marker-end="url(#a2)" marker-start="url(#a2)"/>
+<line x1="392" y1="218" x2="418" y2="218" class="arr" marker-end="url(#a2)" marker-start="url(#a2)"/>
+</svg>
+<figcaption>两个口分属不同卡、不同 PCI 插槽。内核仍可能本地路由短路，稳妥起见还是隔离一个口。</figcaption>
+</figure>
+
+<h3>方式三：单通道 Tx 回接 Rx</h3>
+<p>一根单芯跳线把同一通道的 Tx 直接接回自己的 Rx，光信号原路返回。端口在跟自己通信，MAC 和 GID 相同，链路协商与 FEC 无法正常建立，因此<strong>不能跑 RoCE</strong>，也做不了带宽测试。</p>
+
+<figure class="fig">
+<svg viewBox="0 0 680 310" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>单通道 Tx 回接 Rx</title>
+<desc>一块 CX8 网卡的 800G OSFP 单模模块，取通道 1，用一根单芯跳线把该通道的 Tx 发射口经光衰减器直接接回同一通道的 Rx 接收口。仅用于物理层 PRBS 误码测试。</desc>
+<defs><marker id="a3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<g class="g-card"><rect x="40" y="40" width="340" height="236" rx="20"/><text class="sv-th" x="210" y="66" text-anchor="middle" dominant-baseline="central">CX8 网卡</text><text class="sv-ts" x="210" y="86" text-anchor="middle" dominant-baseline="central">仅物理层 PRBS 测试</text></g>
+<g class="g-mod"><rect x="62" y="104" width="296" height="150" rx="12"/><text class="sv-th" x="210" y="124" text-anchor="middle" dominant-baseline="central">OSFP 800G 单模 · 通道 1</text></g>
+<g class="g-pl"><rect x="80" y="140" width="260" height="40" rx="8"/><text class="sv-t" x="210" y="160" text-anchor="middle" dominant-baseline="central">Tx 发射</text></g>
+<g class="g-pl"><rect x="80" y="198" width="260" height="40" rx="8"/><text class="sv-t" x="210" y="218" text-anchor="middle" dominant-baseline="central">Rx 接收</text></g>
+<g class="g-jmp"><rect x="530" y="163" width="110" height="44" rx="8"/><text class="sv-th" x="585" y="178" text-anchor="middle" dominant-baseline="central">衰减器</text><text class="sv-ts" x="585" y="196" text-anchor="middle" dominant-baseline="central">5–10 dB</text></g>
+<path d="M344 160 L 585 160 L 585 161" class="arr"/>
+<path d="M585 207 L 585 218 L 348 218" class="arr" marker-end="url(#a3)"/>
+</svg>
+<figcaption>需要单芯（simplex）跳线，不是双工的。只在怀疑某个具体通道的光收发有问题、又想排除对端干扰时使用。</figcaption>
+</figure>
+
+<h3>三者对比</h3>
+<div class="tblwrap"><table>
+<thead><tr><th>接法</th><th>测试覆盖</th><th>能否跑 RoCE</th><th>适用</th></tr></thead>
+<tbody>
+<tr><td class="st">同模块双通道</td><td>模块光路、两路 DSP、SerDes、完整数据面</td><td>能</td><td>首选，一根线搞定</td></tr>
+<tr><td class="st">跨卡互环</td><td>上述全部，外加两个笼体与两条 PCIe 路径</td><td>能</td><td>批量验证多块卡</td></tr>
+<tr><td class="st">单通道回接</td><td>仅物理层</td><td>不能</td><td>定位单个通道的光收发问题</td></tr>
+</tbody>
+</table></div>
+</section>
+
+<section id="flow">
+<h2>测试流程</h2>
+<p class="lead">四个阶段按顺序推进，每一步都在缩小故障范围。一天时间足够跑完一台 B300 的全部端口。</p>
+
+<h3>阶段一　静态盘点（约 1 小时，不动任何线）</h3>
+<p>不需要跳线，却能筛掉大部分明显故障。先建立设备映射关系：</p>
+<div class="cb"><pre><code>mst start
+mst status -v
+ibdev2netdev -v
+lspci -d 15b3: -vvv | grep -E "LnkCap|LnkSta"</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<p>再逐块卡取模块信息，写成循环更省事：</p>
+<div class="cb"><pre><code>for d in /dev/mst/mt4131_pciconf*; do
+  echo "=== $d ==="
+  mlxlink -d $d -p 1 -m
+  mget_temp -d $d
+done</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<h4>判读要点</h4>
+<ul>
+<li><code>mlxlink -m</code> 读不出模块 → I2C 通路问题或模块未插到位，先解决这个再往下</li>
+<li>Tx 功率偏低或为 0 → 激光器故障，模块直接判废</li>
+<li>Rx 功率为 0 → 正常，此时还没有对端</li>
+<li>模块温度已接近 70°C 以上 → 风道或模块本身有问题，后续结果都不可信</li>
+</ul>
+
+<p>同时核对固件与驱动版本，不一致是隐蔽的故障源：</p>
+<div class="cb"><pre><code>mlxfwmanager --query
+ofed_info -s</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<h3>阶段二　内部环回（约 1 小时）</h3>
+<p>不插跳线，用 PHY 本地环回测 NIC 的 SerDes。这一步不经过光模块，用来区分「卡有问题」还是「光路有问题」。</p>
+<div class="cb"><pre><code>D=/dev/mst/mt4131_pciconf0
+mlxlink -d $D -p 1 --port_state DN
+mlxlink -d $D -p 1 --link_mode_force
+mlxlink -d $D -p 1 --loopback PH
+mlxlink -d $D -p 1 --port_state UP
+mlxlink -d $D -p 1 -c -e</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<p>测完务必清除环回配置：</p>
+<div class="cb"><pre><code>mlxlink -d $D -p 1 --port_state DN
+mlxlink -d $D -p 1 --loopback NO
+mlxlink -d $D -p 1 --port_state UP</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<div class="warn">
+<p><strong>别关错端口。</strong>ConnectX-7 及之后的卡，环回配置只能在链路完全 down 的状态下施加。另外不要用 mlxlink 关闭主机与非管理型交换机之间的端口，B300 上的 BlueField 管理口和存储口尤其要认清楚。</p>
+</div>
+
+<h3>阶段三　外部光环回与 PRBS（约 3 小时，核心环节）</h3>
+<p>按前面任一拓扑接好跳线与衰减器，先确认功率落在规格内：</p>
+<div class="cb"><pre><code>mlxlink -d /dev/mst/mt4131_pciconf0 -p 1 -m | grep -i -E "power|rx|tx"</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<p>Rx 功率顶到上限或报 high alarm 就加大衰减，低于接收灵敏度则减小衰减。功率正常后确认链路起来：</p>
+<div class="cb"><pre><code>mlxlink -d /dev/mst/mt4131_pciconf0 -p 1
+mlxlink -d /dev/mst/mt4131_pciconf1 -p 1</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<h4>PRBS 误码测试</h4>
+<p>两端都要配，先调谐再启用。速率字符串按实际链路调整，先跑 <code>mlxlink --help</code> 确认你这版 MFT 支持哪些值。</p>
+<div class="cb"><pre><code>mlxlink -d /dev/mst/mt4131_pciconf0 -p 1 --test_mode TU
+mlxlink -d /dev/mst/mt4131_pciconf1 -p 1 --test_mode TU
+
+mlxlink -d /dev/mst/mt4131_pciconf0 -p 1 --test_mode EN \
+        --tx_prbs PRBSQ --rx_prbs PRBSQ --tx_rate 100G_2X --rx_rate 100G_2X
+mlxlink -d /dev/mst/mt4131_pciconf1 -p 1 --test_mode EN \
+        --tx_prbs PRBSQ --rx_prbs PRBSQ --tx_rate 100G_2X --rx_rate 100G_2X
+
+sleep 900
+mlxlink -d /dev/mst/mt4131_pciconf0 -p 1 -c
+
+mlxlink -d /dev/mst/mt4131_pciconf0 -p 1 --test_mode DS
+mlxlink -d /dev/mst/mt4131_pciconf1 -p 1 --test_mode DS</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<h4>模块级 PRBS</h4>
+<p>进一步分离「模块 DSP 问题」和「NIC 问题」。<code>--prbs_select</code> 选择测试模块的 HOST 侧还是 MEDIA 侧，哪一侧出错故障就定位在哪一段。HOST 侧是模块与 NIC 之间的电接口，MEDIA 侧是模块的光发射接收。</p>
+<div class="cb"><pre><code>mlxlink -d $D -p 1 --cable --prbs_select HOST --prbs_mode EN \
+        --tx_prbs PRBS31 --rx_prbs PRBS31
+
+mlxlink -d $D -p 1 --cable --prbs_select HOST --prbs_mode DS</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<h3>阶段四　业务层验证（约 2 小时）</h3>
+<p>PRBS 测的是物理层，还要验证真实数据能跑通。配置见下一节。</p>
+</section>
+
+<section id="roce">
+<h2>RoCE 验证</h2>
+<p class="lead">两个网口在同一台机器上，内核会直接走本地回环把包短路掉，根本不出网卡。必须把其中一个口连同它的 RDMA 设备一起丢进独立 namespace。</p>
+
+<div class="cb"><pre><code>rdma system set netns exclusive
+
+ip netns add ns1
+ip link set eth1 netns ns1
+rdma dev set mlx5_1 netns ns1
+
+ip addr add 192.168.100.1/24 dev eth0
+ip link set eth0 up
+
+ip netns exec ns1 ip addr add 192.168.100.2/24 dev eth1
+ip netns exec ns1 ip link set eth1 up
+ip netns exec ns1 ping -c 3 192.168.100.1</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<div class="warn">
+<p><strong><code>rdma system set netns exclusive</code> 是全局开关</strong>，会影响这台机器上所有 RDMA 设备的可见性。生产环境执行前确认没有别的业务在跑，测完用 <code>rdma system set netns shared</code> 恢复。</p>
+</div>
+
+<p>ping 通了再压 RDMA 带宽。RoCE 要带 <code>-R</code> 走 rdma_cm：</p>
+<div class="cb"><pre><code># 终端 1（默认 namespace）
+ib_write_bw -d mlx5_0 -i 1 -R -a -F
+
+# 终端 2
+ip netns exec ns1 ib_write_bw -d mlx5_1 -i 1 -R -a -F 192.168.100.1</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<p>GID 索引选错是 RoCE 最常见的坑，先确认用的是 RoCEv2 那条：</p>
+<div class="cb"><pre><code>show_gids | grep -i v2</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<p>带宽明显偏低，先查 PCIe 协商宽度和 NUMA 绑定：</p>
+<div class="cb"><pre><code>mlnx_tune -r
+lspci -d 15b3: -vvv | grep -E "LnkCap|LnkSta"</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+</section>
+
+<section id="criteria">
+<h2>判读标准</h2>
+
+<div class="tblwrap"><table>
+<thead><tr><th>指标</th><th>合格线</th><th>不合格时的方向</th></tr></thead>
+<tbody>
+<tr><td class="st">纠错前 BER</td><td>优于 1e-6（PAM4 + RS-FEC）</td><td>端面清洁后重测；仍偏高则查眼图与衰减量</td></tr>
+<tr><td class="st">纠错后 BER</td><td>必须为 0</td><td>出现任何非零值，该链路不能上生产</td></tr>
+<tr><td class="st">单向带宽</td><td>线速的 90% 以上，400G 约 45 GB/s</td><td>查 PCIe 协商宽度、NUMA 亲和、节能模式</td></tr>
+<tr><td class="st">Rx 光功率</td><td>模块规格书的接收范围内</td><td>调整衰减器阻值</td></tr>
+<tr><td class="st">模块温度</td><td>低于告警阈值且稳定</td><td>检查风道，确认机箱盖好</td></tr>
+<tr><td class="st">眼图张开度</td><td>各通道均衡，无明显劣化通道</td><td>单通道偏低通常是该路光纤或模块问题</td></tr>
+</tbody>
+</table></div>
+
+<h3>故障归属判定</h3>
+<p>某个端口测出问题时，用轮换法定位：把可疑模块换到一个已验证正常的端口上重测。故障跟着模块走就是模块坏，留在原端口就是 NIC 或笼体的问题。这比反复猜测快得多。</p>
+<p>另一个快速判据：<code>mlxlink -m</code> 和 <code>ethtool -m</code> 走的是不同代码路径，一个能读一个不能，指向 I2C 通路问题；两个都读不出，优先怀疑模块未插到位或已损坏。</p>
+</section>
+
+<section id="restore">
+<h2>收尾</h2>
+<p class="lead">测试结束后逐项确认，漏掉任何一条都可能把卡留在异常状态下交付。</p>
+
+<ul class="chk">
+<li>退出所有端口的 PRBS 测试模式</li>
+<li>清除所有环回配置</li>
+<li>所有端口状态恢复为 UP</li>
+<li>确认 <code>LINK_TYPE</code> 等 mlxconfig 配置未被改动</li>
+<li>关闭临时启动的进程，恢复 RDMA namespace 模式</li>
+<li>删除测试用的 network namespace 与 IP 配置</li>
+<li>重跑阶段一的盘点命令，与测试前基线逐项对比</li>
+<li>拔除所有跳线与衰减器，模块回插到位并确认卡扣锁死</li>
+</ul>
+
+<div class="cb"><pre><code>mlxlink -d $D -p 1 --test_mode DS
+mlxlink -d $D -p 1 --loopback NO
+mlxlink -d $D -p 1 --port_state UP
+mlxconfig -d $D query | grep LINK_TYPE
+
+rdma system set netns shared
+ip netns del ns1</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+</section>
+
+<section id="pitfalls">
+<h2>容易踩的坑</h2>
+
+<h3>机箱必须盖着测</h3>
+<p>B300 的风道设计依赖机箱密闭，开盖跑 800G 模块很快就会过热降速，测出来的 BER 不能用。</p>
+
+<h3>先清洁再测</h3>
+<p>自环出现高误码，先怀疑端面脏污而不是模块坏。清洁后重测一遍再下结论。反过来做会浪费大量时间在错误方向上。</p>
+
+<h3>接头类型不能混</h3>
+<p>绿色接头是 APC 斜面研磨，蓝色是 UPC 平面研磨。混插会有明显的回损劣化，表现为误码升高，很容易误判成模块故障。</p>
+
+<h3>MPO 跳线要用交叉型</h3>
+<p>2×DR4 等 MPO 接口的模块，自环需要 Type-B 交叉型跳线或专用 MPO 自环头。Type-A 直通线接上去 Tx 对 Tx，完全不通。</p>
+
+<h3>记录基线</h3>
+<p>阶段一的输出全部存档。上架后如果出问题，可以回头对比出厂前的状态，判断是运输损伤还是现场环境导致。</p>
+</section>
+
+</main>
+
+<footer>本文档适用于 B300 服务器 + CX8 网卡、800G 单模模块 2×400G 拆分、RoCE 组网的场景。mlxlink 参数以所用 MFT 版本的 <code>--help</code> 输出为准，不同版本速率字符串与可选项存在差异。</footer>
+
+<script>
+(function(){
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('.copy');
+    if(!b) return;
+    var txt = b.parentNode.querySelector('code').textContent, done = function(){
+      var old = b.textContent;
+      b.textContent = '已复制'; b.classList.add('ok');
+      setTimeout(function(){ b.textContent = old; b.classList.remove('ok'); }, 1400);
+    };
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(txt).then(done).catch(fallback);
+    } else { fallback(); }
+    function fallback(){
+      var t = document.createElement('textarea');
+      t.value = txt; t.setAttribute('readonly','');
+      t.style.position='fixed'; t.style.opacity='0';
+      document.body.appendChild(t); t.select();
+      try { document.execCommand('copy'); done(); } catch(err){}
+      document.body.removeChild(t);
+    }
+  });
+})();
+</script>
+</body>
+</html>
