@@ -168,7 +168,13 @@ footer{max-width:1040px;margin:0 auto;padding:28px 24px 60px;border-top:1px soli
 <p>同一台机器上的 ConnectX-7 使用相同的驱动、内核与 OFED，加载过程完全正常，
 可排除软件栈层面的共性问题。问题被隔离至 <strong>CX8 固件本身</strong>。</p>
 
-<p>现场已无可自行处置的余地，建议冷启动验证一次后提交厂商。</p>
+<p><span class="key">完整断电冷启动与 HGX 固件重刷均已验证无效。</span>
+经核对固件包 manifest，现有 HGX-B300x8_0006_260610.1.1_custom 包内为 PSID NVD0000000072
+指定的 CX8 版本即为 40.48.1132 —— <strong>故障版本就是本平台的出厂固件</strong>，
+重刷同版本不会改变行为。</p>
+
+<p>现场已无可自行处置的手段。需厂商提供 CX8 组件版本高于 40.48.1132 的 HGX 固件包，
+并由 NVIDIA 解读 <code>ext_synd 0x035e</code> 的具体语义。</p>
 </div>
 </section>
 
@@ -189,6 +195,7 @@ footer{max-width:1040px;margin:0 auto;padding:28px 24px 60px;border-top:1px soli
 <tr><td class="st">CX8 PSID</td><td>NVD0000000072（OEM 定制）</td></tr>
 <tr><td class="st">CX8 料号</td><td>P6612_Ax，Description 为 NVIDIA B300</td></tr>
 <tr><td class="st">光模块</td><td>RTXM600-2401，Power Class 8（&gt;14 W，MAX 16 W）</td></tr>
+<tr><td class="st">HGX 固件包</td><td>HGX-B300x8_0006_260610.1.1_custom（2026-06-10 发布）</td></tr>
 <tr><td class="st">对端交换机</td><td>H3C LS9867-128DH，400G 端口</td></tr>
 </tbody></table></div>
 </section>
@@ -274,6 +281,25 @@ footer{max-width:1040px;margin:0 auto;padding:28px 24px 60px;border-top:1px soli
 <tr><td class="st">清除测试残留状态</td><td><code>mlxlink --test_mode DS / --loopback NO / --port_state UP</code></td><td>无效，State 保持 Close port，Tx Power 保持 -40 dBm</td></tr>
 <tr><td class="st">操作系统侧启用端口</td><td><code>ip link set &lt;iface&gt; up</code></td><td>覆盖全部 20 个网口，命令均返回成功，但 State 与 Tx Power 无变化</td></tr>
 <tr><td class="st">固件级重置</td><td><code>mlxfwreset -d /dev/mst/mt4131_pciconf0 -l 3 reset</code></td><td>被拒绝执行。同一 PCIe switch 下挂载 GPU（0000:06:00.0），工具检测到 nvidia 驱动绑定后中止，属保护机制，未强制绕过</td></tr>
+<tr><td class="st">HGX 固件更新</td><td><code>H100_tool_V1.0.11.sh &lt;BMC&gt; &lt;user&gt; &lt;pw&gt; update nvfw_HGX-B300x8_0006_260610.1.1_custom-signed.fwpkg 35</code></td><td>刷写成功，22 分钟完成，无报错。但该包内 CX8 组件版本即为 40.48.1132，与在用版本相同，属同版本重刷，故障无变化</td></tr>
+<tr><td class="st">完整冷启动</td><td>—</td><td>整机断电，间隔约 1 分钟后重新上电。错误原样复现：ext_synd 32 条、health compromised 16 条、16 端口仍为 Close port</td></tr>
+</tbody></table></div>
+
+<h3 style="margin-top:30px">HGX 固件包内容</h3>
+<p>固件包 manifest 显示，CX8 组件的目标 PSID 为 NVD0000000072、APSKU 为 0x72000000，与现场设备精确匹配，但其版本号即为 40.48.1132。因此本次更新对 CX8 而言是同版本重刷，行为不会改变。CX8 的 40.48.1132 与 CX7 的 28.48.1132 共享 48.1132 基线，属同批协调发布。</p>
+<div class="tblwrap"><table>
+<thead><tr><th>组件</th><th>PSID / SKU</th><th>包内版本</th><th>与现场对照</th></tr></thead>
+<tbody>
+<tr class="zero"><td class="st">CX8</td><td class="mono">NVD0000000072</td><td class="mono">40.48.1132</td><td>与在用版本相同</td></tr>
+<tr><td class="st">CX7（ERoT）</td><td class="mono">NVD0000000079</td><td class="mono">28.48.1132</td><td>与现场 CX7 一致</td></tr>
+<tr><td class="st">ERoT 通用</td><td class="mono">—</td><td class="mono">01.04.0055.0000_n04</td><td>—</td></tr>
+<tr><td class="st">ERoT HMC</td><td class="mono">—</td><td class="mono">B3-2602-05.0</td><td>—</td></tr>
+<tr><td class="st">ERoT FPGA</td><td class="mono">—</td><td class="mono">1.54</td><td>—</td></tr>
+<tr><td class="st">ERoT NVSwitch</td><td class="mono">NVD0000000113</td><td class="mono">35_2014_5112</td><td>—</td></tr>
+<tr><td class="st">ERoT NVSwitch</td><td class="mono">NVD0000000119</td><td class="mono">35_2014_5112</td><td>—</td></tr>
+<tr><td class="st">SMA</td><td class="mono">NV0004</td><td class="mono">0004.00.0272.0000</td><td>—</td></tr>
+<tr><td class="st">SMA</td><td class="mono">NV000B</td><td class="mono">0011.00.0281.0000</td><td>—</td></tr>
+<tr><td class="st">GPU</td><td class="mono">PG540_SKU216</td><td class="mono">97.10.7E.00.03</td><td>—</td></tr>
 </tbody></table></div>
 
 <h3 style="margin-top:30px">PCIe 拓扑</h3>
@@ -287,14 +313,14 @@ footer{max-width:1040px;margin:0 auto;padding:28px 24px 60px;border-top:1px soli
 <section id="next">
 <h2><span class="no">06</span>建议动作</h2>
 <ol class="steps">
-<li class="step"><h3><span class="n">1</span>冷启动验证</h3><p>完全断电后重新上电（非 reboot），观察错误是否复现。这是唯一尚未尝试、且可能清除固件残留状态的手段，成本低、风险小。</p><p class="how">起机后执行 <code>dmesg | grep -c ext_synd</code>。计数归零且端口 State 变为 Active 即为恢复；仍为 32 则确认为持续性问题。</p></li>
-<li class="step"><h3><span class="n">2</span>提交厂商</h3><p>PSID NVD0000000072 为 OEM 定制标识，固件须从技嘉或 NVIDIA 获取对应版本，不可使用公版镜像。ext_synd 0x035e 的具体含义需 NVIDIA 内部错误码表解读，现场无法自行判定。</p><p class="how">提交本报告及诊断包，材料清单见附录。</p></li>
+<li class="step"><h3><span class="n">1</span>向厂商申请更新版本的 HGX 固件包</h3><p>现有 HGX-B300x8_0006_260610.1.1_custom 包内的 CX8 组件版本即为 40.48.1132，与故障版本相同，重刷无意义。需要 CX8 组件版本高于 40.48.1132 的固件包。PSID NVD0000000072 为 OEM 定制标识，固件只能从技嘉或 NVIDIA 获取，不可使用公版镜像。</p><p class="how">向技嘉确认两点：一是是否存在比 0006_260610.1.1 更新的 HGX-B300x8 固件包；二是该包内 CX8 组件版本是否高于 40.48.1132。仅整包版本号递增不足以说明问题，须逐组件核对。</p></li>
+<li class="step"><h3><span class="n">2</span>提交厂商并要求解读错误码</h3><p>ext_synd 0x035e 的具体语义需 NVIDIA 内部错误码表解读，现场无法自行判定。本报告及诊断包已包含完整证据链，可直接作为工单附件。</p><p class="how">提交时明确说明：冷启动与同版本固件重刷均已验证无效，同机 ConnectX-7 加载正常，问题已隔离至 CX8 固件 40.48.1132 本身。</p></li>
 </ol>
 </section>
 
 <section id="watch">
 <h2><span class="no">07</span>需要留意的事项</h2>
-<div class="note"><h3>固件升级需谨慎</h3><p>在厂商确认 0x035e 含义之前不建议自行升级固件。8 块卡表现完全一致，更像是固件与本平台的批次性适配问题；盲目升级可能引入新变量，并破坏现场证据。</p></div>
+<div class="note"><h3>40.48.1132 是本平台当前的出厂固件</h3><p>该版本并非现场误刷的旧固件，而是 2026-06-10 发布的 HGX-B300x8_0006_260610.1.1_custom 包内为 PSID NVD0000000072 指定的版本。这意味着问题存在于该平台的出厂固件中，不是配置或操作导致，也无法通过重装现有固件解决。</p></div>
 <div class="note"><h3>dmesg 中的 PCIe 带宽提示属正常现象</h3><p>日志中 <code>504.112 Gb/s available PCIe bandwidth, limited by 32.0 GT/s</code> 一句容易被误读为故障，实际是 ConnectX-8 集成 PCIe 交换机架构的正常表现。该卡的上行口连接 AMD EPYC 9555 根端口，受平台限制为 Gen5 32GT/s；而卡内交换机到网络端点、以及到 GPU 的链路均为 Gen6 64GT/s。GPUDirect RDMA 流量经卡内交换机直达 GPU 显存，不经过主机根端口，504 Gb/s 仅约束需落到 CPU 内存的流量。此项无需处置。</p></div>
 <div class="note"><h3>诊断工具缺失</h3><p>本机 MFT 中缺少 flint 与 mstregdump，诊断包内对应文件为空。可安装开源 mstflint 包补齐（命令名带 mst 前缀），或从技嘉获取完整 MFT。核心版本信息已由 mlxfwmanager --query 覆盖，不影响报障。</p></div>
 </section>
