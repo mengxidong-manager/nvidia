@@ -145,4 +145,4 @@ Spectrum-X ＝ Spectrum-4 交换机 + BlueField-3 SuperNIC，是首个专为 AI 
 
 ---
 
-← [返回 README](../README.md) · 相关：[800G 光模块与 Leaf 交换机连接方式详解](800G光模块与Leaf交换机连接方式详解.md) · [HGX B300 训练集群现网架构文档](HGX_B300训练集群设计方案_1024GPU.md) · [AI 集群通信模式](https://github.com/mengxidong-manager/network/blob/main/16-AI集群通信模式.md)
+← [返回 README](../README.md) · 相关：[800G 光模块与 Leaf 交换机连接方式详解](800G光模块与Leaf交换机连接方式详解.md) · [HGX B300 训练集群参考架构文档](HGX_B300训练集群设计方案_1024GPU.md) · [AI 集群通信模式](https://github.com/mengxidong-manager/network/blob/main/16-AI集群通信模式.md)
