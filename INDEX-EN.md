@@ -22,6 +22,8 @@ English index for this repository. Document bodies are written in Chinese; all l
 | [B300 / GB300 NVL72 Deep Dive](docs/B300_GB300_NVL72_%E6%8A%80%E6%9C%AF%E5%85%A8%E8%A7%A3.md) | Blackwell Ultra architecture, B300 vs B200, cooling, power, memory, networking |
 | [Vera Rubin NVL72 Deep Dive](docs/Vera_Rubin_NVL72_%E6%8A%80%E6%9C%AF%E5%85%A8%E8%A7%A3.md) | Architecture, six chips, 45°C liquid cooling, power, storage, networking |
 | [Gigabyte HGX B300 Server Operations Manual](docs/Gigabyte_HGX_B300_%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%90%E7%BB%B4%E6%89%8B%E5%86%8C.md) | G894-ZD3-AAX7 hardware ops and maintenance procedures |
+| [Gigabyte B300 FRU Serial Number Rewrite SOP](docs/b300-fru-sn-sop.md) | Restoring SNs after board replacement, ipmitool fru edit, length pre-check, backup and rollback, record template |
+| [NVIDIA Spectrum SN5000 Series Selection Guide](docs/NVIDIA_Spectrum_SN5000%E7%B3%BB%E5%88%97%E9%80%89%E5%9E%8B%E5%8F%82%E8%80%83.md) | SN5600 / SN5400 spec reference, Spectrum-4 ASIC, software ecosystem, comparison against H3C |
 
 ## Operations & Troubleshooting
 
@@ -30,6 +32,9 @@ English index for this repository. Document bodies are written in Chinese; all l
 | [GPU Cluster Troubleshooting Handbook](docs/GPU%E9%9B%86%E7%BE%A4%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E4%B8%8E%E6%95%85%E9%9A%9C%E6%8E%92%E6%9F%A5%E6%89%8B%E5%86%8C.md) | XID error reference, ECC/PCIe/NVLink diagnostics, training & inference issues |
 | [GPU Fallen-Off-Bus Incident Handbook](docs/GPU%E9%9B%86%E7%BE%A4%E6%8E%89%E5%8D%A1%E6%95%85%E9%9A%9C%E5%A4%84%E7%90%86%E6%89%8B%E5%86%8C.md) | Inference vs. training SOP, zero-downtime techniques, checkpoint strategy, YAML snippets |
 | [nvidia-smi Command Reference](docs/nvidia-smi%E8%BF%90%E7%BB%B4%E5%91%BD%E4%BB%A4%E9%80%9F%E6%9F%A5%E6%89%8B%E5%86%8C.md) | GPU monitoring, health checks, performance tuning, NVLink diagnostics |
+| [ConnectX / InfiniBand Diagnostic Command Reference](docs/cx8-diagnostics.md) | MFT tools, link and transceiver diagnostics, ethtool, sysfs, IB layer — 89 commands by category |
+| [CX8 Single-Host Loopback Test Handbook](docs/cx8-loopback.md) | Validating ports and optics without a peer device, three loopback topologies, MPO-8 Type-B polarity, PRBS, RoCE verification |
+| [ConnectX-8 All-Port Bring-Up Failure — Incident Report](docs/cx8-firmware-fault-report.md) | Case record: firmware 0x035e health timeout, 16/16 ports reproduced, nine hypotheses ruled out with evidence |
 | [Dell RAID Recovery Handbook](docs/Dell_RAID%E6%95%85%E9%9A%9C%E6%81%A2%E5%A4%8D%E6%89%8B%E5%86%8C.md) | RAID 0/1/5/10 recovery, perccli commands, hot-swap procedures |
 
 ## Data Center Facilities
@@ -53,6 +58,16 @@ English index for this repository. Document bodies are written in Chinese; all l
 | [Fault handling flow](docs/images/gpu-fault-flow.svg) | Fallen-off-bus handbook |
 | [s110-b7 node topology](docs/images/s110-b7-topology.svg) | H200 node |
 | [s110 pod topology](docs/images/s110-pod-topology.svg) | s110 cluster |
+
+---
+
+## HTML Editions
+
+The following documents also ship as same-named `.html` files under `docs/`, with section navigation, one-click command copy, and automatic dark mode. GitHub does not render HTML — download them locally, or enable GitHub Pages for this repository (Settings → Pages → Source: `main` branch, `/docs` folder) to browse them online.
+
+- `cx8-diagnostics.html`
+- `cx8-loopback.html`
+- `cx8-firmware-fault-report.html`
 
 ---
 
