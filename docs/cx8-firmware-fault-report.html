@@ -138,8 +138,32 @@ table.cmd td:last-child{font-size:14px}
 footer{max-width:1040px;margin:0 auto;padding:28px 24px 60px;border-top:1px solid var(--hair);color:var(--faint);font-size:13px;font-weight:300}
 @media (max-width:760px){footer{padding:24px 16px 48px}}
 </style>
+<style>
+/* 文档间导航 —— 四篇文档共用，样式自包含，不依赖各文件的变量 */
+.docnav{background:#101922;border-bottom:1px solid rgba(255,255,255,.14)}
+.docnav-in{max-width:1000px;margin:0 auto;padding:9px 24px;
+  display:flex;align-items:center;gap:6px;overflow-x:auto;scrollbar-width:none}
+.docnav-in::-webkit-scrollbar{display:none}
+.docnav-label{color:rgba(255,255,255,.42);font-size:12px;letter-spacing:.04em;
+  margin-right:8px;white-space:nowrap;flex:none}
+.docnav a{color:rgba(255,255,255,.72);text-decoration:none;font-size:13.5px;
+  padding:5px 11px;border-radius:2px;white-space:nowrap;flex:none;
+  transition:background .12s,color .12s}
+.docnav a:hover{color:#fff;background:rgba(255,255,255,.10)}
+.docnav a[aria-current="page"]{color:#fff;background:rgba(255,255,255,.16);font-weight:500}
+.docnav a:focus-visible{outline:2px solid #6E96FF;outline-offset:2px}
+@media (max-width:760px){.docnav-in{padding:8px 16px}.docnav-label{display:none}}
+</style>
 </head>
 <body>
+
+<nav class="docnav" aria-label="文档导航"><div class="docnav-in">
+  <span class="docnav-label">CX8 / B300 文档</span>
+  <a href="cx8-firmware-fault-report.html" aria-current="page">故障报告</a>
+  <a href="cx8-diagnostics.html">诊断命令</a>
+  <a href="cx8-loopback.html">自环测试</a>
+  <a href="b300-fru-sn-sop.html">FRU SN SOP</a>
+</div></nav>
 
 <header class="mast">
   <h1>ConnectX-8 端口全数无法启用 故障报告</h1>
