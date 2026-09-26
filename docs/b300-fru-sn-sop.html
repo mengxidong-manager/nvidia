@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>技嘉 B300 FRU 序列号修改 SOP</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#E7ECEF; --surface:#FFFFFF; --sunk:#F2F5F7;
+  --ink:#152029; --muted:#5A6B77; --faint:#8A9AA5;
+  --rule:#C6D1D8; --hair:#DCE4E9;
+  --green:#1C9B47; --amber:#C97A05; --chassis:#1B45C4; --danger:#B3261E;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F171D; --surface:#17222B; --sunk:#111B22;
+    --ink:#DCE6EC; --muted:#93A5B1; --faint:#6B7D89;
+    --rule:#2B3A45; --hair:#22303A;
+    --green:#3ECB6D; --amber:#F0A32E; --chassis:#6E96FF; --danger:#F2857C;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F171D; --surface:#17222B; --sunk:#111B22;
+  --ink:#DCE6EC; --muted:#93A5B1; --faint:#6B7D89;
+  --rule:#2B3A45; --hair:#22303A;
+  --green:#3ECB6D; --amber:#F0A32E; --chassis:#6E96FF; --danger:#F2857C;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:calc(78px + env(safe-area-inset-top,0px));-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+  font-weight:400;line-height:1.8;font-size:16px;
+}
+code,kbd,pre{font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+.mast{padding:52px 24px 30px;max-width:1000px;margin:0 auto}
+.mast h1{font-size:clamp(28px,4.4vw,42px);line-height:1.2;font-weight:700;letter-spacing:-.02em;margin:0 0 14px;max-width:20ch}
+.mast .sub{margin:0 0 26px;color:var(--muted);font-size:clamp(15px,1.6vw,18px);font-weight:300;max-width:56ch}
+.chips{display:flex;gap:10px;flex-wrap:wrap}
+.chip{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--surface);border:1px solid var(--rule);
+  padding:8px 14px;border-radius:2px;font-size:13.5px;color:var(--muted);
+}
+.chip code{color:var(--chassis);font-weight:600;font-size:13px}
+
+.bar{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:40;
+  background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--rule);
+}
+.barin{max-width:1000px;margin:0 auto;padding:11px 24px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.barin::-webkit-scrollbar{display:none}
+.barin a{color:var(--muted);text-decoration:none;font-size:14px;white-space:nowrap;padding:6px 10px;border-radius:2px}
+.barin a:hover{color:var(--ink);background:var(--sunk)}
+.barin a:focus-visible,.copy:focus-visible{outline:2px solid var(--chassis);outline-offset:2px}
+@media (max-width:760px){.barin{padding:10px 16px}}
+
+main{max-width:1000px;margin:0 auto;padding:0 24px 96px}
+@media (max-width:760px){.mast{padding:36px 16px 24px}main{padding:0 16px 72px}}
+
+section{margin-top:60px;scroll-margin-top:calc(86px + env(safe-area-inset-top,0px))}
+section>h2{
+  font-size:21px;font-weight:700;margin:0 0 6px;letter-spacing:-.01em;
+  padding-bottom:9px;border-bottom:2px solid var(--ink);
+  display:flex;align-items:baseline;gap:12px;
+}
+section>h2 .no{
+  font-family:"JetBrains Mono",monospace;font-size:14px;font-weight:600;
+  color:var(--chassis);flex:none;
+}
+h3{font-size:16px;font-weight:500;margin:30px 0 8px}
+h4{font-size:13px;font-weight:600;color:var(--chassis);margin:24px 0 6px}
+p{margin:12px 0;max-width:70ch}
+p.lead{color:var(--muted);font-weight:300;margin-top:14px}
+ul,ol{margin:12px 0;padding-left:22px;max-width:70ch}
+li{margin:5px 0}
+strong{font-weight:500}
+
+.cb{position:relative;margin:16px 0}
+.cb pre{
+  margin:0;background:var(--sunk);border:1px solid var(--hair);border-left:2px solid var(--rule);
+  padding:14px 16px;overflow-x:auto;font-size:13.5px;line-height:1.95;
+}
+.cb code{color:var(--ink);white-space:pre}
+.copy{
+  position:absolute;top:8px;right:8px;
+  font-family:"Noto Sans SC",sans-serif;font-size:11.5px;
+  color:var(--faint);background:var(--surface);border:1px solid var(--hair);
+  border-radius:2px;padding:2px 8px;cursor:pointer;opacity:0;transition:opacity .12s,color .12s,border-color .12s;
+}
+.cb:hover .copy,.copy:focus-visible{opacity:1}
+.copy:hover{color:var(--chassis);border-color:var(--chassis)}
+.copy.ok{opacity:1;color:var(--green);border-color:var(--green)}
+@media (hover:none){.copy{opacity:1}}
+
+.tblwrap{overflow-x:auto;margin:18px 0;border:1px solid var(--hair)}
+table{border-collapse:collapse;width:100%;min-width:460px;font-size:14.5px}
+th,td{text-align:left;padding:11px 15px;border-bottom:1px solid var(--hair);vertical-align:top}
+thead th{background:var(--sunk);font-weight:500;font-size:13px;color:var(--muted);border-bottom:1px solid var(--rule)}
+tbody tr:last-child td{border-bottom:none}
+td:last-child{color:var(--muted);font-weight:300}
+td.st{font-weight:500;white-space:nowrap}
+td.idx{font-family:"JetBrains Mono",monospace;font-weight:600;color:var(--chassis);width:62px}
+tr.hit td{background:color-mix(in srgb,var(--chassis) 7%,transparent)}
+tr.hit td.st,tr.hit td:last-child{color:var(--ink);font-weight:500}
+
+.warn,.stop{margin:20px 0;padding:14px 18px;background:var(--sunk);border:1px solid var(--hair)}
+.warn{border-left:3px solid var(--amber)}
+.stop{border-left:3px solid var(--danger)}
+.warn p,.stop p{margin:0;max-width:72ch}
+.warn strong{color:var(--amber)}
+.stop strong{color:var(--danger)}
+
+.chk{list-style:none;padding-left:0}
+.chk li{padding-left:24px;position:relative}
+.chk li::before{content:"□";position:absolute;left:0;color:var(--faint)}
+
+footer{max-width:1000px;margin:0 auto;padding:30px 24px 60px;border-top:1px solid var(--hair);color:var(--faint);font-size:13px;font-weight:300}
+@media (max-width:760px){footer{padding:26px 16px 48px}}
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <h1>技嘉 B300 FRU 序列号修改 SOP</h1>
+  <p class="sub">更换主板后通过 ipmitool 恢复主板 SN 与整机 SN 的标准作业流程</p>
+  <div class="chips">
+    <span class="chip">整机 SN <code>field p 4</code> · 14 位</span>
+    <span class="chip">主板 SN <code>field b 2</code> · 11 位</span>
+  </div>
+</header>
+
+<div class="bar"><div class="barin">
+<a href="#scope">适用范围</a>
+<a href="#risk">风险提示</a>
+<a href="#install">工具安装</a>
+<a href="#conn">建立连接</a>
+<a href="#backup">备份</a>
+<a href="#fields">字段对照</a>
+<a href="#precheck">长度预检</a>
+<a href="#exec">执行修改</a>
+<a href="#verify">验证收尾</a>
+<a href="#rollback">异常回滚</a>
+<a href="#record">记录模板</a>
+</div></div>
+
+<main>
+
+<section id="scope">
+<h2><span class="no">01</span>适用范围</h2>
+
+<div class="tblwrap"><table>
+<tbody>
+<tr><td class="st">适用场景</td><td>更换主板后恢复主板 SN；整机 SN 丢失或错误需要重写</td></tr>
+<tr><td class="st">适用设备</td><td>技嘉 HGX B300 系列服务器</td></tr>
+<tr><td class="st">执行人</td><td>经授权的现场工程师，需持有效工单</td></tr>
+<tr><td class="st">前置条件</td><td>BMC 网络可达、持有管理员凭据、已从工单确认目标 SN</td></tr>
+<tr><td class="st">本次范围</td><td>仅修改 Board Serial 与 Product Serial，不涉及 Chassis Serial</td></tr>
+</tbody>
+</table></div>
+
+<div class="stop">
+<p><strong>以下情况不适用本 SOP，请联系厂商支持：</strong>BMC 无法登录；<code>fru print</code> 输出出现 checksum 错误，说明 FRU 区域已损坏；目标 SN 无法从工单或设备标签确认。不要凭猜测写入。</p>
+</div>
+</section>
+
+<section id="risk">
+<h2><span class="no">02</span>风险提示</h2>
+
+<div class="stop">
+<p><strong>FRU 写入即刻生效且不可撤销。</strong>没有版本历史，写错只能再写一次覆盖，前提是你知道原值。因此第 05 节的备份是强制步骤，不是可选项。</p>
+</div>
+
+<div class="stop">
+<p><strong>写入期间不得断电或重启 BMC。</strong>FRU EEPROM 写到一半掉电会导致该区域校验失败，后果是整机识别异常，可能需要返厂。</p>
+</div>
+
+<div class="warn">
+<p><strong>SN 错误会影响保修。</strong>主板 SN 与整机 SN 不匹配，或与厂商出厂记录不符，售后可能拒保。执行前务必与工单逐字符核对。</p>
+</div>
+</section>
+
+<section id="install">
+<h2><span class="no">03</span>工具安装</h2>
+
+<h3>Ubuntu / Debian</h3>
+<div class="cb"><pre><code>apt update
+apt install -y ipmitool
+ipmitool -V</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<h3>RHEL / CentOS / Rocky</h3>
+<div class="cb"><pre><code>dnf install -y ipmitool
+# 旧版本发行版
+yum install -y OpenIPMI ipmitool
+ipmitool -V</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<p>建议版本 <strong>1.8.18 以上</strong>。低版本的 <code>fru edit</code> 子命令支持不完整，可能出现静默失败。</p>
+
+<h3>本机直连方式（优先推荐）</h3>
+<p>如果能在被操作的服务器本机上执行，走内核接口而不走网络更稳妥，中途不会因为网络抖动中断写入。</p>
+<div class="cb"><pre><code>modprobe ipmi_si
+modprobe ipmi_devintf
+systemctl start ipmi          # 部分发行版需要
+
+ipmitool -I open fru print 0</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+<p>采用本机方式时，后续所有命令把 <code>-H $BMC -U $BMCUSER -P $BMCPASS -I lanplus</code> 整段替换为 <code>-I open</code> 即可。</p>
+
+<h3>Windows</h3>
+<p>从 ipmitool 官方发布页下载 Windows 构建，解压后在 PowerShell 中使用，命令参数与 Linux 完全一致。</p>
+</section>
+
+<section id="conn">
+<h2><span class="no">04</span>建立连接</h2>
+
+<div class="cb"><pre><code>export BMC=&lt;BMC_IP&gt;
+export BMCUSER=&lt;user&gt;
+export BMCPASS=&lt;password&gt;
+
+ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus mc info</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<p>能返回 BMC 固件版本即连接正常。连接失败时按以下顺序排查：</p>
+
+<div class="cb"><pre><code># 换加密套件
+ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus -C 17 mc info
+ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus -C 3 mc info
+
+# 确认端口可达，IPMI over LAN 走 UDP 623
+nc -zvu $BMC 623</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<div class="warn">
+<p><strong>凭据安全。</strong>命令行带明文密码会进入 shell history 和进程列表。正式环境建议改用 <code>-f &lt;密码文件&gt;</code>，或用 <code>-a</code> 交互式输入。操作完成后执行 <code>history -c</code> 清理。</p>
+</div>
+</section>
+
+<section id="backup">
+<h2><span class="no">05</span>备份现有 FRU</h2>
+
+<div class="stop">
+<p><strong>这一步不完成不得进入第 08 节。</strong>二进制备份是唯一能完整回滚的依据。</p>
+</div>
+
+<div class="cb"><pre><code>mkdir -p /root/fru-backup
+cd /root/fru-backup
+
+# 二进制完整备份
+ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus \
+  fru read 0 fru0-before-$(date +%F-%H%M).bin
+
+# 文本快照，便于人工核对
+ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus \
+  fru print 0 &gt; fru0-before-$(date +%F-%H%M).txt
+
+ls -l
+cat fru0-before-*.txt</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<p>确认 <code>.bin</code> 文件大小非零、<code>.txt</code> 内容完整，并将两个文件复制到本机之外的位置留存。</p>
+
+<h4>读取当前值并记录到工单</h4>
+<div class="cb"><pre><code>ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus fru print 0</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<p>逐字符抄录输出中的 <code>Board Serial</code> 与 <code>Product Serial</code> 当前值。同时确认输出末尾没有 checksum 相关报错。</p>
+</section>
+
+<section id="fields">
+<h2><span class="no">06</span>字段对照</h2>
+
+<p><code>fru edit &lt;FRU_ID&gt; field &lt;区域&gt; &lt;索引&gt; &lt;新值&gt;</code> 三个参数的含义如下。</p>
+
+<h4>区域代码</h4>
+<div class="tblwrap"><table>
+<thead><tr><th>代码</th><th>区域</th></tr></thead>
+<tbody>
+<tr><td class="idx">c</td><td>Chassis Area 机箱区</td></tr>
+<tr class="hit"><td class="idx">b</td><td>Board Area 主板区</td></tr>
+<tr class="hit"><td class="idx">p</td><td>Product Area 产品区</td></tr>
+</tbody>
+</table></div>
+
+<h4>Board Area 索引</h4>
+<div class="tblwrap"><table>
+<thead><tr><th>索引</th><th>字段</th><th>本次操作</th></tr></thead>
+<tbody>
+<tr><td class="idx">0</td><td>Board Manufacturer</td><td>—</td></tr>
+<tr><td class="idx">1</td><td>Board Product Name</td><td>—</td></tr>
+<tr class="hit"><td class="idx">2</td><td>Board Serial</td><td>主板 SN，本次修改</td></tr>
+<tr><td class="idx">3</td><td>Board Part Number</td><td>—</td></tr>
+<tr><td class="idx">4</td><td>FRU File ID</td><td>—</td></tr>
+</tbody>
+</table></div>
+
+<h4>Product Area 索引</h4>
+<div class="tblwrap"><table>
+<thead><tr><th>索引</th><th>字段</th><th>本次操作</th></tr></thead>
+<tbody>
+<tr><td class="idx">0</td><td>Product Manufacturer</td><td>—</td></tr>
+<tr><td class="idx">1</td><td>Product Name</td><td>—</td></tr>
+<tr><td class="idx">2</td><td>Product Part Number</td><td>—</td></tr>
+<tr><td class="idx">3</td><td>Product Version</td><td>—</td></tr>
+<tr class="hit"><td class="idx">4</td><td>Product Serial</td><td>整机 SN，本次修改</td></tr>
+<tr><td class="idx">5</td><td>Product Asset Tag</td><td>—</td></tr>
+<tr><td class="idx">6</td><td>FRU File ID</td><td>—</td></tr>
+</tbody>
+</table></div>
+</section>
+
+<section id="precheck">
+<h2><span class="no">07</span>长度预检</h2>
+
+<div class="stop">
+<p><strong>ipmitool 的 <code>fru edit</code> 不能改变字段长度。</strong>新值长度必须与原值完全一致，否则命令报错；部分版本会静默截断，后果更严重。</p>
+</div>
+
+<h4>技嘉 B300 的 SN 格式</h4>
+<div class="tblwrap"><table>
+<thead><tr><th>类型</th><th>字段</th><th>样例</th><th>长度</th></tr></thead>
+<tbody>
+<tr><td class="st">整机 SN</td><td><code>field p 4</code></td><td><code>GQL4R7412A0048</code></td><td><strong>14 位</strong></td></tr>
+<tr><td class="st">主板 SN</td><td><code>field b 2</code></td><td><code>QG7N6400068</code></td><td><strong>11 位</strong></td></tr>
+</tbody>
+</table></div>
+
+<p>两者均为纯大写字母与数字。上述长度依据实际样例，不同批次可能存在差异，<strong>每次仍以设备标签和当前 FRU 读数为准</strong>。</p>
+
+<h4>自动校验</h4>
+<div class="cb"><pre><code>NEW_MB="QG7N6400068"          # 替换为目标主板 SN
+NEW_SYS="GQL4R7412A0048"      # 替换为目标整机 SN
+
+OLD_MB=$(ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus fru print 0 \
+         | grep "Board Serial" | cut -d: -f2- | xargs)
+OLD_SYS=$(ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus fru print 0 \
+         | grep "Product Serial" | cut -d: -f2- | xargs)
+
+printf "主板 SN  当前 [%s] %d 位 -> 目标 [%s] %d 位\n" \
+       "$OLD_MB" ${#OLD_MB} "$NEW_MB" ${#NEW_MB}
+printf "整机 SN  当前 [%s] %d 位 -> 目标 [%s] %d 位\n" \
+       "$OLD_SYS" ${#OLD_SYS} "$NEW_SYS" ${#NEW_SYS}
+
+[ ${#NEW_MB} -eq ${#OLD_MB} ]   &amp;&amp; echo "主板 SN 长度匹配" || echo "主板 SN 长度不符，停止"
+[ ${#NEW_SYS} -eq ${#OLD_SYS} ] &amp;&amp; echo "整机 SN 长度匹配" || echo "整机 SN 长度不符，停止"</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<p>两项都显示「长度匹配」才进入下一节。长度不符时的处理：</p>
+<ul>
+<li><strong>新值较短</strong>：用尾部空格补齐到相同长度</li>
+<li><strong>新值较长</strong>：只能编辑二进制 FRU 后整体写回，见第 10 节</li>
+</ul>
+</section>
+
+<section id="exec">
+<h2><span class="no">08</span>执行修改</h2>
+
+<p class="lead">一次改一个字段，改完立即验证，不要连续执行两条命令。</p>
+
+<h4>修改主板 SN</h4>
+<div class="cb"><pre><code>ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus \
+  fru edit 0x0 field b 2 "$NEW_MB"
+
+ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus \
+  fru print 0 | grep "Board Serial"</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<h4>修改整机 SN</h4>
+<p>确认主板 SN 无误后再执行。</p>
+<div class="cb"><pre><code>ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus \
+  fru edit 0x0 field p 4 "$NEW_SYS"
+
+ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus \
+  fru print 0 | grep "Product Serial"</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+</section>
+
+<section id="verify">
+<h2><span class="no">09</span>验证与收尾</h2>
+
+<h4>BMC 冷复位</h4>
+<p>让新值在各管理接口生效。复位约需 1 到 2 分钟，期间不要断电。</p>
+<div class="cb"><pre><code>ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus mc reset cold
+
+sleep 120
+ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus fru print 0</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<h4>操作系统侧交叉验证</h4>
+<p>需要主机重启后 BIOS 重新读取 FRU，SMBIOS 才会更新。</p>
+<div class="cb"><pre><code>dmidecode -s baseboard-serial-number
+dmidecode -s system-serial-number</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<h4>Redfish 交叉验证</h4>
+<div class="cb"><pre><code>curl -sk -u $BMCUSER:$BMCPASS https://$BMC/redfish/v1/Systems/ | jq
+curl -sk -u $BMCUSER:$BMCPASS https://$BMC/redfish/v1/Chassis/ | jq</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<h4>留存修改后备份</h4>
+<div class="cb"><pre><code>cd /root/fru-backup
+ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus \
+  fru read 0 fru0-after-$(date +%F-%H%M).bin
+ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus \
+  fru print 0 &gt; fru0-after-$(date +%F-%H%M).txt
+
+history -c</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+</section>
+
+<section id="rollback">
+<h2><span class="no">10</span>异常处理与回滚</h2>
+
+<h3>完整回滚</h3>
+<p>用第 05 节的二进制备份整体写回。</p>
+<div class="cb"><pre><code>ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus \
+  fru write 0 /root/fru-backup/fru0-before-&lt;时间戳&gt;.bin
+
+ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus mc reset cold</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<h3>长度不一致时的二进制改法</h3>
+<div class="warn">
+<p><strong>FRU 各区域末尾有校验字节，手工改动必须同步重算。</strong>字段前一字节是长度与类型编码，改内容时需一并调整。没有把握就不要手改二进制，联系技嘉支持获取官方 FRU 烧录工具。</p>
+</div>
+<div class="cb"><pre><code>ipmitool ... fru read 0 fru0-edit.bin
+hexdump -C fru0-edit.bin | less
+# 推荐用 frugy 等工具处理，避免手工破坏校验和
+ipmitool ... fru write 0 fru0-edit.bin</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<h3>常见报错</h3>
+<div class="tblwrap"><table>
+<thead><tr><th>报错</th><th>原因与处理</th></tr></thead>
+<tbody>
+<tr><td class="st">Length of the new string is not the same</td><td>新值长度不符，回到第 07 节重新核对</td></tr>
+<tr><td class="st">FRU write failed</td><td>权限不足，确认账号具备 Administrator 权限</td></tr>
+<tr><td class="st">Unable to establish IPMI v2 / RMCP+ session</td><td>凭据或加密套件问题，尝试 <code>-C 17</code> 或 <code>-C 3</code></td></tr>
+<tr><td class="st">fru print 出现 checksum 错误</td><td>FRU 区域已损坏，立即停止操作，联系厂商</td></tr>
+<tr><td class="st">写入后值未变化</td><td>执行 <code>mc reset cold</code> 后再查询</td></tr>
+</tbody>
+</table></div>
+</section>
+
+<section id="record">
+<h2><span class="no">11</span>记录模板</h2>
+<p class="lead">每次操作填写一份，随工单归档。</p>
+
+<div class="cb"><pre><code>操作日期：
+执行人：
+工单号：
+服务器位置（机房 / 机柜 / U 位）：
+BMC IP：
+
+修改前
+  Board Serial   ：                    长度：
+  Product Serial ：                    长度：
+  备份文件路径   ：
+
+修改后
+  Board Serial   ：                    长度：
+  Product Serial ：                    长度：
+  备份文件路径   ：
+
+备注：</code></pre><button class="copy" type="button" aria-label="复制">复制</button></div>
+
+<h4>执行检查项</h4>
+<ul class="chk">
+<li>已从工单确认目标 SN，逐字符核对</li>
+<li>已完成二进制与文本双重备份，并复制到本机之外</li>
+<li>长度预检两项均显示匹配</li>
+<li>主板 SN 修改后已单独验证</li>
+<li>整机 SN 修改后已单独验证</li>
+<li>已执行 BMC 冷复位并复查</li>
+<li>已留存修改后的 FRU 备份</li>
+<li>已清理 shell history</li>
+<li>dmidecode 验证（需主机重启后执行）</li>
+</ul>
+</section>
+
+</main>
+
+<footer>本 SOP 适用于技嘉 HGX B300 系列服务器，仅涉及 Board Serial 与 Product Serial 两个字段。SN 长度依据实际样例整理，不同批次可能存在差异，现场以设备标签与当前 FRU 读数为准。</footer>
+
+<script>
+(function(){
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('.copy');
+    if(!b) return;
+    var txt = b.parentNode.querySelector('code').textContent, done = function(){
+      var old = b.textContent;
+      b.textContent = '已复制'; b.classList.add('ok');
+      setTimeout(function(){ b.textContent = old; b.classList.remove('ok'); }, 1400);
+    };
+    if(navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(txt).then(done).catch(fallback);
+    } else { fallback(); }
+    function fallback(){
+      var t = document.createElement('textarea');
+      t.value = txt; t.setAttribute('readonly','');
+      t.style.position='fixed'; t.style.opacity='0';
+      document.body.appendChild(t); t.select();
+      try { document.execCommand('copy'); done(); } catch(err){}
+      document.body.removeChild(t);
+    }
+  });
+})();
+</script>
+</body>
+</html>
