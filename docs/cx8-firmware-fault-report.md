@@ -198,6 +198,110 @@ ext_synd 0x035e 的具体语义需 NVIDIA 内部错误码表解读，现场无�
 
 **诊断工具缺失**　本机 MFT 中缺少 flint 与 mstregdump，诊断包内对应文件为空。可安装开源 mstflint 包补齐（命令名带 mst 前缀），或从技嘉获取完整 MFT。核心版本信息已由 mlxfwmanager --query 覆盖，不影响报障。
 
+## 诊断命令记录
+
+以下为本次排查实际执行的命令，按时间顺序分组，并注明各自揭示的信息。命令中的设备标识与接口名需按现场实际替换。通用命令速查见同目录下的 ConnectX / InfiniBand 网络诊断命令手册。
+
+### 交换机侧（H3C Comware）
+
+故障最初从交换机端口无法 UP 发现，光功率读数是第一份关键证据。
+
+| 命令 | 揭示的信息 |
+|---|---|
+| `display interface FourHundredGigE 1/0/1` | 端口状态、协商速率、FEC |
+| `display transceiver diagnosis interface FourHundredGigE 1/0/1` | 本端 Tx 正常、四通道 Rx 一致为 -36.96 dBm |
+| `display transceiver interface FourHundredGigE 1/0/1` | 模块类型、波长、厂商 |
+| `display transceiver manuinfo interface FourHundredGigE 1/0/1` | 厂商序列号、料号，报障用 |
+| `display transceiver alarm interface FourHundredGigE 1/0/1` | 模块自身告警项 |
+
+### 服务器侧　设备发现与映射
+
+建立 MST 设备、RDMA 设备、网口名三者的对应关系，后续所有命令的参数都由此而来。
+
+| 命令 | 揭示的信息 |
+|---|---|
+| `mst start` | 加载 MST 驱动，创建 /dev/mst 节点 |
+| `mst status -v` | 列出 8 个 mt4131 设备节点 |
+| `ibdev2netdev -v` | 确认 pciconf0/1 对应 enp115s0f0np0 / enp115s0f1np0；20 口全部 Down |
+| `lspci -d 15b3: -vvv \| grep -E "LnkCap:\|LnkSta:"` | CX8 端点 64GT/s x16，卡上行桥 32GT/s |
+| `lspci -tv` | 确认 CX8 集成交换机下同时挂载网络端点与 GPU |
+
+### 服务器侧　端口与光模块
+
+确认激光器未开启，且本端能正常收到交换机发来的光，据此排除光纤与极性问题。
+
+| 命令 | 揭示的信息 |
+|---|---|
+| `mlxlink -d /dev/mst/mt4131_pciconf0 -p 1` | State 为 Close port，Physical state 为 ETH_AN_FSM_ENABLE |
+| `mlxlink -d /dev/mst/mt4131_pciconf0 -p 1 -m \| grep -i -E "rx\|tx\|power"` | Tx 全为 -40 dBm，Rx 为 0.398 ~ 2.028 dBm，Tx Fault 全 0 |
+| `for d in /dev/mst/mt4131_pciconf*; do mlxlink -d $d -p 1 \| grep -m1 "^State"; done` | 16 个端口状态一致，确认为全局性问题 |
+| `ip link set <iface> up` | admin state 置位成功，但 State 与 Tx Power 无变化 |
+| `ip -br link show \| grep -E "enp\|ibs"` | 区分 admin state 与 operational state |
+
+### 服务器侧　定位到固件
+
+从内核日志锁定根因。poll_health 那一条是决定性证据，说明固件已停止响应而非仅报错。
+
+| 命令 | 揭示的信息 |
+|---|---|
+| `dmesg -T \| grep -c "ext_synd 0x035e"` | 32 条，即 16 端口各 2 次 |
+| `dmesg -T \| grep -c "health compromised"` | 16 条，每端口 1 次，固件心跳停止 |
+| `dmesg -T \| grep -B20 "ext_synd 0x035e" \| head -80` | 完整 health buffer：assert_var、assert_exit_ptr、rfr、crr、hw_id |
+| `dmesg -T \| grep -B4 "ext_synd 0x035e" \| grep -oP 'mlx5_core \K[0-9a-f:.]+' \| sort -u` | 受影响设备清单，确认 16/16 |
+| `dmesg -T \| grep "ext_synd" \| awk '{print $NF}' \| sort \| uniq -c` | 确认全部为同一错误码，无其他 synd |
+| `dmesg -T \| grep -i -E "mlx5" \| grep -iE "err\|fail\|warn"` | 排查是否存在其他被忽略的 mlx5 报错 |
+
+### 对照与排除
+
+同机 CX7 与 GPU 的状态是排除软件栈与平台层面问题的关键对照。
+
+| 命令 | 揭示的信息 |
+|---|---|
+| `dmesg -T \| grep "0000:d9:00.0"` | CX7 加载过程干净，无任何 health 报错 |
+| `ibstat mlx5_10` | CX7 端口状态，区分 IB 与 Ethernet 模式 |
+| `nvidia-smi` | 8 颗 GPU 全部在位，ECC 全 0，排除 GPU 相关 |
+| `mlxconfig -d /dev/mst/mt4131_pciconf0 query \| grep LINK_TYPE` | 确认工作模式为以太网 |
+
+### 处置尝试
+
+按风险从低到高依次尝试，每步失败的原因都记录在案，避免厂商要求重做。
+
+| 命令 | 揭示的信息 |
+|---|---|
+| `mlxlink -d /dev/mst/mt4131_pciconf0 -p 1 --test_mode DS` | 清除可能残留的 PRBS 测试状态 |
+| `mlxlink -d /dev/mst/mt4131_pciconf0 -p 1 --loopback NO` | 清除可能残留的环回配置 |
+| `mlxfwreset -d /dev/mst/mt4131_pciconf0 -l 3 query` | 确认平台支持的 reset level |
+| `mlxfwreset -d /dev/mst/mt4131_pciconf0 -l 3 reset` | 被 GPU 驱动阻止，未强制绕过 |
+| `bash H100_tool_V1.0.11.sh <BMC> <user> <pw> update <fwpkg> 35` | HGX 固件更新，22 分钟完成 |
+| — | 完整冷启动：整机断电约 1 分钟后重新上电，错误原样复现 |
+
+### 固件与版本核对
+
+固件包 manifest 的核对是本次排查的转折点，它证明了故障版本就是出厂版本。
+
+| 命令 | 揭示的信息 |
+|---|---|
+| `mlxfwmanager --query` | CX8 固件 40.48.1132、PSID NVD0000000072、料号 P6612_Ax |
+| `ofed_info -s` | OFED-internal-26.04-0.8.6 |
+| `curl -sk -u <user>:<pw> https://<BMC>/redfish/v1/UpdateService/FirmwareInventory` | 发现 HMC 管理 HGX_FW_ConnectX_0~7，CX8 属受管组件 |
+| `curl -sk -u <user>:<pw> https://<BMC>/redfish/v1/UpdateService/FirmwareInventory/HGX_FW_ConnectX_0` | HMC 侧报告的单个 CX8 固件版本 |
+| `cat nvfw_HGX-B300x8_0006_260610.1.1_custom-signed.fwpkg.json` | manifest 显示包内 CX8 版本即为 40.48.1132 |
+
+### 诊断包采集
+
+提交厂商前的一次性采集。在重启或任何可能清除现场的操作之前执行。
+
+| 命令 | 揭示的信息 |
+|---|---|
+| `mkdir -p /root/cx8-case && cd /root/cx8-case` | 建立采集目录 |
+| `dmesg -T > dmesg-before-reboot.txt` | 完整内核日志，重启会丢失 |
+| `mlxfwmanager --query > fwmanager.txt` | 全部设备的固件版本与 PSID |
+| `ofed_info -s > ofed.txt` | OFED 版本 |
+| `lspci -d 15b3: -vvv > lspci.txt` | PCIe 链路能力与协商结果 |
+| `lspci -tv > pcie-tree.txt` | PCIe 拓扑 |
+| `for d in /dev/mst/mt4131_pciconf?; do mstflint -d $d query > flint-$(basename $d).txt; done` | 本机 MFT 缺少该命令，需先安装 mstflint |
+| `tar czf cx8-case-$(date +%F-%H%M).tar.gz *.txt` | 打包提交 |
+
 ## 附录：诊断包内容
 
 文件名 `cx8-case-2026-09-26-0502.tar.gz`
