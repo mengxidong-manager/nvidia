@@ -4,8 +4,8 @@
 
 | 字段 | 命令参数 | 样例 | 长度 |
 |---|---|---|---|
-| 整机 SN | `field p 4` | `GQL4R7412A0048` | 14 位 |
-| 主板 SN | `field b 2` | `QG7N6400068` | 11 位 |
+| 整机 SN | `field p 4` | `XXXXXXXXXXXXXX` | 14 位 |
+| 主板 SN | `field b 2` | `XXXXXXXXXXX` | 11 位 |
 
 ## 01　适用范围
 
@@ -159,11 +159,13 @@ ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus fru print 0
 
 技嘉 B300 的 SN 格式：整机 SN 14 位、主板 SN 11 位，均为纯大写字母与数字。上述长度依据实际样例，不同批次可能存在差异，**每次仍以设备标签和当前 FRU 读数为准**。
 
+> ⚠️ **SN 等同于凭据，不要外传。** 技嘉部分批次的 BMC 出厂密码就是主板 SN，机箱标签条上序列号条码与 BMC 密码条码成对印刷。因此主板 SN 不要写进公开文档、工单截图或聊天记录。本文档所有样例已替换为 `X` 占位符，实际值请从设备标签或 `fru print` 现场读取。
+
 ### 自动校验
 
 ```bash
-NEW_MB="QG7N6400068"          # 替换为目标主板 SN
-NEW_SYS="GQL4R7412A0048"      # 替换为目标整机 SN
+NEW_MB="XXXXXXXXXXX"          # 替换为目标主板 SN
+NEW_SYS="XXXXXXXXXXXXXX"      # 替换为目标整机 SN
 
 OLD_MB=$(ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus fru print 0 \
          | grep "Board Serial" | cut -d: -f2- | xargs)
