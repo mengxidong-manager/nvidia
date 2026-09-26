@@ -61,7 +61,7 @@
 | 项 | 内容 |
 |------|------|
 | 型号【实拍确认】 | NVIDIA **MQM9790-NS2F**（Quantum-2 系列**液冷版**，NS2F = 水冷型号后缀） |
-| S/N（样本） | MT2410J00CH1，RS S/N RS81-2000-0024 |
+| S/N（样本） | MT2410JXXXXX，RS S/N RS81-2000-XXXX |
 | 规格 | Quantum-2 平台，64×400G NDR OSFP，51.2Tbps，SHARP 在网计算加速 |
 | 编号【实拍确认】 | `lbbz-leaf-1` 至 `lbbz-leaf-6...`（机柜 **A3**，垂直堆叠，U38/U34/U30/U26/U22/U18 等） |
 
@@ -70,7 +70,7 @@
 | 项 | 内容 |
 |------|------|
 | 型号【实拍确认】 | 同为 NVIDIA **MQM9790-NS2F**（与 Leaf 层同款硬件，标准两层胖树设计） |
-| S/N（样本） | MT2410J00E2K，RS S/N RS81-2000-0006 |
+| S/N（样本） | MT2410JXXXXX，RS S/N RS81-2000-XXXX |
 | 编号【实拍确认】 | `lbbz-spine-1~4`（机柜 **A1**，U22/U18/U14/U10）、`lbbz-spine-5~8`（机柜 **A2**，U22/U18/U14/U10），共 8 台 |
 | 电源 | 独立 PDU 分组供电（Bank-1/Bank-2/Bank-3/Bank-4），浅绿色 OM3 电源导轨线缆标识 |
 
@@ -106,8 +106,8 @@ Leaf 层直连各 GPU 节点的 8 条 rail，Spine 层负责跨 Leaf 的流量�
 | 型号【实拍确认】 | **H3C S9825 Series**（S9825-64D/64C），64×400G QSFP-DD 或 128×200GE QSFP56，51.2Tbps，原生支持 RoCEv2（PFC+ETS） |
 | 命名【实拍确认】 | 不叫笼统的 `storage-leaf`，而是独立编号的分支：**`leaf-3`（J01 机柜）、`leaf-4`（K01 机柜）**、**`mgt-leaf-1`（C19）、`mgt-leaf-2`（C20）** |
 | 线缆【实拍确认】 | 品红色（Magenta）**OM4 多模光纤**，LC 带拉环连接器 —— 与 B300 计算网的黄色单模 DR4 光纤、H200 计算网的浅绿 IB 光纤均明显区分，物理上三网隔离 |
-| S/N（K01/leaf-4） | 210235a53m5263l100...，RS S/N RS81-2000-00BE |
-| S/N（J01/leaf-3） | 210235a53m5265l1004...，RS S/N RS81-2000-00BD |
+| S/N（K01/leaf-4） | 210235xxxxxxxxxxx...，RS S/N RS81-2000-XXXX |
+| S/N（J01/leaf-3） | 210235xxxxxxxxxxxx...，RS S/N RS81-2000-XXXX |
 | 承载流量 | 服务器 **ST-2 存储端口**下联 + Leaf 间互联 + 上联 Spine |
 
 > 修正：此前文档【典型配置】猜测存储网走 NVIDIA Spectrum SN 系列，实拍确认为 **H3C S9825 系列**，且协议同样是 RoCEv2（不是 IB），线缆是多模光纤而非之前设想的铜缆或蓝色 LC。
