@@ -68,6 +68,7 @@ The following documents also ship as same-named `.html` files under `docs/`, wit
 - `cx8-diagnostics.html`
 - `cx8-loopback.html`
 - `cx8-firmware-fault-report.html`
+- `b300-fru-sn-sop.html`
 
 ---
 
