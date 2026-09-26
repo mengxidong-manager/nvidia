@@ -22,6 +22,7 @@
 | [B300/GB300 NVL72 技术全解](docs/B300_GB300_NVL72_技术全解.md) | Blackwell Ultra 架构 / B300 vs B200 / 散热 / 供电 / 内存 / 网络 |
 | [Vera Rubin NVL72 技术全解](docs/Vera_Rubin_NVL72_技术全解.md) | 架构 / 六大芯片 / 45°C 液冷 / 供电 / 存储 / 网络 |
 | [Gigabyte HGX B300 服务器运维手册](docs/Gigabyte_HGX_B300_服务器运维手册.md) | G894-ZD3-AAX7 硬件运维与维护流程 |
+| [NVIDIA Spectrum SN5000 系列选型参考](docs/NVIDIA_Spectrum_SN5000系列选型参考.md) | SN5600/SN5400 规格速查 / Spectrum-4 ASIC / 软件生态 / 与 H3C 对标分析 |
 
 ### 运维与故障排查
 
