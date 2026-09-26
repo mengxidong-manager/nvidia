@@ -10,7 +10,7 @@ English index for this repository. Document bodies are written in Chinese; all l
 
 | Document | Contents |
 |---|---|
-| [HGX B300 Training Cluster — As-Built Architecture v1.0](docs/HGX_B300%E8%AE%AD%E7%BB%83%E9%9B%86%E7%BE%A4%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88_1024GPU.md) | 127 nodes / 1016 GPUs, dual-plane RoCEv2, 76 H3C switches, WEKA, native K8s, capacity ledger |
+| [HGX B300 Training Cluster — Reference Architecture v1.0](docs/HGX_B300%E8%AE%AD%E7%BB%83%E9%9B%86%E7%BE%A4%E8%AE%BE%E8%AE%A1%E6%96%B9%E6%A1%88_1024GPU.md) | 1016-GPU scale, dual-plane RoCEv2, 76 H3C switches, WEKA, native K8s, capacity planning |
 | [HGX H200 Training Node Network — s110-b7](docs/HGX_H200%E8%AE%AD%E7%BB%83%E8%8A%82%E7%82%B9%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84_s110-b7.md) | Nameplate decoding, 8:8:2 topology, IBBZ compute fabric, cabling table |
 | [s110 Cluster Network — Switches & CPU Servers](docs/s110%E9%9B%86%E7%BE%A4%E7%BD%91%E7%BB%9C%E6%9E%B6%E6%9E%84_%E4%BA%A4%E6%8D%A2%E6%9C%BA%E4%B8%8ECPU%E6%9C%8D%E5%8A%A1%E5%99%A8.md) | Three-plane layering, switch inventory, CPU server roles, pod topology |
 | [800G Optics & Leaf Switch Connection Guide](docs/800G%E5%85%89%E6%A8%A1%E5%9D%97%E4%B8%8ELeaf%E4%BA%A4%E6%8D%A2%E6%9C%BA%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F%E8%AF%A6%E8%A7%A3.md) | 800G optical module types, breakout modes, Leaf switch port mapping |
@@ -52,7 +52,7 @@ English index for this repository. Document bodies are written in Chinese; all l
 
 | Diagram | Document |
 |---|---|
-| [B300 cluster network architecture](docs/images/b300-network-arch-127.svg) | As-built, 127 nodes |
+| [B300 cluster network architecture](docs/images/b300-network-arch-127.svg) | B300 reference architecture |
 | [Dual-plane fabric](docs/images/b300-dualplane.svg) | B300 cluster |
 | [Rack layout](docs/images/b300-rack-layout.svg) | B300 cluster |
 | [Fault handling flow](docs/images/gpu-fault-flow.svg) | Fallen-off-bus handbook |

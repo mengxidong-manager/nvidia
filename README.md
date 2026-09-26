@@ -52,9 +52,9 @@
 
 | 图 | 所属文档 |
 |------|------|
-| [B300 集群网络架构（现网）](docs/images/b300-network-arch-127.svg) | B300 现网架构文档 |
-| [双平面架构](docs/images/b300-dualplane.svg) | B300 现网架构文档 |
-| [机房布局](docs/images/b300-rack-layout.svg) | B300 现网架构文档 |
+| [B300 集群网络架构](docs/images/b300-network-arch-127.svg) | B300 参考架构文档 |
+| [双平面架构](docs/images/b300-dualplane.svg) | B300 参考架构文档 |
+| [机房布局](docs/images/b300-rack-layout.svg) | B300 参考架构文档 |
 | [掉卡故障处理流程](docs/images/gpu-fault-flow.svg) | 掉卡故障处理手册 |
 | [s110-b7 节点拓扑](docs/images/s110-b7-topology.svg) | H200 节点文档 |
 | [s110 pod 拓扑](docs/images/s110-pod-topology.svg) | s110 集群文档 |
