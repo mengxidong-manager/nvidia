@@ -125,6 +125,16 @@ ol.steps::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:
   border-left:2px solid var(--rule);color:var(--ink);font-size:14px;
 }
 
+.cmdgrp{margin-top:34px}
+.cmdgrp h3{font-size:15.5px;font-weight:500;margin:0 0 4px}
+.cmdgrp>p{margin:0 0 12px;color:var(--muted);font-size:14px;font-weight:300;max-width:76ch}
+table.cmd{min-width:600px}
+table.cmd td:first-child{
+  font-family:"JetBrains Mono",monospace;font-size:12.5px;
+  color:var(--ink);font-weight:400;width:52%;word-break:break-all;
+}
+table.cmd td:last-child{font-size:14px}
+
 footer{max-width:1040px;margin:0 auto;padding:28px 24px 60px;border-top:1px solid var(--hair);color:var(--faint);font-size:13px;font-weight:300}
 @media (max-width:760px){footer{padding:24px 16px 48px}}
 </style>
@@ -150,6 +160,7 @@ footer{max-width:1040px;margin:0 auto;padding:28px 24px 60px;border-top:1px soli
 <a href="#tried">已尝试处置</a>
 <a href="#next">建议动作</a>
 <a href="#watch">留意事项</a>
+<a href="#cmds">诊断命令</a>
 <a href="#appendix">附录</a>
 </div></div>
 
@@ -325,8 +336,57 @@ footer{max-width:1040px;margin:0 auto;padding:28px 24px 60px;border-top:1px soli
 <div class="note"><h3>诊断工具缺失</h3><p>本机 MFT 中缺少 flint 与 mstregdump，诊断包内对应文件为空。可安装开源 mstflint 包补齐（命令名带 mst 前缀），或从技嘉获取完整 MFT。核心版本信息已由 mlxfwmanager --query 覆盖，不影响报障。</p></div>
 </section>
 
+<section id="cmds">
+<h2><span class="no">08</span>诊断命令记录</h2>
+<p class="lead">以下为本次排查实际执行的命令，按时间顺序分组，并注明各自揭示的信息。命令中的设备标识与接口名需按现场实际替换。通用命令速查见同目录下的 ConnectX / InfiniBand 网络诊断命令手册。</p>
+<div class="cmdgrp"><h3>交换机侧（H3C Comware）</h3><p>故障最初从交换机端口无法 UP 发现，光功率读数是第一份关键证据。</p><div class="tblwrap"><table class="cmd"><thead><tr><th>命令</th><th>揭示的信息</th></tr></thead><tbody><tr><td>display interface FourHundredGigE 1/0/1</td><td>端口状态、协商速率、FEC</td></tr>
+<tr><td>display transceiver diagnosis interface FourHundredGigE 1/0/1</td><td>本端 Tx 正常、四通道 Rx 一致为 -36.96 dBm</td></tr>
+<tr><td>display transceiver interface FourHundredGigE 1/0/1</td><td>模块类型、波长、厂商</td></tr>
+<tr><td>display transceiver manuinfo interface FourHundredGigE 1/0/1</td><td>厂商序列号、料号，报障用</td></tr>
+<tr><td>display transceiver alarm interface FourHundredGigE 1/0/1</td><td>模块自身告警项</td></tr></tbody></table></div></div>
+<div class="cmdgrp"><h3>服务器侧　设备发现与映射</h3><p>建立 MST 设备、RDMA 设备、网口名三者的对应关系，后续所有命令的参数都由此而来。</p><div class="tblwrap"><table class="cmd"><thead><tr><th>命令</th><th>揭示的信息</th></tr></thead><tbody><tr><td>mst start</td><td>加载 MST 驱动，创建 /dev/mst 节点</td></tr>
+<tr><td>mst status -v</td><td>列出 8 个 mt4131 设备节点</td></tr>
+<tr><td>ibdev2netdev -v</td><td>确认 pciconf0/1 对应 enp115s0f0np0 / enp115s0f1np0；20 口全部 Down</td></tr>
+<tr><td>lspci -d 15b3: -vvv | grep -E &quot;LnkCap:|LnkSta:&quot;</td><td>CX8 端点 64GT/s x16，卡上行桥 32GT/s</td></tr>
+<tr><td>lspci -tv</td><td>确认 CX8 集成交换机下同时挂载网络端点与 GPU</td></tr></tbody></table></div></div>
+<div class="cmdgrp"><h3>服务器侧　端口与光模块</h3><p>确认激光器未开启，且本端能正常收到交换机发来的光，据此排除光纤与极性问题。</p><div class="tblwrap"><table class="cmd"><thead><tr><th>命令</th><th>揭示的信息</th></tr></thead><tbody><tr><td>mlxlink -d /dev/mst/mt4131_pciconf0 -p 1</td><td>State 为 Close port，Physical state 为 ETH_AN_FSM_ENABLE</td></tr>
+<tr><td>mlxlink -d /dev/mst/mt4131_pciconf0 -p 1 -m | grep -i -E &quot;rx|tx|power&quot;</td><td>Tx 全为 -40 dBm，Rx 为 0.398 ~ 2.028 dBm，Tx Fault 全 0</td></tr>
+<tr><td>for d in /dev/mst/mt4131_pciconf*; do mlxlink -d $d -p 1 | grep -m1 &quot;^State&quot;; done</td><td>16 个端口状态一致，确认为全局性问题</td></tr>
+<tr><td>ip link set &lt;iface&gt; up</td><td>admin state 置位成功，但 State 与 Tx Power 无变化</td></tr>
+<tr><td>ip -br link show | grep -E &quot;enp|ibs&quot;</td><td>区分 admin state 与 operational state</td></tr></tbody></table></div></div>
+<div class="cmdgrp"><h3>服务器侧　定位到固件</h3><p>从内核日志锁定根因。poll_health 那一条是决定性证据，说明固件已停止响应而非仅报错。</p><div class="tblwrap"><table class="cmd"><thead><tr><th>命令</th><th>揭示的信息</th></tr></thead><tbody><tr><td>dmesg -T | grep -c &quot;ext_synd 0x035e&quot;</td><td>32 条，即 16 端口各 2 次</td></tr>
+<tr><td>dmesg -T | grep -c &quot;health compromised&quot;</td><td>16 条，每端口 1 次，固件心跳停止</td></tr>
+<tr><td>dmesg -T | grep -B20 &quot;ext_synd 0x035e&quot; | head -80</td><td>完整 health buffer：assert_var、assert_exit_ptr、rfr、crr、hw_id</td></tr>
+<tr><td>dmesg -T | grep -B4 &quot;ext_synd 0x035e&quot; | grep -oP &#x27;mlx5_core \K[0-9a-f:.]+&#x27; | sort -u</td><td>受影响设备清单，确认 16/16</td></tr>
+<tr><td>dmesg -T | grep &quot;ext_synd&quot; | awk &#x27;{print $NF}&#x27; | sort | uniq -c</td><td>确认全部为同一错误码，无其他 synd</td></tr>
+<tr><td>dmesg -T | grep -i -E &quot;mlx5&quot; | grep -iE &quot;err|fail|warn&quot;</td><td>排查是否存在其他被忽略的 mlx5 报错</td></tr></tbody></table></div></div>
+<div class="cmdgrp"><h3>对照与排除</h3><p>同机 CX7 与 GPU 的状态是排除软件栈与平台层面问题的关键对照。</p><div class="tblwrap"><table class="cmd"><thead><tr><th>命令</th><th>揭示的信息</th></tr></thead><tbody><tr><td>dmesg -T | grep &quot;0000:d9:00.0&quot;</td><td>CX7 加载过程干净，无任何 health 报错</td></tr>
+<tr><td>ibstat mlx5_10</td><td>CX7 端口状态，区分 IB 与 Ethernet 模式</td></tr>
+<tr><td>nvidia-smi</td><td>8 颗 GPU 全部在位，ECC 全 0，排除 GPU 相关</td></tr>
+<tr><td>mlxconfig -d /dev/mst/mt4131_pciconf0 query | grep LINK_TYPE</td><td>确认工作模式为以太网</td></tr></tbody></table></div></div>
+<div class="cmdgrp"><h3>处置尝试</h3><p>按风险从低到高依次尝试，每步失败的原因都记录在案，避免厂商要求重做。</p><div class="tblwrap"><table class="cmd"><thead><tr><th>命令</th><th>揭示的信息</th></tr></thead><tbody><tr><td>mlxlink -d /dev/mst/mt4131_pciconf0 -p 1 --test_mode DS</td><td>清除可能残留的 PRBS 测试状态</td></tr>
+<tr><td>mlxlink -d /dev/mst/mt4131_pciconf0 -p 1 --loopback NO</td><td>清除可能残留的环回配置</td></tr>
+<tr><td>mlxfwreset -d /dev/mst/mt4131_pciconf0 -l 3 query</td><td>确认平台支持的 reset level</td></tr>
+<tr><td>mlxfwreset -d /dev/mst/mt4131_pciconf0 -l 3 reset</td><td>被 GPU 驱动阻止，未强制绕过</td></tr>
+<tr><td>bash H100_tool_V1.0.11.sh &lt;BMC&gt; &lt;user&gt; &lt;pw&gt; update &lt;fwpkg&gt; 35</td><td>HGX 固件更新，22 分钟完成</td></tr>
+<tr><td>—</td><td>完整冷启动：整机断电约 1 分钟后重新上电，错误原样复现</td></tr></tbody></table></div></div>
+<div class="cmdgrp"><h3>固件与版本核对</h3><p>固件包 manifest 的核对是本次排查的转折点，它证明了故障版本就是出厂版本。</p><div class="tblwrap"><table class="cmd"><thead><tr><th>命令</th><th>揭示的信息</th></tr></thead><tbody><tr><td>mlxfwmanager --query</td><td>CX8 固件 40.48.1132、PSID NVD0000000072、料号 P6612_Ax</td></tr>
+<tr><td>ofed_info -s</td><td>OFED-internal-26.04-0.8.6</td></tr>
+<tr><td>curl -sk -u &lt;user&gt;:&lt;pw&gt; https://&lt;BMC&gt;/redfish/v1/UpdateService/FirmwareInventory</td><td>发现 HMC 管理 HGX_FW_ConnectX_0~7，CX8 属受管组件</td></tr>
+<tr><td>curl -sk -u &lt;user&gt;:&lt;pw&gt; https://&lt;BMC&gt;/redfish/v1/UpdateService/FirmwareInventory/HGX_FW_ConnectX_0</td><td>HMC 侧报告的单个 CX8 固件版本</td></tr>
+<tr><td>cat nvfw_HGX-B300x8_0006_260610.1.1_custom-signed.fwpkg.json</td><td>manifest 显示包内 CX8 版本即为 40.48.1132</td></tr></tbody></table></div></div>
+<div class="cmdgrp"><h3>诊断包采集</h3><p>提交厂商前的一次性采集。在重启或任何可能清除现场的操作之前执行。</p><div class="tblwrap"><table class="cmd"><thead><tr><th>命令</th><th>揭示的信息</th></tr></thead><tbody><tr><td>mkdir -p /root/cx8-case &amp;&amp; cd /root/cx8-case</td><td>建立采集目录</td></tr>
+<tr><td>dmesg -T &gt; dmesg-before-reboot.txt</td><td>完整内核日志，重启会丢失</td></tr>
+<tr><td>mlxfwmanager --query &gt; fwmanager.txt</td><td>全部设备的固件版本与 PSID</td></tr>
+<tr><td>ofed_info -s &gt; ofed.txt</td><td>OFED 版本</td></tr>
+<tr><td>lspci -d 15b3: -vvv &gt; lspci.txt</td><td>PCIe 链路能力与协商结果</td></tr>
+<tr><td>lspci -tv &gt; pcie-tree.txt</td><td>PCIe 拓扑</td></tr>
+<tr><td>for d in /dev/mst/mt4131_pciconf?; do mstflint -d $d query &gt; flint-$(basename $d).txt; done</td><td>本机 MFT 缺少该命令，需先安装 mstflint</td></tr>
+<tr><td>tar czf cx8-case-$(date +%F-%H%M).tar.gz *.txt</td><td>打包提交</td></tr></tbody></table></div></div>
+</section>
+
 <section id="appendix">
-<h2><span class="no">08</span>附录：诊断包内容</h2>
+<h2><span class="no">09</span>附录：诊断包内容</h2>
 <p class="lead">文件名 <code>cx8-case-2026-09-26-0502.tar.gz</code></p>
 <div class="tblwrap"><table>
 <thead><tr><th>文件</th><th>内容</th></tr></thead>
