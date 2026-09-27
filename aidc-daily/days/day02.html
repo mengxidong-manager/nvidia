@@ -1,1 +1,62 @@
-TMP
+<div class="flowbox wob box">
+  <div class="lab hd">显存出错后，GPU 做了什么</div>
+  <div class="steps">
+    <div class="st"><i class="n">1</i><h5>纠错</h5><p>单比特错误（SBE）硬件当场纠正，任务无感，只计数</p></div>
+    <div class="arr">→</div>
+    <div class="st"><i class="n">2</i><h5>错误遏制</h5><p>双比特错误（DBE）只终止受影响的进程（XID 94），波及其他进程则报 XID 95</p></div>
+    <div class="arr">→</div>
+    <div class="st"><i class="n">3</i><h5>动态页下线</h5><p>驱动把坏页标记为不可用，新任务不再分配，无需重启</p></div>
+    <div class="arr">→</div>
+    <div class="st hot"><i class="n">4</i><h5>Row Remap</h5><p>用 bank 里的备用行永久替换坏行，<b>重置 GPU 后才生效</b></p></div>
+  </div>
+  <div class="bw">Blackwell 新增：同一 bank 第 3 次不可纠正错误重映射时，若有备用 HBM 通道，会触发<b>通道级修复</b></div>
+</div>
+
+<div class="g2">
+  <div class="smi wob box">
+    <div class="lab hd">看懂 4 个字段</div>
+    <div class="term">
+      <div class="cmd"><span class="ps">$</span> nvidia-smi -q -d ROW_REMAPPER</div>
+      <div class="kv"><span>Correctable Error</span><span>: 0</span><em class="ok">可忽略，涨得快要盯</em></div>
+      <div class="kv"><span>Uncorrectable Error</span><span>: 1</span><em class="warn">&gt;0 去查 XID 日志</em></div>
+      <div class="kv"><span>Pending</span><span>: <b class="y">Yes</b></span><em class="warn">重置 GPU / 重启节点</em></div>
+      <div class="kv"><span>Remapping Failure</span><span>: <b class="g">No</b></span><em class="bad">Yes 即换卡（XID 64）</em></div>
+    </div>
+    <p class="note">⚠ 计数是 InfoROM 里的<b>登记数</b>，不是已生效数，下次重置 GPU 时一起生效</p>
+  </div>
+  <div class="cmp wob box">
+    <div class="lab hd">两种错误</div>
+    <div class="cc sbe"><h5>SBE 可纠正</h5><p>1 个比特翻转，ECC 自动修好</p><p class="act">→ 不处理，只看趋势</p></div>
+    <div class="cc dbe"><h5>DBE 不可纠正</h5><p>数据已损坏，报 XID 48 / 94 / 95</p><p class="act">→ 隔离，等重置完成重映射</p></div>
+  </div>
+</div>
+
+<div class="g2 g2b">
+  <div class="rma wob box">
+    <div class="lab hd">换卡红线</div>
+    <p class="lead">出现任一情况，Remap Failure 置为 Yes：</p>
+    <div class="rl2"><i>1</i><p>某个 bank 已有 <b>8 行</b>因不可纠正错误被重映射，又来一次</p></div>
+    <div class="rl2"><i>2</i><p><b>已重映射过的行</b>再次出现不可纠正错误</p></div>
+    <div class="rl2"><i>3</i><p>全卡累计 <b>512 次</b>不可纠正错误重映射</p></div>
+    <p class="foot2">最终是否 RMA，以 NVIDIA Field Diagnostic 验证为准</p>
+  </div>
+  <div class="ovn wob box">
+    <div class="lab hd">老卡 vs 新卡</div>
+    <table>
+      <tr><th></th><th>Page Retirement</th><th>Row Remap</th></tr>
+      <tr><td>架构</td><td>Volta 及更早</td><td>Ampere 起</td></tr>
+      <tr><td>上限</td><td>64 页</td><td>512 次</td></tr>
+      <tr><td>方式</td><td>软件屏蔽，留下地址空洞</td><td>硬件换行，不留空洞</td></tr>
+      <tr><td>生效</td><td>重载驱动或重置</td><td>必须重置 GPU</td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M24 6v14"/><path d="M14 12a15 15 0 1 0 20 0"/></svg><p>Pending: Yes 不重置<br>等于没修</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="4" y="8" width="40" height="26" rx="3"/><path d="M10 28l8-8 6 5 12-12M16 42h16M24 34v8"/></svg><p>纠错数几周内飙升<br>提前排期换卡</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M24 4 40 10v12c0 10-7 17-16 21C15 39 8 32 8 22V10z"/><path d="m16 23 6 6 10-11"/></svg><p>换卡前跑 Field Diag<br>留好 RMA 证据</p></div>
+  </div>
+</div>

@@ -1,1 +1,64 @@
-TMP
+<div class="grab wob box">
+  <div class="lab hd">第一步：先抓日志</div>
+  <div class="grabgrid">
+    <div class="term">
+      <div class="cmd"><span class="ps">$</span> dmesg -T | grep -i xid</div>
+      <div class="out">NVRM: Xid (PCI:0000:5a:00): <b>79</b>, GPU has fallen off the bus.</div>
+      <div class="hint">↑ 冒号后面这个数字，就是 XID 码</div>
+    </div>
+    <div class="legend">
+      <div><i class="dot red"></i>立即隔离</div>
+      <div><i class="dot orange"></i>重启恢复</div>
+      <div><i class="dot amber"></i>盯住趋势</div>
+      <div><i class="dot teal"></i>先查应用</div>
+    </div>
+  </div>
+</div>
+
+<div class="grid">
+  <div class="colx">
+    <div class="grp wob box">
+      <div class="lab hd">显存 ECC</div>
+      <div class="row"><i class="c red">48</i><div><b>双比特 ECC（DBE）</b><p>显存数据已损坏。立即隔离，重启触发 Row Remap</p></div></div>
+      <div class="row"><i class="c red">95</i><div><b>未遏制的 ECC 错误</b><p>错误可能波及其他进程。隔离 GPU，重启节点</p></div></div>
+      <div class="row"><i class="c red">64</i><div><b>行重映射 / 页退役失败</b><p>备用行耗尽，无法自愈。直接换卡</p></div></div>
+      <div class="row"><i class="c orange">94</i><div><b>已遏制的 ECC 错误</b><p>只有受影响的应用退出。重启应用即可</p></div></div>
+      <div class="row"><i class="c amber">63</i><div><b>行重映射 / 页退役记录</b><p>自愈机制在工作。单次忽略，次数上升要警惕</p></div></div>
+      <div class="row"><i class="c amber">92</i><div><b>单比特错误率过高</b><p>ECC 还能纠正，但显存在退化。排期更换</p></div></div>
+    </div>
+    <div class="grp wob box">
+      <div class="lab hd">固件与连带</div>
+      <div class="row"><i class="c orange">119</i><div><b>GSP RPC 超时</b><p>GPU 系统处理器无响应。重启节点，升级驱动</p></div></div>
+      <div class="row"><i class="c amber">45</i><div><b>通道被预先清理</b><p>常是前序错误的连带结果。先找它前面的 XID</p></div></div>
+    </div>
+  </div>
+  <div class="colx">
+    <div class="grp wob box">
+      <div class="lab hd">总线与互联</div>
+      <div class="row"><i class="c red">79</i><div><b>GPU 掉出 PCIe 总线</b><p>最典型的掉卡。冷重启，重插换槽仍复发 → RMA</p></div></div>
+      <div class="row"><i class="c orange">74</i><div><b>NVLink 错误</b><p><code>nvidia-smi nvlink -e</code> 查 CRC；持续增长查线缆 / NVSwitch</p></div></div>
+    </div>
+    <div class="grp wob box">
+      <div class="lab hd">应用层（不是坏卡）</div>
+      <div class="row"><i class="c teal">13</i><div><b>图形引擎异常</b><p>多为 CUDA 程序越界。查代码，别急着报修</p></div></div>
+      <div class="row"><i class="c teal">31</i><div><b>显存页错误（MMU）</b><p>非法内存访问。排除代码后再跑诊断</p></div></div>
+      <div class="row"><i class="c teal">43</i><div><b>GPU 停止处理</b><p>应用出错被驱动终止。重启应用即可</p></div></div>
+    </div>
+    <div class="flow wob box">
+      <div class="lab hd">DBE 之后怎么判</div>
+      <div class="cmd2"><code>nvidia-smi -q -d ROW_REMAPPER</code></div>
+      <div class="fl"><span class="k">Pending: Yes</span><span class="ar">→</span><span>重启节点完成重映射</span></div>
+      <div class="fl"><span class="k bad">Failure: Yes</span><span class="ar">→</span><span>换卡</span></div>
+      <div class="fl"><span class="k bad">重映射后 DBE 复发</span><span class="ar">→</span><span>换卡</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="8" y="10" width="32" height="22" rx="3"/><path d="M14 38h20M24 32v6M19 17l10 10M29 17 19 27"/></svg><p>同一张卡连报<br>多种 XID → 直接 RMA</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M24 6v14"/><path d="M14 12a15 15 0 1 0 20 0"/></svg><p>XID 79 要冷重启<br>reboot 往往无效</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M24 4 40 10v12c0 10-7 17-16 21C15 39 8 32 8 22V10z"/><path d="m16 23 6 6 10-11"/></svg><p>回生产前先跑<br><code>dcgmi diag -r 3</code></p></div>
+  </div>
+</div>

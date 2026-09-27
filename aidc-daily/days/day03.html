@@ -1,1 +1,68 @@
-TMP
+<div class="g">
+  <div class="colc">
+    <div class="grp wob box">
+      <div class="lab hd">第一眼：卡还在吗</div>
+      <div class="c"><code>nvidia-smi</code><p>卡数、温度、功耗、显存、进程，一屏看完</p></div>
+      <div class="c"><code>nvidia-smi -L</code><p>列出每张卡的 UUID，报修、定位都靠它</p></div>
+    </div>
+    <div class="grp wob box">
+      <div class="lab hd">变慢了：查降频</div>
+      <div class="c"><code>nvidia-smi -q -d PERFORMANCE</code><p>看 <b>Clocks Event Reasons</b>，哪项 Active 就是降频原因</p></div>
+      <div class="c"><code>nvidia-smi -q -d TEMPERATURE,POWER</code><p>当前温度、降频阈值、功耗与功耗上限</p></div>
+      <div class="c"><code>nvidia-smi dmon -s pucm</code><p>每秒滚动：功耗温度、利用率、时钟、显存</p></div>
+    </div>
+    <div class="grp wob box">
+      <div class="lab hd">谁在占卡，持续记录</div>
+      <div class="c"><code>nvidia-smi --query-compute-apps=<br>pid,process_name,used_memory --format=csv</code><p>每个进程占了多少显存</p></div>
+      <div class="c"><code>nvidia-smi pmon</code><p>按进程滚动看 SM、显存利用率</p></div>
+      <div class="c"><code>nvidia-smi --query-gpu=index,<br>temperature.gpu,power.draw,<br>utilization.gpu --format=csv -l 5</code><p>每 5 秒记一行，挂着跑留证据</p></div>
+    </div>
+  </div>
+
+  <div class="colc">
+    <div class="grp wob box red">
+      <div class="lab hd">坏了吗：查硬件</div>
+      <div class="c"><code>nvidia-smi -q -d ECC</code><p>可纠正 / 不可纠正 ECC 计数</p></div>
+      <div class="c"><code>nvidia-smi -q -d ROW_REMAPPER</code><p>Pending、Remapping Failure，决定重置还是换卡</p></div>
+      <div class="c"><code>nvidia-smi --query-gpu=index,<br>pcie.link.gen.current,<br>pcie.link.width.current --format=csv</code><p>PCIe 链路是否降级，例如 x16 掉到 x8</p></div>
+    </div>
+    <div class="grp wob box">
+      <div class="lab hd">多卡互联</div>
+      <div class="c"><code>nvidia-smi topo -m</code><p>GPU 与网卡之间走什么链路，见下方图例</p></div>
+      <div class="c"><code>nvidia-smi nvlink -s</code><p>每条 NVLink 的速率与状态</p></div>
+      <div class="c"><code>nvidia-smi nvlink -e</code><p>NVLink 错误计数，持续上涨查线缆 / NVSwitch</p></div>
+    </div>
+    <div class="grp wob box warn">
+      <div class="lab hd">处置（先 drain 再动）</div>
+      <div class="c"><code>nvidia-smi -pm 1</code><p>开启持久模式，避免首次调用初始化慢</p></div>
+      <div class="c"><code>nvidia-smi -r -i &lt;id&gt;</code><p>重置单卡，<b>卡上不能有进程</b></p></div>
+    </div>
+  </div>
+</div>
+
+<div class="topo wob box">
+  <div class="lab hd">topo -m 图例：从快到慢</div>
+  <div class="tl">
+    <div class="t f1"><b>NV#</b><span>NVLink 直连<br># 为链路条数</span></div>
+    <div class="ar">›</div>
+    <div class="t f2"><b>PIX</b><span>同一个<br>PCIe 交换机</span></div>
+    <div class="ar">›</div>
+    <div class="t f3"><b>PXB</b><span>跨多级<br>PCIe 交换机</span></div>
+    <div class="ar">›</div>
+    <div class="t f4"><b>PHB</b><span>经过 CPU 的<br>PCIe 主桥</span></div>
+    <div class="ar">›</div>
+    <div class="t f5"><b>NODE</b><span>同一 NUMA<br>跨主桥</span></div>
+    <div class="ar">›</div>
+    <div class="t f6"><b>SYS</b><span>跨 NUMA<br>走 CPU 互联</span></div>
+  </div>
+  <p class="tip">GPU 和网卡之间出现 <b>SYS</b>，跨机通信大概率变慢，先查亲和性</p>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="6" y="8" width="36" height="32" rx="3"/><path d="M6 18h36M18 18v22M30 18v22"/></svg><p>要进脚本和告警，<br>用 <code>--query-gpu</code> 出 CSV</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M24 6v14"/><path d="M14 12a15 15 0 1 0 20 0"/></svg><p><code>-r</code> 之前先 drain，<br>确认卡上没有进程</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M8 24a16 16 0 0 1 28-10.6M40 24a16 16 0 0 1-28 10.6"/><path d="M36 6v8h-8M12 42v-8h8"/></svg><p>新驱动改名：<br>Throttle → Event Reasons</p></div>
+  </div>
+</div>
