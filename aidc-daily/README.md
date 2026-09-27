@@ -36,7 +36,7 @@ aidc-daily/
 ## 出一张新图
 
 ```bash
-pip install playwright qrcode && playwright install chromium   # 首次
+pip install playwright qrcode pillow && playwright install chromium   # 首次
 ./setup_fonts.sh                                          # 首次
 python3 render.py day04                                   # X 版：out/day04.png
 python3 render.py day04 xhs                               # 小红书版：out/xhs/day04.png

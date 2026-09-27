@@ -1,7 +1,8 @@
 """Usage: python3 render.py day03 [x|xhs]
 Reads days/day03.json + .html (+ .css).
   x   (default) -> out/day03.png      footer: X handle
-  xhs           -> out/xhs/day03.png  footer: Xiaohongshu account + profile QR code
+  xhs           -> out/xhs/day03.png  footer: Xiaohongshu account + profile QR code,
+                                      padded to at least 3:4 so the app does not crop it
 """
 import base64, io, json, os, sys, pathlib
 from playwright.sync_api import sync_playwright
@@ -33,6 +34,18 @@ def account_block(platform):
     if platform == "xhs":
         return f'''<div class="xhs"><img src="{qr_data_uri(XHS_URL)}" alt=""><div><span class="xb">小红书</span><b>{XHS_NAME}</b><small>小红书号 {XHS_ID} · 扫码关注</small></div></div>'''
     return f'''<div class="xid"><span class="xl">𝕏</span><div><b>{HANDLE}</b><small>关注，每天一张 AIDC 知识卡</small></div></div>'''
+
+def pad_to_3x4(png):
+    """Xiaohongshu crops portrait images taller than 3:4; pad the sides with paper colour instead."""
+    from PIL import Image
+    im = Image.open(png)
+    w, h = im.size
+    need = -(-h * 3 // 4)  # ceil(h * 3 / 4)
+    if w >= need:
+        return
+    out = Image.new(im.mode, (need, h), (0xfd, 0xfd, 0xfb))
+    out.paste(im, ((need - w) // 2, 0))
+    out.save(png)
 
 LOGO = '''<svg class="i" width="{s}" height="{s}" viewBox="0 0 64 64" style="stroke:var(--teal);stroke-width:{w}">
 <path d="M32 4 56 17v30L32 60 8 47V17z"/><rect x="21" y="19" width="22" height="26" rx="2"/>
@@ -80,6 +93,9 @@ if __name__ == "__main__":
         b = p.chromium.launch(executable_path=exe) if exe else p.chromium.launch()
         pg = b.new_page(viewport={"width": 1080, "height": 600}, device_scale_factor=2)
         pg.goto(html.as_uri()); pg.wait_for_timeout(1500)
-        pg.screenshot(path=str(outdir / f"{day}.png"), full_page=True)
+        png = outdir / f"{day}.png"
+        pg.screenshot(path=str(png), full_page=True)
         print(pg.evaluate("document.body.scrollHeight"))
         b.close()
+    if platform == "xhs":
+        pad_to_3x4(png)
