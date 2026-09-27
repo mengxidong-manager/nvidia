@@ -1,5 +1,9 @@
-"""Usage: python3 render.py day03  -> reads days/day03.json + .html (+ .css), writes out/day03.png"""
-import json, os, sys, pathlib
+"""Usage: python3 render.py day03 [x|xhs]
+Reads days/day03.json + .html (+ .css).
+  x   (default) -> out/day03.png      footer: X handle
+  xhs           -> out/xhs/day03.png  footer: Xiaohongshu account + profile QR code
+"""
+import base64, io, json, os, sys, pathlib
 from playwright.sync_api import sync_playwright
 
 ROOT = pathlib.Path(__file__).parent
@@ -13,6 +17,22 @@ FONTS = "".join(f'<link rel="stylesheet" href="{F}/{p}">' for p in [
     "lxgw-wenkai-webfont-1.7.0/package/lxgwwenkaimono-regular.css",
 ])
 HANDLE = "@startre47133551"
+XHS_NAME = "祁山晴彦"
+XHS_ID = "5315285201"
+XHS_URL = "https://www.xiaohongshu.com/user/profile/638dbb9e000000001f01629e"
+
+
+def qr_data_uri(url):
+    import qrcode, qrcode.image.svg
+    img = qrcode.make(url, image_factory=qrcode.image.svg.SvgPathImage, border=1)
+    buf = io.BytesIO(); img.save(buf)
+    return "data:image/svg+xml;base64," + base64.b64encode(buf.getvalue()).decode()
+
+
+def account_block(platform):
+    if platform == "xhs":
+        return f'''<div class="xhs"><img src="{qr_data_uri(XHS_URL)}" alt=""><div><span class="xb">小红书</span><b>{XHS_NAME}</b><small>小红书号 {XHS_ID} · 扫码关注</small></div></div>'''
+    return f'''<div class="xid"><span class="xl">𝕏</span><div><b>{HANDLE}</b><small>关注，每天一张 AIDC 知识卡</small></div></div>'''
 
 LOGO = '''<svg class="i" width="{s}" height="{s}" viewBox="0 0 64 64" style="stroke:var(--teal);stroke-width:{w}">
 <path d="M32 4 56 17v30L32 60 8 47V17z"/><rect x="21" y="19" width="22" height="26" rx="2"/>
@@ -20,7 +40,7 @@ LOGO = '''<svg class="i" width="{s}" height="{s}" viewBox="0 0 64 64" style="str
 <path d="M32 45v6M24 51h16" style="stroke:var(--red)"/></svg>'''
 
 
-def build(day):
+def build(day, platform="x"):
     d = ROOT / "days"
     meta = json.loads((d / f"{day}.json").read_text())
     body = (d / f"{day}.html").read_text()
@@ -43,21 +63,23 @@ def build(day):
 <div class="foot">
   <div class="who">{LOGO.format(s=44, w=3)}<div><b>AIDC NOTES</b><small>GPU 集群运维笔记</small></div></div>
   <div class="src">{meta["source"]}</div>
-  <div class="xid"><span class="xl">𝕏</span><div><b>{HANDLE}</b><small>关注，每天一张 AIDC 知识卡</small></div></div>
+  {account_block(platform)}
 </div>
 </div></body></html>'''
 
 
 if __name__ == "__main__":
     day = sys.argv[1]
-    html = ROOT / "out" / f"{day}.html"
-    html.parent.mkdir(exist_ok=True)
-    html.write_text(build(day))
+    platform = sys.argv[2] if len(sys.argv) > 2 else "x"
+    outdir = ROOT / "out" / ("xhs" if platform == "xhs" else "")
+    outdir.mkdir(parents=True, exist_ok=True)
+    html = outdir / f"{day}.html"
+    html.write_text(build(day, platform))
     with sync_playwright() as p:
         exe = os.environ.get("CHROME_PATH")
         b = p.chromium.launch(executable_path=exe) if exe else p.chromium.launch()
         pg = b.new_page(viewport={"width": 1080, "height": 600}, device_scale_factor=2)
         pg.goto(html.as_uri()); pg.wait_for_timeout(1500)
-        pg.screenshot(path=str(ROOT / "out" / f"{day}.png"), full_page=True)
+        pg.screenshot(path=str(outdir / f"{day}.png"), full_page=True)
         print(pg.evaluate("document.body.scrollHeight"))
         b.close()

@@ -3,5 +3,9 @@
   "title": "ECC 与 Row Remap",
   "subtitle": "显存从出错、自愈到换卡的完整路径",
   "source": "参考：NVIDIA GPU Memory Error Management · GPU 集群故障排查手册",
-  "caption": "AIDC 每日一图 · Day 02｜ECC 与 Row Remap 🧠\n\n显存报错，什么时候该换卡？\n1️⃣ SBE：硬件自动纠正，只看趋势\n2️⃣ DBE：隔离，重置 GPU 完成重映射\n3️⃣ Pending: Yes 不重置 = 没修好\n4️⃣ Remapping Failure: Yes → 换卡\n\n收藏备用 👇\n#GPU #NVIDIA #AIInfra #AIDC"
+  "caption": "AIDC 每日一图 · Day 02｜ECC 与 Row Remap 🧠\n\n显存报错，什么时候该换卡？\n1️⃣ SBE：硬件自动纠正，只看趋势\n2️⃣ DBE：隔离，重置 GPU 完成重映射\n3️⃣ Pending: Yes 不重置 = 没修好\n4️⃣ Remapping Failure: Yes → 换卡\n\n收藏备用 👇\n#GPU #NVIDIA #AIInfra #AIDC",
+  "xhs": {
+    "title": "显存ECC报错，什么时候该换卡？",
+    "body": "AIDC 每日一图 · Day 02\n\nGPU 显存出错后的完整路径：\n纠错 → 错误遏制 → 动态页下线 → Row Remap\n\n看 nvidia-smi -q -d ROW_REMAPPER 这 4 个字段：\n1️⃣ Correctable：可忽略，涨得快要盯\n2️⃣ Uncorrectable > 0：去查 XID 日志\n3️⃣ Pending: Yes：重置 GPU 才算修好\n4️⃣ Remapping Failure: Yes：换卡\n\n换卡红线：单个 bank 8 行、已重映射的行再出错、全卡累计 512 次\n\n收藏备用 👇\n\n#GPU #英伟达 #智算中心 #AI基础设施 #数据中心 #运维"
+  }
 }

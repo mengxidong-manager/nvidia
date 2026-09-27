@@ -3,5 +3,9 @@
   "title": "nvidia-smi 救命命令",
   "subtitle": "GPU 出问题时，按场景直接抄的 16 条命令",
   "source": "参考：NVIDIA nvidia-smi 官方手册 · GPU 集群故障排查手册",
-  "caption": "AIDC 每日一图 · Day 03｜nvidia-smi 救命命令 🛠️\n\nGPU 出问题，按场景直接抄：\n👀 卡还在吗：nvidia-smi / -L\n🐢 变慢了：-q -d PERFORMANCE 看 Clocks Event Reasons\n💥 坏了吗：-q -d ECC / ROW_REMAPPER\n🔗 多卡互联：topo -m / nvlink -e\n\n收藏备用 👇\n#GPU #NVIDIA #AIInfra #AIDC"
+  "caption": "AIDC 每日一图 · Day 03｜nvidia-smi 救命命令 🛠️\n\nGPU 出问题，按场景直接抄：\n👀 卡还在吗：nvidia-smi / -L\n🐢 变慢了：-q -d PERFORMANCE 看 Clocks Event Reasons\n💥 坏了吗：-q -d ECC / ROW_REMAPPER\n🔗 多卡互联：topo -m / nvlink -e\n\n收藏备用 👇\n#GPU #NVIDIA #AIInfra #AIDC",
+  "xhs": {
+    "title": "nvidia-smi救命命令，按场景抄",
+    "body": "AIDC 每日一图 · Day 03\n\nGPU 出问题，16 条命令按场景分好了：\n👀 卡还在吗：nvidia-smi / -L\n🐢 变慢了：-q -d PERFORMANCE，看 Clocks Event Reasons\n💥 坏了吗：-q -d ECC / ROW_REMAPPER\n🔗 多卡互联：topo -m / nvlink -e\n🛠 处置：-pm 1 / -r（先 drain）\n\n附 topo -m 图例：NV# > PIX > PXB > PHB > NODE > SYS\n\n收藏备用 👇\n\n#GPU #英伟达 #智算中心 #AI基础设施 #数据中心 #运维"
+  }
 }

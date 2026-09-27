@@ -3,5 +3,9 @@
   "title": "GPU XID 错误码速查",
   "subtitle": "dmesg 一报错，30 秒判断：重启、隔离，还是换卡",
   "source": "参考：NVIDIA XID Errors 文档 · GPU 集群故障排查手册",
-  "caption": "AIDC 每日一图 · Day 01｜GPU XID 错误码速查 🔍\n\ndmesg 里看到 Xid，别慌。先看数字：\n🔴 48/64/79/95 立即隔离\n🟠 74/94/119 重启恢复\n🟡 45/63/92 盯住趋势\n🔵 13/31/43 先查应用，不是坏卡\n\n收藏备用 👇\n#GPU #NVIDIA #AIInfra #AIDC"
+  "caption": "AIDC 每日一图 · Day 01｜GPU XID 错误码速查 🔍\n\ndmesg 里看到 Xid，别慌。先看数字：\n🔴 48/64/79/95 立即隔离\n🟠 74/94/119 重启恢复\n🟡 45/63/92 盯住趋势\n🔵 13/31/43 先查应用，不是坏卡\n\n收藏备用 👇\n#GPU #NVIDIA #AIInfra #AIDC",
+  "xhs": {
+    "title": "GPU报错XID码，30秒判断要不要换卡",
+    "body": "AIDC 每日一图 · Day 01\n\ndmesg 里看到 Xid 别慌，先看数字：\n🔴 48/64/79/95：立即隔离\n🟠 74/94/119：重启恢复\n🟡 45/63/92：盯住趋势\n🔵 13/31/43：先查应用，不是坏卡\n\n三条铁律：\n1. 同一张卡连报多种 XID，直接 RMA\n2. XID 79 要冷重启，reboot 往往无效\n3. 回生产前先跑 dcgmi diag -r 3\n\n收藏备用，下次排障直接对照 👇\n\n#GPU #英伟达 #智算中心 #AI基础设施 #数据中心 #运维"
+  }
 }

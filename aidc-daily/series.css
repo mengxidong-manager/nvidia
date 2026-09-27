@@ -39,3 +39,8 @@ code,.mono{font-family:'LXGW WenKai Mono','LXGW WenKai',monospace}
 .xid .xl{width:52px;height:52px;border-radius:14px 10px 14px 11px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:32px;font-family:'DejaVu Sans',sans-serif}
 .xid b{font-family:'Kalam';font-weight:700;font-size:24px}
 .xid small{display:block;font-family:'LXGW WenKai';font-size:14px;color:var(--mute)}
+.xhs{display:flex;align-items:center;gap:12px}
+.xhs img{width:78px;height:78px;border:2px solid var(--navy);border-radius:8px;padding:3px;background:#fff}
+.xhs .xb{display:inline-block;background:#e2315f;color:#fff;font-family:'LXGW WenKai';font-weight:700;font-size:15px;border-radius:7px;padding:1px 8px;margin-right:8px;vertical-align:4px}
+.xhs b{font-family:'LXGW WenKai';font-weight:700;font-size:22px}
+.xhs small{display:block;font-family:'LXGW WenKai';font-size:14px;color:var(--mute);margin-top:2px}
