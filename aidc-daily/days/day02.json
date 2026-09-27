@@ -1,0 +1,7 @@
+{
+  "day": "02",
+  "title": "ECC 与 Row Remap",
+  "subtitle": "显存从出错、自愈到换卡的完整路径",
+  "source": "参考：NVIDIA GPU Memory Error Management · GPU 集群故障排查手册",
+  "caption": "AIDC 每日一图 · Day 02｜ECC 与 Row Remap 🧠\n\n显存报错，什么时候该换卡？\n1️⃣ SBE：硬件自动纠正，只看趋势\n2️⃣ DBE：隔离，重置 GPU 完成重映射\n3️⃣ Pending: Yes 不重置 = 没修好\n4️⃣ Remapping Failure: Yes → 换卡\n\n收藏备用 👇\n#GPU #NVIDIA #AIInfra #AIDC"
+}
