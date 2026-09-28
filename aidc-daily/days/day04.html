@@ -24,7 +24,7 @@
   <div class="cz c1 wob box">
     <div class="lab hd">① 太热了</div>
     <div class="tags"><span>SW Thermal Slowdown</span></div>
-    <div class="ln"><b>确认</b><div><code>nvidia-smi -q -d TEMPERATURE</code><p>当前温度逼近 <em>GPU Slowdown Temp</em>，显存温度也要看</p></div></div>
+    <div class="ln"><b>确认</b><div><code>nvidia-smi -q -d TEMPERATURE</code><p>温度超过 <em>GPU Max Operating Temp</em>，显存温度也要看</p></div></div>
     <div class="ln"><b>常见</b><p>液冷流量不足、进水温度偏高、导热不良、风扇故障</p></div>
     <div class="ln"><b>处理</b><p>查 CDU 流量、供回水温差和冷板；风冷查风扇与气流</p></div>
   </div>
@@ -39,7 +39,7 @@
     <div class="lab hd">③ 硬件保护</div>
     <div class="tags"><span>HW Slowdown</span><span>HW Thermal</span><span>HW Power Brake</span></div>
     <div class="ln"><b>确认</b><div><code>nvidia-smi -q -d PERFORMANCE</code><p>HW 开头的任一项为 Active，同时去 BMC 查电源事件</p></div></div>
-    <div class="ln"><b>触发</b><p>过温、外部 Power Brake 信号、瞬时功耗过高</p></div>
+    <div class="ln"><b>触发</b><p>温度到 <em>GPU Slowdown Temp</em>、Power Brake、功耗突增</p></div>
     <div class="ln"><b>影响</b><p>频率<em>直接砍半以上</em>，整个训练跟着变慢</p></div>
     <div class="ln"><b>处理</b><p>查 PSU、供电母线和 BMC 日志；反复出现就隔离节点</p></div>
   </div>
