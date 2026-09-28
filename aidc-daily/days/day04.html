@@ -1,0 +1,75 @@
+<div class="look wob box">
+  <div class="lab hd">第一步：看哪项在 Active</div>
+  <div class="lookgrid">
+    <div class="term">
+      <div class="cmd"><span class="ps">$</span> nvidia-smi -q -d PERFORMANCE</div>
+      <div class="sec">Clocks Event Reasons</div>
+      <div class="kv"><span>Idle</span><span class="na">Not Active</span></div>
+      <div class="kv"><span>Applications Clocks Setting</span><span class="na">Not Active</span><i class="t4">④</i></div>
+      <div class="kv"><span>SW Power Cap</span><span class="ac">Active</span><i class="t2">②</i></div>
+      <div class="kv"><span>HW Slowdown</span><span class="na">Not Active</span><i class="t3">③</i></div>
+      <div class="kv sub"><span>HW Thermal Slowdown</span><span class="na">Not Active</span><i class="t3">③</i></div>
+      <div class="kv sub"><span>HW Power Brake Slowdown</span><span class="na">Not Active</span><i class="t3">③</i></div>
+      <div class="kv"><span>SW Thermal Slowdown</span><span class="na">Not Active</span><i class="t1">①</i></div>
+    </div>
+    <div class="side">
+      <p class="big">哪项是 <b>Active</b>，<br>就看下面对应编号的格子</p>
+      <p class="idle"><b>Idle</b> 为 Active 很正常，<br>只是卡上没活干</p>
+      <p class="sw">SW 开头：驱动主动控频，温和<br>HW 开头：硬件保护，频率<b>直接砍半以上</b></p>
+    </div>
+  </div>
+</div>
+
+<div class="four">
+  <div class="cz c1 wob box">
+    <div class="lab hd">① 太热了</div>
+    <div class="tags"><span>SW Thermal Slowdown</span></div>
+    <div class="ln"><b>确认</b><div><code>nvidia-smi -q -d TEMPERATURE</code><p>当前温度逼近 <em>GPU Slowdown Temp</em>，显存温度也要看</p></div></div>
+    <div class="ln"><b>常见</b><p>液冷流量不足、进水温度偏高、导热不良、风扇故障</p></div>
+    <div class="ln"><b>处理</b><p>查 CDU 流量、供回水温差和冷板；风冷查风扇与气流</p></div>
+  </div>
+  <div class="cz c2 wob box">
+    <div class="lab hd">② 功耗到顶</div>
+    <div class="tags"><span>SW Power Cap</span></div>
+    <div class="ln"><b>确认</b><div><code>nvidia-smi -q -d POWER</code><p>功耗读数贴着当前功耗上限</p></div></div>
+    <div class="ln"><b>常见</b><p>满载时的正常现象；也可能是上限被人用 <code>-pl</code> 调低了</p></div>
+    <div class="ln"><b>处理</b><p>满载出现可以接受；上限低于默认值就恢复</p></div>
+  </div>
+  <div class="cz c3 wob box">
+    <div class="lab hd">③ 硬件保护</div>
+    <div class="tags"><span>HW Slowdown</span><span>HW Thermal</span><span>HW Power Brake</span></div>
+    <div class="ln"><b>确认</b><div><code>nvidia-smi -q -d PERFORMANCE</code><p>HW 开头的任一项为 Active，同时去 BMC 查电源事件</p></div></div>
+    <div class="ln"><b>触发</b><p>过温、外部 Power Brake 信号、瞬时功耗过高</p></div>
+    <div class="ln"><b>影响</b><p>频率<em>直接砍半以上</em>，整个训练跟着变慢</p></div>
+    <div class="ln"><b>处理</b><p>查 PSU、供电母线和 BMC 日志；反复出现就隔离节点</p></div>
+  </div>
+  <div class="cz c4 wob box">
+    <div class="lab hd">④ 被人锁了</div>
+    <div class="tags"><span>Applications Clocks Setting</span></div>
+    <div class="ln"><b>确认</b><div><code>nvidia-smi -q -d CLOCK</code><p>看当前频率是否被固定在偏低值</p></div></div>
+    <div class="ln"><b>常见</b><p>调试时 <code>-lgc</code> 锁频没恢复，或旧的 <code>-ac</code> 设置残留</p></div>
+    <div class="ln"><b>处理</b><div><code>nvidia-smi -rgc</code><p>恢复默认频率（<code>-ac</code> / <code>-rac</code> 已弃用）</p></div></div>
+  </div>
+</div>
+
+<div class="live wob box">
+  <div class="lab hd">边跑边看：dmon -s pcv</div>
+  <div class="lv">
+    <div class="term t2"><span class="ps">$</span> nvidia-smi dmon -s pcv</div>
+    <div class="cols">
+      <div><b>p</b><span>功耗、温度</span></div>
+      <div><b>c</b><span>SM / 显存频率</span></div>
+      <div><b>pviol</b><span>功耗受限时间占比 %</span></div>
+      <div><b>tviol</b><span>是否温度受限 0/1</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><circle cx="21" cy="21" r="13"/><path d="m31 31 11 11"/></svg><p>先看原因再动手，<br>降频多半不是坏卡</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M27 4 12 27h11l-3 17 16-24H25z"/></svg><p>HW Slowdown 查电源散热，<br>只重启治标不治本</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="4" y="10" width="10" height="28" rx="2"/><rect x="19" y="10" width="10" height="28" rx="2"/><rect x="34" y="22" width="10" height="16" rx="2"/></svg><p>多卡里一张降频，<br>整个训练都被拖慢</p></div>
+  </div>
+</div>

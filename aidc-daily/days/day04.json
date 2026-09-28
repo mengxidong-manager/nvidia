@@ -1,0 +1,11 @@
+{
+  "day": "04",
+  "title": "GPU 降频的 4 种原因",
+  "subtitle": "训练突然变慢？先看 Clocks Event Reasons 哪一项在 Active",
+  "source": "参考：NVIDIA NVML Clocks Event Reasons · nvidia-smi 官方手册",
+  "caption": "AIDC 每日一图 · Day 04｜GPU 降频的 4 种原因 🌡️\n\n训练变慢？先跑 -q -d PERFORMANCE 看哪项 Active：\n① SW Thermal：太热，查液冷\n② SW Power Cap：功耗到顶\n③ HW Slowdown：硬件保护，频率砍半\n④ App Clocks：被锁频，-rgc 恢复\n\n收藏备用 👇\n#GPU #NVIDIA #AIInfra #AIDC",
+  "xhs": {
+    "title": "GPU突然变慢？降频的4种原因",
+    "body": "AIDC 每日一图 · Day 04\n\n训练突然变慢，先别怀疑卡坏了。\n跑 nvidia-smi -q -d PERFORMANCE，看 Clocks Event Reasons 哪项是 Active：\n\n① SW Thermal Slowdown：太热了，查液冷流量和供回水温差\n② SW Power Cap：功耗到顶，满载时正常，也可能被 -pl 调低\n③ HW Slowdown / Power Brake：硬件保护，频率直接砍半，查电源和 BMC 日志\n④ Applications Clocks Setting：被人锁频了，nvidia-smi -rgc 恢复\n\n小提示：Idle 为 Active 只是没活干；边跑边看用 nvidia-smi dmon -s pcv\n\n收藏备用 👇\n\n#GPU #英伟达 #智算中心 #AI基础设施 #数据中心 #运维"
+  }
+}
