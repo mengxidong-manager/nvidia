@@ -1,0 +1,66 @@
+<div class="look wob box">
+  <div class="lab hd">第一步：三条命令看全貌</div>
+  <div class="cmds">
+    <div class="hdr"><span>命令</span><span>正常</span><span>异常</span></div>
+    <div class="cr"><code>nvidia-smi topo -m</code><p>GPU 之间显示 <b class="ok">NV#</b>（HGX 机型通常是 NV18）</p><p>出现 <b class="bad">SYS / PHB</b>，或 NV 数变少</p></div>
+    <div class="cr"><code>nvidia-smi nvlink -s</code><p>每条链路都有速率</p><p>某条显示 <b class="bad">inactive</b></p></div>
+    <div class="cr"><code>nvidia-smi nvlink -e</code><p>计数稳定不变</p><p>两次采样之间 <b class="bad">持续上涨</b></p></div>
+  </div>
+</div>
+
+<div class="four">
+  <div class="cz c1 wob box">
+    <div class="lab hd">① 链路掉了</div>
+    <div class="tags"><span>inactive</span><span>NV 数变少</span></div>
+    <div class="ln"><b>影响</b><p>跨卡流量绕路或直接失败，NCCL 带宽骤降甚至超时</p></div>
+    <div class="ln"><b>定位</b><div><code>nvidia-smi nvlink -R</code><p>查这条链路连到哪个对端设备和链路号</p></div></div>
+    <div class="ln"><b>常见</b><p>NVSwitch 托盘、背板连接器或线缆接触不良</p></div>
+    <div class="ln"><b>处理</b><p>先 drain，再<em>冷重启</em>；仍是 inactive 就报修整机</p></div>
+  </div>
+  <div class="cz c2 wob box">
+    <div class="lab hd">② 误码在涨</div>
+    <div class="tags"><span>Replay</span><span>Recovery</span><span>CRC</span><span>Symbol</span></div>
+    <div class="ln"><b>确认</b><div><code>nvidia-smi nvlink -ec</code><p>看每条 lane 的 CRC/ECC 计数，定位到具体链路</p></div></div>
+    <div class="ln"><b>判断</b><p>偶发一次不用慌；<em>持续上涨</em>说明物理层在退化</p></div>
+    <div class="ln"><b>注意</b><p>NVLink 5（Blackwell）计数器<em>不能清零</em>，记基线看增量</p></div>
+    <div class="ln"><b>处理</b><p>一直涨就 drain，查托盘和线缆，不见好转就报修</p></div>
+  </div>
+  <div class="cz c3 wob box">
+    <div class="lab hd">③ 报 XID 74</div>
+    <div class="tags"><span>NVLINK_ERROR</span></div>
+    <div class="ln"><b>含义</b><p>GPU 到另一张 GPU 或 NVSwitch 的连接出了问题</p></div>
+    <div class="ln"><b>陷阱</b><p>对端 GPU 坏了，<em>本卡也会报 XID 74</em>，只是因为链路断了</p></div>
+    <div class="ln"><b>处理</b><p>同一时间点查所有 GPU 的 dmesg，找<em>第一个报错</em>的；需要重置或重启才能清除</p></div>
+  </div>
+  <div class="cz c4 wob box">
+    <div class="lab hd">④ CUDA 起不来</div>
+    <div class="tags"><span>error 802</span><span>system not yet initialized</span></div>
+    <div class="ln"><b>原因</b><p>NVSwitch 机型的 <em>Fabric Manager</em> 没有运行</p></div>
+    <div class="ln"><b>确认</b><div><code>systemctl status nvidia-fabricmanager</code><p>再看 <code>/var/log/fabricmanager.log</code></p></div></div>
+    <div class="ln"><b>处理</b><p>启动服务；起不来多半是<em>和驱动版本不一致</em></p></div>
+  </div>
+</div>
+
+<div class="bw wob box">
+  <div class="lab hd">最后一步：跑带宽验证</div>
+  <div class="bwg">
+    <div>
+      <div class="term t2"><span class="ps">$</span> ./all_reduce_perf -b 8 -e 8G -f 2 -g 8</div>
+      <p class="tip">nccl-tests 自带。看 <b>busbw</b>，和<b>同型号的健康节点</b>比，明显偏低就回到第一步</p>
+    </div>
+    <div class="gen">
+      <div><b>NVLink 4</b><span>Hopper · 18 条</span><em>900 GB/s</em></div>
+      <div><b>NVLink 5</b><span>Blackwell · 18 条</span><em>1.8 TB/s</em></div>
+      <small>每 GPU 双向总带宽</small>
+    </div>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><circle cx="10" cy="24" r="6"/><circle cx="38" cy="24" r="6"/><path d="M16 24h16"/></svg><p>XID 74 两端都查，<br>坏的可能是对端</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="6" y="10" width="36" height="28" rx="3"/><path d="M14 20h20M14 28h12"/></svg><p>Fabric Manager<br>必须和驱动同版本</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M6 38 18 24l8 8 16-18"/><path d="M34 14h8v8"/></svg><p>误码看增量不看总数，<br>先记基线</p></div>
+  </div>
+</div>

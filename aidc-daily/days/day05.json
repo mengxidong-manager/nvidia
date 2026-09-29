@@ -1,0 +1,11 @@
+{
+  "day": "05",
+  "title": "NVLink 排障",
+  "subtitle": "多卡训练变慢、报 XID 74、CUDA 起不来，按这张图查",
+  "source": "参考：NVIDIA nvidia-smi 手册 · XID Catalog · Fabric Manager 用户指南",
+  "caption": "AIDC 每日一图 · Day 05｜NVLink 排障 🔗\n\n先跑三条：topo -m / nvlink -s / nvlink -e\n① 链路 inactive：查托盘和线缆，冷重启\n② 误码持续上涨：看增量，查物理层\n③ XID 74：两端都查，可能是对端坏了\n④ CUDA 报 802：Fabric Manager 没起来\n\n收藏备用 👇\n#GPU #NVIDIA #NVLink #AIDC",
+  "xhs": {
+    "title": "NVLink出问题？按这张图排障",
+    "body": "AIDC 每日一图 · Day 05\n\n多卡训练变慢、报 XID 74、CUDA 起不来，先跑三条命令：\nnvidia-smi topo -m：GPU 之间是不是 NV18\nnvidia-smi nvlink -s：有没有 inactive 的链路\nnvidia-smi nvlink -e：错误计数有没有在涨\n\n① 链路掉了：查 NVSwitch 托盘和线缆，冷重启仍不恢复就报修\n② 误码在涨：看增量不看单次，用 -ec 定位到具体 lane\n③ 报 XID 74：对端 GPU 或 NVSwitch 坏了，本卡也会报，两端都要查\n④ CUDA 报 802：Fabric Manager 没起来，版本要和驱动一致\n\n最后用 nccl-tests 跑 all_reduce_perf，和同型号节点比 busbw\n\n收藏备用 👇\n\n#GPU #英伟达 #NVLink #智算中心 #AI基础设施 #运维"
+  }
+}

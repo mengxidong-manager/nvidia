@@ -10,12 +10,13 @@
 | 02 | ECC 与 Row Remap | NVIDIA GPU Memory Error Management |
 | 03 | nvidia-smi 救命命令 | NVIDIA nvidia-smi 官方手册 |
 | 04 | GPU 降频的 4 种原因 | NVIDIA NVML Clocks Event Reasons · nvidia-smi 官方手册 |
+| 05 | NVLink 排障 | NVIDIA nvidia-smi 手册 · XID Catalog · Fabric Manager 用户指南 |
 
 ## 选题计划
 
 | 周 | 主题 |
 |---|---|
-| 第 1 周 GPU 排障 | 01 XID 速查 ✅ · 02 ECC 与 Row Remap ✅ · 03 nvidia-smi 救命命令 ✅ · 04 GPU 降频的 4 种原因 ✅ · 05 NVLink 排障 · 06 DCGM diag r1/r2/r3 怎么选 · 07 掉卡 SOP：推理 vs 训练 |
+| 第 1 周 GPU 排障 | 01 XID 速查 ✅ · 02 ECC 与 Row Remap ✅ · 03 nvidia-smi 救命命令 ✅ · 04 GPU 降频的 4 种原因 ✅ · 05 NVLink 排障 ✅ · 06 DCGM diag r1/r2/r3 怎么选 · 07 掉卡 SOP：推理 vs 训练 |
 | 第 2 周 AI 网络 | 08 集合通信原语 · 09 TP/PP/DP/EP 与通信量 · 10 Rail 优化拓扑 · 11 RoCEv2 vs InfiniBand · 12 800G 光模块与 breakout · 13 光纤连接器选型 · 14 NCCL 调试变量 |
 | 第 3 周 K8s × GPU | 15 GPU Operator 全家福 · 16 GPU 调用链 · 17 Time-Slicing / MIG / DRA · 18 GPU Pod 排障 · 19 DCGM 告警阈值 · 20 etcd 空间超限 · 21 K8s HA 架构 |
 | 第 4 周 机房基础设施 | 22 从市电到 0.7V · 23 四级备电时间接力 · 24 UPS vs 240V vs 800V HVDC · 25 冷热通道封闭 · 26 冷板 / 浸没 / 喷淋 · 27 PUE、WUE、Tokens per Watt · 28 CDU 液冷运维 |
