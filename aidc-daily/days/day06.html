@@ -1,0 +1,59 @@
+<div class="lv wob box">
+  <div class="lab hd">四个级别，一级比一级重</div>
+  <div class="lvg">
+    <div class="L l1">
+      <div class="lh"><b>r1</b><span>Short</span></div>
+      <div class="tm"><em>&lt; 2.5 秒</em></div>
+      <div class="ts"><span>software</span></div>
+      <p class="use">部署检查：驱动、库等是否就绪</p>
+    </div>
+    <div class="L l2">
+      <div class="lh"><b>r2</b><span>Medium</span></div>
+      <div class="tm"><em>4 卡 &lt; 2.5 分</em><em>8 卡 &lt; 10.5 分</em></div>
+      <div class="ts"><i>+</i><span>pcie（含 NVLink）</span><span>memory</span><span>memory_bandwidth</span></div>
+      <p class="use">链路和显存的基础检查</p>
+    </div>
+    <div class="L l3">
+      <div class="lh"><b>r3</b><span>Long</span></div>
+      <div class="tm"><em>4 卡 &lt; 10 分</em><em>8 卡 &lt; 35 分</em></div>
+      <div class="ts"><i>+</i><span>diagnostic</span><span>targeted_stress</span><span>targeted_power</span><span>nvbandwidth</span><span>nccl_tests</span></div>
+      <p class="use">压满算力和功耗，测多卡通信</p>
+    </div>
+    <div class="L l4">
+      <div class="lh"><b>r4</b><span>Extra Long</span></div>
+      <div class="tm"><em>4 卡 &lt; 45 分</em><em>8 卡 &lt; 2.25 小时</em></div>
+      <div class="ts"><i>+</i><span>memtest</span><span>pulse</span></div>
+      <p class="use">显存压力测试和功耗脉冲测试</p>
+    </div>
+  </div>
+  <p class="note">时长为 NVIDIA 官方在 Hopper 系统上的测量值；每一级都包含前一级的全部测试</p>
+</div>
+
+<div class="g2">
+  <div class="pick wob box">
+    <div class="lab hd">什么时候跑哪一级</div>
+    <div class="pk"><span class="sc">节点接活前</span><span class="ar">→</span><b class="b1">r1</b><p>快速就绪检查，放进调度前置脚本</p></div>
+    <div class="pk"><span class="sc">作业刚失败</span><span class="ar">→</span><b class="b2">r2</b><p>等卡空闲后跑，先排除链路和显存</p></div>
+    <div class="pk"><span class="sc">修好回生产</span><span class="ar">→</span><b class="b3">r3</b><p>drain 后跑，通过才 uncordon</p></div>
+    <div class="pk"><span class="sc">送修 / 偶发故障</span><span class="ar">→</span><b class="b4">r4</b><p>隔离后跑，结果作为 RMA 证据</p></div>
+    <div class="pre"><b>跑之前先确认</b><p>① <code>nvidia-smi</code> 里卡上没有作业进程<br>② r2 起节点已 cordon / drain，调度不会再派活</p></div>
+  </div>
+  <div class="cmd wob box">
+    <div class="lab hd">常用写法</div>
+    <div class="c"><code>dcgmi diag -r 3 -j</code><p>JSON 输出，方便进告警和工单</p></div>
+    <div class="c"><code>dcgmi diag -r memtest</code><p>只跑某一项测试</p></div>
+    <div class="c"><code>dcgmi diag -r "pcie,memory"</code><p>逗号分隔，跑多项</p></div>
+    <div class="c"><code>dcgmi diag -r 2 -i 0,1</code><p>只测指定的 GPU</p></div>
+    <div class="c"><code>dcgmi diag -r 3 --fail-early</code><p>压测途中发现失败就提前结束</p></div>
+    <div class="c"><code>dcgmi diag -r 2 --iterations 5</code><p>连跑多次，抓偶发故障</p></div>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M24 6v14"/><path d="M14 12a15 15 0 1 0 20 0"/></svg><p>r3 / r4 会压满卡，<br>先 drain 再跑</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><circle cx="24" cy="26" r="16"/><path d="M24 16v10l7 5M19 4h10"/></svg><p>按卡数留时间：<br>8 卡 r3 最长约 35 分钟</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M10 6h20l8 8v28H10z"/><path d="M30 6v8h8M16 24h16M16 32h12"/></svg><p>结果用 <code>-j</code> 存档，<br>留作 RMA 证据</p></div>
+  </div>
+</div>

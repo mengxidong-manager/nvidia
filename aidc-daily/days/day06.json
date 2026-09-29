@@ -1,0 +1,11 @@
+{
+  "day": "06",
+  "title": "DCGM diag 跑几级？",
+  "subtitle": "接活前、作业失败后、回生产前、送修前，各跑哪一级",
+  "source": "参考：NVIDIA DCGM Diagnostics 文档 · dcgmi diag 命令参考",
+  "caption": "AIDC 每日一图 · Day 06｜DCGM diag 跑几级？🩺\n\nr1（<2.5 秒）：节点接活前的就绪检查\nr2：作业失败后，卡空闲时排查\nr3：修好回生产前（8 卡最长约 35 分钟）\nr4：送修前深度烧机（8 卡最长约 2.25 小时）\n\nr3 / r4 会压满卡，先 drain 再跑\n\n收藏备用 👇\n#GPU #NVIDIA #DCGM #AIDC",
+  "xhs": {
+    "title": "DCGM诊断跑几级？r1到r4怎么选",
+    "body": "AIDC 每日一图 · Day 06\n\ndcgmi diag -r 1/2/3/4 到底跑哪一级？按场景选：\n\n🟢 r1（不到 2.5 秒）：只查软件部署，节点每次接活前跑\n🔵 r2（8 卡最长约 10.5 分钟）：加测 PCIe/NVLink、显存、显存带宽，作业失败后卡空闲时跑\n🟠 r3（8 卡最长约 35 分钟）：加压力、功耗、NVBandwidth、NCCL 测试，修好回生产前跑\n🔴 r4（8 卡最长约 2.25 小时）：再加 memtest 和脉冲测试，送修前深度排查\n\n时长是官方在 Hopper 上的测量值，按卡数预留时间\nr3 / r4 会压满卡，一定先 drain\n结果加 -j 存成 JSON，留作 RMA 证据\n\n收藏备用 👇\n\n#GPU #英伟达 #DCGM #智算中心 #AI基础设施 #运维"
+  }
+}
