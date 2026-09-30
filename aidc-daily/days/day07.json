@@ -1,0 +1,11 @@
+{
+  "day": "07",
+  "title": "掉卡 SOP：推理 vs 训练",
+  "subtitle": "推理靠冗余，训练靠 Checkpoint",
+  "source": "参考：GPU 集群掉卡故障处理手册 · PyTorch torchrun / NCCL 环境变量文档",
+  "caption": "AIDC 每日一图 · Day 07｜掉卡 SOP：推理 vs 训练 🧯\n\n推理靠冗余：秒级摘流 + 多副本，用户无感\n训练靠 Checkpoint：一卡掉，整个作业停\n\n训练三件事：\n① 超时调短，别让作业 hang 几小时\n② 先打 taint 再重调度，别调回坏节点\n③ 异步 + 分布式 checkpoint，少丢进度\n\n收藏备用 👇\n#GPU #AIInfra #LLM #AIDC",
+  "xhs": {
+    "title": "GPU掉卡了怎么办？推理和训练两套打法",
+    "body": "AIDC 每日一图 · Day 07\n\n一句话：推理靠冗余，训练靠 Checkpoint。\n\n🟦 推理（无状态）：\n掉 1 卡只影响 1 个实例，可以做到用户无感\n① GPU 级健康检查，秒级自动摘流\n② 多副本 + 预留冗余，新副本有地方接\n③ preStop 优雅退出 + 网关重试，兜住在途请求\n\n🟧 训练（有状态）：\n集合通信全员参与，掉 1 卡整个作业停\n① 超时调短：NCCL 默认 10 分钟，别让作业白白 hang\n② 先打 taint 再重调度，别被调回坏节点\n③ torchrun 会重启全部 worker，靠 checkpoint 续跑\n④ 同 block 留热备，掉卡立刻补位\n\n修好后跑 dcgmi diag -r 3，通过才回生产\n\n收藏备用 👇\n\n#GPU #英伟达 #大模型训练 #智算中心 #AI基础设施 #运维"
+  }
+}
