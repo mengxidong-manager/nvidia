@@ -1,0 +1,171 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 1080' font-family='Segoe UI, Arial, sans-serif'>
+<rect x='0' y='0' width='1440' height='1080' fill='#ffffff'/>
+<rect x='0' y='0' width='1440' height='78' fill='#0f172a'/>
+<text x='36' y='36' font-size='21' font-weight='700' fill='#ffffff'>存储网络全景详图 — 双集群共享骨干</text>
+<text x='36' y='62' font-size='12.5' fill='#94a3b8'>130 台存储节点 · 159 个计算节点 · 共享存储 Spine 16 台（H3C S9825）· 四类接入路径 · 两处跨集群耦合</text>
+
+<text x='36' y='112' font-size='13' font-weight='700' fill='#475569'>核心层（两套独立）</text>
+<line x1='200' y1='107' x2='1410' y2='107' stroke='#e2e8f0' stroke-width='1.5'/>
+<rect x='150' y='124' width='390' height='54' rx='7' fill='#ede9fe' stroke='#5b21b6' stroke-width='2.2'/>
+<text x='345' y='146' font-size='12.5' font-weight='700' fill='#0f172a' text-anchor='middle'>H200 核心　NVIDIA SN4600 × 2</text>
+<text x='345' y='166' font-size='10.5' fill='#5b21b6' text-anchor='middle'>C22 列 U10 / D22 列 U10</text>
+<rect x='900' y='124' width='390' height='54' rx='7' fill='#eef6ff' stroke='#1d4ed8' stroke-width='2.2'/>
+<text x='1095' y='146' font-size='12.5' font-weight='700' fill='#0f172a' text-anchor='middle'>B300 业务网核心　H3C S9825 × 2</text>
+<text x='1095' y='166' font-size='10.5' fill='#1d4ed8' text-anchor='middle'>C22 列 U17 / D22 列 U17</text>
+
+<rect x='36' y='196' width='1368' height='36' rx='6' fill='#9a3412'/>
+<text x='720' y='220' font-size='13' font-weight='700' fill='#ffffff' text-anchor='middle'>⚠ 共享存储 Spine 的上行落在 B300 核心上 → H200 的存储南北向流量亦经 B300 核心转发</text>
+<line x1='1095' y1='178' x2='1095' y2='196' stroke='#ea7317' stroke-width='3'/>
+
+<rect x='36' y='248' width='1368' height='124' rx='8' fill='#fff8ec' stroke='#ea7317' stroke-width='2.6'/>
+<text x='720' y='274' font-size='14.5' font-weight='700' fill='#9a3412' text-anchor='middle'>共享存储网 Spine × 16　H3C S9825　（两套集群唯一的交汇层）</text>
+<rect x='70' y='288' width='300' height='68' rx='5' fill='#ffedd5' stroke='#9a3412' stroke-width='1.5'/>
+<text x='220' y='308' font-size='11.5' font-weight='700' fill='#9a3412' text-anchor='middle'>G23 列 × 4</text>
+<text x='220' y='327' font-size='10' fill='#7c2d12' text-anchor='middle'>每台 64 × 400G</text>
+<text x='220' y='344' font-size='10' fill='#7c2d12' text-anchor='middle'>下行端口 breakout 为 2 × 200G</text>
+<rect x='390' y='288' width='300' height='68' rx='5' fill='#ffedd5' stroke='#9a3412' stroke-width='1.5'/>
+<text x='540' y='308' font-size='11.5' font-weight='700' fill='#9a3412' text-anchor='middle'>G22 列 × 4</text>
+<text x='540' y='327' font-size='10' fill='#7c2d12' text-anchor='middle'>每台 64 × 400G</text>
+<text x='540' y='344' font-size='10' fill='#7c2d12' text-anchor='middle'>下行端口 breakout 为 2 × 200G</text>
+<rect x='710' y='288' width='300' height='68' rx='5' fill='#ffedd5' stroke='#9a3412' stroke-width='1.5'/>
+<text x='860' y='308' font-size='11.5' font-weight='700' fill='#9a3412' text-anchor='middle'>F23 列 × 4</text>
+<text x='860' y='327' font-size='10' fill='#7c2d12' text-anchor='middle'>每台 64 × 400G</text>
+<text x='860' y='344' font-size='10' fill='#7c2d12' text-anchor='middle'>下行端口 breakout 为 2 × 200G</text>
+<rect x='1030' y='288' width='300' height='68' rx='5' fill='#ffedd5' stroke='#9a3412' stroke-width='1.5'/>
+<text x='1180' y='308' font-size='11.5' font-weight='700' fill='#9a3412' text-anchor='middle'>F22 列 × 4</text>
+<text x='1180' y='327' font-size='10' fill='#7c2d12' text-anchor='middle'>每台 64 × 400G</text>
+<text x='1180' y='344' font-size='10' fill='#7c2d12' text-anchor='middle'>下行端口 breakout 为 2 × 200G</text>
+
+<text x='36' y='404' font-size='13' font-weight='700' fill='#475569'>接入路径（四类）</text>
+<line x1='180' y1='399' x2='1410' y2='399' stroke='#e2e8f0' stroke-width='1.5'/>
+
+<line x1='250' y1='372' x2='250' y2='424' stroke='#ea7317' stroke-width='2.6'/>
+<path d='M 244 380 L 250 370 L 256 380 Z' fill='#ea7317'/>
+<line x1='600' y1='372' x2='600' y2='424' stroke='#ea7317' stroke-width='2.6'/>
+<path d='M 594 380 L 600 370 L 606 380 Z' fill='#ea7317'/>
+<line x1='900' y1='372' x2='900' y2='424' stroke='#ea7317' stroke-width='2.6'/>
+<path d='M 894 380 L 900 370 L 906 380 Z' fill='#ea7317'/>
+<line x1='1220' y1='372' x2='1220' y2='424' stroke='#ea7317' stroke-width='2.6'/>
+<path d='M 1214 380 L 1220 370 L 1226 380 Z' fill='#ea7317'/>
+
+<rect x='36' y='424' width='324' height='268' rx='8' fill='#f8fbff' stroke='#2563eb' stroke-width='2.2'/>
+<rect x='36' y='424' width='324' height='30' rx='8' fill='#2563eb'/>
+<rect x='36' y='444' width='324' height='10' fill='#2563eb'/>
+<text x='52' y='445' font-size='12' font-weight='700' fill='#ffffff'>路径 ① H200 存储 Server</text>
+<rect x='54' y='464' width='288' height='58' rx='5' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.5'/>
+<text x='198' y='484' font-size='11.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>存储 Leaf × 4　H3C S9825</text>
+<text x='198' y='502' font-size='10' fill='#334155' text-anchor='middle'>C21 列 U25 / U30</text>
+<text x='198' y='516' font-size='10' fill='#334155' text-anchor='middle'>C23 列 U25 / U30</text>
+<line x1='198' y1='522' x2='198' y2='544' stroke='#2563eb' stroke-width='2'/>
+<path d='M 192 528 L 198 518 L 204 528 Z' fill='#2563eb'/>
+<rect x='54' y='546' width='288' height='130' rx='5' fill='#eff6ff' stroke='#1d4ed8' stroke-width='1.5'/>
+<text x='198' y='566' font-size='11.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>存储 Server × 66　Xfusion</text>
+<text x='68' y='588' font-size='10.5' fill='#334155'>B15 列 8 台　B16 列 8 台　B17 列 8 台</text>
+<text x='68' y='606' font-size='10.5' fill='#334155'>B18 列 8 台　B19 列 8 台　B20 列 8 台</text>
+<text x='68' y='624' font-size='10.5' fill='#334155'>B21 列 8 台　（B15–B21 小计 56 台）</text>
+<text x='68' y='642' font-size='10.5' fill='#334155'>C21 列 5 台　+　C23 列 5 台</text>
+<text x='68' y='662' font-size='10.5' font-weight='600' fill='#166534'>保留 Leaf 一跳汇聚后上行共享 Spine</text>
+
+<rect x='376' y='424' width='324' height='268' rx='8' fill='#f6fdf8' stroke='#16a34a' stroke-width='2.2'/>
+<rect x='376' y='424' width='324' height='30' rx='8' fill='#16a34a'/>
+<rect x='376' y='444' width='324' height='10' fill='#16a34a'/>
+<text x='392' y='445' font-size='12' font-weight='700' fill='#ffffff'>路径 ② B300 存储 Server（直连）</text>
+<rect x='394' y='464' width='288' height='74' rx='5' fill='#dcfce7' stroke='#166534' stroke-width='1.5'/>
+<text x='538' y='484' font-size='11.5' font-weight='700' fill='#166534' text-anchor='middle'>存储 Server × 64</text>
+<text x='538' y='502' font-size='10.5' fill='#334155' text-anchor='middle'>FusionServer 2158H V8（2U 单路 EPYC 9005）</text>
+<text x='538' y='519' font-size='10.5' fill='#334155' text-anchor='middle'>24 × NVMe / 台 · 2 × 200G 多模光口</text>
+<text x='538' y='534' font-size='10' fill='#15803d' text-anchor='middle'>WEKA 文件系统 · 启用 GPUDirect Storage</text>
+<rect x='394' y='548' width='288' height='128' rx='5' fill='#ffffff' stroke='#166534' stroke-width='1.4'/>
+<text x='408' y='568' font-size='11' font-weight='700' fill='#166534'>直连 Spine 的设计含义</text>
+<text x='408' y='588' font-size='10.5' fill='#334155'>· 不经 Leaf，省去一跳转发延迟</text>
+<text x='408' y='606' font-size='10.5' fill='#334155'>· 128 条 200G 直接占用 Spine 下行端口</text>
+<text x='408' y='624' font-size='10.5' fill='#334155'>· 两口分接不同 Spine → 双归属冗余</text>
+<text x='408' y='642' font-size='10.5' fill='#334155'>· 聚合带宽 64×2×200G = 25.6 Tb/s</text>
+<text x='408' y='662' font-size='10.5' font-weight='600' fill='#9a3412'>· 扩容须直接核算 Spine 端口，而非 Leaf</text>
+
+<rect x='716' y='424' width='324' height='268' rx='8' fill='#f0fcff' stroke='#0ea5b7' stroke-width='2.2'/>
+<rect x='716' y='424' width='324' height='30' rx='8' fill='#0ea5b7'/>
+<rect x='716' y='444' width='324' height='10' fill='#0ea5b7'/>
+<text x='732' y='445' font-size='12' font-weight='700' fill='#ffffff'>路径 ③ B300 计算节点存储网</text>
+<rect x='734' y='464' width='288' height='110' rx='5' fill='#cffafe' stroke='#0e7490' stroke-width='1.5'/>
+<text x='878' y='484' font-size='11.5' font-weight='700' fill='#0e7490' text-anchor='middle'>计算节点存储 Leaf × 8　H3C S9825</text>
+<text x='748' y='506' font-size='10.5' fill='#334155'>B22 U34　B23 U34　C20 U36　C19 U36</text>
+<text x='748' y='524' font-size='10.5' fill='#334155'>N01 U36　M01 U36　K01 U36　J01 U36</text>
+<text x='748' y='546' font-size='10' fill='#0e7490'>交换机侧 400G 端口 breakout 为 2 × 200G，</text>
+<text x='748' y='562' font-size='10' fill='#0e7490'>两条分别接两台不同服务器</text>
+<line x1='878' y1='574' x2='878' y2='596' stroke='#0ea5b7' stroke-width='2'/>
+<path d='M 872 580 L 878 570 L 884 580 Z' fill='#0ea5b7'/>
+<rect x='734' y='598' width='288' height='78' rx='5' fill='#e6fbff' stroke='#0e7490' stroke-width='1.5'/>
+<text x='878' y='618' font-size='11.5' font-weight='700' fill='#0e7490' text-anchor='middle'>B300 计算节点 × 127</text>
+<text x='878' y='637' font-size='10.5' fill='#334155' text-anchor='middle'>每节点 2 × 200G，分接两台不同 Leaf（双归属）</text>
+<text x='878' y='654' font-size='10.5' fill='#334155' text-anchor='middle'>合计 254 条 200G 多模链路</text>
+<text x='878' y='670' font-size='10' fill='#0e7490' text-anchor='middle'>Checkpoint 写入与训练数据读取的唯一通道</text>
+
+<rect x='1056' y='424' width='348' height='268' rx='8' fill='#faf8ff' stroke='#7c3aed' stroke-width='2.2'/>
+<rect x='1056' y='424' width='348' height='30' rx='8' fill='#7c3aed'/>
+<rect x='1056' y='444' width='348' height='10' fill='#7c3aed'/>
+<text x='1072' y='445' font-size='12' font-weight='700' fill='#ffffff'>路径 ④ B300 管理 Server</text>
+<rect x='1074' y='464' width='312' height='58' rx='5' fill='#ede9fe' stroke='#5b21b6' stroke-width='1.5'/>
+<text x='1230' y='484' font-size='11.5' font-weight='700' fill='#5b21b6' text-anchor='middle'>管理 Server Leaf × 2　H3C S9825</text>
+<text x='1230' y='503' font-size='10.5' fill='#334155' text-anchor='middle'>C19 列 U31 / C20 列 U31</text>
+<text x='1230' y='517' font-size='10' fill='#5b21b6' text-anchor='middle'>承载 BCM 头节点、Slurm 控制面、监控服务器</text>
+<rect x='1074' y='532' width='312' height='144' rx='5' fill='#ffffff' stroke='#5b21b6' stroke-width='1.4'/>
+<text x='1088' y='552' font-size='11' font-weight='700' fill='#5b21b6'>H200 的独立 NVIDIA 体系（不并入共享骨干）</text>
+<text x='1088' y='574' font-size='10.5' fill='#334155'>计算节点存储 Leaf　SN5600 × 2</text>
+<text x='1088' y='590' font-size='10' fill='#64748b'>C23 列 U37 / D23 列 U37</text>
+<text x='1088' y='610' font-size='10.5' fill='#334155'>管理 Server Leaf　SN5600 × 2</text>
+<text x='1088' y='626' font-size='10' fill='#64748b'>D21 列 U37 / C21 列 U37</text>
+<text x='1088' y='646' font-size='10.5' fill='#334155'>↓ 共用 Spine　SN5600 × 2（C22/D22 U37）</text>
+<text x='1088' y='664' font-size='10.5' font-weight='600' fill='#5b21b6'>↓ Core　SN4600 × 2（C22/D22 U10）</text>
+
+<text x='36' y='724' font-size='13' font-weight='700' fill='#475569'>带宽与容量核算</text>
+<line x1='180' y1='719' x2='1410' y2='719' stroke='#e2e8f0' stroke-width='1.5'/>
+
+<rect x='36' y='740' width='440' height='168' rx='8' fill='#ffffff' stroke='#166534' stroke-width='1.8'/>
+<text x='52' y='762' font-size='12' font-weight='700' fill='#166534'>B300 存储带宽校验</text>
+<text x='52' y='786' font-size='11' fill='#334155'>聚合上限　64 台 × 2 口 × 200G = 25.6 Tb/s ≈ 3.2 TB/s</text>
+<text x='52' y='808' font-size='11' fill='#334155'>需求基准　NVIDIA 参考 12.5 Gb/s × GPU</text>
+<text x='52' y='828' font-size='11' fill='#334155'>　　　　　1,016 × 12.5 = 12.7 Tb/s</text>
+<text x='52' y='852' font-size='11.5' font-weight='700' fill='#166534'>余量　约 2 倍</text>
+<text x='52' y='874' font-size='10.5' fill='#64748b'>用于吸收 Checkpoint 集中写入等全集群同时发起的突发</text>
+<text x='52' y='894' font-size='11' fill='#334155'>裸容量　64 × 24 × 15.36 TB ≈ 23.6 PB</text>
+
+<rect x='492' y='740' width='440' height='168' rx='8' fill='#ffffff' stroke='#0ea5b7' stroke-width='1.8'/>
+<text x='508' y='762' font-size='12' font-weight='700' fill='#0e7490'>breakout 与双归属机制</text>
+<text x='508' y='786' font-size='11' fill='#334155'>交换机侧　1 个 400G 端口 → 2 × 200G 分支</text>
+<text x='508' y='806' font-size='11' fill='#334155'>　　　　　两条分支分别接两台不同服务器</text>
+<text x='508' y='830' font-size='11' fill='#334155'>服务器侧　2 个 200G 口分接两台不同交换机</text>
+<text x='508' y='850' font-size='11' fill='#334155'>　　　　　建议 LACP active-active（802.3ad）</text>
+<text x='508' y='874' font-size='10.5' font-weight='600' fill='#9a3412'>若实际为主备模式，有效带宽减半至 12.8 Tb/s，</text>
+<text x='508' y='890' font-size='10.5' font-weight='600' fill='#9a3412'>仅略高于 12.7 Tb/s 需求，余量将消失</text>
+
+<rect x='948' y='740' width='456' height='168' rx='8' fill='#ffffff' stroke='#5b21b6' stroke-width='1.8'/>
+<text x='964' y='762' font-size='12' font-weight='700' fill='#5b21b6'>GPUDirect Storage 数据路径</text>
+<rect x='964' y='776' width='96' height='34' rx='4' fill='#ede9fe' stroke='#5b21b6' stroke-width='1.3'/>
+<text x='1012' y='798' font-size='10.5' font-weight='600' fill='#5b21b6' text-anchor='middle'>NVMe</text>
+<line x1='1060' y1='793' x2='1092' y2='793' stroke='#5b21b6' stroke-width='2'/>
+<path d='M 1086 789 L 1094 793 L 1086 797 Z' fill='#5b21b6'/>
+<rect x='1096' y='776' width='96' height='34' rx='4' fill='#ede9fe' stroke='#5b21b6' stroke-width='1.3'/>
+<text x='1144' y='798' font-size='10.5' font-weight='600' fill='#5b21b6' text-anchor='middle'>200G 网卡</text>
+<line x1='1192' y1='793' x2='1224' y2='793' stroke='#5b21b6' stroke-width='2'/>
+<path d='M 1218 789 L 1226 793 L 1218 797 Z' fill='#5b21b6'/>
+<rect x='1228' y='776' width='96' height='34' rx='4' fill='#dcfce7' stroke='#166534' stroke-width='1.3'/>
+<text x='1276' y='798' font-size='10.5' font-weight='600' fill='#166534' text-anchor='middle'>GPU 显存</text>
+<text x='964' y='834' font-size='11' fill='#334155'>绕过 CPU 内存中转拷贝，消除 CPU 内存带宽瓶颈</text>
+<text x='964' y='854' font-size='11' fill='#334155'>降低 CPU 占用，释放算力给数据预处理</text>
+<text x='964' y='874' font-size='11' fill='#334155'>对深度学习「以读为主、小块随机 I/O」尤为有效</text>
+<text x='964' y='894' font-size='10.5' fill='#64748b'>需配合 WEKA 客户端与 nvidia-fs 内核模块</text>
+
+<rect x='36' y='924' width='1368' height='136' rx='8' fill='#fef2f2' stroke='#9a3412' stroke-width='2'/>
+<text x='52' y='948' font-size='12.5' font-weight='700' fill='#9a3412'>跨集群耦合点（架构层面需明确）</text>
+<rect x='52' y='960' width='660' height='84' rx='6' fill='#ffffff' stroke='#ea7317' stroke-width='1.5'/>
+<text x='66' y='980' font-size='11.5' font-weight='700' fill='#9a3412'>耦合点 1　共享存储 Spine × 16</text>
+<text x='66' y='1000' font-size='10.5' fill='#334155'>同时承接两集群的全部存储流量：H200 存储 Leaf ×4、B300 存储</text>
+<text x='66' y='1017' font-size='10.5' fill='#334155'>Server ×64 直连、B300 计算节点存储 Leaf ×8、B300 管理 Leaf ×2</text>
+<text x='66' y='1036' font-size='10.5' font-weight='600' fill='#9a3412'>→ 故障影响面为双集群，端口占用率须两集群合并核算</text>
+<rect x='728' y='960' width='660' height='84' rx='6' fill='#ffffff' stroke='#ea7317' stroke-width='1.5'/>
+<text x='742' y='980' font-size='11.5' font-weight='700' fill='#9a3412'>耦合点 2　B300 业务网核心（C22/D22 U17）</text>
+<text x='742' y='1000' font-size='10.5' fill='#334155'>共享存储 Spine 通过 2 × 10GE 上行至此，是双集群存储流量的</text>
+<text x='742' y='1017' font-size='10.5' fill='#334155'>唯一南北向出口；H200 虽有自己的 SN4600 核心，存储路径仍经此</text>
+<text x='742' y='1036' font-size='10.5' font-weight='600' fill='#9a3412'>→ H200 排查存储异常时须一并检查 B300 核心</text>
+</svg>
