@@ -30,7 +30,7 @@
 <rect x='48' y='292' width='616' height='34' rx='5' fill='#fff8ec' stroke='#ea7317' stroke-width='1.5' stroke-dasharray='6 3'/>
 <text x='356' y='313' font-size='10.5' font-weight='700' fill='#9a3412' text-anchor='middle'>上行 128 条 800G　=　8 台 Leaf × 16 口　→　均摊 16 台 Spine，每台 8 条</text>
 
-<text x='48' y='348' font-size='11.5' font-weight='700' fill='#0e7490'>Leaf 层　NVIDIA MQM9790 × 8　（16 口下行 + 16 口 800G 上行，收敛比 1:1）</text>
+<text x='48' y='348' font-size='11.5' font-weight='700' fill='#0e7490'>Leaf 层　NVIDIA MQM9790 × 8　（设备规格 32 × OSFP 800G 笼位 = 64 × 400G）</text>
 <rect x='48' y='358' width='73' height='40' rx='4' fill='#e6fbff' stroke='#0e7490' stroke-width='1.3'/>
 <text x='84' y='375' font-size='10' font-weight='700' fill='#0e7490' text-anchor='middle'>Leaf 1</text>
 <text x='84' y='390' font-size='9' fill='#0e7490' text-anchor='middle'>rail 0</text>
@@ -57,10 +57,10 @@
 <text x='623' y='390' font-size='9' fill='#0e7490' text-anchor='middle'>rail 7</text>
 
 <rect x='48' y='412' width='616' height='92' rx='5' fill='#ffffff' stroke='#64748b' stroke-width='1.4'/>
-<text x='62' y='432' font-size='11.5' font-weight='700' fill='#0f172a'>下行容量校验（无任何冗余端口）</text>
-<text x='62' y='454' font-size='10.5' fill='#334155'>下行能力 = 8 台 × 16 口 × 2（800G 拆 2×400G）= 256 条 400G</text>
-<text x='62' y='472' font-size='10.5' fill='#334155'>节点需求 = 32 节点 × 8 张网卡 = 256 条 400G</text>
-<text x='62' y='494' font-size='11' font-weight='700' fill='#9a3412'>→ 完全相等，没有任何余量；新增 H200 节点必须先扩 Leaf</text>
+<text x='62' y='432' font-size='11.5' font-weight='700' fill='#0f172a'>单台 Leaf 端口占用（16 / 16 为占用笼位数，非设备端口总数）</text>
+<text x='62' y='454' font-size='10.5' fill='#334155'>下行 16 笼位 × 2（800G 拆 2×400G）= 32 条 400G = 12.8 Tb/s</text>
+<text x='62' y='472' font-size='10.5' fill='#334155'>上行 16 笼位 × 1（800G 直通）  = 16 条 800G = 12.8 Tb/s　→ 收敛比 1:1</text>
+<text x='62' y='494' font-size='11' font-weight='700' fill='#9a3412'>16 + 16 = 32，笼位已全部用满；全集群下行 8×32 = 256 条 = 32 节点×8 网卡，恰好匹配</text>
 
 <rect x='710' y='166' width='660' height='352' rx='9' fill='#f8fbff' stroke='#2563eb' stroke-width='2.4'/>
 <rect x='710' y='166' width='660' height='34' rx='9' fill='#2563eb'/>
@@ -157,7 +157,7 @@
 <text x='60' y='892' font-size='11' font-weight='700' fill='#0e7490'>计算网（InfiniBand）　24 台</text>
 <text x='60' y='912' font-size='10.5' fill='#334155'>Leaf　NVIDIA MQM9790 × 8</text>
 <text x='60' y='930' font-size='10.5' fill='#334155'>Spine　NVIDIA MQM9790 × 16</text>
-<text x='60' y='952' font-size='10' fill='#64748b'>Leaf 与 Spine 同型号，均为 NDR 机型</text>
+<text x='60' y='952' font-size='10' fill='#64748b'>同型号 Quantum-2 NDR，单台 32×OSFP 800G / 64×400G，51.2 Tb/s</text>
 
 <rect x='482' y='872' width='420' height='98' rx='6' fill='#ffffff' stroke='#2563eb' stroke-width='1.5'/>
 <text x='496' y='892' font-size='11' font-weight='700' fill='#1d4ed8'>存储 Server 网（H3C）　4 台</text>
