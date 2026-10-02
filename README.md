@@ -10,9 +10,9 @@
 
 | 文档 | 内容 |
 |------|------|
-| [**S110 智算中心整体架构说明**](docs/S110智算中心整体架构说明.md) | **汇报文档** · 整体三层架构 · 1,272 GPU 规模与能力指标 · 计算/存储/管理三网设计 · 调度软件栈 |
+| [**S110 智算中心整体架构说明**](docs/S110智算中心整体架构说明.md) | **整体架构详解** · 三层结构 · 1,272 GPU · 双 Pod 划分 · 端口与容量推导 · BCM + Slurm 软件栈 · 配套 6 张拓扑图 |
 | [**S110 机房双集群架构说明书**](docs/S110机房双集群架构说明书.md) | **台账权威来源** · H200 + B300 合并架构 · 159 GPU 节点 / 123 交换机 · 共享层与跨集群依赖 · 机柜列索引 |
-| [HGX B300 训练集群现网架构文档](docs/HGX_B300训练集群设计方案_1024GPU.md) | B300 单集群详解 · 127 节点/1016 GPU · 双平面 RoCEv2 · WEKA · 原生 K8s |
+| [HGX B300 训练集群现网架构文档](docs/HGX_B300训练集群设计方案_1024GPU.md) | B300 单集群详解 · 127 节点/1016 GPU · 双平面 RoCEv2 · WEKA |
 | [Aivres KR6288 (HGX H200) 训练节点网络结构 — s110-b7](docs/HGX_H200训练节点网络结构_s110-b7.md) | 铭牌解码 / 8:8:2 网络 / IBBZ 计算网 / 接线表 / 拓扑 SVG |
 | [s110 集群网络架构 — 交换机与 CPU 服务器](docs/s110集群网络架构_交换机与CPU服务器.md) | 三张网分层 / 交换机清单 / CPU 服务器角色 / pod 拓扑 SVG |
 | [800G 光模块与 Leaf 交换机连接方式详解](docs/800G光模块与Leaf交换机连接方式详解.md) | 800G 光模块类型 / breakout 方式 / Leaf 端口映射 |
@@ -48,10 +48,22 @@
 
 ## 架构图索引
 
+### S110 智算中心拓扑详图（6 张）
+
+| 图 | 内容 |
+|------|------|
+| [**整体网络架构**](docs/images/s110-overview-arch.svg) | 三层结构 · 双集群并列 · 规模指标 · 架构要点 |
+| [B300 双 Pod × 双平面计算网](docs/images/b300-pod-compute.svg) | 32 Leaf / 16 Spine 逐台展开 · rail 归属 · 端口账 · Pod 边界推导 |
+| [B300 单节点接线](docs/images/b300-node-wiring.svg) | 8×OSFP 拆分规则 · 三张网物理出口 · 全集群链路折算 |
+| [存储网络全景](docs/images/s110-storage-network.svg) | 共享 Spine × 16 · 四类接入路径 · 带宽核算 · 跨集群耦合点 |
+| [H200 三套独立网络体系](docs/images/h200-three-networks.svg) | IB 计算网 · H3C 存储网 · Spectrum 管理体系 · 36 台台账 |
+| [软件架构与调度拓扑映射](docs/images/s110-software-stack.svg) | BCM · Slurm · topology.conf 三级映射 · 无损调优与监控 |
+
+### 其他架构图
+
 | 图 | 所属文档 |
 |------|------|
-| [**S110 智算中心整体架构（汇报用）**](docs/images/s110-overview-arch.svg) | 整体架构说明 |
-| [**双集群网络架构（H200 + B300）**](docs/images/dual-cluster-arch.svg) | 双集群架构说明书 |
+| [双集群网络架构（H200 + B300）](docs/images/dual-cluster-arch.svg) | 双集群架构说明书 |
 | [B300 集群网络架构（现网）](docs/images/b300-network-arch-127.svg) | B300 现网架构文档 |
 | [双平面架构](docs/images/b300-dualplane.svg) | B300 现网架构文档 |
 | [机房布局](docs/images/b300-rack-layout.svg) | B300 现网架构文档 |
