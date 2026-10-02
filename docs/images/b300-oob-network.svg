@@ -1,0 +1,83 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 800' font-family='Segoe UI, Arial, sans-serif'>
+<rect x='0' y='0' width='1280' height='800' fill='#ffffff'/>
+<rect x='0' y='0' width='1280' height='74' fill='#7c3aed'/>
+<text x='34' y='34' font-size='20' font-weight='700' fill='#ffffff'>B300 集群 · 带外管理网（OOB / IPMI）</text>
+<text x='34' y='58' font-size='12.5' fill='#ddd6fe'>接入 S5590 × 9 + 汇聚 S6805 × 2 · 与数据面完全物理隔离 · 计算网设备自身也并入本网 · 全连接双上行</text>
+
+<rect x='30' y='92' width='1220' height='56' rx='7' fill='#faf8ff' stroke='#7c3aed' stroke-width='1.8'/>
+<text x='46' y='113' font-size='12' font-weight='700' fill='#5b21b6'>本网的作用</text>
+<text x='46' y='133' font-size='11' fill='#334155'>承载 BMC / IPMI 流量：带外开关机、硬件告警、固件升级、串口重定向，以及 BCM 的 PXE 镜像化部署。计算网与存储网全断时，仍可通过本网远程操作全部节点 —— 这是大规模集群可运维性的底线保障。</text>
+
+<rect x='370' y='172' width='540' height='54' rx='7' fill='#eef6ff' stroke='#1d4ed8' stroke-width='2.2'/>
+<text x='640' y='194' font-size='12.5' font-weight='700' fill='#0f172a' text-anchor='middle'>B300 业务网核心　H3C S9825 × 2</text>
+<text x='640' y='214' font-size='10.5' fill='#1d4ed8' text-anchor='middle'>C22 列 U17 / D22 列 U17</text>
+<line x1='640' y1='226' x2='640' y2='254' stroke='#7c3aed' stroke-width='2.6'/>
+<path d='M 634 236 L 640 224 L 646 236 Z' fill='#7c3aed'/>
+<text x='656' y='246' font-size='10' fill='#5b21b6'>IPMI Spine → 业务网核心</text>
+
+<rect x='370' y='256' width='540' height='64' rx='7' fill='#ede9fe' stroke='#5b21b6' stroke-width='2.4'/>
+<text x='640' y='280' font-size='13' font-weight='700' fill='#5b21b6' text-anchor='middle'>IPMI Spine　H3C S6805 × 2</text>
+<text x='640' y='300' font-size='10.5' fill='#334155' text-anchor='middle'>C22 列 U40 / D22 列 U40　·　冗余部署</text>
+<text x='640' y='315' font-size='10' fill='#64748b' text-anchor='middle'>本网的汇聚层，所有接入设备在此收口</text>
+
+<rect x='120' y='344' width='1040' height='58' rx='6' fill='#fff8ec' stroke='#ea7317' stroke-width='2'/>
+<text x='640' y='366' font-size='12.5' font-weight='700' fill='#9a3412' text-anchor='middle'>接入 ↔ Spine　全连接（full-mesh）</text>
+<text x='640' y='387' font-size='11' fill='#334155' text-anchor='middle'>每台接入交换机双上行分别接两台 IPMI Spine；计算网 Leaf / Spine 也各以 2 × 10GE 分接两台 IPMI Spine　→　任一 Spine 故障不失管</text>
+
+<line x1='300' y1='402' x2='300' y2='432' stroke='#7c3aed' stroke-width='2.4'/>
+<path d='M 294 422 L 300 434 L 306 422 Z' fill='#7c3aed'/>
+<line x1='980' y1='402' x2='980' y2='432' stroke='#7c3aed' stroke-width='2.4'/>
+<path d='M 974 422 L 980 434 L 986 422 Z' fill='#7c3aed'/>
+
+<rect x='40' y='434' width='520' height='106' rx='7' fill='#ffffff' stroke='#5b21b6' stroke-width='1.8'/>
+<text x='300' y='458' font-size='12.5' font-weight='700' fill='#5b21b6' text-anchor='middle'>计算节点 IPMI 接入　H3C S5590 × 9</text>
+<text x='54' y='480' font-size='10.5' fill='#334155'>承接 127 台 GPU 节点的 BMC 口（每节点 1 × RJ45 铜缆）</text>
+<text x='54' y='498' font-size='10.5' fill='#334155'>按机柜列就近部署，减少管理线缆长度</text>
+<text x='54' y='516' font-size='10.5' fill='#334155'>每台接入交换机双上行至两台 IPMI Spine</text>
+<text x='54' y='533' font-size='10' fill='#64748b'>管理服务器 Leaf（S9825 × 2，C19/C20 列 U31）走存储网骨干，不在本网</text>
+
+<rect x='720' y='434' width='520' height='106' rx='7' fill='#ffffff' stroke='#0ea5b7' stroke-width='1.8'/>
+<text x='980' y='458' font-size='12.5' font-weight='700' fill='#0e7490' text-anchor='middle'>网络设备自身的带外接入</text>
+<text x='734' y='480' font-size='10.5' fill='#334155'>计算网 Leaf × 32 与 Spine × 16，各以 2 × 10GE 接入</text>
+<text x='734' y='498' font-size='10.5' fill='#334155'>合计 48 台 × 2 = 96 条 10GE 管理链路</text>
+<text x='734' y='516' font-size='10.5' font-weight='600' fill='#166534'>交换机失联时仍可带外登录排障，不必到机房插串口线</text>
+<text x='734' y='533' font-size='10' fill='#64748b'>存储网各类 Leaf 与骨干的管理口同样并入本网</text>
+
+<line x1='300' y1='540' x2='300' y2='570' stroke='#16a34a' stroke-width='2.4'/>
+<path d='M 294 560 L 300 572 L 306 560 Z' fill='#16a34a'/>
+
+<rect x='40' y='572' width='520' height='78' rx='7' fill='#f6fdf8' stroke='#16a34a' stroke-width='1.8'/>
+<text x='300' y='594' font-size='12' font-weight='700' fill='#166534' text-anchor='middle'>B300 计算节点 × 127　BMC</text>
+<text x='300' y='614' font-size='10.5' fill='#334155' text-anchor='middle'>ASPEED AST2600　·　1 × RJ45 专用 IPMI 口</text>
+<text x='300' y='631' font-size='10.5' fill='#334155' text-anchor='middle'>另有 2 × 10GbE 板载 LAN（Intel X710-AT2）</text>
+<text x='300' y='645' font-size='10' fill='#15803d' text-anchor='middle'>IPMI 口与计算网 OSFP、存储网 200G 口三者物理分离</text>
+
+<rect x='720' y='572' width='520' height='78' rx='7' fill='#f0fcff' stroke='#0ea5b7' stroke-width='1.8'/>
+<text x='980' y='594' font-size='12' font-weight='700' fill='#0e7490' text-anchor='middle'>计算网与存储网设备　管理口</text>
+<text x='980' y='614' font-size='10.5' fill='#334155' text-anchor='middle'>LS9867-128DH × 48　·　S9825 × 30（含骨干 16）</text>
+<text x='980' y='631' font-size='10.5' fill='#334155' text-anchor='middle'>每台两条 10GE，分接两台 IPMI Spine</text>
+<text x='980' y='645' font-size='10' fill='#0e7490' text-anchor='middle'>构成完整的「设备带外可达」闭环</text>
+
+<rect x='30' y='668' width='400' height='118' rx='7' fill='#ffffff' stroke='#64748b' stroke-width='1.5'/>
+<text x='44' y='690' font-size='12' font-weight='700' fill='#0f172a'>台账　11 台</text>
+<text x='44' y='712' font-size='10.5' fill='#334155'>计算节点 IPMI 接入　H3C S5590 × 9</text>
+<text x='44' y='730' font-size='10.5' fill='#334155'>IPMI Spine　H3C S6805 × 2</text>
+<text x='44' y='752' font-size='10.5' fill='#334155'>介质　铜缆（节点）+ 10GE（设备管理口）</text>
+<text x='44' y='772' font-size='10' fill='#64748b'>H200 集群的带外管理并入其 Spectrum 体系，不在本网</text>
+
+<rect x='444' y='668' width='400' height='118' rx='7' fill='#ffffff' stroke='#5b21b6' stroke-width='1.5'/>
+<text x='458' y='690' font-size='12' font-weight='700' fill='#5b21b6'>隔离的工程价值</text>
+<text x='458' y='712' font-size='10.5' fill='#334155'>· 与计算网、存储网不共用任何设备与链路</text>
+<text x='458' y='730' font-size='10.5' fill='#334155'>· 数据面拥塞或配置失误不影响带外可达性</text>
+<text x='458' y='748' font-size='10.5' fill='#334155'>· 支撑 BCM 镜像化部署：PXE 走本网下发</text>
+<text x='458' y='766' font-size='10.5' fill='#334155'>· 掉卡 / 宕机场景下的首选排障入口</text>
+<text x='458' y='782' font-size='10' fill='#64748b'>低速率网络，但可运维性权重最高</text>
+
+<rect x='858' y='668' width='392' height='118' rx='7' fill='#ffffff' stroke='#9a3412' stroke-width='1.5'/>
+<text x='872' y='690' font-size='12' font-weight='700' fill='#9a3412'>与数据面的对照</text>
+<text x='872' y='712' font-size='10.5' fill='#334155'>计算网　8 × OSFP 800G　单模 MPO　无损 RoCEv2</text>
+<text x='872' y='730' font-size='10.5' fill='#334155'>存储网　2 × 200G　多模 MPO　无损 PFC + ECN</text>
+<text x='872' y='748' font-size='10.5' fill='#334155'>带外网　1 × RJ45　铜缆　普通以太网，不需无损</text>
+<text x='872' y='768' font-size='10.5' font-weight='600' fill='#9a3412'>三网故障域相互独立，单网故障不扩散</text>
+<text x='872' y='782' font-size='10' fill='#64748b'>带外网不承载业务数据，无需 PFC / ECN 调优</text>
+</svg>

@@ -1,0 +1,116 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1340 900' font-family='Segoe UI, Arial, sans-serif'>
+<rect x='0' y='0' width='1340' height='900' fill='#ffffff'/>
+<rect x='0' y='0' width='1340' height='74' fill='#1d4ed8'/>
+<text x='34' y='34' font-size='20' font-weight='700' fill='#ffffff'>B300 集群 · 存储网　H3C 以太网 · 130 台存储节点</text>
+<text x='34' y='58' font-size='12.5' fill='#dbeafe'>骨干 Spine 16 + 存储 Server Leaf 4 + 计算节点存储 Leaf 8 + 管理 Leaf 2（均为 H3C S9825）· Leaf↔Spine 全连接 · PFC + ECN 无损</text>
+
+<rect x='380' y='92' width='580' height='56' rx='7' fill='#eef6ff' stroke='#1d4ed8' stroke-width='2.2'/>
+<text x='670' y='114' font-size='13' font-weight='700' fill='#0f172a' text-anchor='middle'>B300 业务网核心　H3C S9825 × 2</text>
+<text x='670' y='135' font-size='10.5' fill='#1d4ed8' text-anchor='middle'>C22 列 U17 / D22 列 U17　·　存储网的唯一南北向出口</text>
+<line x1='670' y1='148' x2='670' y2='176' stroke='#ea7317' stroke-width='2.6'/>
+<path d='M 664 166 L 670 178 L 676 166 Z' fill='#ea7317'/>
+<text x='686' y='168' font-size='10' fill='#9a3412'>骨干 → 核心　2 × 10GE</text>
+
+<rect x='30' y='180' width='1280' height='108' rx='8' fill='#fff8ec' stroke='#ea7317' stroke-width='2.6'/>
+<text x='670' y='204' font-size='14' font-weight='700' fill='#9a3412' text-anchor='middle'>存储网骨干 Spine × 16　H3C S9825（64 × 400G / 台，下行端口 breakout 为 2 × 200G）</text>
+<rect x='60' y='216' width='290' height='58' rx='5' fill='#ffedd5' stroke='#9a3412' stroke-width='1.5'/>
+<text x='205' y='238' font-size='11.5' font-weight='700' fill='#9a3412' text-anchor='middle'>G23 列 × 4</text>
+<text x='205' y='258' font-size='10' fill='#7c2d12' text-anchor='middle'>承接直连存储 Server + 各类 Leaf 上行</text>
+<rect x='360' y='216' width='290' height='58' rx='5' fill='#ffedd5' stroke='#9a3412' stroke-width='1.5'/>
+<text x='505' y='238' font-size='11.5' font-weight='700' fill='#9a3412' text-anchor='middle'>G22 列 × 4</text>
+<text x='505' y='258' font-size='10' fill='#7c2d12' text-anchor='middle'>承接直连存储 Server + 各类 Leaf 上行</text>
+<rect x='660' y='216' width='290' height='58' rx='5' fill='#ffedd5' stroke='#9a3412' stroke-width='1.5'/>
+<text x='805' y='238' font-size='11.5' font-weight='700' fill='#9a3412' text-anchor='middle'>F23 列 × 4</text>
+<text x='805' y='258' font-size='10' fill='#7c2d12' text-anchor='middle'>承接直连存储 Server + 各类 Leaf 上行</text>
+<rect x='960' y='216' width='290' height='58' rx='5' fill='#ffedd5' stroke='#9a3412' stroke-width='1.5'/>
+<text x='1105' y='238' font-size='11.5' font-weight='700' fill='#9a3412' text-anchor='middle'>F22 列 × 4</text>
+<text x='1105' y='258' font-size='10' fill='#7c2d12' text-anchor='middle'>承接直连存储 Server + 各类 Leaf 上行</text>
+
+<rect x='30' y='302' width='1280' height='72' rx='7' fill='#f0fcff' stroke='#0ea5b7' stroke-width='2.2'/>
+<text x='670' y='326' font-size='13' font-weight='700' fill='#0e7490' text-anchor='middle'>Leaf ↔ Spine　全连接（full-mesh）</text>
+<text x='670' y='347' font-size='11' fill='#334155' text-anchor='middle'>每一台 Leaf 与全部 16 台骨干 Spine 都有直连链路，不存在只连部分 Spine 的情况</text>
+<text x='670' y='365' font-size='10.5' fill='#0e7490' text-anchor='middle'>存储 Server Leaf 4 + 计算节点存储 Leaf 8 + 管理 Leaf 2 = 14 台 Leaf　×　16 台 Spine　=　224 个连接对，任意 Leaf 对之间有 16 条等价路径</text>
+
+<text x='34' y='404' font-size='13' font-weight='700' fill='#475569'>三类接入路径</text>
+<line x1='160' y1='399' x2='1310' y2='399' stroke='#e2e8f0' stroke-width='1.5'/>
+<line x1='230' y1='374' x2='230' y2='420' stroke='#ea7317' stroke-width='2.4'/>
+<path d='M 224 382 L 230 372 L 236 382 Z' fill='#ea7317'/>
+<line x1='670' y1='374' x2='670' y2='420' stroke='#ea7317' stroke-width='2.4'/>
+<path d='M 664 382 L 670 372 L 676 382 Z' fill='#ea7317'/>
+<line x1='1110' y1='374' x2='1110' y2='420' stroke='#ea7317' stroke-width='2.4'/>
+<path d='M 1104 382 L 1110 372 L 1116 382 Z' fill='#ea7317'/>
+
+<rect x='30' y='420' width='400' height='250' rx='8' fill='#f6fdf8' stroke='#16a34a' stroke-width='2.2'/>
+<rect x='30' y='420' width='400' height='30' rx='8' fill='#16a34a'/>
+<rect x='30' y='440' width='400' height='10' fill='#16a34a'/>
+<text x='46' y='441' font-size='12' font-weight='700' fill='#ffffff'>路径 ① 存储 Server 直连骨干</text>
+<rect x='48' y='462' width='364' height='96' rx='5' fill='#dcfce7' stroke='#166534' stroke-width='1.5'/>
+<text x='230' y='483' font-size='12' font-weight='700' fill='#166534' text-anchor='middle'>存储 Server × 64</text>
+<text x='230' y='502' font-size='10.5' fill='#334155' text-anchor='middle'>FusionServer 2158H V8（2U 单路 EPYC 9005）</text>
+<text x='230' y='519' font-size='10.5' fill='#334155' text-anchor='middle'>24 × NVMe / 台　·　2 × 200G 多模光口</text>
+<text x='230' y='536' font-size='10.5' fill='#334155' text-anchor='middle'>128 条 200G 直接占用骨干下行端口</text>
+<text x='230' y='552' font-size='10' fill='#15803d' text-anchor='middle'>WEKA + GPUDirect Storage</text>
+<rect x='48' y='568' width='364' height='90' rx='5' fill='#ffffff' stroke='#166534' stroke-width='1.4'/>
+<text x='60' y='588' font-size='11' font-weight='700' fill='#166534'>扁平化的取舍</text>
+<text x='60' y='607' font-size='10.5' fill='#334155'>不经 Leaf，省去一跳转发延迟</text>
+<text x='60' y='624' font-size='10.5' fill='#334155'>两口分接不同 Spine，双归属冗余</text>
+<text x='60' y='641' font-size='10.5' fill='#334155'>聚合 64 × 2 × 200G = 25.6 Tb/s</text>
+<text x='60' y='656' font-size='10' fill='#9a3412'>扩容须直接核算骨干可用端口</text>
+
+<rect x='470' y='420' width='400' height='250' rx='8' fill='#f8fbff' stroke='#2563eb' stroke-width='2.2'/>
+<rect x='470' y='420' width='400' height='30' rx='8' fill='#2563eb'/>
+<rect x='470' y='440' width='400' height='10' fill='#2563eb'/>
+<text x='486' y='441' font-size='12' font-weight='700' fill='#ffffff'>路径 ② 存储 Server 经 Leaf 汇聚</text>
+<rect x='488' y='462' width='364' height='54' rx='5' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.5'/>
+<text x='670' y='482' font-size='11.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>存储 Server Leaf × 4　H3C S9825</text>
+<text x='670' y='500' font-size='10' fill='#334155' text-anchor='middle'>C21 列 U25 / U30　·　C23 列 U25 / U30</text>
+<line x1='670' y1='516' x2='670' y2='538' stroke='#2563eb' stroke-width='2'/>
+<path d='M 664 528 L 670 540 L 676 528 Z' fill='#2563eb'/>
+<rect x='488' y='540' width='364' height='118' rx='5' fill='#eff6ff' stroke='#1d4ed8' stroke-width='1.5'/>
+<text x='670' y='560' font-size='12' font-weight='700' fill='#1d4ed8' text-anchor='middle'>存储 Server × 66　Xfusion</text>
+<text x='502' y='580' font-size='10.5' fill='#334155'>B15 列 8 台　B16 列 8 台　B17 列 8 台</text>
+<text x='502' y='597' font-size='10.5' fill='#334155'>B18 列 8 台　B19 列 8 台　B20 列 8 台</text>
+<text x='502' y='614' font-size='10.5' fill='#334155'>B21 列 8 台　（B15–B21 小计 56 台）</text>
+<text x='502' y='631' font-size='10.5' fill='#334155'>C21 列 5 台　+　C23 列 5 台</text>
+<text x='502' y='650' font-size='10' fill='#9a3412'>可用带宽受 Leaf 上行收敛比制约，多一跳</text>
+
+<rect x='910' y='420' width='400' height='250' rx='8' fill='#f0fcff' stroke='#0ea5b7' stroke-width='2.2'/>
+<rect x='910' y='420' width='400' height='30' rx='8' fill='#0ea5b7'/>
+<rect x='910' y='440' width='400' height='10' fill='#0ea5b7'/>
+<text x='926' y='441' font-size='12' font-weight='700' fill='#ffffff'>路径 ③ 计算节点存储接入</text>
+<rect x='928' y='462' width='364' height='70' rx='5' fill='#cffafe' stroke='#0e7490' stroke-width='1.5'/>
+<text x='1110' y='482' font-size='11.5' font-weight='700' fill='#0e7490' text-anchor='middle'>计算节点存储 Leaf × 8　H3C S9825</text>
+<text x='942' y='502' font-size='10' fill='#334155'>B22U34　B23U34　C20U36　C19U36</text>
+<text x='942' y='519' font-size='10' fill='#334155'>N01U36　M01U36　K01U36　J01U36</text>
+<line x1='1110' y1='532' x2='1110' y2='554' stroke='#0ea5b7' stroke-width='2'/>
+<path d='M 1104 544 L 1110 556 L 1116 544 Z' fill='#0ea5b7'/>
+<rect x='928' y='556' width='364' height='102' rx='5' fill='#e6fbff' stroke='#0e7490' stroke-width='1.5'/>
+<text x='1110' y='576' font-size='12' font-weight='700' fill='#0e7490' text-anchor='middle'>B300 计算节点 × 127</text>
+<text x='1110' y='595' font-size='10.5' fill='#334155' text-anchor='middle'>每节点 2 × 200G，分接两台不同 Leaf（双归属）</text>
+<text x='1110' y='612' font-size='10.5' fill='#334155' text-anchor='middle'>合计 254 条 200G 多模链路</text>
+<text x='1110' y='631' font-size='10.5' fill='#334155' text-anchor='middle'>训练数据读取与 Checkpoint 写入的唯一通道</text>
+<text x='1110' y='650' font-size='10' fill='#0e7490' text-anchor='middle'>另有管理 Server Leaf × 2（C19/C20 列 U31）同样上行骨干</text>
+
+<rect x='30' y='686' width='626' height='200' rx='8' fill='#ffffff' stroke='#166534' stroke-width='1.6'/>
+<text x='46' y='708' font-size='12' font-weight='700' fill='#166534'>连接方式与带宽核算</text>
+<text x='46' y='730' font-size='10.5' fill='#334155'>交换机侧　1 个 400G 端口 → breakout 2 × 200G，两条分接两台不同服务器</text>
+<text x='46' y='748' font-size='10.5' fill='#334155'>服务器侧　2 个 200G 口分接两台不同交换机（双归属），建议 LACP active-active</text>
+<text x='46' y='772' font-size='10.5' fill='#334155'>聚合带宽（第一批 64 台）　64 × 2 × 200G = 25.6 Tb/s ≈ 3.2 TB/s</text>
+<text x='46' y='790' font-size='10.5' fill='#334155'>需求基准　1,016 GPU × 12.5 Gb/s = 12.7 Tb/s</text>
+<text x='46' y='808' font-size='11' font-weight='700' fill='#166534'>余量　约 2 倍（第二批 66 台在此基础上进一步追加）</text>
+<text x='46' y='830' font-size='10.5' fill='#334155'>裸容量（第一批，按 15.36 TB 盘）　64 × 24 × 15.36 TB ≈ 23.6 PB</text>
+<text x='46' y='852' font-size='10.5' font-weight='600' fill='#9a3412'>若双 200G 实为主备而非 active-active，有效带宽减半至 12.8 Tb/s，余量将消失</text>
+<text x='46' y='874' font-size='10' fill='#64748b'>130 台存储节点构成单一资源池，127 个计算节点均可访问全量数据</text>
+
+<rect x='680' y='686' width='630' height='200' rx='8' fill='#ffffff' stroke='#0ea5b7' stroke-width='1.6'/>
+<text x='696' y='708' font-size='12' font-weight='700' fill='#0e7490'>无损机制（以太网侧）</text>
+<text x='696' y='730' font-size='10.5' fill='#334155'>存储网与计算网同为 H3C 以太网，无损能力由同一套机制提供：</text>
+<text x='696' y='752' font-size='10.5' fill='#334155'>· PFC　按优先级逐跳反压，存储流量独占无损队列</text>
+<text x='696' y='770' font-size='10.5' fill='#334155'>· ECN　端到端拥塞标记，配合主机侧 DCQCN 降速</text>
+<text x='696' y='788' font-size='10.5' fill='#334155'>· AI ECN　门限自适应，避免固定门限在突发下误判</text>
+<text x='696' y='806' font-size='10.5' fill='#334155'>· Agile Buffer　动态缓存分配，吸收 Checkpoint 突发</text>
+<text x='696' y='824' font-size='10.5' fill='#334155'>· ECMP / Flowlet　全连接下的等价多路径负载均衡</text>
+<text x='696' y='842' font-size='10.5' fill='#334155'>· DPSH　链路故障自愈，缩短收敛时间</text>
+<text x='696' y='862' font-size='10.5' font-weight='600' fill='#9a3412'>关键监控指标：PFC 触发次数、ECN 标记率、丢包计数</text>
+<text x='696' y='878' font-size='10' fill='#64748b'>这两项异常升高，往往先于训练性能下降出现</text>
+</svg>
