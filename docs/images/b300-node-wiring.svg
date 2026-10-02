@@ -1,0 +1,197 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 1000' font-family='Segoe UI, Arial, sans-serif'>
+<rect x='0' y='0' width='1400' height='1000' fill='#ffffff'/>
+<rect x='0' y='0' width='1400' height='78' fill='#0f172a'/>
+<text x='36' y='36' font-size='21' font-weight='700' fill='#ffffff'>B300 单节点接线详图 — 三张网的物理出口</text>
+<text x='36' y='62' font-size='12.5' fill='#94a3b8'>技嘉 G894-ZD3-AAX7 · HGX B300 8-GPU · 8×OSFP 800G 计算网 + 2×200G 存储网 + 1×RJ45 IPMI</text>
+
+<rect x='30' y='96' width='620' height='520' rx='9' fill='#f8fafc' stroke='#1f2937' stroke-width='2.2'/>
+<rect x='30' y='96' width='620' height='34' rx='9' fill='#1f2937'/>
+<rect x='30' y='120' width='620' height='10' fill='#1f2937'/>
+<text x='48' y='120' font-size='13.5' font-weight='700' fill='#ffffff'>节点内部　8U 风冷机箱</text>
+
+<rect x='50' y='146' width='580' height='96' rx='6' fill='#eafaf0' stroke='#16a34a' stroke-width='1.8'/>
+<text x='340' y='166' font-size='12' font-weight='700' fill='#166534' text-anchor='middle'>HGX B300 基板　8 × SXM GPU</text>
+<rect x='64' y='176' width='64' height='34' rx='3' fill='#bbf7d0' stroke='#166534' stroke-width='1.2'/>
+<text x='96' y='198' font-size='11' font-weight='600' fill='#166534' text-anchor='middle'>GPU0</text>
+<rect x='134' y='176' width='64' height='34' rx='3' fill='#bbf7d0' stroke='#166534' stroke-width='1.2'/>
+<text x='166' y='198' font-size='11' font-weight='600' fill='#166534' text-anchor='middle'>GPU1</text>
+<rect x='204' y='176' width='64' height='34' rx='3' fill='#bbf7d0' stroke='#166534' stroke-width='1.2'/>
+<text x='236' y='198' font-size='11' font-weight='600' fill='#166534' text-anchor='middle'>GPU2</text>
+<rect x='274' y='176' width='64' height='34' rx='3' fill='#bbf7d0' stroke='#166534' stroke-width='1.2'/>
+<text x='306' y='198' font-size='11' font-weight='600' fill='#166534' text-anchor='middle'>GPU3</text>
+<rect x='344' y='176' width='64' height='34' rx='3' fill='#bbf7d0' stroke='#166534' stroke-width='1.2'/>
+<text x='376' y='198' font-size='11' font-weight='600' fill='#166534' text-anchor='middle'>GPU4</text>
+<rect x='414' y='176' width='64' height='34' rx='3' fill='#bbf7d0' stroke='#166534' stroke-width='1.2'/>
+<text x='446' y='198' font-size='11' font-weight='600' fill='#166534' text-anchor='middle'>GPU5</text>
+<rect x='484' y='176' width='64' height='34' rx='3' fill='#bbf7d0' stroke='#166534' stroke-width='1.2'/>
+<text x='516' y='198' font-size='11' font-weight='600' fill='#166534' text-anchor='middle'>GPU6</text>
+<rect x='554' y='176' width='64' height='34' rx='3' fill='#bbf7d0' stroke='#166534' stroke-width='1.2'/>
+<text x='586' y='198' font-size='11' font-weight='600' fill='#166534' text-anchor='middle'>GPU7</text>
+<rect x='64' y='216' width='554' height='18' rx='3' fill='#166534'/>
+<text x='341' y='229' font-size='10.5' font-weight='600' fill='#ffffff' text-anchor='middle'>NVLink 全互联　GPU-to-GPU 1.8 TB/s　（节点内通信不经任何交换机）</text>
+
+<rect x='50' y='256' width='580' height='78' rx='6' fill='#e6fbff' stroke='#0ea5b7' stroke-width='1.8'/>
+<text x='340' y='276' font-size='12' font-weight='700' fill='#0e7490' text-anchor='middle'>板载 ConnectX-8 SuperNIC × 8　（每 GPU 一张，PCIe Gen5 直连，NUMA 亲和）</text>
+<rect x='64' y='286' width='64' height='34' rx='3' fill='#cffafe' stroke='#0e7490' stroke-width='1.2'/>
+<text x='96' y='302' font-size='10' font-weight='600' fill='#0e7490' text-anchor='middle'>CX8-0</text>
+<text x='96' y='315' font-size='9' fill='#0e7490' text-anchor='middle'>OSFP 800G</text>
+<rect x='134' y='286' width='64' height='34' rx='3' fill='#cffafe' stroke='#0e7490' stroke-width='1.2'/>
+<text x='166' y='302' font-size='10' font-weight='600' fill='#0e7490' text-anchor='middle'>CX8-1</text>
+<text x='166' y='315' font-size='9' fill='#0e7490' text-anchor='middle'>OSFP 800G</text>
+<rect x='204' y='286' width='64' height='34' rx='3' fill='#cffafe' stroke='#0e7490' stroke-width='1.2'/>
+<text x='236' y='302' font-size='10' font-weight='600' fill='#0e7490' text-anchor='middle'>CX8-2</text>
+<text x='236' y='315' font-size='9' fill='#0e7490' text-anchor='middle'>OSFP 800G</text>
+<rect x='274' y='286' width='64' height='34' rx='3' fill='#cffafe' stroke='#0e7490' stroke-width='1.2'/>
+<text x='306' y='302' font-size='10' font-weight='600' fill='#0e7490' text-anchor='middle'>CX8-3</text>
+<text x='306' y='315' font-size='9' fill='#0e7490' text-anchor='middle'>OSFP 800G</text>
+<rect x='344' y='286' width='64' height='34' rx='3' fill='#cffafe' stroke='#0e7490' stroke-width='1.2'/>
+<text x='376' y='302' font-size='10' font-weight='600' fill='#0e7490' text-anchor='middle'>CX8-4</text>
+<text x='376' y='315' font-size='9' fill='#0e7490' text-anchor='middle'>OSFP 800G</text>
+<rect x='414' y='286' width='64' height='34' rx='3' fill='#cffafe' stroke='#0e7490' stroke-width='1.2'/>
+<text x='446' y='302' font-size='10' font-weight='600' fill='#0e7490' text-anchor='middle'>CX8-5</text>
+<text x='446' y='315' font-size='9' fill='#0e7490' text-anchor='middle'>OSFP 800G</text>
+<rect x='484' y='286' width='64' height='34' rx='3' fill='#cffafe' stroke='#0e7490' stroke-width='1.2'/>
+<text x='516' y='302' font-size='10' font-weight='600' fill='#0e7490' text-anchor='middle'>CX8-6</text>
+<text x='516' y='315' font-size='9' fill='#0e7490' text-anchor='middle'>OSFP 800G</text>
+<rect x='554' y='286' width='64' height='34' rx='3' fill='#cffafe' stroke='#0e7490' stroke-width='1.2'/>
+<text x='586' y='302' font-size='10' font-weight='600' fill='#0e7490' text-anchor='middle'>CX8-7</text>
+<text x='586' y='315' font-size='9' fill='#0e7490' text-anchor='middle'>OSFP 800G</text>
+
+<rect x='50' y='348' width='284' height='70' rx='6' fill='#e8effc' stroke='#2563eb' stroke-width='1.8'/>
+<text x='192' y='368' font-size='12' font-weight='700' fill='#1d4ed8' text-anchor='middle'>存储网卡　2 × 200G 光口</text>
+<text x='192' y='388' font-size='10.5' fill='#334155' text-anchor='middle'>多模 MPO · 双归属，分接两台不同 Leaf</text>
+<text x='192' y='406' font-size='10.5' fill='#334155' text-anchor='middle'>建议 LACP active-active（802.3ad）</text>
+
+<rect x='346' y='348' width='284' height='70' rx='6' fill='#f3effc' stroke='#7c3aed' stroke-width='1.8'/>
+<text x='488' y='368' font-size='12' font-weight='700' fill='#5b21b6' text-anchor='middle'>BMC　ASPEED AST2600</text>
+<text x='488' y='388' font-size='10.5' fill='#334155' text-anchor='middle'>1 × RJ45 专用 IPMI 口（铜缆）</text>
+<text x='488' y='406' font-size='10.5' fill='#334155' text-anchor='middle'>另有 2 × 10GbE 板载 LAN（X710-AT2）</text>
+
+<rect x='50' y='432' width='580' height='64' rx='6' fill='#fff8ec' stroke='#ea7317' stroke-width='1.8'/>
+<text x='340' y='452' font-size='12' font-weight='700' fill='#9a3412' text-anchor='middle'>主机与供电</text>
+<text x='340' y='471' font-size='10.5' fill='#334155' text-anchor='middle'>双路 AMD EPYC 9005/9004（cTDP ≤ 500W）· 12 通道 DDR5 · 24 DIMM · 8×Gen5 NVMe + 2×M.2</text>
+<text x='340' y='489' font-size='10.5' fill='#334155' text-anchor='middle'>12 × 3000W 钛金电源（C19）= 36 kW 装机，6+6 冗余可用 ~18 kW　·　实际峰值 ~14–16 kW</text>
+
+<rect x='50' y='510' width='580' height='90' rx='6' fill='#ffffff' stroke='#64748b' stroke-width='1.4'/>
+<text x='64' y='530' font-size='11.5' font-weight='700' fill='#0f172a'>单节点端口总账</text>
+<text x='64' y='550' font-size='10.5' fill='#334155'>计算网：8 × OSFP 800G → 拆分后 16 × 400G 端点，带宽 6.4 Tbps</text>
+<text x='64' y='568' font-size='10.5' fill='#334155'>存储网：2 × 200G，带宽 400 Gbps（active-active 下）</text>
+<text x='64' y='586' font-size='10.5' fill='#334155'>带外：1 × RJ45 IPMI　·　进风温度上限 30°C（机型规格硬约束）</text>
+
+<text x='690' y='118' font-size='13.5' font-weight='700' fill='#475569'>向外的三条独立路径</text>
+<line x1='900' y1='113' x2='1370' y2='113' stroke='#e2e8f0' stroke-width='1.5'/>
+
+<rect x='690' y='132' width='680' height='252' rx='9' fill='#f0fcff' stroke='#0ea5b7' stroke-width='2.2'/>
+<rect x='690' y='132' width='680' height='32' rx='9' fill='#0ea5b7'/>
+<rect x='690' y='154' width='680' height='10' fill='#0ea5b7'/>
+<text x='708' y='154' font-size='13' font-weight='700' fill='#ffffff'>① 计算网（East-West）　双平面 RoCEv2</text>
+
+<text x='708' y='186' font-size='11.5' font-weight='700' fill='#0e7490'>800G → 2 × 400G 拆分规则</text>
+<rect x='708' y='196' width='140' height='40' rx='4' fill='#cffafe' stroke='#0e7490' stroke-width='1.4'/>
+<text x='778' y='214' font-size='10.5' font-weight='600' fill='#0e7490' text-anchor='middle'>CX8-i　OSFP</text>
+<text x='778' y='229' font-size='10' fill='#0e7490' text-anchor='middle'>800G（rail i）</text>
+<line x1='848' y1='206' x2='920' y2='206' stroke='#0ea5b7' stroke-width='2'/>
+<path d='M 912 202 L 922 206 L 912 210 Z' fill='#0ea5b7'/>
+<line x1='848' y1='226' x2='920' y2='226' stroke='#7c3aed' stroke-width='2'/>
+<path d='M 912 222 L 922 226 L 912 230 Z' fill='#7c3aed'/>
+<rect x='924' y='190' width='200' height='32' rx='4' fill='#e6fbff' stroke='#0e7490' stroke-width='1.4'/>
+<text x='1024' y='211' font-size='10.5' font-weight='600' fill='#0e7490' text-anchor='middle'>400G → 平面 1 Leaf（Pod，rail i）</text>
+<rect x='924' y='226' width='200' height='32' rx='4' fill='#f3effc' stroke='#5b21b6' stroke-width='1.4'/>
+<text x='1024' y='247' font-size='10.5' font-weight='600' fill='#5b21b6' text-anchor='middle'>400G → 平面 2 Leaf（Pod，rail i）</text>
+<text x='1140' y='211' font-size='10' fill='#64748b'>单模 MPO</text>
+<text x='1140' y='247' font-size='10' fill='#64748b'>单模 MPO</text>
+
+<text x='708' y='282' font-size='11' fill='#334155'>· 8 张网卡 × 2 = 16 条 400G，其中 8 条入平面 1、8 条入平面 2</text>
+<text x='708' y='300' font-size='11' fill='#334155'>· rail i 的两条链路落在「同 Pod、同 rail、不同平面」的两台 Leaf 上</text>
+<text x='708' y='318' font-size='11' fill='#334155'>· 交换机为 128×400G 机型，拆出的 400G 直接插入，交换机侧无需二次 breakout</text>
+<text x='708' y='336' font-size='11' font-weight='600' fill='#166534'>· 单平面异常时另一平面仍可通信，作业可降速运行而不中断</text>
+<text x='708' y='358' font-size='10.5' fill='#64748b'>NCCL 必须正确识别全部 16 条链路，否则 All-Reduce 打不满带宽；需配置 GID index、流量类别与 MTU 9000</text>
+<text x='708' y='374' font-size='10.5' fill='#64748b'>无损依赖：PFC + ECN / DCQCN（主机侧）与 AI ECN、Agile Buffer、Spraylink 逐包 AR（H3C 侧）</text>
+
+<rect x='690' y='396' width='680' height='196' rx='9' fill='#f5f9ff' stroke='#2563eb' stroke-width='2.2'/>
+<rect x='690' y='396' width='680' height='32' rx='9' fill='#2563eb'/>
+<rect x='690' y='418' width='680' height='10' fill='#2563eb'/>
+<text x='708' y='418' font-size='13' font-weight='700' fill='#ffffff'>② 存储网（North-South）　双归属 2 × 200G</text>
+
+<rect x='708' y='442' width='150' height='54' rx='4' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='783' y='462' font-size='10.5' font-weight='600' fill='#1d4ed8' text-anchor='middle'>存储网卡 口 1</text>
+<text x='783' y='478' font-size='10' fill='#334155' text-anchor='middle'>200G 多模</text>
+<rect x='708' y='504' width='150' height='54' rx='4' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='783' y='524' font-size='10.5' font-weight='600' fill='#1d4ed8' text-anchor='middle'>存储网卡 口 2</text>
+<text x='783' y='540' font-size='10' fill='#334155' text-anchor='middle'>200G 多模</text>
+<line x1='858' y1='469' x2='940' y2='469' stroke='#2563eb' stroke-width='2'/>
+<path d='M 932 465 L 942 469 L 932 473 Z' fill='#2563eb'/>
+<line x1='858' y1='531' x2='940' y2='531' stroke='#2563eb' stroke-width='2'/>
+<path d='M 932 527 L 942 531 L 932 535 Z' fill='#2563eb'/>
+<rect x='944' y='446' width='186' height='46' rx='4' fill='#eff6ff' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='1037' y='466' font-size='10.5' font-weight='600' fill='#1d4ed8' text-anchor='middle'>计算节点存储 Leaf (a)</text>
+<text x='1037' y='482' font-size='10' fill='#334155' text-anchor='middle'>H3C S9825</text>
+<rect x='944' y='508' width='186' height='46' rx='4' fill='#eff6ff' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='1037' y='528' font-size='10.5' font-weight='600' fill='#1d4ed8' text-anchor='middle'>计算节点存储 Leaf (b)</text>
+<text x='1037' y='544' font-size='10' fill='#334155' text-anchor='middle'>H3C S9825</text>
+<line x1='1130' y1='469' x2='1200' y2='500' stroke='#ea7317' stroke-width='2'/>
+<line x1='1130' y1='531' x2='1200' y2='500' stroke='#ea7317' stroke-width='2'/>
+<rect x='1204' y='476' width='154' height='48' rx='4' fill='#fff8ec' stroke='#ea7317' stroke-width='1.6'/>
+<text x='1281' y='496' font-size='10.5' font-weight='700' fill='#9a3412' text-anchor='middle'>共享存储 Spine × 16</text>
+<text x='1281' y='512' font-size='10' fill='#7c2d12' text-anchor='middle'>H3C S9825（双集群共用）</text>
+<text x='708' y='578' font-size='10.5' fill='#334155'>交换机侧每个 400G 端口 breakout 为 2×200G，两条分接两台不同服务器；节点两口分接不同 Leaf → 单 Leaf 故障不断链</text>
+
+<rect x='690' y='604' width='680' height='152' rx='9' fill='#faf8ff' stroke='#7c3aed' stroke-width='2.2'/>
+<rect x='690' y='604' width='680' height='32' rx='9' fill='#7c3aed'/>
+<rect x='690' y='626' width='680' height='10' fill='#7c3aed'/>
+<text x='708' y='626' font-size='13' font-weight='700' fill='#ffffff'>③ 带外管理网（OOB）　1 × RJ45</text>
+<rect x='708' y='650' width='146' height='42' rx='4' fill='#ede9fe' stroke='#5b21b6' stroke-width='1.4'/>
+<text x='781' y='670' font-size='10.5' font-weight='600' fill='#5b21b6' text-anchor='middle'>BMC / IPMI 口</text>
+<text x='781' y='685' font-size='10' fill='#334155' text-anchor='middle'>铜缆 RJ45</text>
+<line x1='854' y1='671' x2='914' y2='671' stroke='#7c3aed' stroke-width='2'/>
+<path d='M 906 667 L 916 671 L 906 675 Z' fill='#7c3aed'/>
+<rect x='918' y='650' width='146' height='42' rx='4' fill='#f3effc' stroke='#5b21b6' stroke-width='1.4'/>
+<text x='991' y='670' font-size='10.5' font-weight='600' fill='#5b21b6' text-anchor='middle'>IPMI 接入 × 9</text>
+<text x='991' y='685' font-size='10' fill='#334155' text-anchor='middle'>H3C S5590</text>
+<line x1='1064' y1='671' x2='1124' y2='671' stroke='#7c3aed' stroke-width='2'/>
+<path d='M 1116 667 L 1126 671 L 1116 675 Z' fill='#7c3aed'/>
+<rect x='1128' y='650' width='146' height='42' rx='4' fill='#f3effc' stroke='#5b21b6' stroke-width='1.4'/>
+<text x='1201' y='670' font-size='10.5' font-weight='600' fill='#5b21b6' text-anchor='middle'>IPMI Spine × 2</text>
+<text x='1201' y='685' font-size='10' fill='#334155' text-anchor='middle'>H3C S6805</text>
+<text x='708' y='716' font-size='10.5' fill='#334155'>承载：带外开关机、硬件告警、固件升级、系统部署（BCM PXE）、串口重定向</text>
+<text x='708' y='734' font-size='10.5' font-weight='600' fill='#5b21b6'>与数据面完全物理隔离 —— 计算网与存储网全断时，仍可远程操作全部节点</text>
+<text x='708' y='750' font-size='10' fill='#64748b'>计算网 Leaf 与 Spine 自身也通过 2 × 10GE 接入 IPMI Spine，实现网络设备带外可达</text>
+
+<rect x='30' y='776' width='1340' height='196' rx='9' fill='#f8fafc' stroke='#1f2937' stroke-width='1.8'/>
+<text x='46' y='798' font-size='12.5' font-weight='700' fill='#0f172a'>全集群链路折算（127 节点）</text>
+<rect x='46' y='810' width='318' height='146' rx='6' fill='#ffffff' stroke='#0ea5b7' stroke-width='1.5'/>
+<text x='205' y='832' font-size='11.5' font-weight='700' fill='#0e7490' text-anchor='middle'>计算网</text>
+<text x='60' y='854' font-size='10.5' fill='#334155'>OSFP 800G 口：127 × 8 = 1,016</text>
+<text x='60' y='874' font-size='10.5' fill='#334155'>400G 端点：127 × 16 = 2,032</text>
+<text x='60' y='894' font-size='10.5' fill='#334155'>每平面端点：1,016</text>
+<text x='60' y='914' font-size='10.5' fill='#334155'>Leaf–Spine：2,048 条</text>
+<text x='60' y='934' font-size='10.5' fill='#334155'>光纤：单模 MPO</text>
+<text x='60' y='950' font-size='10' fill='#64748b'>Leaf 32 台 + Spine 16 台</text>
+
+<rect x='376' y='810' width='318' height='146' rx='6' fill='#ffffff' stroke='#2563eb' stroke-width='1.5'/>
+<text x='535' y='832' font-size='11.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>存储网</text>
+<text x='390' y='854' font-size='10.5' fill='#334155'>计算节点侧：127 × 2 = 254 条 200G</text>
+<text x='390' y='874' font-size='10.5' fill='#334155'>存储 Server 侧：64 × 2 = 128 条 200G</text>
+<text x='390' y='894' font-size='10.5' fill='#334155'>存储 Server 直连 Spine，不经 Leaf</text>
+<text x='390' y='914' font-size='10.5' fill='#334155'>聚合带宽上限：25.6 Tb/s ≈ 3.2 TB/s</text>
+<text x='390' y='934' font-size='10.5' fill='#334155'>光纤：多模 MPO</text>
+<text x='390' y='950' font-size='10' fill='#64748b'>计算节点存储 Leaf 8 台 + 共享 Spine 16 台</text>
+
+<rect x='706' y='810' width='318' height='146' rx='6' fill='#ffffff' stroke='#7c3aed' stroke-width='1.5'/>
+<text x='865' y='832' font-size='11.5' font-weight='700' fill='#5b21b6' text-anchor='middle'>带外管理网</text>
+<text x='720' y='854' font-size='10.5' fill='#334155'>节点 BMC：127 条 RJ45</text>
+<text x='720' y='874' font-size='10.5' fill='#334155'>网络设备管理：48 台 × 2 × 10GE</text>
+<text x='720' y='894' font-size='10.5' fill='#334155'>接入层：S5590 × 9</text>
+<text x='720' y='914' font-size='10.5' fill='#334155'>汇聚层：S6805 × 2（C22/D22 U40）</text>
+<text x='720' y='934' font-size='10.5' fill='#334155'>介质：铜缆</text>
+<text x='720' y='950' font-size='10' fill='#64748b'>上行 B300 业务网核心（C22/D22 U17）</text>
+
+<rect x='1036' y='810' width='318' height='146' rx='6' fill='#ffffff' stroke='#ea7317' stroke-width='1.5'/>
+<text x='1195' y='832' font-size='11.5' font-weight='700' fill='#9a3412' text-anchor='middle'>供电与散热</text>
+<text x='1050' y='854' font-size='10.5' fill='#334155'>单节点峰值：~14–16 kW</text>
+<text x='1050' y='874' font-size='10.5' fill='#334155'>电源：12 × 3000W，6+6 冗余</text>
+<text x='1050' y='894' font-size='10.5' fill='#334155'>机柜密度：1 台 / 柜，单柜 ~15.5 kW</text>
+<text x='1050' y='914' font-size='10.5' fill='#334155'>散热：风冷 + 冷热通道封闭</text>
+<text x='1050' y='934' font-size='10.5' font-weight='600' fill='#9a3412'>进风温度上限 30°C</text>
+<text x='1050' y='950' font-size='10' fill='#64748b'>一柜一台使 rail 无法在柜内闭合 → 不采用 ToR</text>
+</svg>
