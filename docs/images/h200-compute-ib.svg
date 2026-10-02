@@ -1,0 +1,118 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1300 880' font-family='Segoe UI, Arial, sans-serif'>
+<rect x='0' y='0' width='1300' height='880' fill='#ffffff'/>
+<rect x='0' y='0' width='1300' height='74' fill='#0e7490'/>
+<text x='34' y='34' font-size='20' font-weight='700' fill='#ffffff'>H200 集群 · 计算网　InfiniBand NDR</text>
+<text x='34' y='58' font-size='12.5' fill='#cffafe'>32 节点 / 256 GPU · Leaf 8 + Spine 16（NVIDIA MQM9790）· Leaf↔Spine 全连接 · 链路层天然无损 · 收敛比 1:1</text>
+
+<rect x='30' y='92' width='1240' height='58' rx='7' fill='#f0fcff' stroke='#0ea5b7' stroke-width='1.8'/>
+<text x='46' y='113' font-size='12' font-weight='700' fill='#0e7490'>设备规格　NVIDIA MQM9790（Quantum-2 NDR）</text>
+<text x='46' y='133' font-size='11' fill='#334155'>单台 32 × OSFP 800G 物理笼位 = 64 × 400G 端口能力，交换容量 51.2 Tb/s　·　Leaf 与 Spine 为同一型号，仅角色不同</text>
+
+<text x='34' y='186' font-size='13' font-weight='700' fill='#475569'>Spine 层　16 台</text>
+<line x1='170' y1='181' x2='1270' y2='181' stroke='#e2e8f0' stroke-width='1.5'/>
+
+<rect x='34' y='200' width='292' height='64' rx='6' fill='#cffafe' stroke='#0e7490' stroke-width='1.6'/>
+<text x='180' y='222' font-size='12' font-weight='700' fill='#0e7490' text-anchor='middle'>B01 列　Spine 1–4</text>
+<text x='180' y='241' font-size='10.5' fill='#334155' text-anchor='middle'>每台接 8 条 800G（来自 8 台 Leaf 各 1 条）</text>
+<text x='180' y='257' font-size='10' fill='#0e7490' text-anchor='middle'>占用 8 / 32 笼位</text>
+<rect x='338' y='200' width='292' height='64' rx='6' fill='#cffafe' stroke='#0e7490' stroke-width='1.6'/>
+<text x='484' y='222' font-size='12' font-weight='700' fill='#0e7490' text-anchor='middle'>B02 列　Spine 5–8</text>
+<text x='484' y='241' font-size='10.5' fill='#334155' text-anchor='middle'>每台接 8 条 800G（来自 8 台 Leaf 各 1 条）</text>
+<text x='484' y='257' font-size='10' fill='#0e7490' text-anchor='middle'>占用 8 / 32 笼位</text>
+<rect x='642' y='200' width='292' height='64' rx='6' fill='#cffafe' stroke='#0e7490' stroke-width='1.6'/>
+<text x='788' y='222' font-size='12' font-weight='700' fill='#0e7490' text-anchor='middle'>A01 列　Spine 9–12</text>
+<text x='788' y='241' font-size='10.5' fill='#334155' text-anchor='middle'>每台接 8 条 800G（来自 8 台 Leaf 各 1 条）</text>
+<text x='788' y='257' font-size='10' fill='#0e7490' text-anchor='middle'>占用 8 / 32 笼位</text>
+<rect x='946' y='200' width='324' height='64' rx='6' fill='#cffafe' stroke='#0e7490' stroke-width='1.6'/>
+<text x='1108' y='222' font-size='12' font-weight='700' fill='#0e7490' text-anchor='middle'>A02 列　Spine 13–16</text>
+<text x='1108' y='241' font-size='10.5' fill='#334155' text-anchor='middle'>每台接 8 条 800G（来自 8 台 Leaf 各 1 条）</text>
+<text x='1108' y='257' font-size='10' fill='#0e7490' text-anchor='middle'>占用 8 / 32 笼位</text>
+
+<rect x='34' y='284' width='1236' height='88' rx='7' fill='#fff8ec' stroke='#ea7317' stroke-width='2.2'/>
+<text x='652' y='308' font-size='13.5' font-weight='700' fill='#9a3412' text-anchor='middle'>Leaf ↔ Spine　全连接（full-mesh）</text>
+<text x='652' y='330' font-size='11.5' fill='#7c2d12' text-anchor='middle'>每一台 Leaf 与每一台 Spine 之间都有直连链路，不存在只连部分 Spine 的情况</text>
+<text x='652' y='350' font-size='11' fill='#334155' text-anchor='middle'>8 台 Leaf × 16 台 Spine = 128 个连接对　·　每对 1 条 800G　·　合计 128 条 800G</text>
+<text x='652' y='366' font-size='10.5' fill='#9a3412' text-anchor='middle'>每台 Leaf 上行 16 条（对应 16 台 Spine）　·　每台 Spine 下行 8 条（对应 8 台 Leaf）</text>
+
+<text x='34' y='404' font-size='13' font-weight='700' fill='#475569'>Leaf 层　8 台　（一台 Leaf = 一条 rail）</text>
+<line x1='300' y1='399' x2='1270' y2='399' stroke='#e2e8f0' stroke-width='1.5'/>
+
+<rect x='34' y='416' width='148' height='58' rx='5' fill='#e6fbff' stroke='#0e7490' stroke-width='1.5'/>
+<text x='108' y='437' font-size='11.5' font-weight='700' fill='#0e7490' text-anchor='middle'>Leaf 1 · rail 0</text>
+<text x='108' y='454' font-size='10' fill='#334155' text-anchor='middle'>16 笼位下行</text>
+<text x='108' y='468' font-size='10' fill='#334155' text-anchor='middle'>16 笼位上行</text>
+<rect x='190' y='416' width='148' height='58' rx='5' fill='#e6fbff' stroke='#0e7490' stroke-width='1.5'/>
+<text x='264' y='437' font-size='11.5' font-weight='700' fill='#0e7490' text-anchor='middle'>Leaf 2 · rail 1</text>
+<text x='264' y='454' font-size='10' fill='#334155' text-anchor='middle'>16 笼位下行</text>
+<text x='264' y='468' font-size='10' fill='#334155' text-anchor='middle'>16 笼位上行</text>
+<rect x='346' y='416' width='148' height='58' rx='5' fill='#e6fbff' stroke='#0e7490' stroke-width='1.5'/>
+<text x='420' y='437' font-size='11.5' font-weight='700' fill='#0e7490' text-anchor='middle'>Leaf 3 · rail 2</text>
+<text x='420' y='454' font-size='10' fill='#334155' text-anchor='middle'>16 笼位下行</text>
+<text x='420' y='468' font-size='10' fill='#334155' text-anchor='middle'>16 笼位上行</text>
+<rect x='502' y='416' width='148' height='58' rx='5' fill='#e6fbff' stroke='#0e7490' stroke-width='1.5'/>
+<text x='576' y='437' font-size='11.5' font-weight='700' fill='#0e7490' text-anchor='middle'>Leaf 4 · rail 3</text>
+<text x='576' y='454' font-size='10' fill='#334155' text-anchor='middle'>16 笼位下行</text>
+<text x='576' y='468' font-size='10' fill='#334155' text-anchor='middle'>16 笼位上行</text>
+<rect x='658' y='416' width='148' height='58' rx='5' fill='#e6fbff' stroke='#0e7490' stroke-width='1.5'/>
+<text x='732' y='437' font-size='11.5' font-weight='700' fill='#0e7490' text-anchor='middle'>Leaf 5 · rail 4</text>
+<text x='732' y='454' font-size='10' fill='#334155' text-anchor='middle'>16 笼位下行</text>
+<text x='732' y='468' font-size='10' fill='#334155' text-anchor='middle'>16 笼位上行</text>
+<rect x='814' y='416' width='148' height='58' rx='5' fill='#e6fbff' stroke='#0e7490' stroke-width='1.5'/>
+<text x='888' y='437' font-size='11.5' font-weight='700' fill='#0e7490' text-anchor='middle'>Leaf 6 · rail 5</text>
+<text x='888' y='454' font-size='10' fill='#334155' text-anchor='middle'>16 笼位下行</text>
+<text x='888' y='468' font-size='10' fill='#334155' text-anchor='middle'>16 笼位上行</text>
+<rect x='970' y='416' width='148' height='58' rx='5' fill='#e6fbff' stroke='#0e7490' stroke-width='1.5'/>
+<text x='1044' y='437' font-size='11.5' font-weight='700' fill='#0e7490' text-anchor='middle'>Leaf 7 · rail 6</text>
+<text x='1044' y='454' font-size='10' fill='#334155' text-anchor='middle'>16 笼位下行</text>
+<text x='1044' y='468' font-size='10' fill='#334155' text-anchor='middle'>16 笼位上行</text>
+<rect x='1126' y='416' width='144' height='58' rx='5' fill='#e6fbff' stroke='#0e7490' stroke-width='1.5'/>
+<text x='1198' y='437' font-size='11.5' font-weight='700' fill='#0e7490' text-anchor='middle'>Leaf 8 · rail 7</text>
+<text x='1198' y='454' font-size='10' fill='#334155' text-anchor='middle'>16 笼位下行</text>
+<text x='1198' y='468' font-size='10' fill='#334155' text-anchor='middle'>16 笼位上行</text>
+
+<rect x='34' y='494' width='1236' height='44' rx='6' fill='#f0fdf4' stroke='#166534' stroke-width='1.8' stroke-dasharray='6 3'/>
+<text x='652' y='512' font-size='11.5' font-weight='700' fill='#166534' text-anchor='middle'>节点 → Leaf　一卡一轨道</text>
+<text x='652' y='530' font-size='10.5' fill='#334155' text-anchor='middle'>节点的第 i 号 GPU 的 400G 网卡固定接入 Leaf i+1；每笼位 800G 拆 2 × 400G 接两个节点</text>
+
+<rect x='34' y='556' width='1236' height='84' rx='7' fill='#f6fdf8' stroke='#16a34a' stroke-width='2.2'/>
+<rect x='34' y='556' width='1236' height='30' rx='7' fill='#16a34a'/>
+<rect x='34' y='576' width='1236' height='10' fill='#16a34a'/>
+<text x='50' y='577' font-size='12.5' font-weight='700' fill='#ffffff'>计算节点　32 台 Aivres KR6288 V2 · HGX H200 8-GPU · 256 GPU</text>
+<rect x='50' y='596' width='596' height='34' rx='4' fill='#dcfce7' stroke='#166534' stroke-width='1.4'/>
+<text x='348' y='618' font-size='11.5' font-weight='600' fill='#166534' text-anchor='middle'>A 列　20 台 · 160 GPU</text>
+<rect x='658' y='596' width='612' height='34' rx='4' fill='#dcfce7' stroke='#166534' stroke-width='1.4'/>
+<text x='964' y='618' font-size='11.5' font-weight='600' fill='#166534' text-anchor='middle'>B 列　12 台 · 96 GPU</text>
+
+<rect x='34' y='660' width='404' height='192' rx='7' fill='#ffffff' stroke='#64748b' stroke-width='1.5'/>
+<text x='48' y='682' font-size='12' font-weight='700' fill='#0f172a'>端口与容量账</text>
+<text x='48' y='704' font-size='10.5' fill='#334155'>Leaf 下行　8 × 16 笼位 × 2 = 256 条 400G</text>
+<text x='48' y='722' font-size='10.5' fill='#334155'>节点需求　32 × 8 张网卡 = 256 条</text>
+<text x='48' y='740' font-size='10.5' font-weight='600' fill='#9a3412'>→ 完全匹配，无冗余下行端口</text>
+<text x='48' y='764' font-size='10.5' fill='#334155'>Leaf 上行　8 × 16 = 128 条 800G</text>
+<text x='48' y='782' font-size='10.5' fill='#334155'>Spine 入线　16 × 8 = 128 条（吻合）</text>
+<text x='48' y='804' font-size='10.5' fill='#334155'>Leaf 笼位占用　16 + 16 = 32 / 32（满）</text>
+<text x='48' y='822' font-size='10.5' fill='#334155'>Spine 笼位占用　8 / 32（尚有余量）</text>
+<text x='48' y='842' font-size='10' fill='#64748b'>扩容瓶颈在 Leaf，不在 Spine</text>
+
+<rect x='450' y='660' width='404' height='192' rx='7' fill='#ffffff' stroke='#0ea5b7' stroke-width='1.5'/>
+<text x='464' y='682' font-size='12' font-weight='700' fill='#0e7490'>无损机制（InfiniBand）</text>
+<text x='464' y='704' font-size='10.5' fill='#334155'>链路层 credit-based 流控：发送端只在</text>
+<text x='464' y='720' font-size='10.5' fill='#334155'>收到对端 credit 后才发包，从机制上</text>
+<text x='464' y='736' font-size='10.5' font-weight='600' fill='#166534'>不产生拥塞丢包 —— 天然无损</text>
+<text x='464' y='760' font-size='10.5' fill='#334155'>无需 PFC / ECN / DCQCN 调优</text>
+<text x='464' y='778' font-size='10.5' fill='#334155'>无需担心 PFC 死锁与反压扩散</text>
+<text x='464' y='800' font-size='10.5' fill='#334155'>时延确定性好，抖动小</text>
+<text x='464' y='820' font-size='10.5' fill='#334155'>由 Subnet Manager 统一下发路由</text>
+<text x='464' y='842' font-size='10' fill='#64748b'>运维重点：SM 配置与 rail 亲和性，而非队列整定</text>
+
+<rect x='866' y='660' width='404' height='192' rx='7' fill='#ffffff' stroke='#5b21b6' stroke-width='1.5'/>
+<text x='880' y='682' font-size='12' font-weight='700' fill='#5b21b6'>全连接带来的通信特性</text>
+<text x='880' y='704' font-size='10.5' fill='#334155'>同 rail 跨节点　Leaf 内交换，1 跳</text>
+<text x='880' y='722' font-size='10.5' fill='#334155'>跨 rail 跨节点　Leaf → Spine → Leaf，3 跳</text>
+<text x='880' y='740' font-size='10.5' fill='#334155'>节点内 8 卡　NVLink，0 跳</text>
+<text x='880' y='764' font-size='10.5' fill='#334155'>全连接使任意 Leaf 对之间有 16 条等价路径</text>
+<text x='880' y='782' font-size='10.5' fill='#334155'>（经 16 台 Spine），单台 Spine 故障仅损失</text>
+<text x='880' y='798' font-size='10.5' font-weight='600' fill='#166534'>1/16 跨 rail 带宽，不中断通信</text>
+<text x='880' y='822' font-size='10.5' fill='#334155'>32 节点全部在同一 rail 域内闭合</text>
+<text x='880' y='842' font-size='10' fill='#64748b'>集合通信可在 Leaf 层完成，不必上 Spine</text>
+</svg>

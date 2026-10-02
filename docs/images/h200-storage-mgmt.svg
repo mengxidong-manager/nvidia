@@ -1,0 +1,91 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1300 820' font-family='Segoe UI, Arial, sans-serif'>
+<rect x='0' y='0' width='1300' height='820' fill='#ffffff'/>
+<rect x='0' y='0' width='1300' height='74' fill='#5b21b6'/>
+<text x='34' y='34' font-size='20' font-weight='700' fill='#ffffff'>H200 集群 · 存储网与管理网　NVIDIA Spectrum 以太网体系</text>
+<text x='34' y='58' font-size='12.5' fill='#ddd6fe'>8 台设备自成三层（Leaf 4 + Spine 2 + Core 2）· 两组 Leaf 共用 Spine · Leaf↔Spine 全连接 · 本集群不配置存储 Server</text>
+
+<rect x='30' y='92' width='1240' height='56' rx='7' fill='#faf8ff' stroke='#7c3aed' stroke-width='1.8'/>
+<text x='46' y='113' font-size='12' font-weight='700' fill='#5b21b6'>体系定位</text>
+<text x='46' y='133' font-size='11' fill='#334155'>H200 集群不配置存储 Server（全部 130 台存储节点归 B300）。这套 Spectrum 体系承载 H200 计算节点的存储访问与带外管理，从 Leaf 到 Core 全部自有，不接入 B300 的存储网骨干。</text>
+
+<rect x='300' y='172' width='700' height='60' rx='7' fill='#ede9fe' stroke='#5b21b6' stroke-width='2.4'/>
+<text x='650' y='196' font-size='13.5' font-weight='700' fill='#0f172a' text-anchor='middle'>Core　NVIDIA SN4600 × 2</text>
+<text x='650' y='218' font-size='11' fill='#5b21b6' text-anchor='middle'>C22 列 U10 / D22 列 U10　·　冗余部署　·　南北向汇聚与对外互联</text>
+
+<line x1='650' y1='232' x2='650' y2='268' stroke='#7c3aed' stroke-width='3'/>
+<path d='M 644 258 L 650 270 L 656 258 Z' fill='#7c3aed'/>
+<text x='666' y='254' font-size='10.5' fill='#5b21b6'>Spine → Core　双上行</text>
+
+<rect x='300' y='270' width='700' height='60' rx='7' fill='#f3effc' stroke='#5b21b6' stroke-width='2.2'/>
+<text x='650' y='294' font-size='13' font-weight='700' fill='#5b21b6' text-anchor='middle'>Spine　NVIDIA SN5600 × 2</text>
+<text x='650' y='316' font-size='11' fill='#334155' text-anchor='middle'>C22 列 U37 / D22 列 U37　·　两组 Leaf 共用这一对 Spine</text>
+
+<rect x='120' y='352' width='1060' height='56' rx='6' fill='#fff8ec' stroke='#ea7317' stroke-width='2'/>
+<text x='650' y='374' font-size='12.5' font-weight='700' fill='#9a3412' text-anchor='middle'>Leaf ↔ Spine　全连接（full-mesh）</text>
+<text x='650' y='396' font-size='11' fill='#334155' text-anchor='middle'>4 台 Leaf × 2 台 Spine = 8 个连接对，每台 Leaf 双上行分接两台 Spine　→　任一 Spine 故障不中断任何 Leaf</text>
+
+<line x1='300' y1='408' x2='300' y2='436' stroke='#7c3aed' stroke-width='2.4'/>
+<path d='M 294 426 L 300 438 L 306 426 Z' fill='#7c3aed'/>
+<line x1='1000' y1='408' x2='1000' y2='436' stroke='#7c3aed' stroke-width='2.4'/>
+<path d='M 994 426 L 1000 438 L 1006 426 Z' fill='#7c3aed'/>
+
+<rect x='60' y='438' width='560' height='104' rx='7' fill='#ffffff' stroke='#5b21b6' stroke-width='1.8'/>
+<text x='340' y='462' font-size='12.5' font-weight='700' fill='#5b21b6' text-anchor='middle'>计算节点存储 Leaf　NVIDIA SN5600 × 2</text>
+<rect x='76' y='474' width='258' height='30' rx='4' fill='#ede9fe' stroke='#5b21b6' stroke-width='1.3'/>
+<text x='205' y='494' font-size='11' font-weight='600' fill='#5b21b6' text-anchor='middle'>C23 列 U37</text>
+<rect x='346' y='474' width='258' height='30' rx='4' fill='#ede9fe' stroke='#5b21b6' stroke-width='1.3'/>
+<text x='475' y='494' font-size='11' font-weight='600' fill='#5b21b6' text-anchor='middle'>D23 列 U37</text>
+<text x='340' y='524' font-size='10.5' fill='#334155' text-anchor='middle'>承载 32 个计算节点的存储访问与 Checkpoint 读写</text>
+<text x='340' y='538' font-size='10' fill='#64748b' text-anchor='middle'>节点双上行分接两台 Leaf，形成双归属</text>
+
+<rect x='680' y='438' width='560' height='104' rx='7' fill='#ffffff' stroke='#5b21b6' stroke-width='1.8'/>
+<text x='960' y='462' font-size='12.5' font-weight='700' fill='#5b21b6' text-anchor='middle'>管理 Server Leaf　NVIDIA SN5600 × 2</text>
+<rect x='696' y='474' width='258' height='30' rx='4' fill='#ede9fe' stroke='#5b21b6' stroke-width='1.3'/>
+<text x='825' y='494' font-size='11' font-weight='600' fill='#5b21b6' text-anchor='middle'>D21 列 U37</text>
+<rect x='966' y='474' width='258' height='30' rx='4' fill='#ede9fe' stroke='#5b21b6' stroke-width='1.3'/>
+<text x='1095' y='494' font-size='11' font-weight='600' fill='#5b21b6' text-anchor='middle'>C21 列 U37</text>
+<text x='960' y='524' font-size='10.5' fill='#334155' text-anchor='middle'>承载管理服务器、监控、BCM 部署相关节点</text>
+<text x='960' y='538' font-size='10' fill='#64748b' text-anchor='middle'>同样双上行至同一对 Spine</text>
+
+<line x1='340' y1='542' x2='340' y2='572' stroke='#16a34a' stroke-width='2.4'/>
+<path d='M 334 562 L 340 574 L 346 562 Z' fill='#16a34a'/>
+<line x1='960' y1='542' x2='960' y2='572' stroke='#16a34a' stroke-width='2.4'/>
+<path d='M 954 562 L 960 574 L 966 562 Z' fill='#16a34a'/>
+
+<rect x='60' y='574' width='560' height='64' rx='7' fill='#f6fdf8' stroke='#16a34a' stroke-width='1.8'/>
+<text x='340' y='596' font-size='12' font-weight='700' fill='#166534' text-anchor='middle'>H200 计算节点 × 32</text>
+<text x='340' y='616' font-size='10.5' fill='#334155' text-anchor='middle'>Aivres KR6288 V2 · A 列 20 台 + B 列 12 台</text>
+<text x='340' y='631' font-size='10' fill='#15803d' text-anchor='middle'>存储网口与 IB 计算网卡完全分离，互不复用</text>
+
+<rect x='680' y='574' width='560' height='64' rx='7' fill='#f6fdf8' stroke='#16a34a' stroke-width='1.8'/>
+<text x='960' y='596' font-size='12' font-weight='700' fill='#166534' text-anchor='middle'>管理服务器 / 监控节点</text>
+<text x='960' y='616' font-size='10.5' fill='#334155' text-anchor='middle'>BCM 相关服务、监控采集、部署服务</text>
+<text x='960' y='631' font-size='10' fill='#15803d' text-anchor='middle'>与数据面物理隔离</text>
+
+<rect x='30' y='658' width='404' height='148' rx='7' fill='#ffffff' stroke='#64748b' stroke-width='1.5'/>
+<text x='44' y='680' font-size='12' font-weight='700' fill='#0f172a'>三层结构台账　8 台</text>
+<text x='44' y='702' font-size='10.5' fill='#334155'>计算节点存储 Leaf　SN5600 × 2</text>
+<text x='44' y='720' font-size='10.5' fill='#334155'>管理 Server Leaf　SN5600 × 2</text>
+<text x='44' y='738' font-size='10.5' fill='#334155'>Spine　SN5600 × 2</text>
+<text x='44' y='756' font-size='10.5' fill='#334155'>Core　SN4600 × 2</text>
+<text x='44' y='778' font-size='10.5' font-weight='600' fill='#5b21b6'>每一层均为双机冗余，无单点</text>
+<text x='44' y='797' font-size='10' fill='#64748b'>连同计算网 24 台，H200 专属交换机共 32 台</text>
+
+<rect x='448' y='658' width='404' height='148' rx='7' fill='#ffffff' stroke='#0ea5b7' stroke-width='1.5'/>
+<text x='462' y='680' font-size='12' font-weight='700' fill='#0e7490'>无损与质量保障（以太网侧）</text>
+<text x='462' y='702' font-size='10.5' fill='#334155'>本网承载存储读写与管理流量，而非 GPU</text>
+<text x='462' y='718' font-size='10.5' fill='#334155'>集合通信，因此以「不丢包、不阻塞」为目标</text>
+<text x='462' y='740' font-size='10.5' fill='#334155'>· Leaf↔Spine 全连接 + 双上行等价多路径</text>
+<text x='462' y='758' font-size='10.5' fill='#334155'>· 存储流量启用 PFC + ECN 构建无损队列</text>
+<text x='462' y='776' font-size='10.5' fill='#334155'>· 管理流量走独立队列，不与存储争抢</text>
+<text x='462' y='797' font-size='10' fill='#64748b'>Spectrum 系列支持 RoCE 加速与遥测，便于端到端定位</text>
+
+<rect x='866' y='658' width='404' height='148' rx='7' fill='#ffffff' stroke='#9a3412' stroke-width='1.5'/>
+<text x='880' y='680' font-size='12' font-weight='700' fill='#9a3412'>与 B300 的边界</text>
+<text x='880' y='702' font-size='10.5' fill='#334155'>本体系与 B300 的存储网骨干无任何连接</text>
+<text x='880' y='720' font-size='10.5' fill='#334155'>两集群的存储平面各自独立，故障域不互通</text>
+<text x='880' y='742' font-size='10.5' fill='#334155'>H200 的南北向出口是自己的 SN4600 Core</text>
+<text x='880' y='760' font-size='10.5' fill='#334155'>（C22/D22 U10），与 B300 业务网核心</text>
+<text x='880' y='776' font-size='10.5' fill='#334155'>（C22/D22 U17）是两套独立设备</text>
+<text x='880' y='797' font-size='10' fill='#64748b'>同机柜列但不同 U 位，巡检时注意区分</text>
+</svg>
