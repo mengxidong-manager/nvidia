@@ -1,0 +1,228 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1480 1060' font-family='Segoe UI, Arial, sans-serif'>
+<rect x='0' y='0' width='1480' height='1060' fill='#ffffff'/>
+<rect x='0' y='0' width='1480' height='78' fill='#0f172a'/>
+<text x='36' y='36' font-size='21' font-weight='700' fill='#ffffff'>B300 集群 — 双 Pod × 双平面 计算网拓扑详图</text>
+<text x='36' y='62' font-size='12.5' fill='#94a3b8'>127 节点 · 1,016 GPU · 2,032 个 400G 端点 · Leaf 32 台 + Spine 16 台（H3C LS9867-128DH，128×400G）· 严格 1:1 无阻塞</text>
+
+<rect x='30' y='96' width='1420' height='54' rx='7' fill='#f8fafc' stroke='#1f2937' stroke-width='1.6'/>
+<text x='46' y='118' font-size='12' font-weight='700' fill='#0f172a'>读图要点</text>
+<text x='46' y='138' font-size='11' fill='#334155'>① 每节点 8 个 OSFP 800G 口各拆 2×400G，一条入平面 1、一条入平面 2　② 一台 Leaf = 一条 rail × 一个 Pod（≤64 节点）　③ 两个平面在交换机与链路上完全独立，无任何横向连接</text>
+
+<rect x='30' y='168' width='700' height='34' rx='6' fill='#0e7490'/>
+<text x='380' y='191' font-size='14' font-weight='700' fill='#ffffff' text-anchor='middle'>通信平面 1（Plane 1）</text>
+<rect x='750' y='168' width='700' height='34' rx='6' fill='#5b21b6'/>
+<text x='1100' y='191' font-size='14' font-weight='700' fill='#ffffff' text-anchor='middle'>通信平面 2（Plane 2）</text>
+
+<rect x='30' y='212' width='700' height='520' rx='8' fill='#f0fcff' stroke='#0ea5b7' stroke-width='2'/>
+<rect x='750' y='212' width='700' height='520' rx='8' fill='#f8f5ff' stroke='#7c3aed' stroke-width='2'/>
+
+<text x='48' y='240' font-size='12' font-weight='700' fill='#0e7490'>Spine 层　8 台　（每台 128×400G）</text>
+<rect x='48' y='250' width='74' height='40' rx='4' fill='#cffafe' stroke='#0e7490' stroke-width='1.4'/>
+<text x='85' y='275' font-size='11' font-weight='600' fill='#0e7490' text-anchor='middle'>P1-SP1</text>
+<rect x='130' y='250' width='74' height='40' rx='4' fill='#cffafe' stroke='#0e7490' stroke-width='1.4'/>
+<text x='167' y='275' font-size='11' font-weight='600' fill='#0e7490' text-anchor='middle'>P1-SP2</text>
+<rect x='212' y='250' width='74' height='40' rx='4' fill='#cffafe' stroke='#0e7490' stroke-width='1.4'/>
+<text x='249' y='275' font-size='11' font-weight='600' fill='#0e7490' text-anchor='middle'>P1-SP3</text>
+<rect x='294' y='250' width='74' height='40' rx='4' fill='#cffafe' stroke='#0e7490' stroke-width='1.4'/>
+<text x='331' y='275' font-size='11' font-weight='600' fill='#0e7490' text-anchor='middle'>P1-SP4</text>
+<rect x='376' y='250' width='74' height='40' rx='4' fill='#cffafe' stroke='#0e7490' stroke-width='1.4'/>
+<text x='413' y='275' font-size='11' font-weight='600' fill='#0e7490' text-anchor='middle'>P1-SP5</text>
+<rect x='458' y='250' width='74' height='40' rx='4' fill='#cffafe' stroke='#0e7490' stroke-width='1.4'/>
+<text x='495' y='275' font-size='11' font-weight='600' fill='#0e7490' text-anchor='middle'>P1-SP6</text>
+<rect x='540' y='250' width='74' height='40' rx='4' fill='#cffafe' stroke='#0e7490' stroke-width='1.4'/>
+<text x='577' y='275' font-size='11' font-weight='600' fill='#0e7490' text-anchor='middle'>P1-SP7</text>
+<rect x='622' y='250' width='74' height='40' rx='4' fill='#cffafe' stroke='#0e7490' stroke-width='1.4'/>
+<text x='659' y='275' font-size='11' font-weight='600' fill='#0e7490' text-anchor='middle'>P1-SP8</text>
+<text x='712' y='275' font-size='10.5' fill='#64748b' text-anchor='end'>N22/N23/M22/M23 列</text>
+
+<rect x='48' y='306' width='664' height='40' rx='5' fill='#fff8ec' stroke='#ea7317' stroke-width='1.6' stroke-dasharray='6 3'/>
+<text x='380' y='322' font-size='11' font-weight='700' fill='#9a3412' text-anchor='middle'>Leaf ↔ Spine 全互联（本平面 1,024 条 400G）</text>
+<text x='380' y='338' font-size='10' fill='#7c2d12' text-anchor='middle'>每台 Leaf 的 64 条上行均摊至 8 台 Spine，每台 Spine 承接 8 条 → 单 Spine 入线 16×8 = 128 条，端口满配</text>
+
+<text x='48' y='374' font-size='12' font-weight='700' fill='#166534'>Pod A　Leaf 8 台　（每台 64 下行 + 64 上行）</text>
+<rect x='48' y='384' width='74' height='44' rx='4' fill='#dcfce7' stroke='#166534' stroke-width='1.4'/>
+<text x='85' y='402' font-size='10.5' font-weight='700' fill='#166534' text-anchor='middle'>A·rail0</text>
+<text x='85' y='418' font-size='9.5' fill='#15803d' text-anchor='middle'>64 节点</text>
+<rect x='130' y='384' width='74' height='44' rx='4' fill='#dcfce7' stroke='#166534' stroke-width='1.4'/>
+<text x='167' y='402' font-size='10.5' font-weight='700' fill='#166534' text-anchor='middle'>A·rail1</text>
+<text x='167' y='418' font-size='9.5' fill='#15803d' text-anchor='middle'>64 节点</text>
+<rect x='212' y='384' width='74' height='44' rx='4' fill='#dcfce7' stroke='#166534' stroke-width='1.4'/>
+<text x='249' y='402' font-size='10.5' font-weight='700' fill='#166534' text-anchor='middle'>A·rail2</text>
+<text x='249' y='418' font-size='9.5' fill='#15803d' text-anchor='middle'>64 节点</text>
+<rect x='294' y='384' width='74' height='44' rx='4' fill='#dcfce7' stroke='#166534' stroke-width='1.4'/>
+<text x='331' y='402' font-size='10.5' font-weight='700' fill='#166534' text-anchor='middle'>A·rail3</text>
+<text x='331' y='418' font-size='9.5' fill='#15803d' text-anchor='middle'>64 节点</text>
+<rect x='376' y='384' width='74' height='44' rx='4' fill='#dcfce7' stroke='#166534' stroke-width='1.4'/>
+<text x='413' y='402' font-size='10.5' font-weight='700' fill='#166534' text-anchor='middle'>A·rail4</text>
+<text x='413' y='418' font-size='9.5' fill='#15803d' text-anchor='middle'>64 节点</text>
+<rect x='458' y='384' width='74' height='44' rx='4' fill='#dcfce7' stroke='#166534' stroke-width='1.4'/>
+<text x='495' y='402' font-size='10.5' font-weight='700' fill='#166534' text-anchor='middle'>A·rail5</text>
+<text x='495' y='418' font-size='9.5' fill='#15803d' text-anchor='middle'>64 节点</text>
+<rect x='540' y='384' width='74' height='44' rx='4' fill='#dcfce7' stroke='#166534' stroke-width='1.4'/>
+<text x='577' y='402' font-size='10.5' font-weight='700' fill='#166534' text-anchor='middle'>A·rail6</text>
+<text x='577' y='418' font-size='9.5' fill='#15803d' text-anchor='middle'>64 节点</text>
+<rect x='622' y='384' width='74' height='44' rx='4' fill='#dcfce7' stroke='#166534' stroke-width='1.4'/>
+<text x='659' y='402' font-size='10.5' font-weight='700' fill='#166534' text-anchor='middle'>A·rail7</text>
+<text x='659' y='418' font-size='9.5' fill='#15803d' text-anchor='middle'>64 节点</text>
+
+<text x='48' y='458' font-size='12' font-weight='700' fill='#1d4ed8'>Pod B　Leaf 8 台　（每台 63 下行 + 64 上行，余 1 口）</text>
+<rect x='48' y='468' width='74' height='44' rx='4' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='85' y='486' font-size='10.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>B·rail0</text>
+<text x='85' y='502' font-size='9.5' fill='#2563eb' text-anchor='middle'>63 节点</text>
+<rect x='130' y='468' width='74' height='44' rx='4' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='167' y='486' font-size='10.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>B·rail1</text>
+<text x='167' y='502' font-size='9.5' fill='#2563eb' text-anchor='middle'>63 节点</text>
+<rect x='212' y='468' width='74' height='44' rx='4' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='249' y='486' font-size='10.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>B·rail2</text>
+<text x='249' y='502' font-size='9.5' fill='#2563eb' text-anchor='middle'>63 节点</text>
+<rect x='294' y='468' width='74' height='44' rx='4' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='331' y='486' font-size='10.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>B·rail3</text>
+<text x='331' y='502' font-size='9.5' fill='#2563eb' text-anchor='middle'>63 节点</text>
+<rect x='376' y='468' width='74' height='44' rx='4' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='413' y='486' font-size='10.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>B·rail4</text>
+<text x='413' y='502' font-size='9.5' fill='#2563eb' text-anchor='middle'>63 节点</text>
+<rect x='458' y='468' width='74' height='44' rx='4' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='495' y='486' font-size='10.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>B·rail5</text>
+<text x='495' y='502' font-size='9.5' fill='#2563eb' text-anchor='middle'>63 节点</text>
+<rect x='540' y='468' width='74' height='44' rx='4' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='577' y='486' font-size='10.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>B·rail6</text>
+<text x='577' y='502' font-size='9.5' fill='#2563eb' text-anchor='middle'>63 节点</text>
+<rect x='622' y='468' width='74' height='44' rx='4' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='659' y='486' font-size='10.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>B·rail7</text>
+<text x='659' y='502' font-size='9.5' fill='#2563eb' text-anchor='middle'>63 节点</text>
+
+<rect x='48' y='536' width='664' height='84' rx='5' fill='#ffffff' stroke='#64748b' stroke-width='1.4'/>
+<text x='62' y='556' font-size='11.5' font-weight='700' fill='#0f172a'>平面 1 端口账</text>
+<text x='62' y='576' font-size='10.5' fill='#334155'>Leaf 下行：Pod A 8×64 = 512　+　Pod B 8×63 = 504　→　合计 1,016 条 400G</text>
+<text x='62' y='594' font-size='10.5' fill='#334155'>Leaf 上行：16 台 × 64 = 1,024 条　→　Spine 8 台 × 128 口 = 1,024，恰好满配</text>
+<text x='62' y='612' font-size='10.5' font-weight='600' fill='#166534'>容量：16 台 × 64 = 1,024 端点，实用 1,016，余 8 个端点（≈ 可再接 1 台节点）</text>
+
+<rect x='48' y='634' width='664' height='84' rx='5' fill='#ffffff' stroke='#64748b' stroke-width='1.4'/>
+<text x='62' y='654' font-size='11.5' font-weight='700' fill='#0f172a'>Leaf 归属规则</text>
+<text x='62' y='674' font-size='10.5' fill='#334155'>（Pod，rail，平面）→ 唯一一台 Leaf　·　8 rail × 2 平面 × 2 Pod = 32 台</text>
+<text x='62' y='692' font-size='10.5' fill='#334155'>节点的第 i 号 GPU（rail i）固定接入本 Pod 第 i 组 Leaf，两条 400G 分别落在两个平面</text>
+<text x='62' y='710' font-size='10.5' fill='#334155'>Pod A Leaf：H01/H02/I01/I02 列各 4 台　·　Pod B Leaf：O01/O02/P01/P02 列各 4 台</text>
+
+<text x='768' y='240' font-size='12' font-weight='700' fill='#5b21b6'>Spine 层　8 台　（每台 128×400G）</text>
+<rect x='768' y='250' width='74' height='40' rx='4' fill='#ede9fe' stroke='#5b21b6' stroke-width='1.4'/>
+<text x='805' y='275' font-size='11' font-weight='600' fill='#5b21b6' text-anchor='middle'>P2-SP1</text>
+<rect x='850' y='250' width='74' height='40' rx='4' fill='#ede9fe' stroke='#5b21b6' stroke-width='1.4'/>
+<text x='887' y='275' font-size='11' font-weight='600' fill='#5b21b6' text-anchor='middle'>P2-SP2</text>
+<rect x='932' y='250' width='74' height='40' rx='4' fill='#ede9fe' stroke='#5b21b6' stroke-width='1.4'/>
+<text x='969' y='275' font-size='11' font-weight='600' fill='#5b21b6' text-anchor='middle'>P2-SP3</text>
+<rect x='1014' y='250' width='74' height='40' rx='4' fill='#ede9fe' stroke='#5b21b6' stroke-width='1.4'/>
+<text x='1051' y='275' font-size='11' font-weight='600' fill='#5b21b6' text-anchor='middle'>P2-SP4</text>
+<rect x='1096' y='250' width='74' height='40' rx='4' fill='#ede9fe' stroke='#5b21b6' stroke-width='1.4'/>
+<text x='1133' y='275' font-size='11' font-weight='600' fill='#5b21b6' text-anchor='middle'>P2-SP5</text>
+<rect x='1178' y='250' width='74' height='40' rx='4' fill='#ede9fe' stroke='#5b21b6' stroke-width='1.4'/>
+<text x='1215' y='275' font-size='11' font-weight='600' fill='#5b21b6' text-anchor='middle'>P2-SP6</text>
+<rect x='1260' y='250' width='74' height='40' rx='4' fill='#ede9fe' stroke='#5b21b6' stroke-width='1.4'/>
+<text x='1297' y='275' font-size='11' font-weight='600' fill='#5b21b6' text-anchor='middle'>P2-SP7</text>
+<rect x='1342' y='250' width='74' height='40' rx='4' fill='#ede9fe' stroke='#5b21b6' stroke-width='1.4'/>
+<text x='1379' y='275' font-size='11' font-weight='600' fill='#5b21b6' text-anchor='middle'>P2-SP8</text>
+
+<rect x='768' y='306' width='648' height='40' rx='5' fill='#fff8ec' stroke='#ea7317' stroke-width='1.6' stroke-dasharray='6 3'/>
+<text x='1092' y='322' font-size='11' font-weight='700' fill='#9a3412' text-anchor='middle'>Leaf ↔ Spine 全互联（本平面 1,024 条 400G）</text>
+<text x='1092' y='338' font-size='10' fill='#7c2d12' text-anchor='middle'>结构与平面 1 完全对称，但设备、链路、光模块均独立，两平面之间无任何连接</text>
+
+<text x='768' y='374' font-size='12' font-weight='700' fill='#166534'>Pod A　Leaf 8 台</text>
+<rect x='768' y='384' width='74' height='44' rx='4' fill='#dcfce7' stroke='#166534' stroke-width='1.4'/>
+<text x='805' y='402' font-size='10.5' font-weight='700' fill='#166534' text-anchor='middle'>A·rail0</text>
+<text x='805' y='418' font-size='9.5' fill='#15803d' text-anchor='middle'>64 节点</text>
+<rect x='850' y='384' width='74' height='44' rx='4' fill='#dcfce7' stroke='#166534' stroke-width='1.4'/>
+<text x='887' y='402' font-size='10.5' font-weight='700' fill='#166534' text-anchor='middle'>A·rail1</text>
+<text x='887' y='418' font-size='9.5' fill='#15803d' text-anchor='middle'>64 节点</text>
+<rect x='932' y='384' width='74' height='44' rx='4' fill='#dcfce7' stroke='#166534' stroke-width='1.4'/>
+<text x='969' y='402' font-size='10.5' font-weight='700' fill='#166534' text-anchor='middle'>A·rail2</text>
+<text x='969' y='418' font-size='9.5' fill='#15803d' text-anchor='middle'>64 节点</text>
+<rect x='1014' y='384' width='74' height='44' rx='4' fill='#dcfce7' stroke='#166534' stroke-width='1.4'/>
+<text x='1051' y='402' font-size='10.5' font-weight='700' fill='#166534' text-anchor='middle'>A·rail3</text>
+<text x='1051' y='418' font-size='9.5' fill='#15803d' text-anchor='middle'>64 节点</text>
+<rect x='1096' y='384' width='74' height='44' rx='4' fill='#dcfce7' stroke='#166534' stroke-width='1.4'/>
+<text x='1133' y='402' font-size='10.5' font-weight='700' fill='#166534' text-anchor='middle'>A·rail4</text>
+<text x='1133' y='418' font-size='9.5' fill='#15803d' text-anchor='middle'>64 节点</text>
+<rect x='1178' y='384' width='74' height='44' rx='4' fill='#dcfce7' stroke='#166534' stroke-width='1.4'/>
+<text x='1215' y='402' font-size='10.5' font-weight='700' fill='#166534' text-anchor='middle'>A·rail5</text>
+<text x='1215' y='418' font-size='9.5' fill='#15803d' text-anchor='middle'>64 节点</text>
+<rect x='1260' y='384' width='74' height='44' rx='4' fill='#dcfce7' stroke='#166534' stroke-width='1.4'/>
+<text x='1297' y='402' font-size='10.5' font-weight='700' fill='#166534' text-anchor='middle'>A·rail6</text>
+<text x='1297' y='418' font-size='9.5' fill='#15803d' text-anchor='middle'>64 节点</text>
+<rect x='1342' y='384' width='74' height='44' rx='4' fill='#dcfce7' stroke='#166534' stroke-width='1.4'/>
+<text x='1379' y='402' font-size='10.5' font-weight='700' fill='#166534' text-anchor='middle'>A·rail7</text>
+<text x='1379' y='418' font-size='9.5' fill='#15803d' text-anchor='middle'>64 节点</text>
+
+<text x='768' y='458' font-size='12' font-weight='700' fill='#1d4ed8'>Pod B　Leaf 8 台</text>
+<rect x='768' y='468' width='74' height='44' rx='4' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='805' y='486' font-size='10.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>B·rail0</text>
+<text x='805' y='502' font-size='9.5' fill='#2563eb' text-anchor='middle'>63 节点</text>
+<rect x='850' y='468' width='74' height='44' rx='4' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='887' y='486' font-size='10.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>B·rail1</text>
+<text x='887' y='502' font-size='9.5' fill='#2563eb' text-anchor='middle'>63 节点</text>
+<rect x='932' y='468' width='74' height='44' rx='4' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='969' y='486' font-size='10.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>B·rail2</text>
+<text x='969' y='502' font-size='9.5' fill='#2563eb' text-anchor='middle'>63 节点</text>
+<rect x='1014' y='468' width='74' height='44' rx='4' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='1051' y='486' font-size='10.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>B·rail3</text>
+<text x='1051' y='502' font-size='9.5' fill='#2563eb' text-anchor='middle'>63 节点</text>
+<rect x='1096' y='468' width='74' height='44' rx='4' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='1133' y='486' font-size='10.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>B·rail4</text>
+<text x='1133' y='502' font-size='9.5' fill='#2563eb' text-anchor='middle'>63 节点</text>
+<rect x='1178' y='468' width='74' height='44' rx='4' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='1215' y='486' font-size='10.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>B·rail5</text>
+<text x='1215' y='502' font-size='9.5' fill='#2563eb' text-anchor='middle'>63 节点</text>
+<rect x='1260' y='468' width='74' height='44' rx='4' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='1297' y='486' font-size='10.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>B·rail6</text>
+<text x='1297' y='502' font-size='9.5' fill='#2563eb' text-anchor='middle'>63 节点</text>
+<rect x='1342' y='468' width='74' height='44' rx='4' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.4'/>
+<text x='1379' y='486' font-size='10.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>B·rail7</text>
+<text x='1379' y='502' font-size='9.5' fill='#2563eb' text-anchor='middle'>63 节点</text>
+
+<rect x='768' y='536' width='648' height='84' rx='5' fill='#ffffff' stroke='#64748b' stroke-width='1.4'/>
+<text x='782' y='556' font-size='11.5' font-weight='700' fill='#0f172a'>全集群合计</text>
+<text x='782' y='576' font-size='10.5' fill='#334155'>400G 端点：127 节点 × 16 = 2,032（每平面 1,016）</text>
+<text x='782' y='594' font-size='10.5' fill='#334155'>Leaf–Spine 链路：2,048 条（每平面 1,024）— 布线主干与配线架容量基准</text>
+<text x='782' y='612' font-size='10.5' font-weight='600' fill='#166534'>单台 Leaf 64 下行 + 64 上行 = 25.6 Tb/s 双向，严格 1:1 无阻塞</text>
+
+<rect x='768' y='634' width='648' height='84' rx='5' fill='#ffffff' stroke='#64748b' stroke-width='1.4'/>
+<text x='782' y='654' font-size='11.5' font-weight='700' fill='#0f172a'>为何必须双平面</text>
+<text x='782' y='674' font-size='10.5' fill='#334155'>ConnectX-8 以太网模式下不支持 800G 单口（800G 仅在 IB XDR 模式成立）</text>
+<text x='782' y='692' font-size='10.5' fill='#334155'>每个 OSFP 800G 必须拆为 2×400G → 天然形成两张并行独立的 400G 网络</text>
+<text x='782' y='710' font-size='10.5' fill='#334155'>交换机为 128×400G 机型，拆出的 400G 直接插入，交换机侧无需二次 breakout</text>
+
+<text x='36' y='764' font-size='13.5' font-weight='700' fill='#475569'>计算节点层</text>
+<line x1='140' y1='759' x2='1450' y2='759' stroke='#e2e8f0' stroke-width='1.5'/>
+
+<rect x='30' y='776' width='700' height='120' rx='8' fill='#f0fdf4' stroke='#166534' stroke-width='2.2'/>
+<rect x='30' y='776' width='700' height='32' rx='8' fill='#166534'/>
+<rect x='30' y='798' width='700' height='10' fill='#166534'/>
+<text x='48' y='798' font-size='13' font-weight='700' fill='#ffffff'>Pod A　64 节点 · 512 GPU</text>
+<text x='712' y='798' font-size='11' font-weight='600' fill='#bbf7d0' text-anchor='end'>H01 / H02 / I01 / I02 列</text>
+<text x='48' y='830' font-size='10.5' fill='#334155'>每节点：8 × OSFP 800G（ConnectX-8）→ 16 × 400G 端点，8 条入平面 1、8 条入平面 2</text>
+<text x='48' y='850' font-size='10.5' fill='#334155'>同 Pod 同 rail 通信：Leaf 内交换，1 跳　·　节点内 8 卡：NVLink 1.8 TB/s，0 跳</text>
+<text x='48' y='870' font-size='10.5' font-weight='600' fill='#166534'>Pod 内下行占用 8 rail × 2 平面 × 64 = 1,024 条 400G（Leaf 侧端口打满）</text>
+<text x='48' y='888' font-size='10' fill='#64748b'>调度建议：≤64 节点作业优先整体落入本 Pod，集合通信不上 Spine</text>
+
+<rect x='750' y='776' width='700' height='120' rx='8' fill='#eff6ff' stroke='#1d4ed8' stroke-width='2.2'/>
+<rect x='750' y='776' width='700' height='32' rx='8' fill='#1d4ed8'/>
+<rect x='750' y='798' width='700' height='10' fill='#1d4ed8'/>
+<text x='768' y='798' font-size='13' font-weight='700' fill='#ffffff'>Pod B　63 节点 · 504 GPU</text>
+<text x='1432' y='798' font-size='11' font-weight='600' fill='#bfdbfe' text-anchor='end'>O01 / O02 / P01 / P02 列</text>
+<text x='768' y='830' font-size='10.5' fill='#334155'>每节点连接方式与 Pod A 完全一致，一柜一台，共 63 柜</text>
+<text x='768' y='850' font-size='10.5' fill='#334155'>跨 Pod 同 rail 通信：Leaf → Spine → Leaf，3 跳（多一层转发）</text>
+<text x='768' y='870' font-size='10.5' font-weight='600' fill='#1d4ed8'>Pod 内下行占用 8 × 2 × 63 = 1,008 条，每台 Leaf 余 1 口</text>
+<text x='768' y='888' font-size='10' fill='#64748b'>调度建议：避免两个中型作业各占半个 Pod，否则后续 64 节点作业无法单 Pod 满足</text>
+
+<line x1='380' y1='776' x2='380' y2='732' stroke='#0ea5b7' stroke-width='3'/>
+<path d='M 374 742 L 380 730 L 386 742 Z' fill='#0ea5b7'/>
+<line x1='1100' y1='776' x2='1100' y2='732' stroke='#7c3aed' stroke-width='3'/>
+<path d='M 1094 742 L 1100 730 L 1106 742 Z' fill='#7c3aed'/>
+<text x='396' y='752' font-size='10' fill='#0e7490'>8 × 400G / 节点 → 平面 1</text>
+<text x='1116' y='752' font-size='10' fill='#5b21b6'>8 × 400G / 节点 → 平面 2</text>
+
+<rect x='30' y='914' width='1420' height='124' rx='8' fill='#f8fafc' stroke='#1f2937' stroke-width='1.8'/>
+<text x='46' y='936' font-size='12.5' font-weight='700' fill='#0f172a'>Pod 划分的推导与约束</text>
+<text x='46' y='958' font-size='11' fill='#334155'>推导：rail-optimized 下「一台 Leaf = 一条 rail × N 个节点」，N 受 Leaf 下行端口数限制。LS9867-128DH 取 64 下行 / 64 上行以达成 1:1 无阻塞，故 N ≤ 64。</text>
+<text x='46' y='978' font-size='11' fill='#334155'>结论：127 台节点必然切分为 64 + 63 两个 Pod；Pod 不是运维分区的人为划分，而是拓扑能力的物理边界。</text>
+<text x='46' y='998' font-size='11' fill='#334155'>软件映射：Slurm topology.conf 需按「Leaf → Pod → 跨 Pod」三级描述网络层级，使 ≤64 节点作业在单 Pod 内闭合，&gt;64 节点作业跨 Pod 边界最小化。</text>
+<text x='46' y='1020' font-size='11' font-weight='600' fill='#9a3412'>扩容约束：每平面 Leaf 容量 1,024 端点、实用 1,016，仅余 8 个端点 —— 最多再接 1 台 GPU 节点，再扩必须先增 Leaf。</text>
+</svg>
