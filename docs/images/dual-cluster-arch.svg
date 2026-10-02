@@ -1,0 +1,190 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 980" font-family="Segoe UI, Arial, sans-serif">
+  <rect x="0" y="0" width="1240" height="980" fill="#ffffff"/>
+  <text x="30" y="34" font-size="20" font-weight="700" fill="#0f172a">S110 机房双集群网络架构 — H200（32 节点）+ B300（127 节点）</text>
+  <text x="30" y="56" font-size="12" fill="#64748b">GPU 节点 159 台 · 存储节点 130 台 · 交换机 123 台　|　存储 Spine 与业务网核心为两集群共用</text>
+
+  <rect x="30" y="76" width="1180" height="128" rx="9" fill="#fff8ec" stroke="#ea7317" stroke-width="2.5"/>
+  <text x="48" y="100" font-size="14" font-weight="700" fill="#9a3412">共享基础设施（两集群共用）</text>
+
+  <rect x="50" y="110" width="300" height="80" rx="6" fill="#ffffff" stroke="#ea7317" stroke-width="1.8"/>
+  <text x="200" y="131" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">存储网 Spine ×16</text>
+  <text x="200" y="149" font-size="10.5" fill="#9a3412" text-anchor="middle">H3C S9825</text>
+  <text x="200" y="166" font-size="10" fill="#7c2d12" text-anchor="middle">G23列×4 · G22列×4</text>
+  <text x="200" y="181" font-size="10" fill="#7c2d12" text-anchor="middle">F23列×4 · F22列×4</text>
+
+  <rect x="370" y="110" width="290" height="80" rx="6" fill="#ffffff" stroke="#ea7317" stroke-width="1.8"/>
+  <text x="515" y="131" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">业务网核心 ×2</text>
+  <text x="515" y="149" font-size="10.5" fill="#9a3412" text-anchor="middle">H3C S9825</text>
+  <text x="515" y="166" font-size="10" fill="#7c2d12" text-anchor="middle">C22列 U17 · D22列 U17</text>
+  <text x="515" y="181" font-size="9.5" fill="#7c2d12" text-anchor="middle">汇聚全局 10GE 上行</text>
+
+  <rect x="680" y="110" width="250" height="80" rx="6" fill="#ffffff" stroke="#ea7317" stroke-width="1.8"/>
+  <text x="805" y="131" font-size="12.5" font-weight="700" fill="#0f172a" text-anchor="middle">IPMI 网 Spine ×2</text>
+  <text x="805" y="149" font-size="10.5" fill="#9a3412" text-anchor="middle">H3C S6805</text>
+  <text x="805" y="166" font-size="10" fill="#7c2d12" text-anchor="middle">C22列 U40 · D22列 U40</text>
+  <text x="805" y="181" font-size="9.5" fill="#7c2d12" text-anchor="middle">B300 带外管理汇聚</text>
+
+  <rect x="950" y="110" width="240" height="80" rx="6" fill="#f1f5f9" stroke="#64748b" stroke-width="1.6"/>
+  <text x="1070" y="131" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">汇聚关系</text>
+  <text x="1070" y="150" font-size="9.5" fill="#475569" text-anchor="middle">存储 Spine ─2×10GE→ 业务核心</text>
+  <text x="1070" y="167" font-size="9.5" fill="#475569" text-anchor="middle">IPMI Spine ──────→ 业务核心</text>
+  <text x="1070" y="184" font-size="9.5" fill="#475569" text-anchor="middle">两集群在此层交汇</text>
+
+  <line x1="350" y1="150" x2="370" y2="150" stroke="#ea7317" stroke-width="2"/>
+  <line x1="660" y1="150" x2="680" y2="150" stroke="#ea7317" stroke-width="2" stroke-dasharray="5 3"/>
+
+  <rect x="30" y="222" width="585" height="500" rx="9" fill="#eef6ff" stroke="#2563eb" stroke-width="2.5"/>
+  <text x="48" y="248" font-size="15" font-weight="700" fill="#1d4ed8">H200 集群 — 32 节点 / 256 GPU</text>
+  <text x="48" y="268" font-size="10.5" fill="#1d4ed8">S110 机房　A列 20 台 + B列 12 台</text>
+
+  <rect x="48" y="280" width="549" height="104" rx="6" fill="#ffffff" stroke="#0ea5b7" stroke-width="1.8"/>
+  <text x="62" y="301" font-size="12" font-weight="700" fill="#0e7490">① 计算网（InfiniBand NDR）</text>
+  <rect x="62" y="310" width="250" height="30" rx="4" fill="#e6fbff" stroke="#0ea5b7" stroke-width="1.4"/>
+  <text x="187" y="330" font-size="10" fill="#0e7490" text-anchor="middle">Spine ×16 　B01/B02/A01/A02 呀4</text>
+  <rect x="62" y="346" width="250" height="30" rx="4" fill="#e6fbff" stroke="#0ea5b7" stroke-width="1.4"/>
+  <text x="187" y="366" font-size="10" fill="#0e7490" text-anchor="middle">Leaf ×8　NVIDIA MQM9790</text>
+  <line x1="187" y1="340" x2="187" y2="346" stroke="#0ea5b7" stroke-width="2"/>
+  <text x="330" y="325" font-size="9.5" fill="#334155">每 Leaf：16 口下行接节点网卡</text>
+  <text x="330" y="341" font-size="9.5" fill="#334155">　　　　16 口 800G 上行 Spine</text>
+  <text x="330" y="360" font-size="9.5" font-weight="600" fill="#0e7490">校验：8×16×2 = 256 ＝ 32节点×8卡 ✓</text>
+  <text x="330" y="375" font-size="9.5" fill="#334155">上行 128×800G → 每 Spine 8 条</text>
+
+  <rect x="48" y="394" width="549" height="96" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1.8"/>
+  <text x="62" y="415" font-size="12" font-weight="700" fill="#1d4ed8">② 存储 Server 网络</text>
+  <rect x="62" y="424" width="200" height="28" rx="4" fill="#e8effc" stroke="#2563eb" stroke-width="1.4"/>
+  <text x="162" y="443" font-size="10" fill="#1d4ed8" text-anchor="middle">存储 Server ×66　Xfusion</text>
+  <text x="62" y="470" font-size="9.5" fill="#334155">B15–B21 每列 8 台（56）+ C23列 5 + C21列 5</text>
+  <line x1="262" y1="438" x2="296" y2="438" stroke="#2563eb" stroke-width="1.8"/>
+  <path d="M 290 434 L 299 438 L 290 442 Z" fill="#2563eb"/>
+  <rect x="300" y="424" width="200" height="28" rx="4" fill="#e8effc" stroke="#2563eb" stroke-width="1.4"/>
+  <text x="400" y="443" font-size="10" fill="#1d4ed8" text-anchor="middle">存储 Leaf ×4　H3C S9825</text>
+  <text x="300" y="470" font-size="9.5" fill="#334155">C21列 U30/U25 · C23列 U30/U25</text>
+  <line x1="500" y1="438" x2="534" y2="438" stroke="#ea7317" stroke-width="1.8"/>
+  <path d="M 528 434 L 537 438 L 528 442 Z" fill="#ea7317"/>
+  <text x="567" y="441" font-size="9.5" font-weight="600" fill="#9a3412" text-anchor="middle">↑共享</text>
+  <text x="567" y="455" font-size="9" fill="#9a3412" text-anchor="middle">Spine</text>
+
+  <rect x="48" y="500" width="549" height="134" rx="6" fill="#ffffff" stroke="#7c3aed" stroke-width="1.8"/>
+  <text x="62" y="521" font-size="12" font-weight="700" fill="#5b21b6">③ 计算节点存储网 + 管理网（NVIDIA 独立体系）</text>
+
+  <rect x="62" y="530" width="156" height="30" rx="4" fill="#f3effc" stroke="#7c3aed" stroke-width="1.4"/>
+  <text x="140" y="549" font-size="9.5" fill="#5b21b6" text-anchor="middle">计算节点存储 Leaf ×2</text>
+  <text x="140" y="574" font-size="9" fill="#334155" text-anchor="middle">SN5600 · C23U37/D23U37</text>
+
+  <rect x="62" y="586" width="156" height="30" rx="4" fill="#f3effc" stroke="#7c3aed" stroke-width="1.4"/>
+  <text x="140" y="605" font-size="9.5" fill="#5b21b6" text-anchor="middle">管理 Server Leaf ×2</text>
+  <text x="140" y="628" font-size="9" fill="#334155" text-anchor="middle">SN5600 · D21U37/C21U37</text>
+
+  <line x1="218" y1="545" x2="252" y2="560" stroke="#7c3aed" stroke-width="1.8"/>
+  <line x1="218" y1="601" x2="252" y2="580" stroke="#7c3aed" stroke-width="1.8"/>
+
+  <rect x="256" y="558" width="156" height="34" rx="4" fill="#f3effc" stroke="#7c3aed" stroke-width="1.6"/>
+  <text x="334" y="574" font-size="9.5" font-weight="600" fill="#5b21b6" text-anchor="middle">Spine ×2　SN5600</text>
+  <text x="334" y="587" font-size="9" fill="#334155" text-anchor="middle">C22U37 · D22U37</text>
+
+  <line x1="412" y1="575" x2="446" y2="575" stroke="#7c3aed" stroke-width="1.8"/>
+  <path d="M 440 571 L 449 575 L 440 579 Z" fill="#7c3aed"/>
+
+  <rect x="450" y="558" width="140" height="34" rx="4" fill="#ede9fe" stroke="#5b21b6" stroke-width="1.6"/>
+  <text x="520" y="574" font-size="9.5" font-weight="600" fill="#5b21b6" text-anchor="middle">Core ×2　SN4600</text>
+  <text x="520" y="587" font-size="9" fill="#334155" text-anchor="middle">C22U10 · D22U10</text>
+
+  <text x="62" y="650" font-size="9.5" fill="#5b21b6">注：此体系为 NVIDIA 交换机，与 ① 的 IB 计算网、② 的 H3C 存储网相互独立</text>
+
+  <rect x="48" y="662" width="549" height="46" rx="6" fill="#eafaf0" stroke="#16a34a" stroke-width="1.8"/>
+  <text x="322" y="681" font-size="11.5" font-weight="700" fill="#166534" text-anchor="middle">GPU 节点 ×32 — Aivres KR6288 · HGX H200 8-GPU</text>
+  <text x="322" y="699" font-size="9.5" fill="#166534" text-anchor="middle">A列 20 台 + B列 12 台　|　每节点 8× 400G IB 计算网卡（rail-optimized）</text>
+
+  <rect x="630" y="222" width="580" height="500" rx="9" fill="#eafaf0" stroke="#16a34a" stroke-width="2.5"/>
+  <text x="648" y="248" font-size="15" font-weight="700" fill="#166534">B300 集群 — 127 节点 / 1016 GPU</text>
+  <text x="648" y="268" font-size="10.5" fill="#166534">技嘉 G894-ZD3-AAX7 · 8U · 一柜一台</text>
+
+  <rect x="648" y="280" width="544" height="112" rx="6" fill="#ffffff" stroke="#0ea5b7" stroke-width="1.8"/>
+  <text x="662" y="301" font-size="12" font-weight="700" fill="#0e7490">① 计算网（双平面 RoCEv2）</text>
+  <rect x="662" y="310" width="246" height="30" rx="4" fill="#e6fbff" stroke="#0ea5b7" stroke-width="1.4"/>
+  <text x="785" y="330" font-size="10" fill="#0e7490" text-anchor="middle">Spine ×16　N22/N23/M22/M23 呀4</text>
+  <rect x="662" y="346" width="246" height="30" rx="4" fill="#e6fbff" stroke="#0ea5b7" stroke-width="1.4"/>
+  <text x="785" y="366" font-size="10" fill="#0e7490" text-anchor="middle">Leaf ×32　H01/H02/I01/I02/O01/O02/P01/P02 呀4</text>
+  <line x1="785" y1="340" x2="785" y2="346" stroke="#0ea5b7" stroke-width="2"/>
+  <text x="922" y="326" font-size="9.5" fill="#334155">H3C LS9867-128DH</text>
+  <text x="922" y="342" font-size="9.5" fill="#334155">128×400G · 51.2T</text>
+  <text x="922" y="360" font-size="9.5" fill="#334155">每节点 8×OSFP 800G</text>
+  <text x="922" y="375" font-size="9.5" fill="#334155">→ 16×400G 分入两平面</text>
+  <text x="662" y="388" font-size="9" fill="#9a3412">Leaf/Spine 均经 2×10GE 接入 IPMI Spine（C22U40/D22U40）</text>
+
+  <rect x="648" y="402" width="544" height="86" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1.8"/>
+  <text x="662" y="423" font-size="12" font-weight="700" fill="#1d4ed8">② 存储 Server 网络</text>
+  <rect x="662" y="432" width="210" height="28" rx="4" fill="#e8effc" stroke="#2563eb" stroke-width="1.4"/>
+  <text x="767" y="451" font-size="10" fill="#1d4ed8" text-anchor="middle">存储 Server ×64　Xfusion</text>
+  <line x1="872" y1="446" x2="906" y2="446" stroke="#ea7317" stroke-width="2"/>
+  <path d="M 900 442 L 909 446 L 900 450 Z" fill="#ea7317"/>
+  <rect x="910" y="432" width="270" height="28" rx="4" fill="#fff8ec" stroke="#ea7317" stroke-width="1.4"/>
+  <text x="1045" y="451" font-size="10" font-weight="600" fill="#9a3412" text-anchor="middle">直接接入共享存储 Spine ×16</text>
+  <text x="662" y="478" font-size="9.5" fill="#b91c1c">⚠ 存储 Server 不经 Leaf，直接上 Spine —— 与常规两层架构不同，需确认</text>
+
+  <rect x="648" y="498" width="544" height="100" rx="6" fill="#ffffff" stroke="#2563eb" stroke-width="1.8"/>
+  <text x="662" y="519" font-size="12" font-weight="700" fill="#1d4ed8">③ 计算节点存储网 + 管理 Server</text>
+  <rect x="662" y="528" width="248" height="30" rx="4" fill="#e8effc" stroke="#2563eb" stroke-width="1.4"/>
+  <text x="786" y="547" font-size="9.5" fill="#1d4ed8" text-anchor="middle">计算节点存储 Leaf ×8　H3C S9825</text>
+  <text x="662" y="572" font-size="9" fill="#334155">B22U34 · B23U34 · C20U36 · C19U36</text>
+  <text x="662" y="586" font-size="9" fill="#334155">N01U36 · M01U36 · K01U36 · J01U36</text>
+
+  <rect x="922" y="528" width="258" height="30" rx="4" fill="#e8effc" stroke="#2563eb" stroke-width="1.4"/>
+  <text x="1051" y="547" font-size="9.5" fill="#1d4ed8" text-anchor="middle">管理 Server Leaf ×2　H3C S9825</text>
+  <text x="922" y="572" font-size="9" fill="#334155">C19列 U31 · C30列 U31</text>
+  <text x="922" y="586" font-size="9" font-weight="600" fill="#9a3412">两者均上行共享存储 Spine ×16</text>
+
+  <rect x="648" y="608" width="544" height="48" rx="6" fill="#ffffff" stroke="#475569" stroke-width="1.8"/>
+  <text x="662" y="628" font-size="11.5" font-weight="700" fill="#334155">④ 带外管理（IPMI）</text>
+  <text x="662" y="647" font-size="9.5" fill="#334155">计算节点 IPMI 交换机 ×9　H3C S5590　→　IPMI Spine ×2（C22U40 / D22U40）→ 业务网核心</text>
+
+  <rect x="648" y="666" width="544" height="42" rx="6" fill="#eafaf0" stroke="#16a34a" stroke-width="1.8"/>
+  <text x="920" y="684" font-size="11.5" font-weight="700" fill="#166534" text-anchor="middle">GPU 节点 ×127 — HGX B300 8-GPU</text>
+  <text x="920" y="700" font-size="9.5" fill="#166534" text-anchor="middle">每节点 8× CX-8 OSFP 800G + 2× 200G 存储口 + 1× IPMI</text>
+
+  <line x1="200" y1="190" x2="200" y2="222" stroke="#ea7317" stroke-width="2.5"/>
+  <line x1="515" y1="190" x2="515" y2="222" stroke="#ea7317" stroke-width="2.5"/>
+  <line x1="805" y1="190" x2="805" y2="222" stroke="#ea7317" stroke-width="2.5"/>
+
+  <rect x="30" y="738" width="1180" height="214" rx="9" fill="#f8fafc" stroke="#1f2937" stroke-width="2"/>
+  <text x="48" y="762" font-size="14" font-weight="700" fill="#0f172a">设备汇总</text>
+
+  <text x="60" y="788" font-size="10.5" font-weight="700" fill="#475569">分类</text>
+  <text x="250" y="788" font-size="10.5" font-weight="700" fill="#475569">H200 集群</text>
+  <text x="560" y="788" font-size="10.5" font-weight="700" fill="#475569">B300 集群</text>
+  <text x="880" y="788" font-size="10.5" font-weight="700" fill="#475569">共享</text>
+  <line x1="55" y1="794" x2="1185" y2="794" stroke="#cbd5e1" stroke-width="1.2"/>
+
+  <text x="60" y="813" font-size="10" fill="#166534">GPU 节点</text>
+  <text x="250" y="813" font-size="10" fill="#334155">32（A列20 + B列12）</text>
+  <text x="560" y="813" font-size="10" fill="#334155">127</text>
+  <text x="880" y="813" font-size="10" fill="#64748b">—</text>
+
+  <text x="60" y="832" font-size="10" fill="#1d4ed8">存储 Server</text>
+  <text x="250" y="832" font-size="10" fill="#334155">66（Xfusion）</text>
+  <text x="560" y="832" font-size="10" fill="#334155">64（Xfusion）</text>
+  <text x="880" y="832" font-size="10" fill="#64748b">—</text>
+
+  <text x="60" y="851" font-size="10" fill="#0e7490">计算网交换机</text>
+  <text x="250" y="851" font-size="10" fill="#334155">24（8 Leaf MQM9790 + 16 Spine）</text>
+  <text x="560" y="851" font-size="10" fill="#334155">48（32 Leaf + 16 Spine，LS9867-128DH）</text>
+  <text x="880" y="851" font-size="10" fill="#64748b">—</text>
+
+  <text x="60" y="870" font-size="10" fill="#1d4ed8">存储网交换机</text>
+  <text x="250" y="870" font-size="10" fill="#334155">4 Leaf（S9825）</text>
+  <text x="560" y="870" font-size="10" fill="#334155">8 Leaf（S9825）</text>
+  <text x="880" y="870" font-size="10" font-weight="600" fill="#9a3412">16 Spine（S9825）</text>
+
+  <text x="60" y="889" font-size="10" fill="#5b21b6">管理 / 其他</text>
+  <text x="250" y="889" font-size="10" fill="#334155">2 Leaf + 2 Spine + 2 Core（NVIDIA）</text>
+  <text x="560" y="889" font-size="10" fill="#334155">2 Leaf + 9 IPMI（S5590）</text>
+  <text x="880" y="889" font-size="10" font-weight="600" fill="#9a3412">2 IPMI Spine + 2 业务核心</text>
+
+  <line x1="55" y1="900" x2="1185" y2="900" stroke="#cbd5e1" stroke-width="1.2"/>
+  <text x="60" y="920" font-size="10.5" font-weight="700" fill="#0f172a">小计</text>
+  <text x="250" y="920" font-size="10.5" font-weight="700" fill="#1d4ed8">交换机 36 台</text>
+  <text x="560" y="920" font-size="10.5" font-weight="700" fill="#166534">交换机 67 台</text>
+  <text x="880" y="920" font-size="10.5" font-weight="700" fill="#9a3412">交换机 20 台</text>
+
+  <text x="60" y="941" font-size="11" font-weight="700" fill="#0f172a">全局合计：GPU 节点 159 台　·　存储节点 130 台　·　交换机 123 台　·　设备总数 412 台</text>
+</svg>
