@@ -1,0 +1,173 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 1000' font-family='Segoe UI, Arial, sans-serif'>
+<rect x='0' y='0' width='1400' height='1000' fill='#ffffff'/>
+<rect x='0' y='0' width='1400' height='78' fill='#0f172a'/>
+<text x='36' y='36' font-size='21' font-weight='700' fill='#ffffff'>H200 集群 — 三套独立网络体系详图</text>
+<text x='36' y='62' font-size='12.5' fill='#94a3b8'>32 节点 · 256 GPU · 交换机 36 台 · IB 计算网 + H3C 存储网 + NVIDIA Spectrum 管理体系，三者相互独立</text>
+
+<rect x='30' y='96' width='1340' height='52' rx='7' fill='#f8fafc' stroke='#1f2937' stroke-width='1.6'/>
+<text x='46' y='118' font-size='12' font-weight='700' fill='#0f172a'>体系特征</text>
+<text x='46' y='137' font-size='11' fill='#334155'>H200 建设在前，采用 NVIDIA 全栈；计算网为 InfiniBand NDR（链路层天然无损，无需 PFC/ECN 调优），存储与管理走独立的 Spectrum 以太网体系，仅存储 Server 一路并入共享 H3C 骨干。</text>
+
+<rect x='30' y='166' width='660' height='352' rx='9' fill='#f0fcff' stroke='#0ea5b7' stroke-width='2.4'/>
+<rect x='30' y='166' width='660' height='34' rx='9' fill='#0ea5b7'/>
+<rect x='30' y='190' width='660' height='10' fill='#0ea5b7'/>
+<text x='48' y='190' font-size='13.5' font-weight='700' fill='#ffffff'>① 计算网　InfiniBand NDR　（East-West）</text>
+
+<text x='48' y='222' font-size='11.5' font-weight='700' fill='#0e7490'>Spine 层　NVIDIA MQM9790 × 16　（与 Leaf 同型号）</text>
+<rect x='48' y='232' width='148' height='44' rx='4' fill='#cffafe' stroke='#0e7490' stroke-width='1.4'/>
+<text x='122' y='251' font-size='11' font-weight='700' fill='#0e7490' text-anchor='middle'>B01 列 × 4</text>
+<text x='122' y='268' font-size='9.5' fill='#0e7490' text-anchor='middle'>每台承接 8 条 800G</text>
+<rect x='204' y='232' width='148' height='44' rx='4' fill='#cffafe' stroke='#0e7490' stroke-width='1.4'/>
+<text x='278' y='251' font-size='11' font-weight='700' fill='#0e7490' text-anchor='middle'>B02 列 × 4</text>
+<text x='278' y='268' font-size='9.5' fill='#0e7490' text-anchor='middle'>每台承接 8 条 800G</text>
+<rect x='360' y='232' width='148' height='44' rx='4' fill='#cffafe' stroke='#0e7490' stroke-width='1.4'/>
+<text x='434' y='251' font-size='11' font-weight='700' fill='#0e7490' text-anchor='middle'>A01 列 × 4</text>
+<text x='434' y='268' font-size='9.5' fill='#0e7490' text-anchor='middle'>每台承接 8 条 800G</text>
+<rect x='516' y='232' width='148' height='44' rx='4' fill='#cffafe' stroke='#0e7490' stroke-width='1.4'/>
+<text x='590' y='251' font-size='11' font-weight='700' fill='#0e7490' text-anchor='middle'>A02 列 × 4</text>
+<text x='590' y='268' font-size='9.5' fill='#0e7490' text-anchor='middle'>每台承接 8 条 800G</text>
+
+<rect x='48' y='292' width='616' height='34' rx='5' fill='#fff8ec' stroke='#ea7317' stroke-width='1.5' stroke-dasharray='6 3'/>
+<text x='356' y='313' font-size='10.5' font-weight='700' fill='#9a3412' text-anchor='middle'>上行 128 条 800G　=　8 台 Leaf × 16 口　→　均摊 16 台 Spine，每台 8 条</text>
+
+<text x='48' y='348' font-size='11.5' font-weight='700' fill='#0e7490'>Leaf 层　NVIDIA MQM9790 × 8　（16 口下行 + 16 口 800G 上行，收敛比 1:1）</text>
+<rect x='48' y='358' width='73' height='40' rx='4' fill='#e6fbff' stroke='#0e7490' stroke-width='1.3'/>
+<text x='84' y='375' font-size='10' font-weight='700' fill='#0e7490' text-anchor='middle'>Leaf 1</text>
+<text x='84' y='390' font-size='9' fill='#0e7490' text-anchor='middle'>rail 0</text>
+<rect x='125' y='358' width='73' height='40' rx='4' fill='#e6fbff' stroke='#0e7490' stroke-width='1.3'/>
+<text x='161' y='375' font-size='10' font-weight='700' fill='#0e7490' text-anchor='middle'>Leaf 2</text>
+<text x='161' y='390' font-size='9' fill='#0e7490' text-anchor='middle'>rail 1</text>
+<rect x='202' y='358' width='73' height='40' rx='4' fill='#e6fbff' stroke='#0e7490' stroke-width='1.3'/>
+<text x='238' y='375' font-size='10' font-weight='700' fill='#0e7490' text-anchor='middle'>Leaf 3</text>
+<text x='238' y='390' font-size='9' fill='#0e7490' text-anchor='middle'>rail 2</text>
+<rect x='279' y='358' width='73' height='40' rx='4' fill='#e6fbff' stroke='#0e7490' stroke-width='1.3'/>
+<text x='315' y='375' font-size='10' font-weight='700' fill='#0e7490' text-anchor='middle'>Leaf 4</text>
+<text x='315' y='390' font-size='9' fill='#0e7490' text-anchor='middle'>rail 3</text>
+<rect x='356' y='358' width='73' height='40' rx='4' fill='#e6fbff' stroke='#0e7490' stroke-width='1.3'/>
+<text x='392' y='375' font-size='10' font-weight='700' fill='#0e7490' text-anchor='middle'>Leaf 5</text>
+<text x='392' y='390' font-size='9' fill='#0e7490' text-anchor='middle'>rail 4</text>
+<rect x='433' y='358' width='73' height='40' rx='4' fill='#e6fbff' stroke='#0e7490' stroke-width='1.3'/>
+<text x='469' y='375' font-size='10' font-weight='700' fill='#0e7490' text-anchor='middle'>Leaf 6</text>
+<text x='469' y='390' font-size='9' fill='#0e7490' text-anchor='middle'>rail 5</text>
+<rect x='510' y='358' width='73' height='40' rx='4' fill='#e6fbff' stroke='#0e7490' stroke-width='1.3'/>
+<text x='546' y='375' font-size='10' font-weight='700' fill='#0e7490' text-anchor='middle'>Leaf 7</text>
+<text x='546' y='390' font-size='9' fill='#0e7490' text-anchor='middle'>rail 6</text>
+<rect x='587' y='358' width='73' height='40' rx='4' fill='#e6fbff' stroke='#0e7490' stroke-width='1.3'/>
+<text x='623' y='375' font-size='10' font-weight='700' fill='#0e7490' text-anchor='middle'>Leaf 8</text>
+<text x='623' y='390' font-size='9' fill='#0e7490' text-anchor='middle'>rail 7</text>
+
+<rect x='48' y='412' width='616' height='92' rx='5' fill='#ffffff' stroke='#64748b' stroke-width='1.4'/>
+<text x='62' y='432' font-size='11.5' font-weight='700' fill='#0f172a'>下行容量校验（无任何冗余端口）</text>
+<text x='62' y='454' font-size='10.5' fill='#334155'>下行能力 = 8 台 × 16 口 × 2（800G 拆 2×400G）= 256 条 400G</text>
+<text x='62' y='472' font-size='10.5' fill='#334155'>节点需求 = 32 节点 × 8 张网卡 = 256 条 400G</text>
+<text x='62' y='494' font-size='11' font-weight='700' fill='#9a3412'>→ 完全相等，没有任何余量；新增 H200 节点必须先扩 Leaf</text>
+
+<rect x='710' y='166' width='660' height='352' rx='9' fill='#f8fbff' stroke='#2563eb' stroke-width='2.4'/>
+<rect x='710' y='166' width='660' height='34' rx='9' fill='#2563eb'/>
+<rect x='710' y='190' width='660' height='10' fill='#2563eb'/>
+<text x='728' y='190' font-size='13.5' font-weight='700' fill='#ffffff'>② 存储 Server 网　H3C 体系　（并入共享骨干）</text>
+
+<rect x='728' y='214' width='624' height='50' rx='5' fill='#fff8ec' stroke='#ea7317' stroke-width='1.8'/>
+<text x='1040' y='234' font-size='12' font-weight='700' fill='#9a3412' text-anchor='middle'>共享存储网 Spine × 16　H3C S9825</text>
+<text x='1040' y='254' font-size='10.5' fill='#7c2d12' text-anchor='middle'>G23 / G22 / F23 / F22 列各 4 台　·　与 B300 集群共用　·　上行 B300 业务网核心</text>
+<line x1='1040' y1='264' x2='1040' y2='288' stroke='#ea7317' stroke-width='2.4'/>
+<path d='M 1034 272 L 1040 262 L 1046 272 Z' fill='#ea7317'/>
+
+<rect x='728' y='290' width='624' height='56' rx='5' fill='#dbeafe' stroke='#1d4ed8' stroke-width='1.6'/>
+<text x='1040' y='310' font-size='12' font-weight='700' fill='#1d4ed8' text-anchor='middle'>存储 Leaf × 4　H3C S9825</text>
+<text x='860' y='330' font-size='10.5' fill='#334155' text-anchor='middle'>C21 列 U30</text>
+<text x='960' y='330' font-size='10.5' fill='#334155' text-anchor='middle'>C21 列 U25</text>
+<text x='1120' y='330' font-size='10.5' fill='#334155' text-anchor='middle'>C23 列 U30</text>
+<text x='1220' y='330' font-size='10.5' fill='#334155' text-anchor='middle'>C23 列 U25</text>
+<line x1='1040' y1='346' x2='1040' y2='370' stroke='#2563eb' stroke-width='2.4'/>
+<path d='M 1034 354 L 1040 344 L 1046 354 Z' fill='#2563eb'/>
+
+<rect x='728' y='372' width='624' height='130' rx='5' fill='#eff6ff' stroke='#1d4ed8' stroke-width='1.6'/>
+<text x='1040' y='392' font-size='12' font-weight='700' fill='#1d4ed8' text-anchor='middle'>存储 Server × 66　Xfusion</text>
+<rect x='742' y='402' width='136' height='32' rx='3' fill='#ffffff' stroke='#1d4ed8' stroke-width='1.2'/>
+<text x='810' y='423' font-size='10' fill='#334155' text-anchor='middle'>B15 列 8 台</text>
+<rect x='884' y='402' width='136' height='32' rx='3' fill='#ffffff' stroke='#1d4ed8' stroke-width='1.2'/>
+<text x='952' y='423' font-size='10' fill='#334155' text-anchor='middle'>B16 列 8 台</text>
+<rect x='1026' y='402' width='136' height='32' rx='3' fill='#ffffff' stroke='#1d4ed8' stroke-width='1.2'/>
+<text x='1094' y='423' font-size='10' fill='#334155' text-anchor='middle'>B17 列 8 台</text>
+<rect x='1168' y='402' width='136' height='32' rx='3' fill='#ffffff' stroke='#1d4ed8' stroke-width='1.2'/>
+<text x='1236' y='423' font-size='10' fill='#334155' text-anchor='middle'>B18 列 8 台</text>
+<rect x='742' y='440' width='136' height='32' rx='3' fill='#ffffff' stroke='#1d4ed8' stroke-width='1.2'/>
+<text x='810' y='461' font-size='10' fill='#334155' text-anchor='middle'>B19 列 8 台</text>
+<rect x='884' y='440' width='136' height='32' rx='3' fill='#ffffff' stroke='#1d4ed8' stroke-width='1.2'/>
+<text x='952' y='461' font-size='10' fill='#334155' text-anchor='middle'>B20 列 8 台</text>
+<rect x='1026' y='440' width='136' height='32' rx='3' fill='#ffffff' stroke='#1d4ed8' stroke-width='1.2'/>
+<text x='1094' y='461' font-size='10' fill='#334155' text-anchor='middle'>B21 列 8 台</text>
+<rect x='1168' y='440' width='136' height='32' rx='3' fill='#f0fdf4' stroke='#166534' stroke-width='1.2'/>
+<text x='1236' y='455' font-size='10' fill='#166534' text-anchor='middle'>C21 列 5 台</text>
+<text x='1236' y='468' font-size='10' fill='#166534' text-anchor='middle'>C23 列 5 台</text>
+<text x='1040' y='492' font-size='10.5' fill='#64748b' text-anchor='middle'>B15–B21 共 56 台　+　C21 / C23 列共 10 台　=　66 台</text>
+
+<text x='36' y='552' font-size='13' font-weight='700' fill='#475569'>③ 计算节点存储网 + 管理网　NVIDIA Spectrum 独立体系（不并入共享骨干）</text>
+<line x1='760' y1='547' x2='1370' y2='547' stroke='#e2e8f0' stroke-width='1.5'/>
+
+<rect x='30' y='570' width='800' height='250' rx='9' fill='#faf8ff' stroke='#7c3aed' stroke-width='2.4'/>
+<rect x='60' y='590' width='740' height='48' rx='5' fill='#ede9fe' stroke='#5b21b6' stroke-width='1.8'/>
+<text x='430' y='610' font-size='12' font-weight='700' fill='#5b21b6' text-anchor='middle'>Core　NVIDIA SN4600 × 2</text>
+<text x='430' y='629' font-size='10.5' fill='#334155' text-anchor='middle'>C22 列 U10 / D22 列 U10　—　H200 集群自有核心，承担南北向汇聚与对外互联</text>
+<line x1='430' y1='638' x2='430' y2='662' stroke='#7c3aed' stroke-width='2.4'/>
+<path d='M 424 654 L 430 664 L 436 654 Z' fill='#7c3aed'/>
+
+<rect x='60' y='664' width='740' height='46' rx='5' fill='#f3effc' stroke='#5b21b6' stroke-width='1.6'/>
+<text x='430' y='683' font-size='12' font-weight='700' fill='#5b21b6' text-anchor='middle'>Spine　NVIDIA SN5600 × 2</text>
+<text x='430' y='701' font-size='10.5' fill='#334155' text-anchor='middle'>C22 列 U37 / D22 列 U37　—　两组 Leaf 共用这一对 Spine</text>
+<line x1='250' y1='710' x2='250' y2='736' stroke='#7c3aed' stroke-width='2'/>
+<path d='M 244 728 L 250 738 L 256 728 Z' fill='#7c3aed'/>
+<line x1='610' y1='710' x2='610' y2='736' stroke='#7c3aed' stroke-width='2'/>
+<path d='M 604 728 L 610 738 L 616 728 Z' fill='#7c3aed'/>
+
+<rect x='60' y='738' width='380' height='64' rx='5' fill='#ffffff' stroke='#5b21b6' stroke-width='1.5'/>
+<text x='250' y='758' font-size='11.5' font-weight='700' fill='#5b21b6' text-anchor='middle'>计算节点存储 Leaf　SN5600 × 2</text>
+<text x='250' y='776' font-size='10.5' fill='#334155' text-anchor='middle'>C23 列 U37　/　D23 列 U37</text>
+<text x='250' y='793' font-size='10' fill='#64748b' text-anchor='middle'>承载 32 个计算节点的存储访问与 Checkpoint 读写</text>
+
+<rect x='450' y='738' width='350' height='64' rx='5' fill='#ffffff' stroke='#5b21b6' stroke-width='1.5'/>
+<text x='625' y='758' font-size='11.5' font-weight='700' fill='#5b21b6' text-anchor='middle'>管理 Server Leaf　SN5600 × 2</text>
+<text x='625' y='776' font-size='10.5' fill='#334155' text-anchor='middle'>D21 列 U37　/　C21 列 U37</text>
+<text x='625' y='793' font-size='10' fill='#64748b' text-anchor='middle'>承载管理服务器、监控与部署节点</text>
+
+<rect x='850' y='570' width='520' height='250' rx='9' fill='#f6fdf8' stroke='#16a34a' stroke-width='2.4'/>
+<rect x='850' y='570' width='520' height='32' rx='9' fill='#16a34a'/>
+<rect x='850' y='592' width='520' height='10' fill='#16a34a'/>
+<text x='868' y='592' font-size='13' font-weight='700' fill='#ffffff'>计算节点层　32 节点 · 256 GPU</text>
+<rect x='870' y='614' width='240' height='60' rx='5' fill='#dcfce7' stroke='#166534' stroke-width='1.5'/>
+<text x='990' y='634' font-size='11.5' font-weight='700' fill='#166534' text-anchor='middle'>A 列　20 台</text>
+<text x='990' y='652' font-size='10.5' fill='#334155' text-anchor='middle'>160 GPU</text>
+<text x='990' y='668' font-size='10' fill='#15803d' text-anchor='middle'>Aivres KR6288 V2 · HGX H200</text>
+<rect x='1122' y='614' width='228' height='60' rx='5' fill='#dcfce7' stroke='#166534' stroke-width='1.5'/>
+<text x='1236' y='634' font-size='11.5' font-weight='700' fill='#166534' text-anchor='middle'>B 列　12 台</text>
+<text x='1236' y='652' font-size='10.5' fill='#334155' text-anchor='middle'>96 GPU</text>
+<text x='1236' y='668' font-size='10' fill='#15803d' text-anchor='middle'>Aivres KR6288 V2 · HGX H200</text>
+<rect x='870' y='686' width='480' height='120' rx='5' fill='#ffffff' stroke='#166534' stroke-width='1.4'/>
+<text x='884' y='706' font-size='11' font-weight='700' fill='#166534'>单节点网络出口</text>
+<text x='884' y='726' font-size='10.5' fill='#334155'>计算网　8 × 400G（每 GPU 一张，一卡一轨道）→ IB Leaf</text>
+<text x='884' y='744' font-size='10.5' fill='#334155'>节点间互联带宽　3.2 Tbps</text>
+<text x='884' y='762' font-size='10.5' fill='#334155'>存储网　→ SN5600 计算节点存储 Leaf（独立体系）</text>
+<text x='884' y='780' font-size='10.5' fill='#334155'>节点内　NVLink 全互联</text>
+<text x='884' y='798' font-size='10' fill='#64748b'>32 节点全部落在同一 rail 域内，集合通信可在 Leaf 层闭合</text>
+
+<rect x='30' y='838' width='1340' height='146' rx='8' fill='#f8fafc' stroke='#1f2937' stroke-width='1.8'/>
+<text x='46' y='860' font-size='12.5' font-weight='700' fill='#0f172a'>交换机台账　36 台</text>
+<rect x='46' y='872' width='420' height='98' rx='6' fill='#ffffff' stroke='#0ea5b7' stroke-width='1.5'/>
+<text x='60' y='892' font-size='11' font-weight='700' fill='#0e7490'>计算网（InfiniBand）　24 台</text>
+<text x='60' y='912' font-size='10.5' fill='#334155'>Leaf　NVIDIA MQM9790 × 8</text>
+<text x='60' y='930' font-size='10.5' fill='#334155'>Spine　NVIDIA MQM9790 × 16</text>
+<text x='60' y='952' font-size='10' fill='#64748b'>Leaf 与 Spine 同型号，均为 NDR 机型</text>
+
+<rect x='482' y='872' width='420' height='98' rx='6' fill='#ffffff' stroke='#2563eb' stroke-width='1.5'/>
+<text x='496' y='892' font-size='11' font-weight='700' fill='#1d4ed8'>存储 Server 网（H3C）　4 台</text>
+<text x='496' y='912' font-size='10.5' fill='#334155'>存储 Leaf　H3C S9825 × 4</text>
+<text x='496' y='930' font-size='10.5' fill='#334155'>上行　共享存储 Spine × 16（不计入本集群）</text>
+<text x='496' y='952' font-size='10' fill='#64748b'>唯一与 B300 共用骨干的一路</text>
+
+<rect x='918' y='872' width='436' height='98' rx='6' fill='#ffffff' stroke='#5b21b6' stroke-width='1.5'/>
+<text x='932' y='892' font-size='11' font-weight='700' fill='#5b21b6'>Spectrum 存储/管理体系　8 台</text>
+<text x='932' y='912' font-size='10.5' fill='#334155'>计算节点存储 Leaf SN5600 × 2　·　管理 Leaf SN5600 × 2</text>
+<text x='932' y='930' font-size='10.5' fill='#334155'>Spine SN5600 × 2　·　Core SN4600 × 2</text>
+<text x='932' y='952' font-size='10' fill='#64748b'>合计　24 + 4 + 8 = 36 台</text>
+</svg>
