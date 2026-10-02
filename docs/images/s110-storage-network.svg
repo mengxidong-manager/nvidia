@@ -14,7 +14,7 @@
 <text x='1095' y='166' font-size='10.5' fill='#1d4ed8' text-anchor='middle'>C22 列 U17 / D22 列 U17</text>
 
 <rect x='36' y='196' width='1368' height='36' rx='6' fill='#9a3412'/>
-<text x='720' y='220' font-size='13' font-weight='700' fill='#ffffff' text-anchor='middle'>⚠ 共享存储 Spine 的上行落在 B300 核心上 → H200 的存储南北向流量亦经 B300 核心转发</text>
+<text x='720' y='220' font-size='13' font-weight='700' fill='#ffffff' text-anchor='middle'>⚠ 共享存储 Spine 的上行落在 B300 核心上 → H200 存储 Server 网的南北向流量亦经 B300 核心转发</text>
 <line x1='1095' y1='178' x2='1095' y2='196' stroke='#ea7317' stroke-width='3'/>
 
 <rect x='36' y='248' width='1368' height='124' rx='8' fill='#fff8ec' stroke='#ea7317' stroke-width='2.6'/>
@@ -110,7 +110,7 @@
 <text x='1230' y='503' font-size='10.5' fill='#334155' text-anchor='middle'>C19 列 U31 / C20 列 U31</text>
 <text x='1230' y='517' font-size='10' fill='#5b21b6' text-anchor='middle'>承载 BCM 头节点、Slurm 控制面、监控服务器</text>
 <rect x='1074' y='532' width='312' height='144' rx='5' fill='#ffffff' stroke='#5b21b6' stroke-width='1.4'/>
-<text x='1088' y='552' font-size='11' font-weight='700' fill='#5b21b6'>H200 的独立 NVIDIA 体系（不并入共享骨干）</text>
+<text x='1088' y='552' font-size='11' font-weight='700' fill='#5b21b6'>H200 独立 NVIDIA 体系（自有 Core，不并入共享骨干）</text>
 <text x='1088' y='574' font-size='10.5' fill='#334155'>计算节点存储 Leaf　SN5600 × 2</text>
 <text x='1088' y='590' font-size='10' fill='#64748b'>C23 列 U37 / D23 列 U37</text>
 <text x='1088' y='610' font-size='10.5' fill='#334155'>管理 Server Leaf　SN5600 × 2</text>
@@ -125,7 +125,7 @@
 <text x='52' y='762' font-size='12' font-weight='700' fill='#166534'>B300 存储带宽校验</text>
 <text x='52' y='786' font-size='11' fill='#334155'>聚合上限　64 台 × 2 口 × 200G = 25.6 Tb/s ≈ 3.2 TB/s</text>
 <text x='52' y='808' font-size='11' fill='#334155'>需求基准　NVIDIA 参考 12.5 Gb/s × GPU</text>
-<text x='52' y='828' font-size='11' fill='#334155'>　　　　　1,016 × 12.5 = 12.7 Tb/s</text>
+<text x='52' y='828' font-size='11' fill='#334155'>　　　　　　1,016 × 12.5 = 12.7 Tb/s</text>
 <text x='52' y='852' font-size='11.5' font-weight='700' fill='#166534'>余量　约 2 倍</text>
 <text x='52' y='874' font-size='10.5' fill='#64748b'>用于吸收 Checkpoint 集中写入等全集群同时发起的突发</text>
 <text x='52' y='894' font-size='11' fill='#334155'>裸容量　64 × 24 × 15.36 TB ≈ 23.6 PB</text>
@@ -166,6 +166,6 @@
 <rect x='728' y='960' width='660' height='84' rx='6' fill='#ffffff' stroke='#ea7317' stroke-width='1.5'/>
 <text x='742' y='980' font-size='11.5' font-weight='700' fill='#9a3412'>耦合点 2　B300 业务网核心（C22/D22 U17）</text>
 <text x='742' y='1000' font-size='10.5' fill='#334155'>共享存储 Spine 通过 2 × 10GE 上行至此，是双集群存储流量的</text>
-<text x='742' y='1017' font-size='10.5' fill='#334155'>唯一南北向出口；H200 虽有自己的 SN4600 核心，存储路径仍经此</text>
-<text x='742' y='1036' font-size='10.5' font-weight='600' fill='#9a3412'>→ H200 排查存储异常时须一并检查 B300 核心</text>
+<text x='742' y='1017' font-size='10.5' fill='#334155'>唯一南北向出口；H200 存储 Server 网虽属 H200，其南北向路径仍落在此处</text>
+<text x='742' y='1036' font-size='10.5' font-weight='600' fill='#9a3412'>→ H200 排查存储 Server 访问异常时须一并检查 B300 核心</text>
 </svg>
