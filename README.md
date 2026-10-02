@@ -10,7 +10,8 @@
 
 | 文档 | 内容 |
 |------|------|
-| [**HGX B300 训练集群参考架构文档 v1.0**](docs/HGX_B300训练集群设计方案_1024GPU.md) | 1016 卡规模 · 双平面 RoCEv2 · 76 台 H3C 交换机 · WEKA · 原生 K8s · 容量核算 |
+| [**S110 机房双集群架构说明书**](docs/S110机房双集群架构说明书.md) | **台账权威来源** · H200 + B300 合并架构 · 159 GPU 节点 / 123 交换机 · 共享层与跨集群依赖 · 机柜列索引 |
+| [HGX B300 训练集群现网架构文档](docs/HGX_B300训练集群设计方案_1024GPU.md) | B300 单集群详解 · 127 节点/1016 GPU · 双平面 RoCEv2 · WEKA · 原生 K8s |
 | [Aivres KR6288 (HGX H200) 训练节点网络结构 — s110-b7](docs/HGX_H200训练节点网络结构_s110-b7.md) | 铭牌解码 / 8:8:2 网络 / IBBZ 计算网 / 接线表 / 拓扑 SVG |
 | [s110 集群网络架构 — 交换机与 CPU 服务器](docs/s110集群网络架构_交换机与CPU服务器.md) | 三张网分层 / 交换机清单 / CPU 服务器角色 / pod 拓扑 SVG |
 | [800G 光模块与 Leaf 交换机连接方式详解](docs/800G光模块与Leaf交换机连接方式详解.md) | 800G 光模块类型 / breakout 方式 / Leaf 端口映射 |
@@ -22,7 +23,6 @@
 | [B300/GB300 NVL72 技术全解](docs/B300_GB300_NVL72_技术全解.md) | Blackwell Ultra 架构 / B300 vs B200 / 散热 / 供电 / 内存 / 网络 |
 | [Vera Rubin NVL72 技术全解](docs/Vera_Rubin_NVL72_技术全解.md) | 架构 / 六大芯片 / 45°C 液冷 / 供电 / 存储 / 网络 |
 | [Gigabyte HGX B300 服务器运维手册](docs/Gigabyte_HGX_B300_服务器运维手册.md) | G894-ZD3-AAX7 硬件运维与维护流程 |
-| [技嘉 B300 FRU 序列号修改 SOP](docs/b300-fru-sn-sop.md) | 更换主板后恢复 SN / ipmitool fru edit / 长度预检 / 备份与回滚 / 记录模板 |
 | [NVIDIA Spectrum SN5000 系列选型参考](docs/NVIDIA_Spectrum_SN5000系列选型参考.md) | SN5600/SN5400 规格速查 / Spectrum-4 ASIC / 软件生态 / 与 H3C 对标分析 |
 
 ### 运维与故障排查
@@ -32,9 +32,6 @@
 | [GPU 集群常见问题与故障排查手册](docs/GPU集群常见问题与故障排查手册.md) | XID 错误速查 · ECC/PCIe/NVLink 诊断 · 训练故障 · 推理问题 · 散热供电 · 预防性维护 |
 | [GPU 集群掉卡故障处理手册](docs/GPU集群掉卡故障处理手册.md) | 推理/训练双分支 SOP · 业务不中断手段 · Checkpoint 策略 · 可直接用的 YAML 片段 |
 | [nvidia-smi 运维命令速查手册](docs/nvidia-smi运维命令速查手册.md) | GPU 监控 / 健康检查 / 性能调优 / NVLink 诊断 |
-| [ConnectX / InfiniBand 网络诊断命令手册](docs/cx8-diagnostics.md) | MFT 工具 / 链路与光模块诊断 / ethtool / sysfs / IB 层 / 89 条命令分组速查 |
-| [CX8 单机自环测试手册](docs/cx8-loopback.md) | 无对端设备时验证端口与光模块 / 三种自环拓扑 / MPO-8 Type-B 极性 / PRBS / RoCE 验证 |
-| [ConnectX-8 端口全数无法启用 故障报告](docs/cx8-firmware-fault-report.md) | 实例记录 · 固件 0x035e 心跳停止 · 16 端口 100% 复现 · 9 项假设排除过程 |
 | [Dell RAID 故障恢复手册](docs/Dell_RAID故障恢复手册.md) | RAID 0/1/5/10 故障恢复 / perccli 命令 / 热插拔流程 |
 
 ### 数据中心基础设施
@@ -52,23 +49,13 @@
 
 | 图 | 所属文档 |
 |------|------|
-| [B300 集群网络架构](docs/images/b300-network-arch-127.svg) | B300 参考架构文档 |
-| [双平面架构](docs/images/b300-dualplane.svg) | B300 参考架构文档 |
-| [机房布局](docs/images/b300-rack-layout.svg) | B300 参考架构文档 |
+| [**双集群网络架构（H200 + B300）**](docs/images/dual-cluster-arch.svg) | 双集群架构说明书 |
+| [B300 集群网络架构（现网）](docs/images/b300-network-arch-127.svg) | B300 现网架构文档 |
+| [双平面架构](docs/images/b300-dualplane.svg) | B300 现网架构文档 |
+| [机房布局](docs/images/b300-rack-layout.svg) | B300 现网架构文档 |
 | [掉卡故障处理流程](docs/images/gpu-fault-flow.svg) | 掉卡故障处理手册 |
 | [s110-b7 节点拓扑](docs/images/s110-b7-topology.svg) | H200 节点文档 |
 | [s110 pod 拓扑](docs/images/s110-pod-topology.svg) | s110 集群文档 |
-
----
-
-## 关于 HTML 版本
-
-以下文档在 `docs/` 下另有同名 `.html` 版本，带章节导航、命令一键复制、深色模式自适应。GitHub 不渲染 HTML，需下载到本地打开，或为本仓库开启 GitHub Pages（Settings → Pages → Source 选 `main` 分支 `/docs` 目录）后在线访问。
-
-- `cx8-diagnostics.html`
-- `cx8-loopback.html`
-- `cx8-firmware-fault-report.html`
-- `b300-fru-sn-sop.html`
 
 ---
 
