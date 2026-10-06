@@ -1,0 +1,46 @@
+<div class="prims">
+  <div class="pc red wob box">
+    <div class="lab hd">训练流量的主角</div>
+    <div class="p"><div class="ph"><b>All-Reduce</b></div><p>全员求和，<em>结果人人都有</em></p><p class="u">DP 梯度同步，训练中占比最高</p></div>
+    <div class="p"><div class="ph"><b>All-to-All</b></div><p>每人给每人发<em>不同的数据</em></p><p class="u">MoE 专家路由、序列并行</p></div>
+    <div class="nt">MoE 每个专家层前向就要 <b>2 次 All-to-All</b>：先把 token 发给专家（dispatch），再收回结果（combine）</div>
+  </div>
+  <div class="pc teal wob box">
+    <div class="lab hd">切片与拼接</div>
+    <div class="p"><div class="ph"><b>All-Gather</b></div><p>每人一片，最后人人拿到<em>完整拼接</em></p><p class="u">ZeRO / FSDP 收集参数分片</p></div>
+    <div class="p"><div class="ph"><b>Reduce-Scatter</b></div><p>先规约再切开，每人拿<em>一段结果</em></p><p class="u">ZeRO 梯度规约</p></div>
+    <div class="nt">ZeRO-3 / FSDP 每一步：前向先 <b>All-Gather</b> 拿齐参数，反向再 <b>Reduce-Scatter</b> 分摊梯度</div>
+  </div>
+  <div class="pc navy wob box">
+    <div class="lab hd">一对多 · 点对点</div>
+    <div class="p"><div class="ph"><b>Broadcast</b></div><p>一人发，所有人收</p><p class="u">初始权重分发</p></div>
+    <div class="p"><div class="ph"><b>Reduce / Gather</b></div><p>汇聚到一个 rank</p><p class="u">日志、指标收集</p></div>
+    <div class="p"><div class="ph"><b>Send / Recv</b></div><p>点对点传输</p><p class="u">流水线相邻 stage 传激活</p></div>
+  </div>
+</div>
+
+<div class="eq wob box">
+  <div class="lab hd">最重要的一个等式</div>
+  <div class="eqr">
+    <span class="t r">All-Reduce</span><span class="o">=</span><span class="t">Reduce-Scatter</span><span class="o">+</span><span class="t">All-Gather</span>
+  </div>
+  <div class="eqn">
+    <div><b>环形算法每卡流量</b><code>≈ 2(N−1)/N × 数据量</code><p>N 越大越接近 2 倍数据量，<em>几乎不随卡数增长</em>，所以能扩到千卡</p></div>
+    <div><b>nccl-tests 看 busbw</b><code>busbw = algbw × 2(N−1)/N</code><p>busbw 反映硬件跑满了多少，可以直接和链路带宽比</p></div>
+  </div>
+</div>
+
+<div class="g3">
+  <div class="k wob box"><div class="lab hd">All-to-All 最难</div><p>全网状突发，没有规律可优化，最容易打爆网络。<em>MoE 模型慢，先查它</em></p></div>
+  <div class="k wob box"><div class="lab hd">SHARP 管不了全部</div><p>SHARP 在交换机里做规约，加速 <span class="nw">All-Reduce</span>；All-to-All <em>没有规约</em>，用不上</p></div>
+  <div class="k wob box"><div class="lab hd">测哪个，跑哪个</div><p><code>all_reduce_perf</code> · <code>all_gather_perf</code><br><code>reduce_scatter_perf</code> · <code>alltoall_perf</code><br><code>sendrecv_perf</code></p></div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><circle cx="12" cy="24" r="6"/><circle cx="36" cy="12" r="6"/><circle cx="36" cy="36" r="6"/><path d="M18 22 30 14M18 26l12 8"/></svg><p>先认原语，<br>再谈网络优化</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M6 38 18 24l8 8 16-18"/><path d="M34 14h8v8"/></svg><p>比带宽看 busbw，<br>别看 algbw</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M24 4 44 40H4z"/><path d="M24 18v10M24 34v1"/></svg><p>MoE 慢，<br>先测 alltoall_perf</p></div>
+  </div>
+</div>

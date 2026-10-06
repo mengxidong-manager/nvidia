@@ -1,0 +1,11 @@
+{
+  "day": "08",
+  "title": "集合通信原语",
+  "subtitle": "所有并行策略，都是这 7 个动作的组合",
+  "source": "参考：AI 集群常见通信模式 · NVIDIA nccl-tests PERFORMANCE 文档",
+  "caption": "AIDC 每日一图 · Day 08｜集合通信原语 📡\n\nAll-Reduce：DP 梯度同步，训练里流量最大\nAll-Gather / Reduce-Scatter：ZeRO / FSDP\nAll-to-All：MoE 专家路由，最容易打爆网络\nP2P：流水线相邻 stage 传激活\n\nAll-Reduce = Reduce-Scatter + All-Gather\n\n收藏备用 👇\n#GPU #NCCL #AIInfra #AIDC",
+  "xhs": {
+    "title": "看懂AI集群网络，先认识这7个动作",
+    "body": "AIDC 每日一图 · Day 08\n\nAI 训练里的通信，归根结底就是几个「集合通信原语」：\n\n🔵 All-Reduce：全员求和，人人拿到结果。DP 梯度同步，流量最大\n🔵 All-Gather：每人一片，拼成完整。ZeRO / FSDP 收参数\n🔵 Reduce-Scatter：先规约再切片。All-Reduce 的前半程\n🔴 All-to-All：每人给每人发不同数据。MoE 专家路由，最难优化\n⚪ Broadcast / Reduce / P2P：分发权重、汇聚、流水线传激活\n\n三个关键认识：\n1. All-Reduce = Reduce-Scatter + All-Gather，环形算法每卡流量 ≈ 2(N−1)/N × 数据量，几乎不随卡数增长\n2. All-to-All 是全网状突发，MoE 慢先查它\n3. SHARP 在交换机里做规约，对 All-to-All 用不上\n\n测带宽看 nccl-tests 的 busbw，不看 algbw\n\n收藏备用 👇\n\n#GPU #英伟达 #NCCL #大模型训练 #智算中心 #AI基础设施"
+  }
+}

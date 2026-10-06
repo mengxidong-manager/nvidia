@@ -1,0 +1,39 @@
+.prims{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:14px;margin-top:30px}
+.pc{padding:22px 12px 8px}
+.pc.red{border-color:var(--red)}.pc.red>.lab{color:var(--red)}
+.pc.teal{border-color:var(--teal)}.pc.teal>.lab{color:var(--teal)}
+.p{padding:7px 0;border-bottom:2px dashed #d3d9e6}
+.p:last-child{border-bottom:none}
+.ph{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.ph b{font-family:'Kalam';font-weight:700;font-size:20px}
+.red .ph b{color:var(--red)}.teal .ph b{color:var(--teal)}
+.ph svg{width:96px;height:32px;fill:none}
+.ph .d circle{fill:#fff;stroke:var(--navy);stroke-width:2}
+.ph .ar{stroke:var(--red);stroke-width:2.2;stroke-linecap:round}
+.p p{font-family:'LXGW WenKai';font-size:15.5px;line-height:1.4;color:#34426a;margin-top:2px}
+.p p em{font-style:normal;font-weight:700;color:var(--navy)}
+.p p.u{font-size:14.5px;color:#15627a}
+.eq{margin-top:30px;padding:24px 18px 14px}
+.eqr{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:12px}
+.eqr .t{font-family:'Kalam';font-weight:700;font-size:24px;border:2.4px solid var(--teal);border-radius:12px 8px 12px 9px;padding:2px 14px;color:#15627a;background:#f4fbfd}
+.eqr .t.r{border-color:var(--red);color:var(--red);background:#fff4f7}
+.eqr .o{font-family:'ZCOOL KuaiLe';font-size:34px}
+.eqn{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.eqn>div{background:#eef3fb;border-radius:12px 8px 12px 9px;padding:10px 14px}
+.eqn b{display:block;font-family:'LXGW WenKai';font-weight:700;font-size:16.5px}
+.eqn code{display:inline-block;background:#1d2b4f;color:#ffc36b;border-radius:7px;padding:2px 10px;font-size:16px;margin:4px 0}
+.eqn p{font-family:'LXGW WenKai';font-size:15px;line-height:1.42;color:#34426a}
+.eqn em{font-style:normal;font-weight:700;color:var(--red)}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:30px}
+.k{padding:22px 14px 12px}
+.k>.lab{font-size:23px}
+.k p{font-family:'LXGW WenKai';font-size:15.5px;line-height:1.55;color:#34426a}
+.k em{font-style:normal;font-weight:700;color:var(--red)}
+.k code{font-size:13.5px;background:#1d2b4f;color:#e9eefb;padding:1px 6px;border-radius:5px;line-height:2}
+.pc{display:flex;flex-direction:column}
+.nt{margin-top:auto;font-family:'LXGW WenKai';font-size:14.5px;line-height:1.45;border-radius:10px;padding:7px 10px}
+.red .nt{background:#fff4f7}.red .nt b{color:var(--red)}
+.teal .nt{background:#f4fbfd}.teal .nt b{color:#15627a}
+.nw{white-space:nowrap}
+.k{display:flex;flex-direction:column;justify-content:center}
+.nt b{white-space:nowrap}

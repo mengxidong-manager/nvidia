@@ -1,0 +1,60 @@
+<div class="tbl wob box">
+  <div class="lab hd">四种主力并行，一张表看通信</div>
+  <table>
+    <tr><th>并行</th><th>切什么</th><th>主要通信</th><th>频率</th><th>放哪</th></tr>
+    <tr class="r1"><td><b>TP</b> 张量</td><td>单层权重矩阵</td><td>All-Reduce</td><td>每层前向 2 次 + 反向 2 次</td><td><em>机内 NVLink</em></td></tr>
+    <tr class="r2"><td><b>EP</b> 专家</td><td>MoE 专家</td><td>All-to-All</td><td>每个 MoE 层，突发</td><td><em>机内或就近</em></td></tr>
+    <tr class="r3"><td><b>PP</b> 流水线</td><td>按层切段</td><td>Send / Recv</td><td>相邻 stage 之间</td><td><em>跨机</em></td></tr>
+    <tr class="r4"><td><b>DP</b> 数据</td><td>切数据</td><td>All-Reduce</td><td>每步一次，可重叠</td><td><em>最外层</em></td></tr>
+  </table>
+  <p class="more">另有 <b>ZeRO / FSDP</b>（切参数和优化器，靠 All-Gather + Reduce-Scatter）、<b>SP / CP</b>（切序列，靠 All-Gather / All-to-All）</p>
+</div>
+
+<div class="g2">
+  <div class="ring wob box">
+    <div class="lab hd">从内到外摆放</div>
+    <div class="rings">
+      <div class="o4"><span>DP · 跨 block 也行</span>
+        <div class="o3"><span>PP · 跨节点</span>
+          <div class="o2"><span>EP · 机内 / 就近</span>
+            <div class="o1"><span>TP<br>机内 8 卡</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="cap">通信越频繁，越往里放</p>
+  </div>
+  <div class="why wob box">
+    <div class="lab hd">为什么 TP 不能跨机</div>
+    <div class="bar"><span class="l">NVLink 5</span><div class="b nv"><i>≈ 900 GB/s</i></div></div>
+    <div class="bar"><span class="l">800G 网卡</span><div class="b n8"></div><i class="o">100 GB/s</i></div>
+    <div class="bar"><span class="l">400G 网卡</span><div class="b n4"></div><i class="o">50 GB/s</i></div>
+    <p class="unit">每 GPU、单方向；NVLink 5 双向合计 1.8 TB/s</p>
+    <p class="con">差 <b>9～18 倍</b>。TP 每层都要同步，跨机就会被网络拖住</p>
+    <p class="ref">Megatron-LM 建议：<b>TP 不超过单机 GPU 数</b>，更大模型用 PP 跨机</p>
+    <div class="sym">
+      <b>症状 → 先查哪种并行</b>
+      <p><span>单机快、多机慢</span>TP 跨了节点，或 GPUDirect RDMA 没开</p>
+      <p><span>MoE 特别慢</span>EP 的 All-to-All 打满了网络</p>
+      <p><span>加卡不提速</span>DP 通信没重叠，或 PP 气泡太大</p>
+    </div>
+  </div>
+</div>
+
+<div class="pp wob box">
+  <div class="lab hd">PP 的代价：气泡</div>
+  <div class="ppg">
+    <div class="f"><b>气泡占比 ≈ (p − 1) / m</b><span>p = 流水线级数　m = 每批 micro-batch 数</span></div>
+    <div class="f"><b>交错调度 ÷ v</b><span>每卡放 v 段模型，气泡再缩小 v 倍，代价是通信变多</span></div>
+    <div class="f ex"><b>例：p = 8，m = 32</b><span>气泡 ≈ 7 / 32 ≈ 22%，m 加到 64 降到约 11%</span></div>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="8" y="8" width="32" height="32" rx="4"/><path d="M16 16h16v16H16z"/></svg><p>TP 只放机内，<br>不跨节点</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M6 24h36M30 12l12 12-12 12"/></svg><p>先定并行策略，<br>再反推网络需求</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><circle cx="24" cy="24" r="16"/><path d="M24 14v10l7 5"/></svg><p>DP 通信要和计算重叠，<br>别干等</p></div>
+  </div>
+</div>

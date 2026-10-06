@@ -1,0 +1,11 @@
+{
+  "day": "09",
+  "title": "并行策略与通信量",
+  "subtitle": "并行策略决定通信量，通信量决定拓扑",
+  "source": "参考：AI 集群常见通信模式 · Megatron-LM（Narayanan et al., SC21）",
+  "caption": "AIDC 每日一图 · Day 09｜并行策略与通信量 🧩\n\n按通信强度从内到外摆：\nTP：每层都 All-Reduce，只放机内 NVLink\nEP：All-to-All 突发，尽量机内或就近\nPP：只传激活，量小，跨机 OK\nDP：All-Reduce 可和计算重叠，放最外层\n\nNVLink 比单张网卡快一个数量级\n\n收藏备用 👇\n#GPU #LLM #AIInfra #AIDC",
+  "xhs": {
+    "title": "TP/PP/DP/EP怎么摆？看通信量",
+    "body": "AIDC 每日一图 · Day 09\n\n大模型训练的几种并行，通信量差别巨大：\n\n🔴 TP 张量并行：切权重矩阵，每层前向 2 次 + 反向 2 次 All-Reduce，频率最高 → 只放机内 NVLink\n🟠 EP 专家并行：MoE 层 All-to-All，量大且突发 → 机内或就近\n🔵 PP 流水线并行：只在相邻 stage 传激活，量小 → 跨机\n🟢 DP 数据并行：每步一次梯度 All-Reduce，可以和反向计算重叠 → 最外层\n\n为什么 TP 不能跨机？\nNVLink 5 每卡单向约 900 GB/s，一张 800G 网卡单向 100 GB/s，差约 9 倍\n\nPP 的代价是气泡：气泡占比 ≈ (p−1)/m，micro-batch 越多越小\n\n收藏备用 👇\n\n#GPU #英伟达 #大模型训练 #智算中心 #AI基础设施 #并行计算"
+  }
+}
