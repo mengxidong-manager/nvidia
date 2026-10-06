@@ -10,7 +10,7 @@
 
 | 文档 | 内容 |
 |------|------|
-| [**S110 智算中心整体架构说明**](docs/S110智算中心整体架构说明.md) | **整体架构详解** · 三层结构 · 1,272 GPU · 双 Pod 划分 · 端口与容量推导 · BCM + Slurm 软件栈 · 配套 6 张拓扑图 |
+| [**S110 智算中心整体架构说明**](docs/S110智算中心整体架构说明.md) | **整体架构详解** · 三层结构 · 1,272 GPU · 双 Pod 划分 · 端口与容量推导 · BCM + Slurm 软件栈 · 配套 10 张拓扑图 |
 | [**S110 机房双集群架构说明书**](docs/S110机房双集群架构说明书.md) | **台账权威来源** · H200 + B300 合并架构 · 159 GPU 节点 / 123 交换机 · 共享层与跨集群依赖 · 机柜列索引 |
 | [HGX B300 训练集群现网架构文档](docs/HGX_B300训练集群设计方案_1024GPU.md) | B300 单集群详解 · 127 节点/1016 GPU · 双平面 RoCEv2 · WEKA |
 | [Aivres KR6288 (HGX H200) 训练节点网络结构 — s110-b7](docs/HGX_H200训练节点网络结构_s110-b7.md) | 铭牌解码 / 8:8:2 网络 / IBBZ 计算网 / 接线表 / 拓扑 SVG |
@@ -48,16 +48,22 @@
 
 ## 架构图索引
 
-### S110 智算中心拓扑详图（6 张）
+### S110 智算中心拓扑详图（10 张）
 
-| 图 | 内容 |
-|------|------|
-| [**整体网络架构**](docs/images/s110-overview-arch.svg) | 三层结构 · 双集群并列 · 规模指标 · 架构要点 |
-| [B300 双 Pod × 双平面计算网](docs/images/b300-pod-compute.svg) | 32 Leaf / 16 Spine 逐台展开 · rail 归属 · 端口账 · Pod 边界推导 |
-| [B300 单节点接线](docs/images/b300-node-wiring.svg) | 8×OSFP 拆分规则 · 三张网物理出口 · 全集群链路折算 |
-| [存储网络全景](docs/images/s110-storage-network.svg) | 共享 Spine × 16 · 四类接入路径 · 带宽核算 · 跨集群耦合点 |
-| [H200 三套独立网络体系](docs/images/h200-three-networks.svg) | IB 计算网 · H3C 存储网 · Spectrum 管理体系 · 36 台台账 |
-| [软件架构与调度拓扑映射](docs/images/s110-software-stack.svg) | BCM · Slurm · topology.conf 三级映射 · 无损调优与监控 |
+总体 1 张 + 每集群每网络各 1 张 + Spine 层汇总 + 软件栈。
+
+| # | 图 | 范围 | 内容 |
+|---|------|------|------|
+| 1 | [**整体网络架构**](docs/images/s110-overview-arch.svg) | 全中心 | 三层结构 · 双集群并列 · 规模指标 · 架构要点 |
+| 2 | [H200 三套网络体系汇总](docs/images/h200-three-networks.svg) | H200 汇总 | IB 计算网 + DDN 存储网 + 带外管理 · 32 台节点台账 |
+| 3 | [**H200 · 计算网**](docs/images/h200-compute-ib.svg) | H200 计算网 | MQM9790 ×24（Leaf 8 / Spine 16）· 全连接 128 条 · 信用无损 |
+| 4 | [**H200 · 存储网**](docs/images/h200-storage-mgmt.svg) | H200 存储网 | DDN A³I（EXAScaler）+ Spectrum SN5600/SN4600 · 与 B300 存储无关 |
+| 5 | [B300 单节点接线](docs/images/b300-node-wiring.svg) | B300 节点级 | 8×OSFP 拆分规则 · 三张网物理出口 · 全集群链路折算 |
+| 6 | [**B300 · 计算网**](docs/images/b300-pod-compute.svg) | B300 计算网 | 双 Pod × 双平面 RoCEv2 · 32 Leaf / 16 Spine 逐台展开 · Pod 边界推导 |
+| 7 | [**B300 · 存储网**](docs/images/b300-storage-network.svg) | B300 存储网 | 130 台存储节点 · 14 Leaf × 16 骨干全连接 · 带宽核算 |
+| 8 | [**带外管理网（OOB / IPMI）**](docs/images/b300-oob-network.svg) | 两集群带外 | S5590 ×9 + S6805 ×2 · H200 节点 BMC 接 C22 列 U33 · 唯一跨集群耦合点 |
+| 9 | [**各网络 Spine 层与层间连接汇总**](docs/images/s110-spine-layers.svg) | 5 张网络 | Spine 之间一律不互联的三条理由 · 逐网络上行与扩容余量 |
+| 10 | [软件架构与调度拓扑映射](docs/images/s110-software-stack.svg) | 软件栈 | BCM · Slurm · topology.conf 三级映射 · 无损调优与监控 |
 
 ### 其他架构图
 
