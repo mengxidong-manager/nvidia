@@ -1,0 +1,47 @@
+<div class="cmp wob box">
+  <div class="lab hd">一张表看差别</div>
+  <table>
+    <tr><th></th><th class="ib">InfiniBand</th><th class="rc">RoCEv2</th></tr>
+    <tr><td>封装</td><td>IB 原生协议栈</td><td>RDMA 装进 <b>UDP/IP</b>，目的端口 <b>4791</b>，可跨三层路由</td></tr>
+    <tr><td>不丢包</td><td><b>链路层信用流控</b>：收方有空位才发，天生无损</td><td>靠调出来：<b>PFC</b> 逐跳暂停 + <b>ECN / DCQCN</b> 端到端降速</td></tr>
+    <tr><td>路由</td><td>子网管理器集中计算，规范内置自适应路由</td><td>IP 路由 + ECMP，负载均衡看交换机能力</td></tr>
+    <tr><td>在网计算</td><td><b>SHARP</b>，交换机里做规约</td><td>一般没有，看厂商方案</td></tr>
+    <tr><td>生态</td><td>网卡、交换机、管理软件通常同一家</td><td>以太网多厂商可选，运维团队更熟悉</td></tr>
+  </table>
+  <p class="same">共同点：都是 RDMA，网卡直接读写对端内存，<b>绕过 CPU 和内核</b></p>
+</div>
+
+<div class="g2">
+  <div class="tune wob box">
+    <div class="lab hd">RoCE 上线必查 4 件事</div>
+    <div class="t"><i>1</i><div><b>PFC 优先级两端一致</b><p>网卡和交换机把 RDMA 流量放在同一个无损优先级</p></div></div>
+    <div class="t"><i>2</i><div><b>ECN 门限</b><p>拥塞早标记，让发送端先降速，别等 PFC 暂停</p></div></div>
+    <div class="t"><i>3</i><div><b>MTU 一致</b><p>主机、网卡、交换机整条路径一致</p></div></div>
+    <div class="t"><i>4</i><div><b>PFC 死锁检测</b><p>交换机打开 deadlock 检测与恢复</p></div></div>
+  </div>
+  <div class="risk wob box">
+    <div class="lab hd">PFC 调不好会怎样</div>
+    <div class="r"><b>一丢包就断崖</b><p>RDMA 重传代价大，少量丢包就让吞吐大幅下降</p></div>
+    <div class="r"><b>暂停风暴</b><p>PAUSE 一级级往上游传，无关流量也被堵住</p></div>
+    <div class="r"><b>死锁</b><p>环形依赖的暂停互相等待，链路卡死</p></div>
+    <p class="ck">先确认网卡跑在哪种模式：<code>ibv_devinfo</code> 看 <b>link_layer</b>，是 Ethernet 还是 InfiniBand</p>
+  </div>
+</div>
+
+<div class="pick wob box">
+  <div class="lab hd">怎么选</div>
+  <div class="pg">
+    <div class="p ib"><b>更看重开箱性能</b><p>想少调参、要 SHARP、能接受单一厂商 → <em>InfiniBand</em></p></div>
+    <div class="p rc"><b>更看重开放和成本</b><p>想多厂商、复用以太网运维经验、有能力调无损 → <em>RoCEv2</em></p></div>
+  </div>
+  <p class="note">厂商标称的「接近 IB 性能」通常基于自家网卡加自家交换机的整套方案；混搭时以<b>实测 nccl-tests</b> 为准</p>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M24 4 40 10v12c0 10-7 17-16 21C15 39 8 32 8 22V10z"/></svg><p>RoCE 的上限<br>取决于无损调得好不好</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><circle cx="12" cy="24" r="6"/><circle cx="36" cy="24" r="6"/><path d="M18 24h12"/></svg><p>PFC 和 ECN 配置<br>两端必须一致</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M6 38 18 24l8 8 16-18"/><path d="M34 14h8v8"/></svg><p>别信标称值，<br>用 nccl-tests 实测</p></div>
+  </div>
+</div>

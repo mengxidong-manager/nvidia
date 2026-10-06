@@ -1,0 +1,11 @@
+{
+  "day": "11",
+  "title": "RoCEv2 vs InfiniBand",
+  "subtitle": "同样是 RDMA，差别在「不丢包」靠谁保证",
+  "source": "参考：B300 集群架构笔记 · IP Infusion《RoCE vs InfiniBand》",
+  "caption": "AIDC 每日一图 · Day 11｜RoCEv2 vs InfiniBand ⚖️\n\nIB：链路层信用流控，天生不丢包；子网管理器 + 自适应路由 + SHARP\nRoCEv2：RDMA 跑在 UDP 4791 上，不丢包靠 PFC + ECN 调出来\n\nRoCE 的性能上限 = 无损网络调得好不好\n\n收藏备用 👇\n#RDMA #RoCE #InfiniBand #AIDC",
+  "xhs": {
+    "title": "RoCEv2和IB到底差在哪？",
+    "body": "AIDC 每日一图 · Day 11\n\n两者都是 RDMA：网卡直接读写对端内存，绕过 CPU 和内核\n真正的差别：「不丢包」靠谁保证\n\n🟣 InfiniBand：\n· 链路层信用流控，收方有空位才发，天生不丢包\n· 子网管理器统一算路由，自带自适应路由\n· SHARP 在交换机里做规约\n· 通常整套来自同一家\n\n🔵 RoCEv2：\n· RDMA 封装在 UDP/IP 里，目的端口 4791，能跨三层路由\n· 不丢包要自己调：PFC 逐跳暂停 + ECN/DCQCN 端到端降速\n· 一丢包，重传代价很大，性能断崖\n· 以太网多厂商可选\n\nRoCE 上线必查：PFC 优先级两端一致、ECN 门限、MTU、PFC 死锁检测\n\n收藏备用 👇\n\n#RDMA #InfiniBand #数据中心网络 #智算中心 #AI基础设施 #运维"
+  }
+}

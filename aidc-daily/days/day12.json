@@ -1,0 +1,11 @@
+{
+  "day": "12",
+  "title": "800G 光模块与 breakout",
+  "subtitle": "一个 800G 口里是 8 条 100G 通道，怎么拆、怎么接",
+  "source": "参考：800G 光模块连接笔记 · NVIDIA MMS4X00 / MMS4A20 手册",
+  "caption": "AIDC 每日一图 · Day 12｜800G 光模块与 breakout 🔦\n\n800G = 8 × 100G-PAM4，可拆 2×400 / 4×200 / 8×100\nDR8 单模：2 个 MPO-12/APC 或 1 个 MPO-16/APC\n400G DR4：1 个 MPO-12/APC，只用其中 8 芯\n网卡侧平顶 RHS，风冷交换机侧带鳍片，别装反\n\n收藏备用 👇\n#光模块 #AINetwork #AIInfra #AIDC",
+  "xhs": {
+    "title": "800G光模块怎么拆？一张图讲清",
+    "body": "AIDC 每日一图 · Day 12\n\n一个 800G 口 = 8 条 100G-PAM4 通道，拆分就是分通道：\n1×800G / 2×400G / 4×200G / 8×100G\n\n常见型号怎么认：\n🟡 800G DR8：单模 500m，2 个 MPO-12/APC 或 1 个 MPO-16/APC，可拆成 2 路 400G\n🟢 400G DR4：单模 500m，1 个 MPO-12/APC（12 芯只用 8 芯）\n🔵 800G SR8：多模短距，MPO 接头\n⚠️ 新型 800G DR4 = 4 × 200G，名字里有 DR4 不代表就是 400G\n\n装配细节：\n· 网卡侧用平顶 RHS，风冷交换机侧用鳍片款，装错会散热不良\n· 单模用 APC 斜面接头，和 UPC 混插会高误码\n\n链路起不来先查：极性、端面清洁、两端 breakout 配置是否一致\n\n收藏备用 👇\n\n#光模块 #数据中心网络 #智算中心 #AI基础设施 #运维"
+  }
+}

@@ -1,0 +1,47 @@
+<div class="lane wob box">
+  <div class="lab hd">一个 800G 口 = 8 条 100G-PAM4 通道</div>
+  <div class="modes">
+    <div class="m"><b>1 × 800G</b><div class="ls">L0 L1 L2 L3 L4 L5 L6 L7</div><p>交换机对交换机</p></div>
+    <div class="m"><b>2 × 400G</b><div class="ls"><span>L0–L3</span><span>L4–L7</span></div><p>网卡一口接两台 leaf / 两个平面</p></div>
+    <div class="m"><b>4 × 200G</b><div class="ls"><span>L0–1</span><span>L2–3</span><span>L4–5</span><span>L6–7</span></div><p>接 200G 设备</p></div>
+    <div class="m"><b>8 × 100G</b><div class="ls"><span>L0</span><span>L1</span><span>L2</span><span>L3</span><span>L4</span><span>L5</span><span>L6</span><span>L7</span></div><p>扇出到低速设备</p></div>
+  </div>
+</div>
+
+<div class="typ wob box">
+  <div class="lab hd">常见型号怎么认</div>
+  <table>
+    <tr><th>型号</th><th>通道</th><th>光纤 / 接头</th><th>典型用途</th></tr>
+    <tr><td><b class="y">800G DR8</b></td><td>8 × 100G</td><td>单模 500m；<em>2 个 MPO-12/APC</em> 或 <em>1 个 MPO-16/APC</em></td><td>可拆 2×400G 接两台 leaf</td></tr>
+    <tr><td><b class="g">400G DR4</b></td><td>4 × 100G</td><td>单模 500m；1 个 MPO-12/APC，<em>12 芯只用 8 芯</em></td><td>leaf 侧 400G 口</td></tr>
+    <tr><td><b class="b">800G SR8</b></td><td>8 × 100G</td><td>多模，短距；MPO 接头</td><td>同排、相邻机柜</td></tr>
+    <tr class="new"><td><b class="r">800G DR4</b></td><td>4 × 200G</td><td>单模 500m；1 个 MPO-12/APC</td><td>新一代网卡对新一代交换机</td></tr>
+  </table>
+  <p class="note">⚠ 名字里的 <b>DR4 / DR8</b> 说的是<b>通道数</b>，不是速率：同叫 DR4，可能是 400G，也可能是 800G</p>
+</div>
+
+<div class="g2">
+  <div class="fit wob box">
+    <div class="lab hd">装配别装反</div>
+    <div class="f"><b>平顶 RHS</b><p>表面平整，靠网卡上的散热片压着散热 → <em>网卡 / 服务器侧</em></p></div>
+    <div class="f"><b>鳍片款</b><p>表面带散热鳍片 → <em>风冷交换机侧</em></p></div>
+    <div class="f"><b>APC ≠ UPC</b><p>单模用 APC 斜面接头；和 UPC 平面接头混插，<em>误码会很高</em></p></div>
+  </div>
+  <div class="ts wob box">
+    <div class="lab hd">链路不通，按顺序查</div>
+    <div class="s"><i>1</i><p><b>两端速率 / 拆分配置一致</b>：网卡拆成 2×400G，对端口也得是 400G</p></div>
+    <div class="s"><i>2</i><p><b>MPO 极性</b>：方向插反，链路一直 down 或抖动</p></div>
+    <div class="s"><i>3</i><p><b>端面清洁</b>：先用清洁笔擦，再怀疑模块坏</p></div>
+    <div class="s"><i>4</i><p><b>光功率</b>：对照模块手册看收光是否在范围内</p></div>
+    <div class="cmd"><code>ethtool &lt;网卡&gt; | grep Speed</code><code>ethtool -S &lt;网卡&gt; | grep -iE "crc|symbol"</code></div>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M6 24h12M30 24h12M18 16v16h12V16z"/></svg><p>拆分配置<br>两端要对上</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><circle cx="24" cy="24" r="14"/><path d="M18 24h12"/></svg><p>误码先擦端面，<br>再换模块</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M10 6h20l8 8v28H10z"/><path d="M16 24h16M16 32h12"/></svg><p>记好型号和 SN，<br>批次问题好追溯</p></div>
+  </div>
+</div>

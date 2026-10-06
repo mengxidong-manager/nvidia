@@ -1,0 +1,11 @@
+{
+  "day": "10",
+  "title": "Rail 优化拓扑",
+  "subtitle": "每台机器的第 i 号 GPU，都接到第 i 号 leaf",
+  "source": "参考：B300 集群架构笔记 · AI 集群通信模式 · NVIDIA NCCL 2.12 PXN 博客",
+  "caption": "AIDC 每日一图 · Day 10｜Rail 优化拓扑 🛤️\n\n每台机器的 GPU i → 第 i 组 leaf\n同号 GPU 跨机通信，在 leaf 一跳完成，不上 spine\n不同 rail 互不抢带宽\n\n代价：leaf 要收拢几十个机柜的同号 GPU，做不成 ToR\n\n收藏备用 👇\n#GPU #AINetwork #AIInfra #AIDC",
+  "xhs": {
+    "title": "GPU集群为什么要Rail优化组网？",
+    "body": "AIDC 每日一图 · Day 10\n\nRail 优化（rail-optimized）是千卡训练集群的标配组网：\n每台机器的第 i 号 GPU 网卡，全部接到第 i 组 leaf 交换机\n\n好处：\n✅ 同号 GPU 跨机通信，在 leaf 一跳完成，不经过 spine\n✅ 8 条 rail 是 8 个独立平面，互不抢带宽\n✅ 某条 rail 的 leaf 出问题，只影响这一条\n\n不同号 GPU 之间怎么办？\nNCCL 的 PXN 先走 NVLink 把数据挪到同 rail 的 GPU，再出网卡，少走 spine\n\n代价：\n一台 leaf 要收拢几十台机器的同号 GPU，rail 在一个机柜里闭合不了，所以 leaf 只能集中摆放，不做 ToR，长光纤少不了\n\n排障先看：nvidia-smi topo -m 里 GPU 和网卡是不是一一就近（PIX）\n\n收藏备用 👇\n\n#GPU #英伟达 #数据中心网络 #智算中心 #AI基础设施 #运维"
+  }
+}
