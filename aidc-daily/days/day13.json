@@ -1,0 +1,11 @@
+{
+  "day": "13",
+  "title": "光纤连接器选型",
+  "subtitle": "LC 还是 MPO、APC 还是 UPC、Type-A 还是 Type-B",
+  "source": "参考：800G 光模块连接笔记 · CX-8 自环笔记 · FOA 色标 · Fluke 极性指南 · NVIDIA MMA4Z00-NS",
+  "caption": "AIDC 每日一图 · Day 13｜光纤连接器选型 🔌\n\nLC：双芯，双工模块用；MPO：12/16 芯，并行光用\n绿色接头 = APC 斜面，只能配 APC\n并行光 Tx 在 1–4、Rx 在 9–12，只有 Type-B（1→12）能对上\n模块口带针，跳线用母头\n\n收藏备用 👇\n#光纤 #AINetwork #AIInfra #AIDC",
+  "xhs": {
+    "title": "光纤跳线买错=链路不通，一张图避坑",
+    "body": "AIDC 每日一图 · Day 13\n\nGPU 集群里光纤跳线订错，最常见的结果就是：模块插上，链路死活不起来。选型就看 4 件事：\n\n① 接头：LC 还是 MPO\n· LC 双芯，一收一发，用在 FR4/LR4 这类双工模块\n· MPO 12/16 芯一次插接，SR4/DR4/DR8 并行光专用\n· MPO-16 导向键偏置，插不进 MPO-12 适配器\n\n② 端面：APC 还是 UPC\n· 绿色接头 = APC，8° 斜面；蓝色 = 单模 UPC\n· APC 只能配 APC，混插插损暴涨\n\n③ 极性：认准 Type-B\n· 并行光 1–4 芯发、9–12 芯收\n· Type-B 把 1 号芯送到对端 12 号，发正好对上收\n· Type-A 直通、Type-C 成对翻转，并行光都不通\n\n④ 公母：模块口带针（公），跳线用母头\n\n光纤颜色：黄色单模 OS2，水蓝多模 OM3/OM4，青柠绿 OM5\n\n订线清单写全：芯数、端面、极性、公母、光纤类型\n\n收藏备用 👇\n\n#光纤 #光模块 #数据中心网络 #智算中心 #AI基础设施 #运维"
+  }
+}
