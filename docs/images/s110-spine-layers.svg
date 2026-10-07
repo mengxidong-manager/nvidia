@@ -1,169 +1,115 @@
-<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 1000' font-family='Segoe UI, Arial, sans-serif'>
-<rect x='0' y='0' width='1400' height='1000' fill='#ffffff'/>
-<rect x='0' y='0' width='1400' height='74' fill='#0f172a'/>
-<text x='34' y='34' font-size='20' font-weight='700' fill='#ffffff'>各网络 Spine 层与层间连接汇总</text>
-<text x='34' y='58' font-size='12.5' fill='#94a3b8'>5 张网络的 Spine 配置 · Spine 之间是否互联 · Spine 的上行去向与带宽 · 东西向在哪一层闭合</text>
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1340 930' font-family='Segoe UI, Arial, sans-serif'>
+<rect x='0' y='0' width='1340' height='930' fill='#ffffff'/>
+<rect x='0' y='0' width='1340' height='74' fill='#1f2937'/>
+<text x='34' y='34' font-size='20' font-weight='700' fill='#ffffff'>各网络的 Spine 层与层间连接　主备 vs 负载分担</text>
+<text x='34' y='58' font-size='12.5' fill='#94a3b8'>所有网络的 Leaf↔Spine 与 Spine↔Spine 都是全连接 · 差别在转发方式 · 现场判据：端口占用数与点亮数是否一致</text>
 
-<rect x='30' y='92' width='1340' height='70' rx='7' fill='#fef2f2' stroke='#9a3412' stroke-width='2.2'/>
-<text x='46' y='114' font-size='13' font-weight='700' fill='#9a3412'>核心原则：所有网络的 Spine 之间都不互联</text>
-<text x='46' y='135' font-size='11' fill='#334155'>标准 CLOS（Leaf-Spine）架构中，Spine 只与 Leaf 相连，Spine 彼此之间没有任何横向链路。东西向流量的路径固定为 Leaf → Spine → Leaf，</text>
-<text x='46' y='153' font-size='11' fill='#334155'>一次经过且只经过一台 Spine，因此 Spine 间互联既无流量需求，又会引入环路、次优路径与收敛复杂度。本中心 5 张网络全部遵循这一原则。</text>
+<rect x='30' y='92' width='1280' height='74' rx='7' fill='#fff8ec' stroke='#ea7317' stroke-width='2.2'/>
+<text x='46' y='114' font-size='12.5' font-weight='700' fill='#9a3412'>核心结论</text>
+<text x='46' y='135' font-size='11' fill='#334155'>H200（InfiniBand）：Spine 每台实占 16 个端口，但端口灯只亮 8 个 → 另 8 口为 Spine 之间的全连接备份链路，常态不承载流量，即主备（active / standby）方式。</text>
+<text x='46' y='155' font-size='11' fill='#334155'>B300（RoCEv2）：Spine↔Spine 与 Spine↔Leaf 端口灯全亮 → 全部链路同时承载流量，即负载分担（load-sharing）方式，由 ECMP / Flowlet / 逐包 AR 打散。</text>
 
-<rect x='30' y='178' width='1340' height='34' rx='5' fill='#1f2937'/>
-<text x='140' y='200' font-size='11.5' font-weight='700' fill='#ffffff' text-anchor='middle'>网络</text>
-<text x='370' y='200' font-size='11.5' font-weight='700' fill='#ffffff' text-anchor='middle'>Spine 配置</text>
-<text x='580' y='200' font-size='11.5' font-weight='700' fill='#ffffff' text-anchor='middle'>Spine ↔ Spine</text>
-<text x='830' y='200' font-size='11.5' font-weight='700' fill='#ffffff' text-anchor='middle'>Spine 上行去向</text>
-<text x='1010' y='200' font-size='11.5' font-weight='700' fill='#ffffff' text-anchor='middle'>上行带宽</text>
-<text x='1230' y='200' font-size='11.5' font-weight='700' fill='#ffffff' text-anchor='middle'>东西向在哪闭合</text>
+<text x='34' y='200' font-size='13' font-weight='700' fill='#475569'>两种转发方式对照</text>
+<line x1='210' y1='195' x2='1310' y2='195' stroke='#e2e8f0' stroke-width='1.5'/>
 
-<rect x='30' y='214' width='1340' height='74' fill='#f0fcff' stroke='#0ea5b7' stroke-width='1.4'/>
-<text x='140' y='238' font-size='11.5' font-weight='700' fill='#0e7490' text-anchor='middle'>H200 计算网</text>
-<text x='140' y='256' font-size='10' fill='#64748b' text-anchor='middle'>InfiniBand NDR</text>
-<text x='140' y='274' font-size='10' fill='#64748b' text-anchor='middle'>两层胖树</text>
-<text x='370' y='238' font-size='10.5' fill='#334155' text-anchor='middle'>NVIDIA MQM9790 × 16</text>
-<text x='370' y='256' font-size='10' fill='#334155' text-anchor='middle'>B01/B02/A01/A02 列各 4 台</text>
-<text x='370' y='274' font-size='10' fill='#0e7490' text-anchor='middle'>笼位占用 8 / 32</text>
-<text x='580' y='248' font-size='11' font-weight='700' fill='#9a3412' text-anchor='middle'>不互联</text>
-<text x='580' y='266' font-size='10' fill='#64748b' text-anchor='middle'>仅与 8 台 Leaf 全连接</text>
-<text x='830' y='248' font-size='11' font-weight='700' fill='#166534' text-anchor='middle'>无上行</text>
-<text x='830' y='266' font-size='10' fill='#64748b' text-anchor='middle'>Spine 即 fabric 最高层</text>
-<text x='1010' y='248' font-size='11' fill='#64748b' text-anchor='middle'>—</text>
-<text x='1010' y='266' font-size='10' fill='#64748b' text-anchor='middle'>不出 IB fabric</text>
-<text x='1230' y='240' font-size='10.5' font-weight='600' fill='#0e7490' text-anchor='middle'>Spine 层</text>
-<text x='1230' y='258' font-size='10' fill='#334155' text-anchor='middle'>跨 rail：Leaf→Spine→Leaf</text>
-<text x='1230' y='275' font-size='10' fill='#64748b' text-anchor='middle'>余 24 笼位可扩第三层</text>
+<rect x='30' y='214' width='630' height='230' rx='8' fill='#f0fcff' stroke='#0e7490' stroke-width='2.2'/>
+<rect x='30' y='214' width='630' height='32' rx='8' fill='#0e7490'/>
+<rect x='30' y='236' width='630' height='10' fill='#0e7490'/>
+<text x='46' y='236' font-size='13' font-weight='700' fill='#ffffff'>H200 计算网　主备（active / standby）</text>
+<text x='46' y='270' font-size='11' fill='#334155'>Leaf　8 台，A03 列一柜（U10/U14/U18/U22/U26/U30/U34/U38）</text>
+<text x='46' y='290' font-size='11' fill='#334155'>Spine　16 台，A01/A02/B01/B02 列各 4 台（U10/U14/U18/U22）</text>
+<text x='46' y='312' font-size='11' font-weight='600' fill='#0e7490'>Leaf 端口　16 下行 + 16 上行 = 32 / 32 全满</text>
+<text x='46' y='332' font-size='11' font-weight='600' fill='#9a3412'>Spine 端口　实占 16，灯亮 8（下行 Leaf）+ 不亮 8（Spine 间备份）</text>
+<text x='46' y='356' font-size='11' fill='#334155'>校验　Leaf 上行 8×16 = 128 条　÷　16 台 Spine = 每台 8 条下行　✓</text>
+<text x='46' y='378' font-size='11' fill='#334155'>带宽利用率　约 50%，备份链路闲置</text>
+<text x='46' y='398' font-size='11' fill='#334155'>故障行为　Subnet Manager 重算路由，切到备份路径（有收敛时间）</text>
+<text x='46' y='418' font-size='11' fill='#334155'>优点　路径确定、时延抖动小、无需队列调优</text>
+<text x='46' y='436' font-size='10' fill='#64748b'>Spine 即 IB fabric 最高层，无上行</text>
 
-<rect x='30' y='288' width='1340' height='74' fill='#f0fdf4' stroke='#166534' stroke-width='1.4'/>
-<text x='140' y='312' font-size='11.5' font-weight='700' fill='#166534' text-anchor='middle'>H200 存储网</text>
-<text x='140' y='330' font-size='10' fill='#64748b' text-anchor='middle'>DDN + Spectrum</text>
-<text x='140' y='348' font-size='10' fill='#64748b' text-anchor='middle'>三层以太网</text>
-<text x='370' y='312' font-size='10.5' fill='#334155' text-anchor='middle'>NVIDIA SN5600 × 2</text>
-<text x='370' y='330' font-size='10' fill='#334155' text-anchor='middle'>C22 列 U37 / D22 列 U37</text>
-<text x='370' y='348' font-size='10' fill='#166534' text-anchor='middle'>两组 Leaf 共用</text>
-<text x='580' y='322' font-size='11' font-weight='700' fill='#9a3412' text-anchor='middle'>不互联</text>
-<text x='580' y='340' font-size='10' fill='#64748b' text-anchor='middle'>仅与 4 台 Leaf 全连接</text>
-<text x='830' y='315' font-size='10.5' font-weight='700' fill='#5b21b6' text-anchor='middle'>Core　SN4600 × 2</text>
-<text x='830' y='333' font-size='10' fill='#334155' text-anchor='middle'>C22 列 U10 / D22 列 U10</text>
-<text x='830' y='350' font-size='10' fill='#64748b' text-anchor='middle'>H200 自有核心</text>
-<text x='1010' y='318' font-size='10.5' fill='#334155' text-anchor='middle'>每台 Spine 双上行</text>
-<text x='1010' y='336' font-size='10' fill='#334155' text-anchor='middle'>分接两台 Core</text>
-<text x='1010' y='352' font-size='10' fill='#64748b' text-anchor='middle'>2 × 2 = 4 条</text>
-<text x='1230' y='315' font-size='10.5' font-weight='600' fill='#166534' text-anchor='middle'>Spine 层</text>
-<text x='1230' y='333' font-size='10' fill='#334155' text-anchor='middle'>节点↔DDN 走 Leaf→Spine→Leaf</text>
-<text x='1230' y='350' font-size='10' fill='#9a3412' text-anchor='middle'>Core 只走南北向，不过存储数据</text>
+<rect x='680' y='214' width='630' height='230' rx='8' fill='#eef6ff' stroke='#1d4ed8' stroke-width='2.2'/>
+<rect x='680' y='214' width='630' height='32' rx='8' fill='#1d4ed8'/>
+<rect x='680' y='236' width='630' height='10' fill='#1d4ed8'/>
+<text x='696' y='236' font-size='13' font-weight='700' fill='#ffffff'>B300 计算网　负载分担（load-sharing）</text>
+<text x='696' y='270' font-size='11' fill='#334155'>Leaf　32 台（每平面 16）　Spine　16 台（每平面 8）</text>
+<text x='696' y='290' font-size='11' fill='#334155'>双平面各自成网，平面之间无任何横向连接</text>
+<text x='696' y='312' font-size='11' font-weight='600' fill='#1d4ed8'>Leaf 端口　64 下行 + 64 上行 = 128 / 128，严格 1:1 无阻塞</text>
+<text x='696' y='332' font-size='11' font-weight='600' fill='#166534'>Spine 端口　端口灯全亮，无备份闲置链路</text>
+<text x='696' y='356' font-size='11' fill='#9a3412'>待核实　Leaf 下行与 Spine 横向各占多少端口，需按现网配置核对</text>
+<text x='696' y='378' font-size='11' fill='#334155'>带宽利用率　接近 100%</text>
+<text x='696' y='398' font-size='11' fill='#334155'>故障行为　流量重新哈希到剩余 Spine，带宽按比例降约 1/8</text>
+<text x='696' y='418' font-size='11' fill='#334155'>代价　需与 NCCL、PFC / ECN 三层联调，存在哈希不均衡可能</text>
+<text x='696' y='436' font-size='10' fill='#64748b'>Spine 即本平面最高层，流量不出平面</text>
 
-<rect x='30' y='362' width='1340' height='74' fill='#e6fbff' stroke='#0ea5b7' stroke-width='1.4'/>
-<text x='140' y='386' font-size='11.5' font-weight='700' fill='#0e7490' text-anchor='middle'>B300 计算网 · 平面 1</text>
-<text x='140' y='404' font-size='10' fill='#64748b' text-anchor='middle'>RoCEv2</text>
-<text x='140' y='422' font-size='10' fill='#64748b' text-anchor='middle'>两层胖树</text>
-<text x='370' y='386' font-size='10.5' fill='#334155' text-anchor='middle'>H3C LS9867-128DH × 8</text>
-<text x='370' y='404' font-size='10' fill='#334155' text-anchor='middle'>N22/N23/M22/M23 列</text>
-<text x='370' y='422' font-size='10' font-weight='600' fill='#9a3412' text-anchor='middle'>端口 128 / 128 打满</text>
-<text x='580' y='380' font-size='11' font-weight='700' fill='#9a3412' text-anchor='middle'>不互联</text>
-<text x='580' y='398' font-size='10' fill='#64748b' text-anchor='middle'>仅与本平面 16 台 Leaf 全连接</text>
-<text x='580' y='416' font-size='10' font-weight='600' fill='#9a3412' text-anchor='middle'>且与平面 2 无任何连接</text>
-<text x='830' y='396' font-size='11' font-weight='700' fill='#166534' text-anchor='middle'>无上行</text>
-<text x='830' y='414' font-size='10' fill='#64748b' text-anchor='middle'>计算网不出平面</text>
-<text x='1010' y='396' font-size='11' fill='#64748b' text-anchor='middle'>—</text>
-<text x='1010' y='414' font-size='10' fill='#64748b' text-anchor='middle'>端口已无余量扩三层</text>
-<text x='1230' y='388' font-size='10.5' font-weight='600' fill='#0e7490' text-anchor='middle'>Spine 层</text>
-<text x='1230' y='406' font-size='10' fill='#334155' text-anchor='middle'>跨 Pod：Leaf→Spine→Leaf（3 跳）</text>
-<text x='1230' y='423' font-size='10' fill='#64748b' text-anchor='middle'>同 Pod 同 rail 不上 Spine</text>
+<text x='34' y='480' font-size='13' font-weight='700' fill='#475569'>逐网络的 Spine 层、Spine 间连接与上行</text>
+<line x1='340' y1='475' x2='1310' y2='475' stroke='#e2e8f0' stroke-width='1.5'/>
 
-<rect x='30' y='436' width='1340' height='74' fill='#f8f5ff' stroke='#7c3aed' stroke-width='1.4'/>
-<text x='140' y='460' font-size='11.5' font-weight='700' fill='#5b21b6' text-anchor='middle'>B300 计算网 · 平面 2</text>
-<text x='140' y='478' font-size='10' fill='#64748b' text-anchor='middle'>RoCEv2</text>
-<text x='140' y='496' font-size='10' fill='#64748b' text-anchor='middle'>结构与平面 1 对称</text>
-<text x='370' y='460' font-size='10.5' fill='#334155' text-anchor='middle'>H3C LS9867-128DH × 8</text>
-<text x='370' y='478' font-size='10' fill='#334155' text-anchor='middle'>N22/N23/M22/M23 列</text>
-<text x='370' y='496' font-size='10' font-weight='600' fill='#9a3412' text-anchor='middle'>端口 128 / 128 打满</text>
-<text x='580' y='454' font-size='11' font-weight='700' fill='#9a3412' text-anchor='middle'>不互联</text>
-<text x='580' y='472' font-size='10' fill='#64748b' text-anchor='middle'>仅与本平面 16 台 Leaf 全连接</text>
-<text x='580' y='490' font-size='10' font-weight='600' fill='#9a3412' text-anchor='middle'>且与平面 1 无任何连接</text>
-<text x='830' y='470' font-size='11' font-weight='700' fill='#166534' text-anchor='middle'>无上行</text>
-<text x='830' y='488' font-size='10' fill='#64748b' text-anchor='middle'>计算网不出平面</text>
-<text x='1010' y='470' font-size='11' fill='#64748b' text-anchor='middle'>—</text>
-<text x='1010' y='488' font-size='10' fill='#64748b' text-anchor='middle'>端口已无余量扩三层</text>
-<text x='1230' y='462' font-size='10.5' font-weight='600' fill='#5b21b6' text-anchor='middle'>Spine 层</text>
-<text x='1230' y='480' font-size='10' fill='#334155' text-anchor='middle'>与平面 1 独立成网</text>
-<text x='1230' y='497' font-size='10' fill='#64748b' text-anchor='middle'>单平面失效另一平面续跑</text>
+<rect x='30' y='494' width='1280' height='28' fill='#1f2937'/>
+<text x='44' y='513' font-size='11' font-weight='700' fill='#ffffff'>网络</text>
+<text x='330' y='513' font-size='11' font-weight='700' fill='#ffffff'>Spine 配置与 U 位</text>
+<text x='760' y='513' font-size='11' font-weight='700' fill='#ffffff'>Spine↔Spine / Spine↔Leaf</text>
+<text x='1040' y='513' font-size='11' font-weight='700' fill='#ffffff'>上行去向</text>
 
-<rect x='30' y='510' width='1340' height='78' fill='#fff8ec' stroke='#ea7317' stroke-width='1.8'/>
-<text x='140' y='534' font-size='11.5' font-weight='700' fill='#9a3412' text-anchor='middle'>B300 存储网骨干</text>
-<text x='140' y='552' font-size='10' fill='#64748b' text-anchor='middle'>H3C 以太网</text>
-<text x='140' y='570' font-size='10' fill='#64748b' text-anchor='middle'>骨干 + 核心</text>
-<text x='370' y='534' font-size='10.5' fill='#334155' text-anchor='middle'>H3C S9825 × 16</text>
-<text x='370' y='552' font-size='10' fill='#334155' text-anchor='middle'>G23/G22/F23/F22 列各 4 台</text>
-<text x='370' y='570' font-size='10' fill='#9a3412' text-anchor='middle'>承接 14 台 Leaf + 64 台直连存储</text>
-<text x='580' y='544' font-size='11' font-weight='700' fill='#9a3412' text-anchor='middle'>不互联</text>
-<text x='580' y='562' font-size='10' fill='#64748b' text-anchor='middle'>16 台骨干彼此无横向链路</text>
-<text x='830' y='532' font-size='10.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>B300 业务网核心</text>
-<text x='830' y='550' font-size='10' fill='#334155' text-anchor='middle'>S9825 × 2 · C22/D22 列 U17</text>
-<text x='830' y='567' font-size='10' fill='#64748b' text-anchor='middle'>全中心南北向出口</text>
-<text x='1010' y='532' font-size='11' font-weight='700' fill='#9a3412' text-anchor='middle'>2 × 10GE</text>
-<text x='1010' y='550' font-size='10' fill='#334155' text-anchor='middle'>= 20 Gbps</text>
-<text x='1010' y='567' font-size='10' font-weight='600' fill='#9a3412' text-anchor='middle'>仅管理级带宽</text>
-<text x='1230' y='532' font-size='10.5' font-weight='700' fill='#9a3412' text-anchor='middle'>骨干层（关键）</text>
-<text x='1230' y='550' font-size='10' fill='#334155' text-anchor='middle'>25.6 Tb/s 存储数据全部在骨干闭合</text>
-<text x='1230' y='567' font-size='10' fill='#334155' text-anchor='middle'>不经核心，不受 20 Gbps 上行制约</text>
+<rect x='30' y='522' width='1280' height='34' fill='#f0fcff' stroke='#cbd5e1' stroke-width='1'/>
+<text x='44' y='544' font-size='10.5' font-weight='600' fill='#0e7490'>H200 计算网</text>
+<text x='330' y='544' font-size='10.5' fill='#334155'>MQM9790 × 16　A01/A02/B01/B02 列 U10/U14/U18/U22</text>
+<text x='760' y='544' font-size='10.5' font-weight='600' fill='#0e7490'>全连接，主备</text>
+<text x='1040' y='544' font-size='10.5' fill='#334155'>无（IB fabric 最高层）</text>
 
-<rect x='30' y='588' width='1340' height='74' fill='#faf8ff' stroke='#5b21b6' stroke-width='1.4'/>
-<text x='140' y='612' font-size='11.5' font-weight='700' fill='#5b21b6' text-anchor='middle'>B300 带外管理网</text>
-<text x='140' y='630' font-size='10' fill='#64748b' text-anchor='middle'>OOB / IPMI</text>
-<text x='140' y='648' font-size='10' fill='#64748b' text-anchor='middle'>含 H200 节点 BMC</text>
-<text x='370' y='612' font-size='10.5' fill='#334155' text-anchor='middle'>H3C S6805 × 2</text>
-<text x='370' y='630' font-size='10' fill='#334155' text-anchor='middle'>C22 列 U40 / D22 列 U40</text>
-<text x='370' y='648' font-size='10' fill='#5b21b6' text-anchor='middle'>承接 9 台接入 + 48 台计算网设备</text>
-<text x='580' y='622' font-size='11' font-weight='700' fill='#9a3412' text-anchor='middle'>不互联</text>
-<text x='580' y='640' font-size='10' fill='#64748b' text-anchor='middle'>两台 Spine 为冗余对，无横向链路</text>
-<text x='830' y='615' font-size='10.5' font-weight='700' fill='#1d4ed8' text-anchor='middle'>B300 业务网核心</text>
-<text x='830' y='633' font-size='10' fill='#334155' text-anchor='middle'>S9825 × 2 · C22/D22 列 U17</text>
-<text x='830' y='650' font-size='10' fill='#64748b' text-anchor='middle'>与存储骨干共用核心</text>
-<text x='1010' y='622' font-size='10.5' fill='#334155' text-anchor='middle'>管理级带宽</text>
-<text x='1010' y='640' font-size='10' fill='#64748b' text-anchor='middle'>本网本身为低速率网</text>
-<text x='1230' y='615' font-size='10.5' font-weight='600' fill='#5b21b6' text-anchor='middle'>Spine 层</text>
-<text x='1230' y='633' font-size='10' fill='#334155' text-anchor='middle'>节点↔运维终端经核心出口</text>
-<text x='1230' y='650' font-size='10' fill='#64748b' text-anchor='middle'>管理流量天然为南北向</text>
+<rect x='30' y='556' width='1280' height='34' fill='#f3effc' stroke='#cbd5e1' stroke-width='1'/>
+<text x='44' y='578' font-size='10.5' font-weight='600' fill='#5b21b6'>H200 存储网</text>
+<text x='330' y='578' font-size='10.5' fill='#334155'>SN5600 × 2　C22 列 U37 / D22 列 U31</text>
+<text x='760' y='578' font-size='10.5' fill='#334155'>全连接（冗余对）</text>
+<text x='1040' y='578' font-size='10.5' fill='#334155'>SN4600 核心 → 出口路由器</text>
 
-<rect x='30' y='684' width='660' height='142' rx='8' fill='#ffffff' stroke='#9a3412' stroke-width='1.8'/>
-<text x='46' y='706' font-size='12.5' font-weight='700' fill='#9a3412'>为什么 Spine 之间不互联</text>
-<text x='46' y='728' font-size='10.5' fill='#334155'>① 无流量需求 —— CLOS 中任意两台 Leaf 之间的路径固定为</text>
-<text x='46' y='744' font-size='10.5' fill='#334155'>　 Leaf → Spine → Leaf，只经过一台 Spine，Spine 彼此不需转发</text>
-<text x='46' y='764' font-size='10.5' fill='#334155'>② 会引入环路 —— 横向链路使 Spine 之间出现等价环，需额外的</text>
-<text x='46' y='780' font-size='10.5' fill='#334155'>　 破环与收敛机制，反而降低稳定性</text>
-<text x='46' y='800' font-size='10.5' fill='#334155'>③ 浪费端口 —— Spine 端口应全部留给 Leaf 下行，横向占用会</text>
-<text x='46' y='816' font-size='10.5' fill='#334155'>　 直接削减可接入的 Leaf 数量，压缩集群规模上限</text>
+<rect x='30' y='590' width='1280' height='34' fill='#eef6ff' stroke='#cbd5e1' stroke-width='1'/>
+<text x='44' y='612' font-size='10.5' font-weight='600' fill='#1d4ed8'>B300 计算网 · 平面 1</text>
+<text x='330' y='612' font-size='10.5' fill='#334155'>LS9867-128DH × 8</text>
+<text x='760' y='612' font-size='10.5' font-weight='600' fill='#1d4ed8'>全连接，负载分担</text>
+<text x='1040' y='612' font-size='10.5' fill='#334155'>无（平面内闭合）</text>
 
-<rect x='710' y='684' width='660' height='142' rx='8' fill='#ffffff' stroke='#166534' stroke-width='1.8'/>
-<text x='726' y='706' font-size='12.5' font-weight='700' fill='#166534'>上行带宽落差的含义（重要）</text>
-<text x='726' y='728' font-size='10.5' fill='#334155'>存储骨干 16 台 S9825 承载约 25.6 Tb/s 的存储数据流量，</text>
-<text x='726' y='744' font-size='10.5' fill='#334155'>但上行核心只有 2 × 10GE = 20 Gbps —— 相差三个数量级。</text>
-<text x='726' y='766' font-size='10.5' font-weight='600' fill='#166534'>这不是设计缺陷，而是流量方向的体现：</text>
-<text x='726' y='784' font-size='10.5' fill='#334155'>· 存储读写是东西向，在骨干层就地闭合，不经核心</text>
-<text x='726' y='800' font-size='10.5' fill='#334155'>· 核心只承载真正的南北向：管理访问、对外互联、监控</text>
-<text x='726' y='818' font-size='10.5' font-weight='600' fill='#9a3412'>· 推论：不要用核心上行带宽去评估存储性能</text>
+<rect x='30' y='624' width='1280' height='34' fill='#eef6ff' stroke='#cbd5e1' stroke-width='1'/>
+<text x='44' y='646' font-size='10.5' font-weight='600' fill='#1d4ed8'>B300 计算网 · 平面 2</text>
+<text x='330' y='646' font-size='10.5' fill='#334155'>LS9867-128DH × 8</text>
+<text x='760' y='646' font-size='10.5' font-weight='600' fill='#1d4ed8'>全连接，负载分担</text>
+<text x='1040' y='646' font-size='10.5' fill='#334155'>无（平面内闭合）</text>
 
-<rect x='30' y='838' width='1340' height='148' rx='8' fill='#f8fafc' stroke='#1f2937' stroke-width='1.8'/>
-<text x='46' y='860' font-size='12.5' font-weight='700' fill='#0f172a'>Spine 层扩容能力对照</text>
-<rect x='46' y='872' width='430' height='100' rx='6' fill='#ffffff' stroke='#0ea5b7' stroke-width='1.5'/>
-<text x='60' y='892' font-size='11' font-weight='700' fill='#0e7490'>H200 计算网　尚有余量</text>
-<text x='60' y='912' font-size='10.5' fill='#334155'>Spine 笼位占用 8 / 32，空余 24 个</text>
-<text x='60' y='930' font-size='10.5' fill='#334155'>可用于接入更多 Leaf，或向上扩第三层</text>
-<text x='60' y='950' font-size='10.5' font-weight='600' fill='#9a3412'>但瓶颈在 Leaf：笼位已 32/32 打满</text>
-<text x='60' y='966' font-size='10' fill='#64748b'>扩容路径：整台加 Leaf，Spine 侧插口即可</text>
+<rect x='30' y='658' width='1280' height='34' fill='#fff8ec' stroke='#cbd5e1' stroke-width='1'/>
+<text x='44' y='680' font-size='10.5' font-weight='600' fill='#9a3412'>B300 存储网骨干</text>
+<text x='330' y='680' font-size='10.5' fill='#334155'>S9825 × 16　G23 / G22 / F23 / F22 列各 4 台</text>
+<text x='760' y='680' font-size='10.5' fill='#334155'>全连接，负载分担</text>
+<text x='1040' y='680' font-size='10.5' fill='#334155'>存储网核心 U17 → 出口路由器</text>
 
-<rect x='490' y='872' width='430' height='100' rx='6' fill='#ffffff' stroke='#9a3412' stroke-width='1.5'/>
-<text x='504' y='892' font-size='11' font-weight='700' fill='#9a3412'>B300 计算网　已无余量</text>
-<text x='504' y='912' font-size='10.5' fill='#334155'>每平面 Spine 端口 128 / 128 全部打满</text>
-<text x='504' y='930' font-size='10.5' fill='#334155'>Leaf 侧每平面余 8 端点（≈ 1 台节点）</text>
-<text x='504' y='950' font-size='10.5' font-weight='600' fill='#9a3412'>再扩必须同时增 Leaf 与 Spine</text>
-<text x='504' y='966' font-size='10' fill='#64748b'>或引入第三层 Super-Spine 重构拓扑</text>
+<rect x='30' y='692' width='1280' height='34' fill='#faf8ff' stroke='#cbd5e1' stroke-width='1'/>
+<text x='44' y='714' font-size='10.5' font-weight='600' fill='#5b21b6'>带外管理网（两集群统一）</text>
+<text x='330' y='714' font-size='10.5' fill='#334155'>S6805 × 2　C22 列 U40 / D22 列 U40</text>
+<text x='760' y='714' font-size='10.5' fill='#334155'>冗余对，接入侧全连接</text>
+<text x='1040' y='714' font-size='10.5' fill='#334155'>全机房 IPMI 核心 U17 → 出口路由器</text>
 
-<rect x='934' y='872' width='436' height='100' rx='6' fill='#ffffff' stroke='#166534' stroke-width='1.5'/>
-<text x='948' y='892' font-size='11' font-weight='700' fill='#166534'>存储骨干　需逐端口核算</text>
-<text x='948' y='912' font-size='10.5' fill='#334155'>骨干下行同时被两类设备占用：</text>
-<text x='948' y='930' font-size='10.5' fill='#334155'>64 台直连存储（128 条 200G）+ 14 台 Leaf 上行</text>
-<text x='948' y='950' font-size='10.5' font-weight='600' fill='#9a3412'>扩容须分别核算骨干端口与 Leaf 端口两本账</text>
-<text x='948' y='966' font-size='10' fill='#64748b'>直连方式扩容直接消耗骨干端口，代价更高</text>
+<text x='34' y='762' font-size='13' font-weight='700' fill='#475569'>三类核心在出口路由器收口</text>
+<line x1='280' y1='757' x2='1310' y2='757' stroke='#e2e8f0' stroke-width='1.5'/>
+
+<rect x='30' y='776' width='300' height='56' rx='6' fill='#faf8ff' stroke='#5b21b6' stroke-width='1.8'/>
+<text x='180' y='798' font-size='11.5' font-weight='700' fill='#5b21b6' text-anchor='middle'>全机房 IPMI 核心</text>
+<text x='180' y='818' font-size='10' fill='#334155' text-anchor='middle'>H3C S9825 × 2　C22/D22 U17</text>
+
+<rect x='346' y='776' width='300' height='56' rx='6' fill='#f0fcff' stroke='#0e7490' stroke-width='1.8'/>
+<text x='496' y='798' font-size='11.5' font-weight='700' fill='#0e7490' text-anchor='middle'>H200 存储网核心</text>
+<text x='496' y='818' font-size='10' fill='#334155' text-anchor='middle'>NVIDIA SN4600 × 2　C22/D22 U10</text>
+
+<rect x='662' y='776' width='300' height='56' rx='6' fill='#fff8ec' stroke='#9a3412' stroke-width='1.8'/>
+<text x='812' y='798' font-size='11.5' font-weight='700' fill='#9a3412' text-anchor='middle'>B300 存储网核心</text>
+<text x='812' y='818' font-size='10' fill='#334155' text-anchor='middle'>H3C S9825 × 2　C22/D22 U17</text>
+
+<line x1='180' y1='832' x2='1130' y2='866' stroke='#1f2937' stroke-width='2'/>
+<line x1='496' y1='832' x2='1130' y2='866' stroke='#1f2937' stroke-width='2'/>
+<line x1='812' y1='832' x2='1130' y2='866' stroke='#1f2937' stroke-width='2'/>
+
+<rect x='980' y='858' width='330' height='60' rx='7' fill='#1f2937'/>
+<text x='1145' y='882' font-size='13' font-weight='700' fill='#ffffff' text-anchor='middle'>出口路由器　H3C CR16005E × 2</text>
+<text x='1145' y='903' font-size='10.5' fill='#94a3b8' text-anchor='middle'>C22 列 U13 / D22 列 U13　·　全中心南北向统一出口</text>
+
+<rect x='30' y='846' width='930' height='72' rx='7' fill='#ffffff' stroke='#64748b' stroke-width='1.5'/>
+<text x='46' y='868' font-size='11.5' font-weight='700' fill='#0f172a'>为什么核心上行带宽远小于骨干交换容量，却不是瓶颈</text>
+<text x='46' y='888' font-size='10.5' fill='#334155'>存储读写与训练集合通信都是东西向流量，在各自的 Spine / 骨干层就地闭合，不经核心、更不经出口路由器。</text>
+<text x='46' y='908' font-size='10.5' font-weight='600' fill='#9a3412'>核心与出口只承载南北向：管理访问、对外互联、监控上报。评估存储性能应看骨干下行端口数与 Leaf 上行收敛比。</text>
 </svg>
