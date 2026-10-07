@@ -8,7 +8,7 @@
 <rect x='0' y='0' width='1280' height='980' fill='#ffffff'/>
 <rect x='0' y='0' width='1280' height='86' fill='url(#hdr)'/>
 <text x='40' y='40' font-size='23' font-weight='700' fill='#ffffff'>S110 智算中心 — 整体网络架构</text>
-<text x='40' y='68' font-size='13' fill='#94a3b8'>H200 与 B300 双训练集群 · 三张网物理隔离 · 计算与存储各自闭合 · 带外管理统一 · 核心汇聚出口路由器 · BCM + Slurm 统一调度</text>
+<text x='40' y='68' font-size='13' fill='#94a3b8'>H200 与 B300 双训练集群 · 三张网物理隔离 · 计算与存储各自闭合 · 带外管理统一 · 路由器 → edge → 内部网络 · BCM + Slurm 统一调度</text>
 <rect x='40' y='110' width='222' height='76' rx='8' fill='#eafaf0' stroke='#16a34a' stroke-width='2'/>
 <text x='151' y='145' font-size='27' font-weight='700' fill='#166534' text-anchor='middle'>1,272</text>
 <text x='151' y='169' font-size='11.5' fill='#166534' text-anchor='middle'>GPU 总数</text>
@@ -25,21 +25,21 @@
 <text x='1116' y='145' font-size='27' font-weight='700' fill='#9a3412' text-anchor='middle'>~3.7 MW</text>
 <text x='1116' y='169' font-size='11.5' fill='#9a3412' text-anchor='middle'>设施总功率（含制冷）</text>
 <rect x='40' y='192' width='1200' height='24' rx='5' fill='#1f2937'/>
-<text x='640' y='208' font-size='10.5' font-weight='700' fill='#ffffff' text-anchor='middle'>出口路由器层　H3C CR16005E × 2　C22 列 U13 / D22 列 U13　—— 全机房 IPMI 核心 / H200 存储网核心 / B300 存储网核心 三者在此收口</text>
-<text x='40' y='236' font-size='13.5' font-weight='700' fill='#475569'>核心层</text>
+<text x='640' y='208' font-size='10.5' font-weight='700' fill='#ffffff' text-anchor='middle'>出口路由器层　H3C CR16005E × 2　C22 列 U13 / D22 列 U13　·　防火墙旁挂（H3C）　—— 两套 edge 交换机在此收口，外部访问走「路由器 → edge → 内部」</text>
+<text x='40' y='236' font-size='13.5' font-weight='700' fill='#475569'>edge 交换机层</text>
 <line x1='100' y1='231' x2='1240' y2='231' stroke='#e2e8f0' stroke-width='1.5'/>
 <rect x='200' y='236' width='380' height='62' rx='8' fill='#ede9fe' stroke='#5b21b6' stroke-width='2.2'/>
-<text x='390' y='261' font-size='13.5' font-weight='700' fill='#0f172a' text-anchor='middle'>H200 存储网核心</text>
-<text x='390' y='282' font-size='11' fill='#5b21b6' text-anchor='middle'>NVIDIA SN4600 × 2　C22/D22 列 U10　·　上行出口路由器</text>
+<text x='390' y='261' font-size='13.5' font-weight='700' fill='#0f172a' text-anchor='middle'>H200 edge　NVIDIA SN4600 × 2</text>
+<text x='390' y='282' font-size='11' fill='#5b21b6' text-anchor='middle'>C22/D22 列 U10　·　H200 存储体系的北向出口　·　上行出口路由器</text>
 <rect x='700' y='236' width='380' height='62' rx='8' fill='#eef6ff' stroke='#1d4ed8' stroke-width='2.2'/>
-<text x='890' y='261' font-size='13.5' font-weight='700' fill='#0f172a' text-anchor='middle'>B300 存储网核心 / 全机房 IPMI 核心</text>
-<text x='890' y='282' font-size='11' fill='#1d4ed8' text-anchor='middle'>H3C S9825 × 2　C22/D22 列 U17　·　上行出口路由器</text>
+<text x='890' y='261' font-size='13.5' font-weight='700' fill='#0f172a' text-anchor='middle'>B300 edge　H3C S9825 × 2</text>
+<text x='890' y='282' font-size='11' fill='#1d4ed8' text-anchor='middle'>C22/D22 列 U17　·　存储网骨干 + 两集群 IPMI 的北向出口　·　上行出口路由器</text>
 <text x='40' y='344' font-size='13.5' font-weight='700' fill='#475569'>存储骨干</text>
 <line x1='118' y1='339' x2='1240' y2='339' stroke='#e2e8f0' stroke-width='1.5'/>
 <rect x='200' y='356' width='880' height='72' rx='8' fill='#fff8ec' stroke='#ea7317' stroke-width='2.5'/>
 <text x='640' y='382' font-size='14' font-weight='700' fill='#9a3412' text-anchor='middle'>B300 存储网骨干 × 16　H3C S9825　G23/G22/F23/F22 列各 4 台　（仅服务 B300）</text>
 <text x='640' y='405' font-size='11' fill='#7c2d12' text-anchor='middle'>承接：B300 存储 Server ×64 直连　·　B300 存储 Server Leaf ×4　·　B300 计算节点存储 Leaf ×8　·　B300 管理 Leaf ×2</text>
-<text x='640' y='421' font-size='10.5' fill='#9a3412' text-anchor='middle'>资源池化：130 台存储节点构成单一资源池，服务 B300 的 127 个计算节点　·　上行 B300 存储网核心　·　H200 不接入本层</text>
+<text x='640' y='421' font-size='10.5' fill='#9a3412' text-anchor='middle'>资源池化：130 台存储节点构成单一资源池，服务 B300 的 127 个计算节点　·　上行 B300 edge　·　H200 不接入本层</text>
 <line x1='890' y1='298' x2='890' y2='356' stroke='#ea7317' stroke-width='2.5'/>
 <path d='M 886 304 L 890 296 L 894 304 Z' fill='#ea7317'/>
 <text x='40' y='474' font-size='13.5' font-weight='700' fill='#475569'>集群层</text>
@@ -56,7 +56,7 @@
 <text x='194' y='615' font-size='10' fill='#0e7490' text-anchor='middle'>Leaf 32/32 满 · Spine 主备（亮 8 / 占 16）</text>
 <rect x='344' y='540' width='258' height='90' rx='6' fill='#e8effc' stroke='#2563eb' stroke-width='1.8'/>
 <text x='473' y='562' font-size='12' font-weight='700' fill='#1d4ed8' text-anchor='middle'>存储网　DDN A³I + Spectrum</text>
-<text x='473' y='581' font-size='10.5' fill='#334155' text-anchor='middle'>DDN 一体机（EXAScaler / Lustre）</text>
+<text x='473' y='581' font-size='10.5' fill='#334155' text-anchor='middle'>DDN 存储 + SM 服务器　D21/D22 列 15 台</text>
 <text x='473' y='598' font-size='10.5' fill='#334155' text-anchor='middle'>SN5600 ×6（C 列 U37 / D 列 U31）+ SN4600 ×2</text>
 <text x='473' y='615' font-size='10' fill='#1d4ed8' text-anchor='middle'>完全独立，不接入 B300 存储骨干</text>
 <rect x='60' y='644' width='542' height='76' rx='6' fill='#eafaf0' stroke='#16a34a' stroke-width='1.8'/>
@@ -65,7 +65,7 @@
 <text x='331' y='706' font-size='10.5' font-weight='600' fill='#15803d' text-anchor='middle'>节点间互联带宽 3.2 Tbps</text>
 <rect x='60' y='734' width='542' height='60' rx='6' fill='#f3effc' stroke='#7c3aed' stroke-width='1.8'/>
 <text x='331' y='756' font-size='12' font-weight='700' fill='#5b21b6' text-anchor='middle'>单 Pod 结构　·　带外管理</text>
-<text x='331' y='777' font-size='10.5' fill='#334155' text-anchor='middle'>32 节点同一 rail 域　·　BMC 接自有 S5590（C22 列 U33）→ 全机房 IPMI 核心</text>
+<text x='331' y='777' font-size='10.5' fill='#334155' text-anchor='middle'>32 节点同一 rail 域　·　BMC 接自有 S5590（C22 列 U33）→ B300 edge</text>
 <rect x='660' y='488' width='580' height='324' rx='9' fill='#f6fdf8' stroke='#16a34a' stroke-width='2.5'/>
 <rect x='660' y='488' width='580' height='38' rx='9' fill='#16a34a'/>
 <rect x='660' y='516' width='580' height='10' fill='#16a34a'/>
