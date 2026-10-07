@@ -55,7 +55,7 @@
 <text x='60' y='607' font-size='10.5' fill='#334155'>不经 Leaf，省去一跳转发延迟</text>
 <text x='60' y='624' font-size='10.5' fill='#334155'>两口分接不同 Spine，双归属冗余</text>
 <text x='60' y='641' font-size='10.5' fill='#334155'>聚合 64 × 2 × 200G = 25.6 Tb/s</text>
-<text x='60' y='656' font-size='10' fill='#9a3412'>扩容须直接核算骨干可用端口</text>
+<text x='60' y='656' font-size='10' fill='#9a3412'>扁容须直接核算骨干可用端口</text>
 
 <rect x='470' y='420' width='400' height='250' rx='8' fill='#f8fbff' stroke='#2563eb' stroke-width='2.2'/>
 <rect x='470' y='420' width='400' height='30' rx='8' fill='#2563eb'/>
@@ -67,7 +67,7 @@
 <line x1='670' y1='516' x2='670' y2='538' stroke='#2563eb' stroke-width='2'/>
 <path d='M 664 528 L 670 540 L 676 528 Z' fill='#2563eb'/>
 <rect x='488' y='540' width='364' height='118' rx='5' fill='#eff6ff' stroke='#1d4ed8' stroke-width='1.5'/>
-<text x='670' y='560' font-size='12' font-weight='700' fill='#1d4ed8' text-anchor='middle'>存储 Server × 66　Xfusion</text>
+<text x='670' y='560' font-size='12' font-weight='700' fill='#1d4ed8' text-anchor='middle'>存储 Server × 66　FusionServer 2158H V8</text>
 <text x='502' y='580' font-size='10.5' fill='#334155'>B15 列 8 台　B16 列 8 台　B17 列 8 台</text>
 <text x='502' y='597' font-size='10.5' fill='#334155'>B18 列 8 台　B19 列 8 台　B20 列 8 台</text>
 <text x='502' y='614' font-size='10.5' fill='#334155'>B21 列 8 台　（B15–B21 小计 56 台）</text>
