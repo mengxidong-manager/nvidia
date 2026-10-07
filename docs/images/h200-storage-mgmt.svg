@@ -6,11 +6,11 @@
 
 <rect x='30' y='92' width='1280' height='58' rx='7' fill='#fef2f2' stroke='#9a3412' stroke-width='2'/>
 <text x='46' y='113' font-size='12' font-weight='700' fill='#9a3412'>边界声明</text>
-<text x='46' y='133' font-size='11' fill='#334155'>H200 的存储不使用 B300 的存储网骨干（16 台 H3C S9825），也不使用任何 H3C S9825 存储 Leaf。本集群存储为独立的 DDN 系统 + NVIDIA Spectrum 以太网，从存储设备到 Core 全部自有，与 B300 的 130 台存储节点无任何连接。</text>
+<text x='46' y='133' font-size='11' fill='#334155'>H200 的存储不使用 B300 的存储网骨干（16 台 H3C S9825），也不使用任何 H3C S9825 存储 Leaf。本集群存储为独立的 DDN 系统 + NVIDIA Spectrum 以太网，从存储设备到 edge 全部自有，与 B300 的 130 台存储节点无任何连接。</text>
 
 <rect x='380' y='172' width='580' height='56' rx='7' fill='#ede9fe' stroke='#5b21b6' stroke-width='2.4'/>
-<text x='670' y='195' font-size='13' font-weight='700' fill='#0f172a' text-anchor='middle'>Core　NVIDIA SN4600 × 2</text>
-<text x='670' y='216' font-size='10.5' fill='#5b21b6' text-anchor='middle'>C22 列 U10 / D22 列 U10　·　H200 自有存储网核心　→　上行机房出口路由器 CR16005E ×2（C22/D22 U13）</text>
+<text x='670' y='195' font-size='13' font-weight='700' fill='#0f172a' text-anchor='middle'>edge　NVIDIA SN4600 × 2</text>
+<text x='670' y='216' font-size='10.5' fill='#5b21b6' text-anchor='middle'>C22 列 U10 / D22 列 U10　·　H200 自有 edge 交换机　→　上行出口路由器 CR16005E ×2（C22/D22 U13，防火墙旁挂）</text>
 <line x1='670' y1='228' x2='670' y2='256' stroke='#7c3aed' stroke-width='2.6'/>
 <path d='M 664 238 L 670 226 L 676 238 Z' fill='#7c3aed'/>
 
@@ -20,7 +20,7 @@
 
 <rect x='120' y='340' width='1100' height='58' rx='6' fill='#fff8ec' stroke='#ea7317' stroke-width='2'/>
 <text x='670' y='362' font-size='12.5' font-weight='700' fill='#9a3412' text-anchor='middle'>Leaf ↔ Spine　全连接（full-mesh）</text>
-<text x='670' y='383' font-size='11' fill='#334155' text-anchor='middle'>4 台 Leaf × 2 台 Spine = 8 个连接对，每台 Leaf 双上行分接两台 Spine；Spine 再双上行至两台 Core　→　每一层双机冗余，无单点</text>
+<text x='670' y='383' font-size='11' fill='#334155' text-anchor='middle'>4 台 Leaf × 2 台 Spine = 8 个连接对，每台 Leaf 双上行分接两台 Spine；Spine 再双上行至两台 edge　→　每一层双机冗余，无单点</text>
 
 <line x1='300' y1='398' x2='300' y2='428' stroke='#7c3aed' stroke-width='2.4'/>
 <path d='M 294 418 L 300 430 L 306 418 Z' fill='#7c3aed'/>
@@ -51,11 +51,11 @@
 <path d='M 1004 556 L 1010 568 L 1016 556 Z' fill='#0ea5b7'/>
 
 <rect x='40' y='568' width='580' height='110' rx='7' fill='#ffffff' stroke='#166534' stroke-width='2.2'/>
-<text x='330' y='592' font-size='13' font-weight='700' fill='#166534' text-anchor='middle'>DDN 存储系统　A³I 系列一体机</text>
-<text x='54' y='614' font-size='10.5' fill='#334155'>文件系统　DDN EXAScaler（基于 Lustre 的并行文件系统）</text>
-<text x='54' y='632' font-size='10.5' fill='#334155'>形态　2RU 全 NVMe 一体机，单机 250TB / 500TB 可选</text>
-<text x='54' y='650' font-size='10.5' fill='#334155'>接口　每台 8 个数据口，支持 IB NDR 200G / 以太网 / RoCE</text>
-<text x='54' y='668' font-size='10' font-weight='600' fill='#9a3412'>型号与台数待补（见下方容量规划基准）</text>
+<text x='330' y='592' font-size='13' font-weight='700' fill='#166534' text-anchor='middle'>D21 / D22 列　共 15 台服务器</text>
+<text x='54' y='614' font-size='10.5' fill='#334155'>DDN 存储服务器　A³I 一体机 / 存储控制器，EXAScaler（Lustre）</text>
+<text x='54' y='632' font-size='10.5' font-weight='600' fill='#5b21b6'>SM 服务器　InfiniBand Subnet Manager，计算网的控制面</text>
+<text x='54' y='650' font-size='10.5' fill='#334155'>形态　2RU 全 NVMe 一体机，单机 250TB / 500TB　·　每台 8 个 200Gb 数据口</text>
+<text x='54' y='668' font-size='10' font-weight='600' fill='#9a3412'>具体型号与逐台角色分配待现网核实</text>
 
 <rect x='720' y='568' width='580' height='110' rx='7' fill='#f6fdf8' stroke='#16a34a' stroke-width='2.2'/>
 <text x='1010' y='592' font-size='13' font-weight='700' fill='#166534' text-anchor='middle'>H200 计算节点 × 32　·　256 GPU</text>
@@ -85,12 +85,12 @@
 <text x='478' y='828' font-size='12' font-weight='700' fill='#166534'>≥ 256 GB/s 读写吞吐</text>
 <text x='478' y='850' font-size='10.5' fill='#334155'>按 AI400X2 单机 &gt; 90 GB/s 折算：</text>
 <text x='478' y='868' font-size='11' font-weight='700' fill='#9a3412'>至少 3 台一体机方可满足</text>
-<text x='478' y='882' font-size='10' fill='#64748b'>实际台数需按现网核实后填入</text>
+<text x='478' y='882' font-size='10' fill='#64748b'>D21/D22 共 15 台服务器中的 DDN 台数待核实</text>
 
 <rect x='898' y='724' width='412' height='160' rx='7' fill='#ffffff' stroke='#5b21b6' stroke-width='1.6'/>
 <text x='912' y='746' font-size='12' font-weight='700' fill='#5b21b6'>数据路径与无损</text>
 <text x='912' y='768' font-size='10.5' fill='#334155'>节点 → C23U37/D23U31 → Spine C22U37/D22U31 → C21/D21 U37 → DDN</text>
-<text x='912' y='786' font-size='10.5' font-weight='600' fill='#166534'>3 跳，全程在 H200 自有 Spectrum 体系内</text>
+<text x='912' y='786' font-size='10.5' font-weight='600' fill='#166534'>3 跳，全程在 H200 自有 Spectrum 体系内，不上 edge</text>
 <text x='912' y='808' font-size='10.5' fill='#334155'>· 存储流量启用 PFC + ECN 构建无损队列</text>
 <text x='912' y='826' font-size='10.5' fill='#334155'>· 全连接 + 双上行提供等价多路径</text>
 <text x='912' y='844' font-size='10.5' fill='#334155'>· Spectrum 支持 RoCE 加速与端到端遥测</text>

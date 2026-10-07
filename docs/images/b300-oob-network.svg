@@ -2,18 +2,18 @@
 <rect x='0' y='0' width='1280' height='800' fill='#ffffff'/>
 <rect x='0' y='0' width='1280' height='74' fill='#7c3aed'/>
 <text x='34' y='34' font-size='20' font-weight='700' fill='#ffffff'>全机房带外管理网（OOB / IPMI）　两集群统一的一张网</text>
-<text x='34' y='58' font-size='12.5' fill='#ddd6fe'>接入 S5590 × 9（B300 × 8 归 B300 + H200 × 1 归 H200）+ 汇聚 S6805 × 2 + 全机房 IPMI 核心 S9825 × 2 · 上行出口路由器 · 与数据面完全物理隔离</text>
+<text x='34' y='58' font-size='12.5' fill='#ddd6fe'>接入 S5590 × 9（B300 × 8 归 B300 + H200 × 1 归 H200）+ 汇聚 S6805 × 2 + B300 edge S9825 × 2 · 上行出口路由器（防火墙旁挂）· 与数据面完全物理隔离</text>
 
 <rect x='30' y='92' width='1220' height='56' rx='7' fill='#faf8ff' stroke='#7c3aed' stroke-width='1.8'/>
 <text x='46' y='113' font-size='12' font-weight='700' fill='#5b21b6'>本网的作用与覆盖范围</text>
-<text x='46' y='133' font-size='11' fill='#334155'>承载 BMC / IPMI 流量：带外开关机、硬件告警、固件升级、串口重定向，以及 BCM 的 PXE 镜像化部署。※ 本网覆盖 B300 的 127 台节点与 H200 的 32 台节点。H200 有自己的 IPMI 接入交换机（C22 列 U33，归属 H200 台账），与 B300 的 8 台一同上行到同一对全机房 IPMI 核心 —— 两集群的 IPMI 是同一张网。</text>
+<text x='46' y='133' font-size='11' fill='#334155'>承载 BMC / IPMI 流量：带外开关机、硬件告警、固件升级、串口重定向，以及 BCM 的 PXE 镜像化部署。※ 本网覆盖 B300 的 127 台节点与 H200 的 32 台节点。H200 有自己的 IPMI 接入交换机（C22 列 U33，归属 H200 台账），与 B300 的 8 台一同上行到同一对 B300 edge —— 两集群的 IPMI 是同一张网。</text>
 
 <rect x='370' y='172' width='540' height='54' rx='7' fill='#eef6ff' stroke='#1d4ed8' stroke-width='2.2'/>
-<text x='640' y='194' font-size='12.5' font-weight='700' fill='#0f172a' text-anchor='middle'>全机房 IPMI 核心　H3C S9825 × 2　（两集群共用）</text>
-<text x='640' y='214' font-size='10.5' fill='#1d4ed8' text-anchor='middle'>C22 列 U17 / D22 列 U17　→　上行出口路由器 H3C CR16005E × 2（C22 列 U13 / D22 列 U13）</text>
+<text x='640' y='194' font-size='12.5' font-weight='700' fill='#0f172a' text-anchor='middle'>B300 edge 交换机　H3C S9825 × 2　（两集群 IPMI 共用）</text>
+<text x='640' y='214' font-size='10.5' fill='#1d4ed8' text-anchor='middle'>C22 列 U17 / D22 列 U17　→　上行出口路由器 H3C CR16005E × 2（C22/D22 U13，防火墙旁挂）</text>
 <line x1='640' y1='226' x2='640' y2='254' stroke='#7c3aed' stroke-width='2.6'/>
 <path d='M 634 236 L 640 224 L 646 236 Z' fill='#7c3aed'/>
-<text x='656' y='246' font-size='10' fill='#5b21b6'>IPMI Spine → 全机房 IPMI 核心 → 出口路由器</text>
+<text x='656' y='246' font-size='10' fill='#5b21b6'>IPMI Spine → B300 edge → 出口路由器</text>
 
 <rect x='370' y='256' width='540' height='64' rx='7' fill='#ede9fe' stroke='#5b21b6' stroke-width='2.4'/>
 <text x='640' y='280' font-size='13' font-weight='700' fill='#5b21b6' text-anchor='middle'>IPMI Spine　H3C S6805 × 2</text>
@@ -74,9 +74,9 @@
 <text x='1054' y='645' font-size='10' fill='#0e7490' text-anchor='middle'>构成完整的「设备带外可达」闭环</text>
 
 <rect x='30' y='668' width='400' height='118' rx='7' fill='#ffffff' stroke='#64748b' stroke-width='1.5'/>
-<text x='44' y='690' font-size='12' font-weight='700' fill='#0f172a'>台账　13 台（含共用核心 2 台）</text>
+<text x='44' y='690' font-size='12' font-weight='700' fill='#0f172a'>台账　13 台（含共用 edge 2 台）</text>
 <text x='44' y='712' font-size='10.5' fill='#334155'>IPMI 接入　H3C S5590 × 9（B300 ×8 + H200 ×1，各计本集群）</text>
-<text x='44' y='730' font-size='10.5' fill='#334155'>IPMI Spine　S6805 × 2　·　全机房核心　S9825 × 2</text>
+<text x='44' y='730' font-size='10.5' fill='#334155'>IPMI Spine　S6805 × 2　·　B300 edge　S9825 × 2</text>
 <text x='44' y='752' font-size='10.5' fill='#334155'>介质　铜缆（节点）+ 10GE（设备管理口）</text>
 <text x='44' y='772' font-size='10' fill='#64748b'>C22U33 那台计入 H200 的 33 台，其余 8 台计入 B300 的 74 台</text>
 
@@ -86,7 +86,7 @@
 <text x='458' y='730' font-size='10.5' fill='#334155'>· 数据面拥塞或配置失误不影响带外可达性</text>
 <text x='458' y='748' font-size='10.5' fill='#334155'>· 支撑 BCM 镜像化部署：PXE 走本网下发</text>
 <text x='458' y='766' font-size='10.5' fill='#334155'>· 掉卡 / 宕机场景下的首选排障入口</text>
-<text x='458' y='781' font-size='10' font-weight='600' fill='#9a3412'>· 核心（C22/D22 U17）故障会同时影响两集群</text>
+<text x='458' y='781' font-size='10' font-weight='600' fill='#9a3412'>· B300 edge（C22/D22 U17）故障会同时影响两集群</text>
 
 <rect x='858' y='668' width='392' height='118' rx='7' fill='#ffffff' stroke='#9a3412' stroke-width='1.5'/>
 <text x='872' y='690' font-size='12' font-weight='700' fill='#9a3412'>与数据面的对照</text>
