@@ -5,11 +5,11 @@
 <text x='34' y='58' font-size='12.5' fill='#dbeafe'>骨干 Spine 16 + 存储 Server Leaf 4 + 计算节点存储 Leaf 8 + 管理 Leaf 2（均为 H3C S9825）· Leaf↔Spine 与 Spine↔Spine 全连接，负载分担 · PFC + ECN 无损</text>
 
 <rect x='380' y='92' width='580' height='56' rx='7' fill='#eef6ff' stroke='#1d4ed8' stroke-width='2.2'/>
-<text x='670' y='114' font-size='13' font-weight='700' fill='#0f172a' text-anchor='middle'>B300 存储网核心 / 全机房 IPMI 核心　H3C S9825 × 2</text>
-<text x='670' y='135' font-size='10.5' fill='#1d4ed8' text-anchor='middle'>C22 列 U17 / D22 列 U17　·　存储网的唯一南北向出口　→　上行出口路由器 CR16005E × 2（U13）</text>
+<text x='670' y='114' font-size='13' font-weight='700' fill='#0f172a' text-anchor='middle'>B300 edge 交换机　H3C S9825 × 2　（存储网 + IPMI 共用）</text>
+<text x='670' y='135' font-size='10.5' fill='#1d4ed8' text-anchor='middle'>C22 列 U17 / D22 列 U17　·　存储网的唯一南北向出口　→　上行出口路由器 CR16005E × 2（U13，防火墙旁挂）</text>
 <line x1='670' y1='148' x2='670' y2='176' stroke='#ea7317' stroke-width='2.6'/>
 <path d='M 664 166 L 670 178 L 676 166 Z' fill='#ea7317'/>
-<text x='686' y='168' font-size='10' fill='#9a3412'>骨干 → 核心　2 × 10GE</text>
+<text x='686' y='168' font-size='10' fill='#9a3412'>骨干 → edge　2 × 10GE</text>
 
 <rect x='30' y='180' width='1280' height='108' rx='8' fill='#fff8ec' stroke='#ea7317' stroke-width='2.6'/>
 <text x='670' y='204' font-size='14' font-weight='700' fill='#9a3412' text-anchor='middle'>存储网骨干 Spine × 16　H3C S9825（64 × 400G / 台，下行端口 breakout 为 2 × 200G）　·　Spine 之间也全连接，负载分担</text>
