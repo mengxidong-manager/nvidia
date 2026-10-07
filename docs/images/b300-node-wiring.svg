@@ -184,7 +184,7 @@
 <text x='720' y='894' font-size='10.5' fill='#334155'>接入层：S5590 × 9</text>
 <text x='720' y='914' font-size='10.5' fill='#334155'>汇聚层：S6805 × 2（C22/D22 U40）</text>
 <text x='720' y='934' font-size='10.5' fill='#334155'>介质：铜缆</text>
-<text x='720' y='950' font-size='10' fill='#64748b'>上行全机房 IPMI 核心（C22/D22 U17）→ 出口路由器（U13）</text>
+<text x='720' y='950' font-size='10' fill='#64748b'>上行 B300 edge（C22/D22 U17）→ 出口路由器（U13）</text>
 
 <rect x='1036' y='810' width='318' height='146' rx='6' fill='#ffffff' stroke='#ea7317' stroke-width='1.5'/>
 <text x='1195' y='832' font-size='11.5' font-weight='700' fill='#9a3412' text-anchor='middle'>供电与散热</text>
