@@ -74,7 +74,7 @@
 <text x='1040' y='646' font-size='10.5' fill='#334155'>无（平面内闭合）</text>
 
 <rect x='30' y='658' width='1280' height='34' fill='#fff8ec' stroke='#cbd5e1' stroke-width='1'/>
-<text x='44' y='680' font-size='10.5' font-weight='600' fill='#9a3412'>B300 存储网骨干</text>
+<text x='44' y='680' font-size='10.5' font-weight='600' fill='#9a3412'>B300 存储网骨干（集群内部）</text>
 <text x='330' y='680' font-size='10.5' fill='#334155'>S9825 × 16　G23 / G22 / F23 / F22 列各 4 台</text>
 <text x='760' y='680' font-size='10.5' fill='#334155'>全连接，负载分担</text>
 <text x='1040' y='680' font-size='10.5' fill='#334155'>B300 edge U17 → 出口路由器</text>
