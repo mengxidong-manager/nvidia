@@ -1,19 +1,19 @@
 <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1280 800' font-family='Segoe UI, Arial, sans-serif'>
 <rect x='0' y='0' width='1280' height='800' fill='#ffffff'/>
 <rect x='0' y='0' width='1280' height='74' fill='#7c3aed'/>
-<text x='34' y='34' font-size='20' font-weight='700' fill='#ffffff'>带外管理网（OOB / IPMI）　B300 + H200 节点 BMC</text>
-<text x='34' y='58' font-size='12.5' fill='#ddd6fe'>接入 S5590 × 9（B300 × 8 + H200 × 1）+ 汇聚 S6805 × 2 · 本网同时承载两套集群的节点 BMC · 与数据面完全物理隔离</text>
+<text x='34' y='34' font-size='20' font-weight='700' fill='#ffffff'>全机房带外管理网（OOB / IPMI）　两集群统一的一张网</text>
+<text x='34' y='58' font-size='12.5' fill='#ddd6fe'>接入 S5590 × 9（B300 × 8 归 B300 + H200 × 1 归 H200）+ 汇聚 S6805 × 2 + 全机房 IPMI 核心 S9825 × 2 · 上行出口路由器 · 与数据面完全物理隔离</text>
 
 <rect x='30' y='92' width='1220' height='56' rx='7' fill='#faf8ff' stroke='#7c3aed' stroke-width='1.8'/>
 <text x='46' y='113' font-size='12' font-weight='700' fill='#5b21b6'>本网的作用与覆盖范围</text>
-<text x='46' y='133' font-size='11' fill='#334155'>承载 BMC / IPMI 流量：带外开关机、硬件告警、固件升级、串口重定向，以及 BCM 的 PXE 镜像化部署。※ 本网覆盖 B300 的 127 台节点与 H200 的 32 台节点：H200 节点 BMC 接入 9 台 IPMI 交换机中的 1 台（C22 列 U33），是两集群唯一在带外层的交汇点。</text>
+<text x='46' y='133' font-size='11' fill='#334155'>承载 BMC / IPMI 流量：带外开关机、硬件告警、固件升级、串口重定向，以及 BCM 的 PXE 镜像化部署。※ 本网覆盖 B300 的 127 台节点与 H200 的 32 台节点。H200 有自己的 IPMI 接入交换机（C22 列 U33，归属 H200 台账），与 B300 的 8 台一同上行到同一对全机房 IPMI 核心 —— 两集群的 IPMI 是同一张网。</text>
 
 <rect x='370' y='172' width='540' height='54' rx='7' fill='#eef6ff' stroke='#1d4ed8' stroke-width='2.2'/>
-<text x='640' y='194' font-size='12.5' font-weight='700' fill='#0f172a' text-anchor='middle'>B300 业务网核心　H3C S9825 × 2</text>
-<text x='640' y='214' font-size='10.5' fill='#1d4ed8' text-anchor='middle'>C22 列 U17 / D22 列 U17</text>
+<text x='640' y='194' font-size='12.5' font-weight='700' fill='#0f172a' text-anchor='middle'>全机房 IPMI 核心　H3C S9825 × 2　（两集群共用）</text>
+<text x='640' y='214' font-size='10.5' fill='#1d4ed8' text-anchor='middle'>C22 列 U17 / D22 列 U17　→　上行出口路由器 H3C CR16005E × 2（C22 列 U13 / D22 列 U13）</text>
 <line x1='640' y1='226' x2='640' y2='254' stroke='#7c3aed' stroke-width='2.6'/>
 <path d='M 634 236 L 640 224 L 646 236 Z' fill='#7c3aed'/>
-<text x='656' y='246' font-size='10' fill='#5b21b6'>IPMI Spine → 业务网核心</text>
+<text x='656' y='246' font-size='10' fill='#5b21b6'>IPMI Spine → 全机房 IPMI 核心 → 出口路由器</text>
 
 <rect x='370' y='256' width='540' height='64' rx='7' fill='#ede9fe' stroke='#5b21b6' stroke-width='2.4'/>
 <text x='640' y='280' font-size='13' font-weight='700' fill='#5b21b6' text-anchor='middle'>IPMI Spine　H3C S6805 × 2</text>
@@ -39,11 +39,11 @@
 <text x='44' y='533' font-size='10' fill='#64748b'>管理服务器 Leaf（S9825 ×2）走存储网骨干，不在本网</text>
 
 <rect x='444' y='434' width='400' height='106' rx='7' fill='#fff8ec' stroke='#9a3412' stroke-width='2.2'/>
-<text x='644' y='458' font-size='12.5' font-weight='700' fill='#9a3412' text-anchor='middle'>H200 节点 IPMI 接入　S5590 × 1</text>
+<text x='644' y='458' font-size='12.5' font-weight='700' fill='#9a3412' text-anchor='middle'>H200 节点 IPMI 接入　S5590 × 1（归 H200）</text>
 <text x='458' y='480' font-size='11' font-weight='700' fill='#9a3412'>位置：C22 列 U33</text>
 <text x='458' y='498' font-size='10.5' fill='#334155'>承接 32 台 H200 节点的 BMC 口</text>
 <text x='458' y='516' font-size='10.5' fill='#334155'>同样双上行至两台 IPMI Spine</text>
-<text x='458' y='533' font-size='10' font-weight='600' fill='#9a3412'>→ H200 的带外管理在本网内，构成跨集群耦合点</text>
+<text x='458' y='533' font-size='10' font-weight='600' fill='#9a3412'>→ 交换机归属 H200，但与 B300 同属一张 IPMI 网</text>
 <rect x='858' y='434' width='392' height='106' rx='7' fill='#ffffff' stroke='#0ea5b7' stroke-width='1.8'/>
 <text x='1054' y='458' font-size='12.5' font-weight='700' fill='#0e7490' text-anchor='middle'>网络设备自身的带外接入</text>
 <text x='872' y='480' font-size='10.5' fill='#334155'>计算网 Leaf ×32 与 Spine ×16，各 2 × 10GE</text>
@@ -65,7 +65,7 @@
 <text x='644' y='594' font-size='12' font-weight='700' fill='#9a3412' text-anchor='middle'>H200 计算节点 × 32　BMC</text>
 <text x='644' y='614' font-size='10.5' fill='#334155' text-anchor='middle'>Aivres KR6288 V2 · A 列 20 台 + B 列 12 台</text>
 <text x='644' y='631' font-size='10.5' fill='#334155' text-anchor='middle'>BMC 口接入 C22 列 U33 的 S5590</text>
-<text x='644' y='645' font-size='10' font-weight='600' fill='#9a3412' text-anchor='middle'>H200 的计算网与存储网自成体系，但带外管理在本网</text>
+<text x='644' y='645' font-size='10' font-weight='600' fill='#9a3412' text-anchor='middle'>H200 的计算网与存储网自成体系，带外管理与 B300 同网</text>
 
 <rect x='858' y='572' width='392' height='78' rx='7' fill='#f0fcff' stroke='#0ea5b7' stroke-width='1.8'/>
 <text x='1054' y='594' font-size='12' font-weight='700' fill='#0e7490' text-anchor='middle'>计算网与存储网设备　管理口</text>
@@ -74,11 +74,11 @@
 <text x='1054' y='645' font-size='10' fill='#0e7490' text-anchor='middle'>构成完整的「设备带外可达」闭环</text>
 
 <rect x='30' y='668' width='400' height='118' rx='7' fill='#ffffff' stroke='#64748b' stroke-width='1.5'/>
-<text x='44' y='690' font-size='12' font-weight='700' fill='#0f172a'>台账　11 台</text>
-<text x='44' y='712' font-size='10.5' fill='#334155'>IPMI 接入　H3C S5590 × 9（B300 ×8 + H200 ×1）</text>
-<text x='44' y='730' font-size='10.5' fill='#334155'>IPMI Spine　H3C S6805 × 2</text>
+<text x='44' y='690' font-size='12' font-weight='700' fill='#0f172a'>台账　13 台（含共用核心 2 台）</text>
+<text x='44' y='712' font-size='10.5' fill='#334155'>IPMI 接入　H3C S5590 × 9（B300 ×8 + H200 ×1，各计本集群）</text>
+<text x='44' y='730' font-size='10.5' fill='#334155'>IPMI Spine　S6805 × 2　·　全机房核心　S9825 × 2</text>
 <text x='44' y='752' font-size='10.5' fill='#334155'>介质　铜缆（节点）+ 10GE（设备管理口）</text>
-<text x='44' y='772' font-size='10' fill='#64748b'>9 台均计入 B300 台账；其中 C22U33 那台服务 H200 节点</text>
+<text x='44' y='772' font-size='10' fill='#64748b'>C22U33 那台计入 H200 的 33 台，其余 8 台计入 B300 的 74 台</text>
 
 <rect x='444' y='668' width='400' height='118' rx='7' fill='#ffffff' stroke='#5b21b6' stroke-width='1.5'/>
 <text x='458' y='690' font-size='12' font-weight='700' fill='#5b21b6'>隔离的工程价值</text>
@@ -86,7 +86,7 @@
 <text x='458' y='730' font-size='10.5' fill='#334155'>· 数据面拥塞或配置失误不影响带外可达性</text>
 <text x='458' y='748' font-size='10.5' fill='#334155'>· 支撑 BCM 镜像化部署：PXE 走本网下发</text>
 <text x='458' y='766' font-size='10.5' fill='#334155'>· 掉卡 / 宕机场景下的首选排障入口</text>
-<text x='458' y='781' font-size='10' font-weight='600' fill='#9a3412'>· 本网故障会同时影响两套集群的带外可达性</text>
+<text x='458' y='781' font-size='10' font-weight='600' fill='#9a3412'>· 核心（C22/D22 U17）故障会同时影响两集群</text>
 
 <rect x='858' y='668' width='392' height='118' rx='7' fill='#ffffff' stroke='#9a3412' stroke-width='1.5'/>
 <text x='872' y='690' font-size='12' font-weight='700' fill='#9a3412'>与数据面的对照</text>
