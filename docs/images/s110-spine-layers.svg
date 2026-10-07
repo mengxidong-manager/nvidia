@@ -24,7 +24,7 @@
 <text x='46' y='378' font-size='11' fill='#334155'>带宽利用率　约 50%，备份链路闲置</text>
 <text x='46' y='398' font-size='11' fill='#334155'>故障行为　Subnet Manager 重算路由，切到备份路径（有收敛时间）</text>
 <text x='46' y='418' font-size='11' fill='#334155'>优点　路径确定、时延抖动小、无需队列调优</text>
-<text x='46' y='436' font-size='10' fill='#64748b'>Spine 即 IB fabric 最高层，无上行</text>
+<text x='46' y='436' font-size='10' fill='#64748b'>Spine 即 IB fabric 最高层，无上行；SM 服务器在 D21/D22 列</text>
 
 <rect x='680' y='214' width='630' height='230' rx='8' fill='#eef6ff' stroke='#1d4ed8' stroke-width='2.2'/>
 <rect x='680' y='214' width='630' height='32' rx='8' fill='#1d4ed8'/>
@@ -59,7 +59,7 @@
 <text x='44' y='578' font-size='10.5' font-weight='600' fill='#5b21b6'>H200 存储网</text>
 <text x='330' y='578' font-size='10.5' fill='#334155'>SN5600 × 2　C22 列 U37 / D22 列 U31</text>
 <text x='760' y='578' font-size='10.5' fill='#334155'>全连接（冗余对）</text>
-<text x='1040' y='578' font-size='10.5' fill='#334155'>SN4600 核心 → 出口路由器</text>
+<text x='1040' y='578' font-size='10.5' fill='#334155'>H200 edge → 出口路由器</text>
 
 <rect x='30' y='590' width='1280' height='34' fill='#eef6ff' stroke='#cbd5e1' stroke-width='1'/>
 <text x='44' y='612' font-size='10.5' font-weight='600' fill='#1d4ed8'>B300 计算网 · 平面 1</text>
@@ -77,39 +77,39 @@
 <text x='44' y='680' font-size='10.5' font-weight='600' fill='#9a3412'>B300 存储网骨干</text>
 <text x='330' y='680' font-size='10.5' fill='#334155'>S9825 × 16　G23 / G22 / F23 / F22 列各 4 台</text>
 <text x='760' y='680' font-size='10.5' fill='#334155'>全连接，负载分担</text>
-<text x='1040' y='680' font-size='10.5' fill='#334155'>存储网核心 U17 → 出口路由器</text>
+<text x='1040' y='680' font-size='10.5' fill='#334155'>B300 edge U17 → 出口路由器</text>
 
 <rect x='30' y='692' width='1280' height='34' fill='#faf8ff' stroke='#cbd5e1' stroke-width='1'/>
 <text x='44' y='714' font-size='10.5' font-weight='600' fill='#5b21b6'>带外管理网（两集群统一）</text>
 <text x='330' y='714' font-size='10.5' fill='#334155'>S6805 × 2　C22 列 U40 / D22 列 U40</text>
 <text x='760' y='714' font-size='10.5' fill='#334155'>冗余对，接入侧全连接</text>
-<text x='1040' y='714' font-size='10.5' fill='#334155'>全机房 IPMI 核心 U17 → 出口路由器</text>
+<text x='1040' y='714' font-size='10.5' fill='#334155'>B300 edge U17 → 出口路由器</text>
 
-<text x='34' y='762' font-size='13' font-weight='700' fill='#475569'>三类核心在出口路由器收口</text>
+<text x='34' y='762' font-size='13' font-weight='700' fill='#475569'>两套 edge 与出口路由器</text>
 <line x1='280' y1='757' x2='1310' y2='757' stroke='#e2e8f0' stroke-width='1.5'/>
 
 <rect x='30' y='776' width='300' height='56' rx='6' fill='#faf8ff' stroke='#5b21b6' stroke-width='1.8'/>
-<text x='180' y='798' font-size='11.5' font-weight='700' fill='#5b21b6' text-anchor='middle'>全机房 IPMI 核心</text>
-<text x='180' y='818' font-size='10' fill='#334155' text-anchor='middle'>H3C S9825 × 2　C22/D22 U17</text>
+<text x='180' y='798' font-size='11.5' font-weight='700' fill='#5b21b6' text-anchor='middle'>B300 edge 交换机</text>
+<text x='180' y='818' font-size='10' fill='#334155' text-anchor='middle'>H3C S9825 × 2　C22/D22 U17　·　存储骨干 + IPMI 上行</text>
 
 <rect x='346' y='776' width='300' height='56' rx='6' fill='#f0fcff' stroke='#0e7490' stroke-width='1.8'/>
-<text x='496' y='798' font-size='11.5' font-weight='700' fill='#0e7490' text-anchor='middle'>H200 存储网核心</text>
+<text x='496' y='798' font-size='11.5' font-weight='700' fill='#0e7490' text-anchor='middle'>H200 edge 交换机</text>
 <text x='496' y='818' font-size='10' fill='#334155' text-anchor='middle'>NVIDIA SN4600 × 2　C22/D22 U10</text>
 
 <rect x='662' y='776' width='300' height='56' rx='6' fill='#fff8ec' stroke='#9a3412' stroke-width='1.8'/>
-<text x='812' y='798' font-size='11.5' font-weight='700' fill='#9a3412' text-anchor='middle'>B300 存储网核心</text>
-<text x='812' y='818' font-size='10' fill='#334155' text-anchor='middle'>H3C S9825 × 2　C22/D22 U17</text>
+<text x='812' y='798' font-size='11.5' font-weight='700' fill='#9a3412' text-anchor='middle'>出口路由器（防火墙旁挂）</text>
+<text x='812' y='818' font-size='10' fill='#334155' text-anchor='middle'>H3C CR16005E × 2　C22/D22 U13　·　防火墙旁挂</text>
 
 <line x1='180' y1='832' x2='1130' y2='866' stroke='#1f2937' stroke-width='2'/>
 <line x1='496' y1='832' x2='1130' y2='866' stroke='#1f2937' stroke-width='2'/>
 <line x1='812' y1='832' x2='1130' y2='866' stroke='#1f2937' stroke-width='2'/>
 
 <rect x='980' y='858' width='330' height='60' rx='7' fill='#1f2937'/>
-<text x='1145' y='882' font-size='13' font-weight='700' fill='#ffffff' text-anchor='middle'>出口路由器　H3C CR16005E × 2</text>
-<text x='1145' y='903' font-size='10.5' fill='#94a3b8' text-anchor='middle'>C22 列 U13 / D22 列 U13　·　全中心南北向统一出口</text>
+<text x='1145' y='882' font-size='13' font-weight='700' fill='#ffffff' text-anchor='middle'>外部　←→　出口路由器</text>
+<text x='1145' y='903' font-size='10.5' fill='#94a3b8' text-anchor='middle'>全中心南北向统一出口　·　路由器 → edge → 内部网络</text>
 
 <rect x='30' y='846' width='930' height='72' rx='7' fill='#ffffff' stroke='#64748b' stroke-width='1.5'/>
-<text x='46' y='868' font-size='11.5' font-weight='700' fill='#0f172a'>为什么核心上行带宽远小于骨干交换容量，却不是瓶颈</text>
-<text x='46' y='888' font-size='10.5' fill='#334155'>存储读写与训练集合通信都是东西向流量，在各自的 Spine / 骨干层就地闭合，不经核心、更不经出口路由器。</text>
-<text x='46' y='908' font-size='10.5' font-weight='600' fill='#9a3412'>核心与出口只承载南北向：管理访问、对外互联、监控上报。评估存储性能应看骨干下行端口数与 Leaf 上行收敛比。</text>
+<text x='46' y='868' font-size='11.5' font-weight='700' fill='#0f172a'>为什么 edge 上行带宽远小于骨干交换容量，却不是瓶颈</text>
+<text x='46' y='888' font-size='10.5' fill='#334155'>存储读写与训练集合通信都是东西向流量，在各自的 Spine / 骨干层就地闭合，不经 edge、更不经出口路由器。</text>
+<text x='46' y='908' font-size='10.5' font-weight='600' fill='#9a3412'>edge 与出口只承载南北向：管理访问、对外互联、监控上报。不要用 edge 带宽评估存储性能 —— 它是边缘收口设备，不是数据面骨干。</text>
 </svg>
