@@ -1,0 +1,11 @@
+{
+  "day": "14",
+  "title": "NCCL 调试变量",
+  "subtitle": "先开日志看三行，再决定动哪个变量",
+  "source": "参考：GPU 集群故障排查手册 · NVIDIA NCCL 文档 · PyTorch ProcessGroupNCCL 文档",
+  "caption": "AIDC 每日一图 · Day 14｜NCCL 调试变量 🔍\n\n先开 NCCL_DEBUG=INFO，日志里找三行：\nUsing network IB（不是 Socket）\nvia NET/IB/0/GDRDMA（GPUDirect RDMA 生效）\nvia P2P/CUMEM（机内直通）\n\nNCCL_IB_HCA 记得加 = 精确匹配\nIB_DISABLE / P2P_DISABLE 只在排障时用，用完就删\n\n收藏备用 👇\n#NCCL #GPU #AIInfra #AIDC",
+  "xhs": {
+    "title": "NCCL排障：先看日志这三行",
+    "body": "AIDC 每日一图 · Day 14\n\n多机训练慢、hang 住，第一步不是乱改变量，而是把 NCCL 日志打开：\nNCCL_DEBUG=INFO\nNCCL_DEBUG_SUBSYS=INIT,NET\nNCCL_DEBUG_FILE=/tmp/nccl.%h.%p.log\n\n日志里先找三行：\n✅ Using network IB：走了 RDMA；看到 Socket 就是退回 TCP\n✅ via NET/IB/0/GDRDMA：GPUDirect RDMA 生效\n✅ via P2P/CUMEM：机内 GPU 直通；变成 via SHM 说明没直连上\n\n选网卡：\n· NCCL_IB_HCA==mlx5_0,mlx5_1，第一个 = 表示精确匹配，否则 mlx5_1 会把 mlx5_10~19 也选上\n· NCCL_SOCKET_IFNAME 只管建连和 Socket 传输，不能把流量切到 IB\n· RoCE 看 NCCL_IB_GID_INDEX、NCCL_IB_TC\n\n只在排障时用：NCCL_IB_DISABLE、NCCL_P2P_DISABLE、NCCL_NET_GDR_LEVEL、NCCL_ALGO/PROTO，问题解决就删掉\n\n卡住不报错：IB 超时默认约 4.3 秒 × 重试 7 次 ≈ 30 秒\n\n收藏备用 👇\n\n#NCCL #GPU #大模型训练 #智算中心 #AI基础设施 #运维"
+  }
+}

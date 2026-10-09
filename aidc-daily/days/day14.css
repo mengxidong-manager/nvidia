@@ -1,0 +1,31 @@
+.lg3{margin-top:30px;padding:22px 16px 12px}
+.v3{display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:12px}
+.v{border:2px solid #b9c7ea;border-radius:10px 7px 10px 8px;padding:8px 12px}
+.v code,.it code{display:inline-block;background:#1d2b4f;color:#e9eefb;border-radius:6px;padding:2px 8px;font-size:14.5px;white-space:nowrap}
+.v p,.it p{font-family:'LXGW WenKai';font-size:15px;line-height:1.45;color:#34426a;margin-top:5px}
+.v em,.it em{font-style:normal;font-weight:700;color:#c26400}
+.rd{margin-top:30px;padding:22px 16px 10px;border-color:var(--teal)}.rd>.lab{color:var(--teal)}
+.ln{display:grid;grid-template-columns:1.05fr 1fr;gap:14px;align-items:center;padding:7px 0;border-bottom:2px dashed #d3d9e6}
+.ln:last-child{border-bottom:none}
+.ln .term{background:#1d2b4f;color:#c9d3ec;border-radius:8px;padding:7px 12px;font-family:'LXGW WenKai Mono',monospace;font-size:14.5px;white-space:nowrap}
+.ln .term .ok{color:#7fe0a6;font-weight:700}
+.ln p{font-family:'LXGW WenKai';font-size:15px;line-height:1.45;color:#34426a}
+.ln b.g{color:#2f9e6a}.ln b.r{color:var(--red)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+.sel,.dbg{padding:22px 14px 10px;display:flex;flex-direction:column}
+.sel{border-color:var(--teal)}.sel>.lab{color:var(--teal)}
+.dbg{border-color:var(--red)}.dbg>.lab{color:var(--red)}
+.dbg .it code{background:#5a1f33}
+.it{padding:6px 0;border-bottom:2px dashed #d3d9e6}
+.it:last-of-type{border-bottom:none}
+.it code.s{display:inline;background:#eef3fb;color:var(--navy);padding:0 5px;font-size:14px}
+.warn{margin-top:auto;padding:8px 10px;font-family:'LXGW WenKai';font-size:14.5px;line-height:1.45;background:#fff4f7;border-radius:10px}
+.warn b{color:var(--red)}
+.to{margin-top:30px;padding:22px 16px 12px}
+.tg{display:grid;grid-template-columns:1fr 1fr 1.35fr;gap:12px}
+.tg .c{border:2px solid #b9c7ea;border-radius:10px 7px 10px 8px;padding:8px 12px}
+.tg b{display:block;font-family:'LXGW WenKai Mono',monospace;font-weight:700;font-size:15px;color:var(--navy)}
+.tg span{font-family:'LXGW WenKai';font-size:15px;line-height:1.45;color:#34426a}
+.tg em{font-style:normal;font-weight:700;color:var(--red)}
+.tip{margin-top:auto;padding:8px 10px;font-family:'LXGW WenKai';font-size:14.5px;line-height:1.45;background:#eef3fb;border-radius:10px}
+.tip b{color:#15627a}

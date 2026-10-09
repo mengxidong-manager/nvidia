@@ -1,0 +1,52 @@
+<div class="lg3 wob box">
+  <div class="lab hd">第一步：把日志打开</div>
+  <div class="v3">
+    <div class="v"><code>NCCL_DEBUG=INFO</code><p><em>生产常驻 WARN</em>，排障临时开 INFO；TRACE 量太大，少用</p></div>
+    <div class="v"><code>NCCL_DEBUG_SUBSYS=INIT,NET</code><p>默认只有 INIT,BOOTSTRAP,ENV；查网络加 <em>NET</em>，查拓扑加 GRAPH</p></div>
+    <div class="v"><code>NCCL_DEBUG_FILE=/tmp/nccl.%h.%p.log</code><p><em>%h</em> 主机名、<em>%p</em> 进程号，每个 rank 一个文件；不设就打到 stdout，和训练日志混在一起</p></div>
+  </div>
+</div>
+
+<div class="rd wob box">
+  <div class="lab hd">日志里先找这三行</div>
+  <div class="ln"><div class="term"><span class="ok">NCCL INFO Using network IB</span></div><p><b class="g">IB</b> = 走了 RDMA（IB 或 RoCE）；看到 <b class="r">Socket</b> 就是退回了 TCP，带宽会掉一个量级</p></div>
+  <div class="ln"><div class="term">Channel 00/0 : 0[0] -&gt; 8[0] [send] via NET/IB/0<span class="ok">/GDRDMA</span></div><p>带 <b class="g">/GDRDMA</b> = GPUDirect RDMA 生效；没有就要绕 CPU 内存</p></div>
+  <div class="ln"><div class="term">Channel 00/0 : 0[0] -&gt; 1[1] via <span class="ok">P2P/CUMEM</span></div><p>机内 GPU 直通（NVLink / PCIe）；变成 <b class="r">via SHM</b> 说明机内没直连上</p></div>
+</div>
+
+<div class="g2">
+  <div class="sel wob box">
+    <div class="lab hd">选网卡、配 RoCE</div>
+    <div class="it"><code>NCCL_IB_HCA==mlx5_0,mlx5_1</code><p>开头的 <em>=</em> 表示精确匹配，不加时 mlx5_1 会连 <em>mlx5_10~19</em> 一起选</p></div>
+    <div class="it"><code>NCCL_SOCKET_IFNAME=bond0</code><p>只管建连和 Socket 传输用哪个 IP 网口，<em>不能把流量切到 IB</em></p></div>
+    <div class="it"><code>NCCL_IB_GID_INDEX</code><p>RoCE 用哪个 GID，默认 -1 自动选；不对时用 <code class="s">show_gids</code> 查</p></div>
+    <div class="it"><code>NCCL_IB_TC</code><p>流量类别，默认 0；要和交换机的<em>无损队列</em>对上</p></div>
+    <p class="tip">双平面先数网卡：INFO 日志里 <b>NET/IB</b> 会列出用到的网卡，少一张就少一条 rail</p>
+  </div>
+  <div class="dbg wob box">
+    <div class="lab hd">只在排障时用</div>
+    <div class="it"><code>NCCL_IB_DISABLE=1</code><p>强制走 Socket，对比判断是不是 RDMA 层的问题</p></div>
+    <div class="it"><code>NCCL_P2P_DISABLE=1</code><p>关掉机内 GPU 直通，排查 NVLink / PCIe</p></div>
+    <div class="it"><code>NCCL_NET_GDR_LEVEL=LOC</code><p>关掉 GPUDirect RDMA，看是不是 GDR 引起</p></div>
+    <div class="it"><code>NCCL_ALGO / NCCL_PROTO</code><p>锁死算法和协议，怀疑 NCCL 选错时用</p></div>
+    <p class="warn">官方原则：这些变量会挡住 NCCL 自动选最优，<b>问题解决就删掉</b>，别留在生产脚本里</p>
+  </div>
+</div>
+
+<div class="to wob box">
+  <div class="lab hd">卡住不报错？先算超时</div>
+  <div class="tg">
+    <div class="c"><b>NCCL_IB_TIMEOUT=20</b><span>每次等 4.096µs × 2<sup>20</sup> ≈ 4.3 秒</span></div>
+    <div class="c"><b>NCCL_IB_RETRY_CNT=7</b><span>重试 7 次，网络断了约 <em>30 秒</em>才报错</span></div>
+    <div class="c"><b>TORCH_NCCL_ASYNC_ERROR_HANDLING</b><span>PyTorch 侧的出错处理，默认 3；旧名去掉 TORCH_ 前缀，<em>已弃用</em></span></div>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="6" y="8" width="36" height="30" rx="3"/><path d="m13 18 6 5-6 5M23 29h11"/></svg><p>先开 INFO，看<br>Using network 和 GDRDMA</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M10 14h28M18 14V9h12v5M14 14l2 26h16l2-26"/></svg><p>调试变量<br>用完就删</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><circle cx="24" cy="24" r="16"/><path d="M17 21h14M17 28h14"/></svg><p>网卡列表<br>加 = 精确匹配</p></div>
+  </div>
+</div>
