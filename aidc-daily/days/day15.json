@@ -1,0 +1,11 @@
+{
+  "day": "15",
+  "title": "GPU Operator 全家福",
+  "subtitle": "一个 Helm 装好整条 GPU 软件栈，排障按链往下找",
+  "source": "参考：K8s GPU 调度与部署指南 · NVIDIA GPU Operator v26.7.1 文档与源码",
+  "caption": "AIDC 每日一图 · Day 15｜GPU Operator 全家福 🧩\n\n一条链装好整套 GPU 软件栈：\nNFD 认出 GPU → Driver → Container Toolkit → Device Plugin → GFD 打标签 → DCGM Exporter\n\n下游等上游 ready 才启动，一层没起来，后面全卡在 Init\n排障：kubectl get pods -n gpu-operator，找第一个不是 Running 的\n\n收藏备用 👇\n#Kubernetes #GPU #AIInfra #AIDC",
+  "xhs": {
+    "title": "GPU Operator全家福，一图看懂",
+    "body": "AIDC 每日一图 · Day 15\n\nK8s 节点要能跑 GPU 任务，需要一整套软件。GPU Operator 用一个 Helm 把它们按顺序装好：\n\n0️⃣ NFD：扫 PCI，打 pci-10de.present 标签，认出 GPU 节点\n1️⃣ Driver：用容器给宿主机装驱动\n2️⃣ Container Toolkit：给 containerd 注册 nvidia 运行时\n3️⃣ Device Plugin：上报 nvidia.com/gpu 资源\n4️⃣ GFD：打 gpu.product / gpu.count / gpu.memory 标签\n5️⃣ DCGM Exporter：9400 端口出监控指标\n➕ Validator 逐层验收，MIG Manager 负责切 MIG\n\n关键：下游要等上游 ready 才启动，一层没起来，后面全卡在 Init\n\n排障三步：\n· kubectl get pods -n gpu-operator\n· 从上往下找第一个不是 Running 的 Pod\n· 看它的日志，比如 kubectl logs -n gpu-operator -l app=nvidia-driver-daemonset\n\n小提示：\n· 宿主机已装驱动：--set driver.enabled=false，别装两套\n· 改配置改 ClusterPolicy，手改 DaemonSet 会被 Operator 改回去\n\n收藏备用 👇\n\n#Kubernetes #GPU #英伟达 #智算中心 #AI基础设施 #运维"
+  }
+}

@@ -1,0 +1,52 @@
+<div class="ch wob box">
+  <div class="lab hd">一条链：从「认出 GPU」到「出监控」</div>
+  <div class="hdr"><span></span><span>组件</span><span>Pod（-n gpu-operator）</span><span>干什么</span><span>坏了的样子</span></div>
+  <div class="r"><i>0</i><b>NFD</b><code>…node-feature-discovery-…</code><p>扫 PCI，打 <em>pci-10de.present=true</em>，Operator 据此认出 GPU 节点</p><p class="x">没这个标签，后面一个都不部署</p></div>
+  <div class="r"><i>1</i><b>Driver</b><code>nvidia-driver-daemonset</code><p>用容器给宿主机装 NVIDIA 驱动</p><p class="x">CrashLoop：内核版本不匹配</p></div>
+  <div class="r"><i>2</i><b>Container Toolkit</b><code>nvidia-container-toolkit-daemonset</code><p>给 containerd 注册 nvidia 运行时</p><p class="x">Pod 里 NVML 初始化失败</p></div>
+  <div class="r"><i>3</i><b>Device Plugin</b><code>nvidia-device-plugin-daemonset</code><p>向 kubelet 上报 <em>nvidia.com/gpu</em> 资源</p><p class="x">节点没 GPU 可分，Pod Pending</p></div>
+  <div class="r"><i>4</i><b>GFD</b><code>gpu-feature-discovery</code><p>打 <em>gpu.product / gpu.count / gpu.memory</em> 标签</p><p class="x">nodeSelector 选不到节点</p></div>
+  <div class="r"><i>5</i><b>DCGM Exporter</b><code>nvidia-dcgm-exporter</code><p>:9400 暴露 <em>DCGM_FI_*</em> 指标</p><p class="x">Grafana 没数据</p></div>
+  <p class="dep">链式依赖：下游 Pod 的 init 容器要等上游写好 <code>/run/nvidia/validations/</code> 下的 ready 文件，<b>一层没起来，后面全卡在 Init</b></p>
+</div>
+
+<div class="g2">
+  <div class="side wob box">
+    <div class="lab hd">另外两位</div>
+    <div class="it"><b>Validator</b><code>nvidia-operator-validator</code><p>按 driver → toolkit → cuda → plugin 逐层验收；<em class="nw">nvidia-cuda-validator</em> 显示 Completed 才算过</p></div>
+    <div class="it"><b>MIG Manager</b><code>nvidia-mig-manager</code><p>按节点标签 <em>nvidia.com/mig.config</em> 切 MIG，默认策略 single</p></div>
+  </div>
+  <div class="off wob box">
+    <div class="lab hd">默认不装，按需打开</div>
+    <div class="og">
+      <span>GDS（nvidia-fs）</span><span>GDRCopy</span><span>vGPU Manager</span><span>Kata / 机密计算</span><span>独立 DCGM</span><span>DRA（实验）</span>
+    </div>
+    <p class="nt">独立 DCGM 默认关：Exporter 里自带 hostengine。DRA 走另一套 CR，<b>和 ClusterPolicy 不能同时存在</b></p>
+  </div>
+</div>
+
+<div class="ins wob box">
+  <div class="lab hd">安装与排查</div>
+  <div class="ig">
+    <div class="c"><b>装</b>
+      <code>helm repo add nvidia https://helm.ngc.nvidia.com/nvidia</code>
+      <code>helm install --wait --generate-name -n gpu-operator --create-namespace nvidia/gpu-operator</code>
+      <p>已预装驱动加 <em>--set driver.enabled=false</em>；Toolkit 也装了再加 <em>toolkit.enabled=false</em></p>
+    </div>
+    <div class="c"><b>查</b>
+      <code>kubectl get pods -n gpu-operator</code>
+      <code>kubectl get node -L nvidia.com/gpu.product -L nvidia.com/gpu.count</code>
+      <code>kubectl logs -n gpu-operator -l app=nvidia-driver-daemonset</code>
+      <p>从上往下找<em>第一个不是 Running</em> 的 Pod，它就是根因</p>
+    </div>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M24 6v28M14 24l10 10 10-10M10 42h28"/></svg><p>按链从上往下查，<br>找第一个没起来的</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="8" y="10" width="32" height="28" rx="3"/><path d="M16 24h16"/></svg><p>预装了驱动就关 driver，<br>别装两套</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M10 6h20l8 8v28H10z"/><path d="M16 24h16M16 32h12"/></svg><p>改配置改 ClusterPolicy，<br>手改 DaemonSet 会被改回</p></div>
+  </div>
+</div>
