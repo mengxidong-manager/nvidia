@@ -1,0 +1,63 @@
+<div class="cmp wob box">
+  <div class="lab hd">一张卡，四种分法</div>
+  <table>
+    <tr><th></th><th class="ts">时间片 Time-Slicing</th><th class="mp">MPS</th><th class="mg">MIG</th><th class="dr">DRA</th></tr>
+    <tr><td>怎么分</td><td>多个 Pod 轮流用整卡，软件上下文切换</td><td>多个进程同时跑在一张卡上</td><td>硬件切成最多 <b>7 份</b>，各有独立算力和显存</td><td>K8s 新分配框架，按属性申请设备</td></tr>
+    <tr><td>显存隔离</td><td class="n">✗ 共用</td><td class="h">△ 按份限额</td><td class="y">✓ 硬隔离</td><td>看驱动实现</td></tr>
+    <tr><td>故障隔离</td><td class="n">✗ 一个崩，大家受影响</td><td class="n">✗ 有限</td><td class="y">✓ 互不影响</td><td>看驱动实现</td></tr>
+    <tr><td>资源名</td><td><code>nvidia.com/gpu</code><br>1 卡报 N 份</td><td><code>nvidia.com/gpu</code><br>1 卡报 N 份</td><td>single：<code>nvidia.com/gpu</code><br>mixed：<code>nvidia.com/mig-1g.10gb</code></td><td>ResourceClaim<br>不再用扩展资源</td></tr>
+    <tr><td>适合</td><td>开发、Notebook、小推理</td><td>多个小推理并发</td><td>多租户、要稳定 QoS</td><td>新集群、GB200 等多节点 NVLink</td></tr>
+  </table>
+</div>
+
+<div class="g2">
+  <div class="cf wob box">
+    <div class="lab hd">时间片怎么配</div>
+<pre>version: v1
+sharing:
+  timeSlicing:
+    resources:
+    - name: nvidia.com/gpu
+      replicas: 4</pre>
+    <p class="w">写进 ConfigMap 还不够，要在 ClusterPolicy 的 <b>devicePlugin.config.name</b> 里引用才生效</p>
+    <p class="w">申请 2 份 ≠ 2 倍算力；<b>failRequestsGreaterThanOne</b> 可直接拒绝</p>
+  </div>
+  <div class="cf wob box">
+    <div class="lab hd">MIG 怎么切</div>
+<pre>kubectl label node &lt;node&gt; \
+  nvidia.com/mig.config=all-1g.10gb \
+  --overwrite</pre>
+    <p class="w">MIG Manager 看到标签就切，结果写在 <b>nvidia.com/mig.config.state</b>，success 才算完</p>
+    <p class="w">切之前先把节点上的 GPU 任务排空；<b>all-1g.10gb</b> 适用 H100 / A100 80GB</p>
+    <p class="w">single 策略整卡切成同一规格，资源仍叫 nvidia.com/gpu；<b>mixed</b> 才按规格分资源名</p>
+  </div>
+</div>
+
+<div class="dra wob box">
+  <div class="lab hd">DRA：下一代分配方式</div>
+  <div class="dg">
+<pre>apiVersion: resource.k8s.io/v1
+kind: ResourceClaimTemplate
+spec:
+  spec:
+    devices:
+      requests:
+      - name: gpu
+        exactly:
+          deviceClassName: gpu.nvidia.com</pre>
+    <div class="dp">
+      <p><b>K8s 1.34 起 GA</b>，API 是 <code>resource.k8s.io/v1</code>，请求写在 <code>exactly</code> 下</p>
+      <p>NVIDIA DRA 驱动分两块：<b class="g">ComputeDomain</b>（多节点 NVLink）已支持；<b class="r">GPU 分配</b>还没正式支持，Helm 默认关</p>
+      <p>GPU Operator 里 DRA 是实验功能，<b>和 ClusterPolicy 不能同时用</b></p>
+    </div>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="8" y="12" width="32" height="24" rx="3"/><path d="M20 12v24M28 12v24"/></svg><p>时间片不隔离显存，<br>生产混部用 MIG</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M8 24h24M24 14l10 10-10 10M40 10v28"/></svg><p>切 MIG 之前，<br>先排空节点</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M6 38 18 24l8 8 16-18"/></svg><p>共享后报的卡数是虚的，<br>容量规划看物理卡</p></div>
+  </div>
+</div>

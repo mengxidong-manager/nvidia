@@ -1,0 +1,11 @@
+{
+  "day": "17",
+  "title": "Time-Slicing / MIG / DRA",
+  "subtitle": "一张 GPU 怎么分给多个任务，隔离程度差很多",
+  "source": "参考：K8s GPU 调度与部署指南 · NVIDIA device plugin / MIG Manager / DRA Driver · K8s DRA 文档",
+  "caption": "AIDC 每日一图 · Day 17｜Time-Slicing / MIG / DRA ✂️\n\n时间片：轮流用整卡，显存和故障都不隔离\nMPS：多进程同时跑，显存按份限额\nMIG：硬件切最多 7 份，真隔离\nDRA：K8s 1.34 GA 的新分配框架；NVIDIA 驱动的 GPU 分配还没正式支持\n\n生产多租户用 MIG，开发和小推理用时间片\n\n收藏备用 👇\n#Kubernetes #GPU #MIG #AIDC",
+  "xhs": {
+    "title": "一张GPU怎么分？时间片/MIG/DRA",
+    "body": "AIDC 每日一图 · Day 17\n\n一张 GPU 想给多个任务用，K8s 上有四种分法，隔离程度差很多：\n\n🟠 时间片 Time-Slicing\n多个 Pod 轮流用整卡，1 卡报成 N 份 nvidia.com/gpu\n显存、故障都不隔离，一个崩大家受影响\n适合开发、Notebook、小推理\n\n🟣 MPS\n多个进程同时跑，显存按份限额\n故障隔离有限，适合多个小推理并发\n\n🟢 MIG\n硬件切成最多 7 份，各有独立算力和显存，真隔离\n资源名 single 模式是 nvidia.com/gpu，mixed 模式是 nvidia.com/mig-1g.10gb\n切法：给节点打标签 nvidia.com/mig.config=all-1g.10gb，MIG Manager 自动切\n\n🔵 DRA\nK8s 1.34 起 GA，用 ResourceClaim 按属性申请设备\nNVIDIA DRA 驱动：ComputeDomain（多节点 NVLink）已正式支持，GPU 分配还没正式支持\n\n避坑：\n· 时间片的 ConfigMap 要在 ClusterPolicy 里引用才生效\n· 切 MIG 前先排空节点\n· 共享后报的卡数是虚的，容量规划看物理卡\n\n收藏备用 👇\n\n#Kubernetes #GPU #英伟达 #智算中心 #AI基础设施 #运维"
+  }
+}
