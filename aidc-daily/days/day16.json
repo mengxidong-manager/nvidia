@@ -1,0 +1,11 @@
+{
+  "day": "16",
+  "title": "GPU 调用链",
+  "subtitle": "从 kubectl apply 到容器里跑 CUDA，经过七跳",
+  "source": "参考：K8s GPU 调度与部署指南 · K8s Device Plugin 文档 · NVIDIA Container Toolkit · GPU Operator 源码",
+  "caption": "AIDC 每日一图 · Day 16｜GPU 调用链 🔗\n\nPod 写 limits: nvidia.com/gpu → Scheduler 按整数挑节点 → kubelet 调 Allocate 定卡 → Device Plugin 返回 CDI 设备名 → containerd → NVIDIA Runtime 挂 /dev/nvidia* 和 libcuda → CUDA 程序\n\n镜像带 CUDA runtime，驱动只能来自宿主机\n按报错先定位是哪一跳\n\n收藏备用 👇\n#Kubernetes #GPU #CUDA #AIDC",
+  "xhs": {
+    "title": "K8s里GPU是怎么进到容器的？",
+    "body": "AIDC 每日一图 · Day 16\n\n一个申请了 GPU 的 Pod，从 kubectl apply 到容器里跑 CUDA，要经过七跳：\n\n0️⃣ 注册：Device Plugin 通过 kubelet.sock 注册，上报卡数和健康状态\n1️⃣ API Server：Pod 在 limits 里写 nvidia.com/gpu: 1\n2️⃣ Scheduler：只按整数数空卡选节点，不知道是哪张\n3️⃣ kubelet：建容器前调 Allocate，这时才定卡\n4️⃣ Device Plugin：返回 CDI 设备名（关了 CDI 就给 NVIDIA_VISIBLE_DEVICES）\n5️⃣ containerd：生成 OCI spec，交给 nvidia-container-runtime\n6️⃣ NVIDIA Runtime：挂入 /dev/nvidia*、libcuda.so、nvidia-smi\n7️⃣ CUDA 程序：镜像里的 CUDA runtime → 宿主机驱动 → GPU\n\n报错对号入座：\n· Pending Insufficient nvidia.com/gpu → 第 2 跳\n· Failed to initialize NVML → 第 6 跳\n· CUDA driver version is insufficient → 第 7 跳，镜像 CUDA 比驱动新\n\n记住：镜像带 CUDA runtime，驱动只能来自宿主机\n\n收藏备用 👇\n\n#Kubernetes #GPU #CUDA #智算中心 #AI基础设施 #运维"
+  }
+}

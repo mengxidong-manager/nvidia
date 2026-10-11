@@ -1,0 +1,42 @@
+<div class="pre wob box">
+  <div class="lab hd">第 0 步：先注册</div>
+  <p>Device Plugin 经 <code>/var/lib/kubelet/device-plugins/kubelet.sock</code> 向 kubelet 注册，<b>ListAndWatch</b> 持续上报卡数和健康状态 → 节点 Allocatable 里出现 <code>nvidia.com/gpu: 8</code></p>
+</div>
+
+<div class="ch wob box">
+  <div class="lab hd">一个 GPU Pod 的七跳</div>
+  <div class="hop"><i>1</i><b>API Server</b><p>Pod 在 limits 里写 <code>nvidia.com/gpu: 1</code></p><span class="x">没写 limits，容器里看不到卡</span></div>
+  <div class="hop"><i>2</i><b>Scheduler</b><p>只按<em>整数</em>数节点上的空卡，选节点；不知道是哪一张</p><span class="x">Pending：Insufficient nvidia.com/gpu</span></div>
+  <div class="hop"><i>3</i><b>kubelet</b><p>建容器前调 Device Plugin 的 <em>Allocate</em>，这时才定下用哪张卡</p><span class="x">Plugin 没起来：UnexpectedAdmissionError</span></div>
+  <div class="hop"><i>4</i><b>Device Plugin</b><p>返回选中的卡：默认给 <em>CDI 设备名</em>；关了 CDI 就给环境变量 <code>NVIDIA_VISIBLE_DEVICES=GPU-uuid</code></p><span class="x">给错卡 / 给空：容器里卡数不对</span></div>
+  <div class="hop"><i>5</i><b>containerd</b><p>生成 OCI spec，交给 <em>nvidia-container-runtime</em></p><span class="x">没配 nvidia runtime：容器里没 GPU</span></div>
+  <div class="hop"><i>6</i><b>NVIDIA Runtime</b><p>改 OCI spec：挂入 <code>/dev/nvidia*</code>、<code>libcuda.so</code>、<code>nvidia-smi</code>，再交给 runc</p><span class="x">Failed to initialize NVML</span></div>
+  <div class="hop"><i>7</i><b>CUDA 程序</b><p>镜像里的 CUDA runtime → 宿主机的 libcuda → 内核驱动 → GPU</p><span class="x">CUDA driver version is insufficient</span></div>
+</div>
+
+<div class="g2">
+  <div class="cdi wob box">
+    <div class="lab hd">注入方式：新 vs 旧</div>
+    <div class="m new"><b>CDI（GPU Operator 默认）</b><p>Toolkit 把「这张卡要挂哪些设备和库」写成 spec，放在 <code>/var/run/cdi</code>；Device Plugin 只报设备名，按 spec 注入</p></div>
+    <div class="m old"><b>环境变量 + prestart hook（旧）</b><p>Runtime 读 <code>NVIDIA_VISIBLE_DEVICES</code>，用 prestart hook 调 <code>nvidia-container-cli</code> 挂载</p></div>
+    <p class="warn">CUDA 官方镜像默认 <b>NVIDIA_VISIBLE_DEVICES=all</b>：旧方式下，没申请 GPU 的 Pod 也可能看到全部卡</p>
+  </div>
+  <div class="own wob box">
+    <div class="lab hd">谁带什么</div>
+    <div class="w2">
+      <div class="c img"><b>镜像带</b><p>CUDA runtime（libcudart）</p><p>cuDNN、NCCL、框架</p></div>
+      <div class="c host"><b>宿主机带</b><p>内核驱动模块</p><p>libcuda.so、libnvidia-ml.so</p><p>nvidia-smi</p></div>
+    </div>
+    <p class="tip">驱动只能来自宿主机，由 Runtime 挂进容器。镜像的 CUDA 版本<b>不能比驱动支持的新</b>，否则报 insufficient</p>
+    <p class="tip">容器里跑 nvidia-smi，右上角的 <b>CUDA Version</b> 是宿主机驱动支持的上限，不是镜像里的版本</p>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M10 8h28v8H10zM10 20h28v8H10zM10 32h28v8H10z"/></svg><p>按报错对号入座，<br>先定位是哪一跳</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="8" y="10" width="32" height="28" rx="3"/><path d="M16 20h16M16 28h10"/></svg><p>GPU 一律写在 limits，<br>别靠镜像默认值</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><circle cx="16" cy="24" r="8"/><circle cx="32" cy="24" r="8"/></svg><p>镜像 CUDA 版本<br>对齐宿主机驱动</p></div>
+  </div>
+</div>
