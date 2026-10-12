@@ -1,0 +1,25 @@
+.tb{margin-top:30px;padding:22px 16px 10px}
+.hd2,.row{display:grid;grid-template-columns:86px 1.25fr 1fr 1fr;gap:12px;align-items:center}
+.hd2{font-family:'LXGW WenKai';font-weight:700;font-size:14px;color:var(--mute);padding-bottom:6px;border-bottom:2.4px solid var(--navy)}
+.row{padding:7px 0;border-bottom:2px dashed #d3d9e6}
+.row:last-child{border-bottom:none}
+.ph{font-style:normal;font-family:'LXGW WenKai';font-weight:700;font-size:14px;color:#fff;border-radius:8px;padding:3px 0;text-align:center}
+.p1{background:var(--orange)}.p2{background:#7b4bb7}.p3{background:var(--red)}
+.row p{font-family:'LXGW WenKai';font-size:15px;line-height:1.42;color:#34426a}
+.row b{font-family:'LXGW WenKai Mono','LXGW WenKai',monospace;font-weight:700;font-size:14.5px;color:var(--navy)}
+.row small{font-size:13.5px;color:var(--mute)}
+.row em{font-style:normal;font-weight:700;color:var(--red)}
+code{font-size:13.5px;background:#eef6f9;color:#15627a;border-radius:5px;padding:1px 6px;white-space:nowrap}
+.g2{display:grid;grid-template-columns:1fr 1.15fr;gap:16px;margin-top:30px}
+.bad,.cmd{padding:22px 14px 10px;display:flex;flex-direction:column}
+.bad{border-color:var(--red)}.bad>.lab{color:var(--red)}
+.flow{display:flex;flex-direction:column;align-items:stretch}
+.flow .s{border:2px solid #f3c3d0;background:#fff4f7;border-radius:10px;padding:6px 12px;font-family:'LXGW WenKai';font-size:15px;color:#34426a;text-align:center}
+.flow .s small{display:block;font-size:13.5px;color:var(--mute)}
+.flow .s b{color:var(--red)}
+.flow .ar{text-align:center;color:var(--red);font-weight:700;line-height:1.2}
+.log{margin-top:10px;background:#1d2b4f;color:#ffb3c6;border-radius:8px;padding:7px 10px;font-family:'LXGW WenKai Mono',monospace;font-size:13px;line-height:1.4}
+.nt{margin-top:auto;padding-top:8px;font-family:'LXGW WenKai';font-size:14.5px;color:#34426a}
+.cmd{border-color:var(--teal);gap:3px}.cmd>.lab{color:var(--teal)}
+.cmd code{display:block;background:#1d2b4f;color:#e9eefb;border-radius:7px;padding:4px 10px;font-size:13.5px;margin-top:5px;white-space:nowrap;overflow:hidden}
+.cmd p{font-family:'LXGW WenKai';font-size:14.5px;color:#34426a;padding-left:4px}

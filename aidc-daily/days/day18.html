@@ -1,0 +1,43 @@
+<div class="tb wob box">
+  <div class="lab hd">按 Pod 卡在哪一步来查</div>
+  <div class="hd2"><span>阶段</span><span>症状 / 报错</span><span>先看</span><span>处理</span></div>
+  <div class="row"><i class="ph p1">Pending</i><p><b>Insufficient nvidia.com/gpu</b></p><p><code>describe node</code> 比 Allocatable 和 Allocated</p><p>空卡不够、卡被标坏、选错了节点</p></div>
+  <div class="row"><i class="ph p1">Pending</i><p><b>didn't match node selector / untolerated taint</b></p><p><code>describe pod</code> 的 Events</p><p>对上 GPU 节点的标签和污点，补 tolerations</p></div>
+  <div class="row"><i class="ph p2">创建中</i><p><b>UnexpectedAdmissionError</b></p><p>gpu-operator 里 Device Plugin 是否 Running</p><p>Plugin 恢复后<em>删掉重建</em> Pod</p></div>
+  <div class="row"><i class="ph p2">创建中</i><p><b>unresolvable CDI devices</b></p><p>节点上 <code>/var/run/cdi</code> 有没有 spec</p><p>重启 toolkit Pod 重新生成</p></div>
+  <div class="row"><i class="ph p3">运行中</i><p><b>Failed to initialize NVML: Unknown Error</b><br><small>跑了一阵才出现</small></p><p>节点是否刚做过 <code>systemctl daemon-reload</code></p><p>重建 Pod；长期用 CDI 避免</p></div>
+  <div class="row"><i class="ph p3">运行中</i><p><b>CUDA driver version is insufficient</b></p><p>镜像 CUDA 版本 vs nvidia-smi 右上角</p><p>换匹配的镜像，或升级驱动</p></div>
+  <div class="row"><i class="ph p3">运行中</i><p><b>device_count() 返回 0</b></p><p>Pod 的 limits；容器里 <code>env | grep NVIDIA</code></p><p>在 limits 里补上 nvidia.com/gpu</p></div>
+</div>
+
+<div class="g2">
+  <div class="bad wob box">
+    <div class="lab hd">节点上的卡变少了？</div>
+    <div class="flow">
+      <div class="s">GPU 报严重 XID<small>如 79 掉卡、48 双比特 ECC</small></div>
+      <div class="ar">↓</div>
+      <div class="s">Device Plugin 把这张卡标成 unhealthy</div>
+      <div class="ar">↓</div>
+      <div class="s"><b>Allocatable 减少</b>，Capacity 不变</div>
+    </div>
+    <div class="log">XidCriticalError: Xid=79 on Device=GPU-… ; marking device as unhealthy.</div>
+    <p class="nt">看到这行就回到 Day 01 / 02 的 XID、ECC 处理流程</p>
+  </div>
+  <div class="cmd wob box">
+    <div class="lab hd">五条命令走一遍</div>
+    <code>kubectl describe pod &lt;pod&gt;</code><p>先看 Events，卡在哪一步</p>
+    <code>kubectl describe node &lt;node&gt;</code><p>Allocatable / Allocated 里的 nvidia.com/gpu</p>
+    <code>kubectl get pods -n gpu-operator</code><p>Operator 组件有没有不 Running 的</p>
+    <code>kubectl logs -n gpu-operator ds/nvidia-device-plugin-daemonset</code><p>搜 unhealthy、XID</p>
+    <code>kubectl exec -it &lt;pod&gt; -- nvidia-smi</code><p>容器里能不能看到卡</p>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M8 12h32M8 24h32M8 36h20"/></svg><p>先看 Events，<br>定位卡在哪个阶段</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M24 6v14M14 12a15 15 0 1 0 20 0"/></svg><p>Plugin 修好后，<br>出错的 Pod 要重建</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="8" y="10" width="32" height="22" rx="3"/><path d="M14 38h20M24 32v6"/></svg><p>卡变少先查 XID，<br>别只重启 Plugin</p></div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+{
+  "day": "18",
+  "title": "GPU Pod 排障",
+  "subtitle": "先看 Pod 卡在哪个阶段，再对症下药",
+  "source": "参考：GPU 集群故障排查手册 · NVIDIA k8s-device-plugin 源码 · Container Toolkit",
+  "caption": "AIDC 每日一图 · Day 18｜GPU Pod 排障 🩺\n\nPending：Insufficient nvidia.com/gpu → 比 Allocatable 和 Allocated\n创建中：UnexpectedAdmissionError → Device Plugin 修好后要重建 Pod\n运行中：NVML Unknown Error、CUDA driver insufficient、device_count=0\n\n卡变少了？严重 XID 会让 Device Plugin 把卡标成 unhealthy\n\n收藏备用 👇\n#Kubernetes #GPU #AIInfra #AIDC",
+  "xhs": {
+    "title": "GPU Pod起不来？按阶段查",
+    "body": "AIDC 每日一图 · Day 18\n\nGPU Pod 出问题，先 kubectl describe pod 看 Events，判断卡在哪个阶段：\n\n🟠 Pending\n· Insufficient nvidia.com/gpu：describe node 比 Allocatable 和 Allocated，空卡不够或卡被标坏\n· 节点选择器 / 污点不匹配：补 tolerations\n\n🟣 创建中\n· UnexpectedAdmissionError：Device Plugin 没起来，修好后要删掉重建 Pod\n· unresolvable CDI devices：/var/run/cdi 缺 spec，重启 toolkit Pod\n\n🔴 运行中\n· Failed to initialize NVML: Unknown Error：常见于节点 daemon-reload 后，重建 Pod，长期用 CDI\n· CUDA driver version is insufficient：镜像 CUDA 比驱动新\n· device_count 为 0：limits 里没写 nvidia.com/gpu\n\n节点上卡变少了？\nGPU 报严重 XID（如 79、48），Device Plugin 会把卡标成 unhealthy，Allocatable 减少，日志里搜 marking device as unhealthy\n\n收藏备用 👇\n\n#Kubernetes #GPU #英伟达 #智算中心 #AI基础设施 #运维"
+  }
+}
