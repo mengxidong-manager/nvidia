@@ -1,0 +1,11 @@
+{
+  "day": "19",
+  "title": "DCGM 告警阈值",
+  "subtitle": "分三档设告警，先确认指标真的有数据",
+  "source": "参考：Prometheus + Grafana 监控部署指南 · NVIDIA dcgm-exporter 默认指标清单 · GPU Operator 源码",
+  "caption": "AIDC 每日一图 · Day 19｜DCGM 告警阈值 🚨\n\nP0：新 XID、行重映射失败、节点卡数变少\nP1：不可纠正行新增、温度逼近 Slowdown\nP2：PCIe 重传上涨、卡分出去长期空闲\n\n坑：GPU Operator 默认不采 ECC 计数，基于 ECC_DBE 的告警永远不响\nXID 指标是最后一次的值，要用 changes()\n\n收藏备用 👇\n#GPU #DCGM #Prometheus #AIDC",
+  "xhs": {
+    "title": "GPU告警写了却不响？4个坑",
+    "body": "AIDC 每日一图 · Day 19\n\nGPU 告警按级别分三档：\n\n🔴 P0 立即处理\n· changes(DCGM_FI_DEV_XID_ERRORS[5m]) > 0：出现新 XID\n· DCGM_FI_DEV_ROW_REMAP_FAILURE == 1：行重映射失败，换卡\n· 节点上报的卡数变少：掉卡\n\n🟠 P1 当天处理\n· 不可纠正行重映射新增：排期重启\n· 温度逼近 Slowdown Temp：阈值按型号定\n\n🟡 P2 盯趋势\n· PCIe 重传在涨：查插槽和 Riser\n· 卡分出去长期空闲：回收资源\n\n四个坑，规则写了却不响：\n① GPU Operator 默认指标里 ECC 计数是注释掉的，基于 ECC_DBE_VOL_TOTAL 的告警永远不会响\n② XID_ERRORS 是最后一次的值，不是次数，写 > 0 会一直响\n③ 掉卡时指标直接消失，阈值告警不会触发\n④ GPU_UTIL 高不代表算力用满\n\n解法：自定义指标 CSV 做成 ConfigMap，在 ClusterPolicy 的 dcgmExporter.config.name 里引用；写规则前先在 Prometheus 里查有没有数据\n\n收藏备用 👇\n\n#GPU #英伟达 #Prometheus #智算中心 #AI基础设施 #运维"
+  }
+}

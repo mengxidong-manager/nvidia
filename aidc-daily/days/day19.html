@@ -1,0 +1,50 @@
+<div class="lv wob box">
+  <div class="lab hd">按级别分三档</div>
+  <div class="lg red">
+    <div class="tag">P0 立即处理</div>
+    <div class="it"><code>changes(DCGM_FI_DEV_XID_ERRORS[5m]) &gt; 0</code><p>出现新 XID；再按值分级：48 / 79 / 95 直接隔离</p></div>
+    <div class="it"><code>DCGM_FI_DEV_ROW_REMAP_FAILURE == 1</code><p>行重映射失败，备用行耗尽 → 换卡</p></div>
+    <div class="it"><code>count by (Hostname)(DCGM_FI_DEV_GPU_TEMP) &lt; 8</code><p>节点上报的卡少了 → 掉卡</p></div>
+  </div>
+  <div class="lg org">
+    <div class="tag">P1 当天处理</div>
+    <div class="it"><code>increase(DCGM_FI_DEV_UNCORRECTABLE_REMAPPED_ROWS[1h]) &gt; 0</code><p>有新的不可纠正行被重映射 → 排期重启完成 remap</p></div>
+    <div class="it"><code>DCGM_FI_DEV_GPU_TEMP &gt; 阈值，for 5m</code><p>阈值按型号定：低于 Slowdown Temp 留余量</p></div>
+  </div>
+  <div class="lg amb">
+    <div class="tag">P2 盯趋势</div>
+    <div class="it"><code>increase(DCGM_FI_DEV_PCIE_REPLAY_COUNTER[1h]) &gt; 0</code><p>PCIe 重传在涨 → 查插槽、Riser、线缆</p></div>
+    <div class="it"><code>avg_over_time(DCGM_FI_DEV_GPU_UTIL[1h]) &lt; 10</code><p>卡分出去却长期空闲 → 回收资源</p></div>
+  </div>
+</div>
+
+<div class="trap wob box">
+  <div class="lab hd">四个坑：规则写了却不响</div>
+  <div class="tg">
+    <div class="t"><b>① ECC 计数默认不采</b><p>GPU Operator 用 <code>dcp-metrics-included.csv</code>，ECC、NVLink 错误、限频时长都被注释掉。基于 <em>ECC_DBE_VOL_TOTAL</em> 的告警<em>永远不会响</em></p></div>
+    <div class="t"><b>② XID 是「最后一次的值」</b><p><em>DCGM_FI_DEV_XID_ERRORS</em> 是 gauge，不是次数。写 <code>&gt; 0</code> 会一直响，要用 <code>changes()</code> 抓新的</p></div>
+    <div class="t"><b>③ 掉卡时指标直接消失</b><p>卡掉了就没有数据，温度、利用率阈值都不会触发。要单独告警「卡数变少」</p></div>
+    <div class="t"><b>④ 利用率高 ≠ 算力用满</b><p>GPU_UTIL 只看有没有 kernel 在跑；看真实负载用 <em>PROF_PIPE_TENSOR_ACTIVE</em></p></div>
+  </div>
+</div>
+
+<div class="cfg wob box">
+  <div class="lab hd">把缺的指标打开</div>
+  <div class="cg">
+    <ol>
+      <li>拷一份 <code>dcp-metrics-included.csv</code>，去掉 ECC、NVLink 错误、限频那几行的 <b>#</b></li>
+      <li>做成 ConfigMap 放进 gpu-operator 命名空间</li>
+      <li>ClusterPolicy 里 <code>dcgmExporter.config.name</code> 指向它</li>
+    </ol>
+    <div class="ck"><b>上线前自测</b><p>到 Prometheus 里查一下指标名，<em>有数据</em>再写规则；能人为触发的告警，演练一次</p></div>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><circle cx="20" cy="20" r="12"/><path d="m29 29 12 12"/></svg><p>写规则前先查，<br>指标真的有数据</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M8 34h32M14 34V20M24 34V12M34 34V24"/></svg><p>计数类用 increase，<br>XID 用 changes</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="8" y="10" width="32" height="22" rx="3"/><path d="M18 18l12 8M30 18l-12 8"/></svg><p>卡数变少<br>本身就是告警</p></div>
+  </div>
+</div>
