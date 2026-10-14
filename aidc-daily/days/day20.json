@@ -1,0 +1,11 @@
+{
+  "day": "20",
+  "title": "etcd 空间超限",
+  "subtitle": "database space exceeded：K8s 突然写不进去了",
+  "source": "参考：etcd 排查手册 · etcd Maintenance 文档与源码 · kube-apiserver 源码",
+  "caption": "AIDC 每日一图 · Day 20｜etcd 空间超限 💾\n\n超过配额（默认 2GB）→ NOSPACE 告警 → 只能读和删，K8s 写不进\n\n抢救：alarm list → compact → defrag（一次一台，Leader 最后）→ alarm disarm\ncompact 只删历史，defrag 才缩文件\n\n告警按占配额比例写，别写死绝对值\n\n收藏备用 👇\n#Kubernetes #etcd #SRE #AIDC",
+  "xhs": {
+    "title": "K8s突然写不进？etcd满了",
+    "body": "AIDC 每日一图 · Day 20\n\n报错 etcdserver: mvcc: database space exceeded，就是 etcd 超过空间配额了：\n全集群触发 NOSPACE 告警，只能读和删，Pod 建不了、ConfigMap 改不了\n\n先分清两个动作：\n· compact：只删旧版本历史，空间留在文件里复用\n· defrag：才把文件真正缩小；期间该成员读写阻塞\n\n抢救五步：\n1️⃣ etcdctl alarm list 确认 NOSPACE\n2️⃣ etcdctl compact 当前 revision\n3️⃣ etcdctl defrag 一次一台，Leader 放最后\n4️⃣ etcdctl alarm disarm\n5️⃣ endpoint status 看 DB SIZE 降没降\n\n先找谁撑大的：按 /registry 下的资源类型数 key，常见是 Event 堆积、海量 Job、大 ConfigMap、CRD 失控\n\n预防：\n· 告警按比例：db_total_size / quota_backend_bytes > 0.8\n· 默认配额 2GB，官方建议上限 8GB\n· 动手前先 snapshot save\n\n收藏备用 👇\n\n#Kubernetes #etcd #云原生 #智算中心 #运维"
+  }
+}

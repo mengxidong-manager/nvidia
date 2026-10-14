@@ -1,0 +1,54 @@
+<div class="what wob box">
+  <div class="lab hd">超限后会发生什么</div>
+  <div class="bar">
+    <div class="b use">实际数据（in use）</div><div class="b frag">碎片：删掉的空间，文件没缩</div><div class="b free">剩余</div>
+    <div class="q">配额：默认 2GB</div>
+  </div>
+  <div class="chain">
+    <span>DB 文件超过配额</span><i>→</i><span>全集群 <b>NOSPACE</b> 告警</span><i>→</i><span>只能读和删</span><i>→</i><span class="r">K8s 写不进：Pod 建不了、ConfigMap 改不了</span>
+  </div>
+  <div class="err">etcdserver: mvcc: database space exceeded</div>
+  <div class="two">
+    <p><b>compact</b> 只删旧版本历史，空出来的地方留在文件里给 etcd 复用</p>
+    <p><b>defrag</b> 才把文件真正缩小、还给磁盘；期间这个成员<em>读写都会阻塞</em></p>
+  </div>
+</div>
+
+<div class="g2">
+  <div class="fix wob box">
+    <div class="lab hd">抢救五步</div>
+    <div class="st"><i>1</i><div><code>etcdctl alarm list</code><p>看到 alarm:NOSPACE 就是超限了</p></div></div>
+    <div class="st"><i>2</i><div><code>etcdctl compact $rev</code><p>$rev 取 endpoint status 里的当前 revision</p></div></div>
+    <div class="st"><i>3</i><div><code>etcdctl defrag --endpoints=&lt;单个成员&gt;</code><p>一次一台，<em>Leader 放最后</em></p></div></div>
+    <div class="st"><i>4</i><div><code>etcdctl alarm disarm</code><p>空间腾出来以后再解除</p></div></div>
+    <div class="st"><i>5</i><div><code>etcdctl endpoint status -w table</code><p>DB SIZE 降下来，试写一个 key</p></div></div>
+  </div>
+  <div class="why wob box">
+    <div class="lab hd">先找是谁撑大的</div>
+<pre>etcdctl get /registry --prefix --keys-only \
+ | awk -F/ 'NF&gt;2{print $3}' \
+ | sort | uniq -c | sort -rn | head</pre>
+    <p class="d">按资源类型数 key，排前面的就是嫌疑人</p>
+    <div class="sus"><span>Event 堆积</span><span>海量 Job / Pod</span><span>大 ConfigMap、Secret</span><span>CRD 对象失控</span></div>
+    <p class="tp">Event 默认只留 <b>1 小时</b>（<code>--event-ttl</code>）：Event 还能堆满，说明有组件在疯狂刷事件，先找它</p>
+    <p class="nt">kube-apiserver 默认<b>每 5 分钟</b>压缩一次历史，K8s 集群里的 etcd 撑满，多半是<b>真数据多了</b>或<b>碎片没整理</b></p>
+  </div>
+</div>
+
+<div class="pv wob box">
+  <div class="lab hd">预防：告警按比例，不按绝对值</div>
+  <div class="pg">
+    <div class="c"><b>容量告警</b><code>etcd_mvcc_db_total_size_in_bytes<br>/ etcd_server_quota_backend_bytes<br>&gt; 0.8</code></div>
+    <div class="c"><b>碎片告警</b><code>1 - etcd_mvcc_db_total_size_in_use_in_bytes<br>/ etcd_mvcc_db_total_size_in_bytes<br>&gt; 0.5</code></div>
+    <div class="c"><b>调配额</b><p>默认 2GB，官方<em>建议</em>上限 8GB，再大影响性能；所有成员一起改，逐台重启</p></div>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M8 38h32M12 38V26M22 38V16M32 38V8"/></svg><p>告警看占配额的比例，<br>别写死绝对值</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><circle cx="14" cy="24" r="5"/><circle cx="24" cy="24" r="5"/><circle cx="34" cy="24" r="5"/></svg><p>defrag 一次一台，<br>Leader 最后</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M10 6h20l8 8v28H10z"/><path d="M18 28l4 4 8-9"/></svg><p>动手前先<br>snapshot save 备份</p></div>
+  </div>
+</div>
