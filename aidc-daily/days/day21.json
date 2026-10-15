@@ -1,0 +1,11 @@
+{
+  "day": "21",
+  "title": "K8s HA 架构",
+  "subtitle": "每一层怎么扛住单点故障，挂一台会怎样",
+  "source": "参考：K8s HA 集群部署指南 · K8s 官方 HA 拓扑文档 · component-base 源码",
+  "caption": "AIDC 每日一图 · Day 21｜K8s HA 架构 🏗️\n\nLB：Keepalived 漂 VIP，HAProxy 剔除坏的 apiserver\napiserver：无状态，三台同时干活\nscheduler / cm：Lease 选主，Leader 挂了约 15 秒接管\netcd：多数派，3 台挂 1 照常，挂 2 写不进\n\n演练坑：只停 kubelet 不等于 Master 挂了\n\n收藏备用 👇\n#Kubernetes #HA #SRE #AIDC",
+  "xhs": {
+    "title": "K8s高可用，每层挂一台会怎样",
+    "body": "AIDC 每日一图 · Day 21\n\n生产 K8s 控制面高可用，按层看：\n\n🟠 LB：Keepalived 用 VRRP 漂 VIP，HAProxy 健康检查剔除坏的 apiserver → 挂一台秒级恢复\n🔵 apiserver：无状态，三台同时干活 → 挂一台基本无感\n🔵 scheduler / controller-manager：三台都在跑，只有 Leader 干活，靠 Lease 选主，默认租期 15 秒 → Leader 挂了约 15 秒接管\n🟢 etcd：Raft 多数派，3 台容忍 1 台 → 挂 2 台全集群写不进\n\n两种拓扑：\n· Stacked（kubeadm 默认）：etcd 和 Master 同机，3 台起步\n· External etcd：etcd 单独 3 台，6 台起步，更稳\n\n演练避坑：\n只停 kubelet 不等于 Master 挂了！apiserver 是静态 Pod，kubelet 停了容器照样跑。要真关机，或把 manifests 里的 kube-apiserver.yaml 移走\n\n看谁是 Leader：kubectl get lease -n kube-system\n\n收藏备用 👇\n\n#Kubernetes #高可用 #云原生 #智算中心 #运维"
+  }
+}

@@ -1,0 +1,30 @@
+.arch{margin-top:30px;padding:22px 16px 10px}
+.dia{width:100%;height:auto;display:block}
+.dia .t{font-family:'Kalam';font-weight:700;font-size:19px;fill:#1d2b4f}
+.dia .h{font-family:'Kalam';font-weight:700;font-size:20px}
+.dia .s{font-family:'LXGW WenKai';font-size:15px;fill:#5b6682}
+.dia .w{font-family:'Kalam';font-weight:700;font-size:20px;fill:#fff}
+.cap{text-align:center;font-family:'LXGW WenKai';font-size:15px;color:#34426a;margin-top:2px}
+.cap b{color:#c26400}
+.ly{margin-top:30px;padding:22px 16px 10px}
+.hd2,.row{display:grid;grid-template-columns:150px 1.4fr 1fr;gap:12px;align-items:center}
+.hd2{font-family:'LXGW WenKai';font-weight:700;font-size:14px;color:var(--mute);padding-bottom:6px;border-bottom:2.4px solid var(--navy)}
+.row{padding:7px 0;border-bottom:2px dashed #d3d9e6}
+.row:last-child{border-bottom:none}
+.row b{font-family:'Kalam';font-weight:700;font-size:18px;color:var(--navy)}
+.row p{font-family:'LXGW WenKai';font-size:15px;line-height:1.45;color:#34426a}
+.row em{font-style:normal;font-weight:700;color:#c26400}
+.row p.ok{color:#2f9e6a;font-weight:700}
+.row p.bad{color:var(--red);font-weight:700}.row p.bad em{color:var(--red)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+.tp,.dr{padding:22px 14px 10px;display:flex;flex-direction:column;gap:8px}
+.t{border:2px solid #b9c7ea;border-radius:10px 7px 10px 8px;padding:7px 12px}
+.t b{font-family:'LXGW WenKai';font-weight:700;font-size:16px;color:var(--teal)}
+.t p{font-family:'LXGW WenKai';font-size:14.5px;line-height:1.45;color:#34426a;margin-top:2px}
+.t em{font-style:normal;font-weight:700;color:#c26400}
+.dr{border-color:var(--red)}.dr>.lab{color:var(--red)}
+.dr p{font-family:'LXGW WenKai';font-size:15px;line-height:1.5;color:#34426a}
+.dr p.w{background:#fff4f7;border-radius:10px;padding:7px 10px}
+.dr p.w b{color:var(--red)}
+code{font-family:'LXGW WenKai Mono',monospace;font-size:13px;background:#eef6f9;color:#15627a;border-radius:5px;padding:1px 5px;word-break:break-all}
+.dr code.blk{display:block;background:#1d2b4f;color:#e9eefb;padding:5px 10px;border-radius:8px;font-size:13px}

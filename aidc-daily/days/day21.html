@@ -1,0 +1,58 @@
+<div class="arch wob box">
+  <div class="lab hd">一张图：请求怎么走</div>
+  <svg class="dia" viewBox="0 30 1000 240" xmlns="http://www.w3.org/2000/svg">
+    <rect x="20" y="118" width="130" height="64" rx="12" fill="#eef3fb" stroke="#1d2b4f" stroke-width="2.4"/><text x="85" y="145" class="t" text-anchor="middle">kubectl</text><text x="85" y="168" class="t" text-anchor="middle">kubelet</text>
+    <path d="M150 150 H205" stroke="#1d2b4f" stroke-width="2.6" marker-end="url(#a)"/>
+    <rect x="210" y="40" width="170" height="220" rx="14" fill="#fff6ec" stroke="#f08a24" stroke-width="2.6" stroke-dasharray="7 5"/>
+    <text x="295" y="68" class="h" text-anchor="middle" fill="#c26400">VIP :6443</text>
+    <rect x="232" y="88" width="126" height="56" rx="10" fill="#fff" stroke="#f08a24" stroke-width="2.4"/><text x="295" y="112" class="t" text-anchor="middle">HAProxy</text><text x="295" y="133" class="s" text-anchor="middle">主 · 持有 VIP</text>
+    <rect x="232" y="164" width="126" height="56" rx="10" fill="#fff" stroke="#f08a24" stroke-width="2.4" stroke-dasharray="5 4"/><text x="295" y="188" class="t" text-anchor="middle">HAProxy</text><text x="295" y="209" class="s" text-anchor="middle">备 · VRRP 接管</text>
+    <text x="295" y="246" class="s" text-anchor="middle">Keepalived 漂 VIP</text>
+    <path d="M380 150 L445 70 M380 150 L445 150 M380 150 L445 230" stroke="#1d2b4f" stroke-width="2.4" fill="none"/>
+    <g>
+      <rect x="450" y="40" width="250" height="60" rx="10" fill="#fff" stroke="#1797b8" stroke-width="2.6"/><text x="462" y="64" class="t">Master 1</text><text x="462" y="86" class="s">apiserver ✓ · sched ★ · cm</text>
+      <rect x="450" y="120" width="250" height="60" rx="10" fill="#fff" stroke="#1797b8" stroke-width="2.6"/><text x="462" y="144" class="t">Master 2</text><text x="462" y="166" class="s">apiserver ✓ · sched · cm ★</text>
+      <rect x="450" y="200" width="250" height="60" rx="10" fill="#fff" stroke="#1797b8" stroke-width="2.6"/><text x="462" y="224" class="t">Master 3</text><text x="462" y="246" class="s">apiserver ✓ · sched · cm</text>
+    </g>
+    <path d="M700 150 H760" stroke="#1d2b4f" stroke-width="2.6" marker-end="url(#a)"/>
+    <rect x="765" y="40" width="215" height="220" rx="14" fill="#f1faf5" stroke="#2f9e6a" stroke-width="2.6"/>
+    <text x="872" y="68" class="h" text-anchor="middle" fill="#2f9e6a">etcd · Raft</text>
+    <circle cx="820" cy="120" r="26" fill="#2f9e6a"/><text x="820" y="126" class="w" text-anchor="middle">L</text>
+    <circle cx="925" cy="120" r="26" fill="#7cc8a3"/><circle cx="872" cy="195" r="26" fill="#7cc8a3"/>
+    <text x="872" y="246" class="s" text-anchor="middle">多数派写入才算成功</text>
+    <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#1d2b4f"/></marker></defs>
+  </svg>
+  <p class="cap">apiserver 三台<b>同时干活</b>；scheduler、controller-manager 三台都在跑，但只有 <b>★ Leader</b> 真正干活</p>
+</div>
+
+<div class="ly wob box">
+  <div class="lab hd">每一层怎么高可用，挂一台会怎样</div>
+  <div class="hd2"><span>层</span><span>机制</span><span>挂一台</span></div>
+  <div class="row"><b>LB</b><p>Keepalived 用 VRRP 漂 VIP；HAProxy 健康检查剔除坏的 apiserver</p><p class="ok">VIP 漂到备机，秒级恢复</p></div>
+  <div class="row"><b>apiserver</b><p>无状态，多台同时提供服务</p><p class="ok">LB 剔除，基本无感</p></div>
+  <div class="row"><b>scheduler / cm</b><p>主备：抢 kube-system 里的 Lease，默认租期 <em>15 秒</em></p><p class="ok">Leader 挂了，约 15 秒内另一台接管</p></div>
+  <div class="row"><b>etcd</b><p>Raft 多数派：N 台容忍 <em>(N−1)/2</em> 台故障</p><p class="bad">3 台挂 1 照常；挂 2 失去多数派，<em>全集群写不进</em></p></div>
+</div>
+
+<div class="g2">
+  <div class="tp wob box">
+    <div class="lab hd">两种拓扑</div>
+    <div class="t"><b>Stacked（kubeadm 默认）</b><p>etcd 和 Master 同机，<em>3 台</em>起步；省机器，但挂一台同时丢一个 apiserver 和一个 etcd 成员</p></div>
+    <div class="t"><b>External etcd</b><p>etcd 单独 3 台，Master 再 3 台，<em>6 台</em>起步；两层故障互不牵连，生产大集群更稳</p></div>
+  </div>
+  <div class="dr wob box">
+    <div class="lab hd">演练别演假了</div>
+    <p class="w"><b>只停 kubelet ≠ Master 挂了。</b>apiserver 是静态 Pod，kubelet 停了容器照样在跑</p>
+    <p>真演练：直接关机，或把静态 Pod 清单移走：</p><code class="blk">mv /etc/kubernetes/manifests/kube-apiserver.yaml /tmp/</code>
+    <p>看谁是 Leader：<code>kubectl get lease -n kube-system</code> 的 HOLDER 列</p>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><circle cx="12" cy="30" r="6"/><circle cx="24" cy="18" r="6"/><circle cx="36" cy="30" r="6"/></svg><p>etcd 奇数台：<br>3 或 5，不要 4</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M24 6v14M14 12a15 15 0 1 0 20 0"/></svg><p>故障演练要真关机，<br>别只停 kubelet</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M8 24h32M24 8l16 16-16 16"/></svg><p>controlPlaneEndpoint<br>一开始就写 VIP 或域名</p></div>
+  </div>
+</div>
