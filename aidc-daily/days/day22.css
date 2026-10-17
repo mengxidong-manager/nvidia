@@ -1,0 +1,26 @@
+.lad{margin-top:30px;padding:22px 16px 10px}
+.hd2,.st{display:grid;grid-template-columns:190px 160px 1fr 230px;gap:12px;align-items:center}
+.hd2{font-family:'LXGW WenKai';font-weight:700;font-size:14px;color:var(--mute);padding-bottom:6px;border-bottom:2.4px solid var(--navy)}
+.st{padding:8px 0;border-bottom:2px dashed #d3d9e6}
+.st:last-child{border-bottom:none}
+.v{font-style:normal;font-family:'Kalam';font-weight:700;font-size:17px;color:#fff;border-radius:10px;padding:5px 8px;text-align:center;white-space:nowrap}
+.v1{background:#1d2b4f}.v2{background:#2c4a7a}.v3{background:#1797b8}.v4{background:#2f9e6a}.v5{background:#f08a24}.v6{background:#e2315f}
+.st b{font-family:'LXGW WenKai';font-weight:700;font-size:16px;color:var(--navy)}
+.st p{font-family:'LXGW WenKai';font-size:15px;line-height:1.45;color:#34426a}
+.st p.w{font-size:14.5px;color:#c26400;background:#fff6ec;border-radius:8px;padding:4px 10px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+.why,.trd{padding:22px 14px 12px;display:flex;flex-direction:column;gap:8px}
+.why{border-color:var(--teal)}.why>.lab{color:var(--teal)}
+.eq{font-family:'Kalam';font-weight:700;font-size:30px;text-align:center;color:var(--navy)}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cmp .c{border:2px solid #f3c3d0;background:#fff4f7;border-radius:10px;padding:6px 10px;text-align:center}
+.cmp .c.ok{border-color:#9ed5bb;background:#f1faf5}
+.cmp b{display:block;font-family:'LXGW WenKai';font-weight:700;font-size:14.5px;color:#34426a}
+.cmp span{font-family:'Kalam';font-weight:700;font-size:24px;color:var(--red)}
+.cmp .ok span{color:#2f9e6a}
+.why p,.trd p{font-family:'LXGW WenKai';font-size:15px;line-height:1.5;color:#34426a}
+.trd{border-color:var(--orange)}.trd>.lab{color:#c26400}
+.trd p{border-left:3px solid #f5c08a;padding-left:10px}
+.trd b{color:#c26400}
+.trd .tip{margin-top:auto;font-family:'LXGW WenKai';font-size:15px;line-height:1.5;color:#34426a;background:#fff6ec;border:2px dashed #f5c08a;border-radius:10px;padding:8px 12px}
+.trd .tip b{color:#c26400}

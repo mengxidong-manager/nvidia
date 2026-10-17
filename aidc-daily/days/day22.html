@@ -1,0 +1,38 @@
+<div class="lad wob box">
+  <div class="lab hd">一路降压：电压越来越低，电流越来越大</div>
+  <div class="hd2"><span>电压</span><span>在哪儿</span><span>做什么</span><span>运维盯什么</span></div>
+  <div class="st"><i class="v v1">10 kV AC</i><b>双路市电</b><p>两路来自不同变电站，互为备用</p><p class="w">一路失电，ATS 切换，柴发启动</p></div>
+  <div class="st"><i class="v v2">380 V AC</i><b>变压器 / 低压配电</b><p>中压降到低压三相，进低压柜</p><p class="w">变压器温度、负载率</p></div>
+  <div class="st"><i class="v v3">380 V AC / 240 V DC</i><b>UPS 或 HVDC</b><p>UPS 要 AC→DC→AC 两次转换；<br>HVDC 只整流一次直出 240V；都挂电池</p><p class="w">电池内阻、后备时间</p></div>
+  <div class="st"><i class="v v4">A 路 + B 路</i><b>列头柜 / PDU</b><p>两路独立配到机柜，服务器两组 PSU 各接一路</p><p class="w">A、B 两路负载是否均衡</p></div>
+  <div class="st"><i class="v v5">54 V / 12 V DC</i><b>PSU / 电源架</b><p>HGX B300：12 × 3000W，可直接吃 240V 直流；NVL72：电源架输出 54V 母线</p><p class="w">PSU 故障灯、冗余余量</p></div>
+  <div class="st"><i class="v v6">≈ 0.7–1 V</i><b>板上 VRM</b><p>多相降压，贴着芯片供电，电流上千安</p><p class="w">供电不稳可能掉卡（XID 79）</p></div>
+</div>
+
+<div class="g2">
+  <div class="why wob box">
+    <div class="lab hd">为什么要「越晚降压越好」</div>
+    <div class="eq">P = U × I</div>
+    <div class="cmp">
+      <div class="c"><b>1 MW 机柜 @ 54 V</b><span>≈ 18,500 A</span></div>
+      <div class="c ok"><b>1 MW 机柜 @ 800 V</b><span>≈ 1,250 A</span></div>
+    </div>
+    <p>同样功率，电压越低电流越大；线损和铜排截面都跟着电流涨。所以先用高压送到离芯片最近的地方，再一步步降</p>
+  </div>
+  <div class="trd wob box">
+    <div class="lab hd">趋势：54 V → 800 V 直流</div>
+    <p><b>NVIDIA 2025 年 5 月</b>提出 800V HVDC：机房边上把 13.8kV 交流直接整流成 800V 直流送进机柜</p>
+    <p>官方收益：效率<b>最多 +5%</b>、铜材<b>省 45%</b>、维护成本<b>最多降 70%</b></p>
+    <p>目标 <b>2027 年</b>、Kyber 机柜、单柜 <b>1 MW</b>；固态变压器方案仍在评估</p>
+    <div class="tip"><b>国内现状：</b>240V HVDC 已是主流，常见「一路市电 + 一路 HVDC」双路供电</div>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M10 38V18h10v20M28 38V10h10v28M6 38h36"/></svg><p>A+B 两路合计负载<br>不能超过单路容量</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M16 6v10M32 6v10M10 16h28v8a14 14 0 0 1-28 0z M24 38v6"/></svg><p>换 PSU 前，<br>先确认另一路在供电</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M24 6v24"/><circle cx="24" cy="36" r="6"/></svg><p>越靠近芯片电流越大，<br>母线接头要测温</p></div>
+  </div>
+</div>
