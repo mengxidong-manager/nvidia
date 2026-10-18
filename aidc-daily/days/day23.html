@@ -1,0 +1,39 @@
+<div class="tl wob box">
+  <div class="lab hd">市电一断，谁在什么时候顶上</div>
+  <div class="ax">
+    <span style="left:0%">1ms</span><span style="left:12.5%">10ms</span><span style="left:25%">100ms</span><span style="left:37.5%">1s</span><span style="left:50%">10s</span><span style="left:59.7%">1min</span><span style="left:74.4%">15min</span><span style="left:81.9%">1h</span><span style="left:95.4%">12h</span>
+  </div>
+  <div class="lanes">
+    <div class="ov"><div class="mk m0" style="left:0%"><em>⚡ 市电掉电</em></div><div class="mk m1" style="left:50%"><em>ATS 切到柴发</em></div></div>
+    <div class="ln"><b class="nm">机柜电容</b><div class="tr"><i class="bar b0" style="left:0;width:31%">毫秒级削峰 · 不管停电</i></div></div>
+    <div class="ln"><b class="nm">UPS / HVDC 电池</b><div class="tr"><i class="bar b1" style="left:0;width:74.4%">0 切换直接顶上 · 常见设计 5–15 min</i></div></div>
+    <div class="ln"><b class="nm">机柜 BBU</b><div class="tr"><i class="bar b2" style="left:0;width:67.3%">OCP ORv3 模块：3 kW 撑 4 min</i></div></div>
+    <div class="ln"><b class="nm">柴油发电机</b><div class="tr"><i class="bar b3" style="left:50%;width:45.4%">≤10 s 起机带载 · 现场储油 ≥12 h</i><i class="arr" style="left:95.4%">→ 补油</i></div></div>
+  </div>
+  <p class="note">横轴为对数刻度；UPS/HVDC 与 BBU 按架构二选一或叠加</p>
+</div>
+
+<div class="g4">
+  <div class="cd c0 wob"><h4>机柜电容</h4><p class="t">毫秒级</p><p>GB300 电源架内置电解电容（每 GPU 65 J），训练时电网侧峰值最多降 30%</p><p class="w">只平滑负载，停电时不供电</p></div>
+  <div class="cd c1 wob"><h4>UPS / HVDC 电池</h4><p class="t">0 ms → 分钟</p><p>在线式 UPS、HVDC 的电池本来就挂在直流母线上，市电掉了直接放电</p><p class="w">电池时间要盖住柴发起机和带载</p></div>
+  <div class="cd c2 wob"><h4>机柜 BBU</h4><p class="t">0 ms → 4 min</p><p>锂电放进机柜，48V 直挂母线；不用集中 UPS 的机房常用</p><p>ORv3 每模块 3 kW、撑 4 分钟</p><p class="w">看 BBU 健康度、循环次数</p></div>
+  <div class="cd c3 wob"><h4>柴油发电机</h4><p class="t">≤10 s → 小时</p><p>NFPA 110 Type 10：10 秒内恢复供电；Uptime 各级都要求现场储油 ≥12 h</p><p class="w">储油之外，要有补油合同</p></div>
+</div>
+
+<div class="myth wob box">
+  <div class="lab hd">三个常见误解</div>
+  <div class="mg">
+    <div class="mi"><b>✗ ATS 毫秒级无缝切换</b><p>切柴发要等起机，中间靠电池顶；<br>毫秒级切换的是 STS（静态转换开关）</p></div>
+    <div class="mi"><b>✗ 机柜电容能扛停电</b><p>GB300 的电容只削峰填谷，NVIDIA 明确它只优化电网看到的负载</p></div>
+    <div class="mi"><b>✗ 储油标准是 72 / 168 h</b><p>Uptime 最低要求 12 h（按 N 负载）；72 h 等是设计选择，不是标准</p></div>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><circle cx="24" cy="26" r="16"/><path d="M24 16v10l7 5M18 4h12"/></svg><p>电池时间 &gt;<br>柴发起机 + 带载时间</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M8 38h32M12 38V20l12-10 12 10v18M20 38V28h8v10"/></svg><p>柴发定期带载演练，<br>不能只空载试机</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="10" y="12" width="28" height="30" rx="4"/><path d="M18 6h12M10 26h28"/></svg><p>电池定期测内阻、<br>做放电测试</p></div>
+  </div>
+</div>
