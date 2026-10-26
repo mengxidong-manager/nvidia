@@ -1,0 +1,71 @@
+<div class="cmpt wob box">
+  <div class="lab hd">三种液冷，液体离芯片多近</div>
+  <div class="tb">
+    <div class="th"></div>
+    <div class="th h1">冷板式</div>
+    <div class="th h2">浸没式</div>
+    <div class="th h3">喷淋式</div>
+
+    <div class="rh">液体碰芯片吗</div>
+    <div class="c">不碰，隔着金属冷板换热</div>
+    <div class="c">整机泡在绝缘液里</div>
+    <div class="c">绝缘液直接喷到器件上</div>
+
+    <div class="rh">用什么液</div>
+    <div class="c">水 + 丙二醇，<b>导电</b></div>
+    <div class="c">单相：矿物油 / 合成油<br>两相：氟化液，沸腾带走热</div>
+    <div class="c">绝缘冷却液</div>
+
+    <div class="rh">还要风扇吗</div>
+    <div class="c">要，冷板只管大发热件</div>
+    <div class="c">不要</div>
+    <div class="c">不要</div>
+
+    <div class="rh">改动有多大</div>
+    <div class="c">小，服务器和机房基本兼容</div>
+    <div class="c">大：液槽、地面承重、专用服务器</div>
+    <div class="c">大：专用喷淋机柜</div>
+
+    <div class="rh">现状</div>
+    <div class="c">绝对主流：IDC 统计 2023 上半年中国液冷服务器中冷板占 90%</div>
+    <div class="c">单相较成熟；两相受氟化液供应影响</div>
+    <div class="c">小众</div>
+
+    <div class="rh">运维最怕</div>
+    <div class="c">漏液：液体导电，滴到主板就是事故</div>
+    <div class="c">换件慢：要把服务器吊出液槽、沥干</div>
+    <div class="c">喷嘴堵塞、液体回收</div>
+  </div>
+</div>
+
+<div class="g3">
+  <div class="bx b1 wob box">
+    <div class="lab hd">冷板≠全液冷</div>
+    <p>冷板只贴 GPU、CPU 等大发热件，内存、网卡、电源还靠风</p>
+    <p>Supermicro DLC-2 宣称液体最多带走 <b>98%</b> 热量，进液最高 45°C</p>
+    <p class="w">所以冷板机房仍要留风冷</p>
+  </div>
+  <div class="bx b2 wob box">
+    <div class="lab hd">B300 不一定要液冷</div>
+    <p><b>DGX B300：</b>10U 风冷</p>
+    <p><b>Supermicro HGX B300：</b>8U 风冷，GPU 按 1100W TDP</p>
+    <p><b>GB300 NVL72：</b>整柜 132–140 kW，<br>必须液冷</p>
+    <p class="w">先看具体型号，别一刀切</p>
+  </div>
+  <div class="bx b3 wob box">
+    <div class="lab hd">两相浸没的液体风险</div>
+    <p>3M 2022 年宣布 2025 年底前退出 PFAS 生产，Novec、Fluorinert 都在内</p>
+    <p>美国 EPA 收紧 PFAS 的废弃和泄漏报告要求</p>
+    <p>LiquidStack 等两相厂商称已有替代液，但选型前要确认供货和合规</p>
+    <p class="w">单相用矿物油、植物油，不受影响</p>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M24 6C18 16 12 22 12 30a12 12 0 0 0 24 0c0-8-6-14-12-24z"/></svg><p>漏液检测<br>定期实测，不只看在线</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M18 6h12M20 6v14L10 40h28L28 20V6"/></svg><p>冷却液定期取样，<br>盯电导率和浓度</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="6" y="18" width="16" height="12" rx="3"/><rect x="26" y="18" width="16" height="12" rx="3"/><path d="M22 24h4"/></svg><p>插拔快接头前，<br>先确认阀门和锁扣</p></div>
+  </div>
+</div>
