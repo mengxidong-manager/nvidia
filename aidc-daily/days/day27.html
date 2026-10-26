@@ -1,0 +1,48 @@
+<div class="g3 row1">
+  <div class="mt m1 wob box">
+    <div class="lab hd">PUE</div>
+    <div class="fx"><span>数据中心总用电</span><i></i><span>IT 设备用电</span></div>
+    <p class="q">制冷、配电花掉多少电，越接近 1 越好</p>
+    <ul>
+      <li><b>2025 年底目标：</b>全国平均 &lt;1.5；新建大型 ≤1.25；枢纽节点 ≤1.2</li>
+      <li><b>GB 40879：</b>1 级 ≤1.20，限定值 ≤1.50</li>
+    </ul>
+  </div>
+  <div class="mt m2 wob box">
+    <div class="lab hd">WUE</div>
+    <div class="fx"><span>年用水量（L）</span><i></i><span>IT 设备用电（kWh）</span></div>
+    <p class="q">每度 IT 电要耗多少升水，越低越好</p>
+    <ul>
+      <li><b>标准：</b>The Green Grid 2011 年提出，ISO/IEC 30134-9</li>
+      <li><b>参考：</b>不蒸发的风冷接近 0；Equinix 2025 年全球 0.91 L/kWh</li>
+    </ul>
+  </div>
+  <div class="mt m3 wob box">
+    <div class="lab hd">Tokens per Watt</div>
+    <div class="fx"><span>每秒产出的 token</span><i></i><span>消耗的功率</span></div>
+    <p class="q">每瓦电能换多少产出，越高越好</p>
+    <ul>
+      <li><b>没有统一标准：</b>NVIDIA 用「每兆瓦 TPS」</li>
+      <li><b>官方数：</b>GB300 NVL72 比 H100 高 5 倍（DeepSeek-R1，FP4 对 FP8，预测值）</li>
+    </ul>
+  </div>
+</div>
+
+<div class="pit wob box">
+  <div class="lab hd">看指标的四个坑</div>
+  <div class="pg">
+    <div class="pp"><b>① 风扇算在 IT 里</b><p>液冷去掉风扇，IT 用电也跟着降，PUE 反而变化不大。Vertiv 测算：总用电降 10.2%，PUE 只从 1.38 到 1.35</p></div>
+    <div class="pp"><b>② 只报最低那一刻</b><p>冬天自然冷却时 PUE 最好看，要报全年平均；IT 用电在 UPS 输出还是服务器输入测，结果也不同</p></div>
+    <div class="pp"><b>③ 省电可能费水</b><p>蒸发冷却能压低 PUE，但 WUE 会上去，两个数要一起看</p></div>
+    <div class="pp"><b>④ Tokens/W 口径不一</b><p>模型、精度、输入输出长度一变，数字能差好几倍，只在同口径下比</p></div>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="8" y="10" width="32" height="30" rx="3"/><path d="M8 18h32M16 6v8M32 6v8"/></svg><p>PUE 报全年平均，<br>写清测点</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M24 6C18 16 12 22 12 30a12 12 0 0 0 24 0c0-8-6-14-12-24z"/></svg><p>PUE 和 WUE<br>一起报</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M8 38h32M14 38V24M24 38V14M34 38V20"/></svg><p>Tokens/W 写清<br>模型和精度</p></div>
+  </div>
+</div>

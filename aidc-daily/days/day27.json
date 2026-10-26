@@ -1,0 +1,11 @@
+{
+  "day": "27",
+  "title": "PUE · WUE · Tokens/W",
+  "subtitle": "省电、省水、多产 token：三个数各管一件事",
+  "source": "参考：四部委《数据中心绿色低碳发展专项行动计划》· GB 40879-2021 · ISO/IEC 30134-9 · NVIDIA GB300 NVL72 · Vertiv",
+  "caption": "AIDC 每日一图 · Day 27｜PUE、WUE、Tokens per Watt 📊\n\nPUE = 总用电 / IT 用电，越接近 1 越好；2025 年底新建大型数据中心 ≤1.25，枢纽节点 ≤1.2\nWUE = 年用水量 / IT 用电（L/kWh），越低越好\nTokens per Watt：每瓦能换多少 token，没有统一标准\n\n坑：液冷去掉风扇，IT 用电也降，PUE 反而不怎么变；省电可能费水，PUE 和 WUE 要一起看\n\n收藏备用 👇\n#数据中心 #PUE #AIInfra #AIDC",
+  "xhs": {
+    "title": "PUE、WUE、Tokens/W怎么看？",
+    "body": "AIDC 每日一图 · Day 27\n\n三个数各管一件事：\n\n⚡ PUE = 数据中心总用电 ÷ IT 设备用电\n越接近 1 越好。四部委 2024 年行动计划：到 2025 年底全国平均 <1.5，新建及改扩建大型数据中心 ≤1.25，国家枢纽节点 ≤1.2。GB 40879：1 级 ≤1.20，限定值 ≤1.50\n\n💧 WUE = 年用水量（L）÷ IT 设备用电（kWh）\n越低越好。不蒸发的风冷接近 0；Equinix 2025 年全球 0.91 L/kWh\n\n🔥 Tokens per Watt\n每瓦电换多少 token，没有统一标准。NVIDIA 用「每兆瓦 TPS」：GB300 NVL72 比 H100 高 5 倍（DeepSeek-R1，FP4 对 FP8，预测值）\n\n看指标的四个坑：\n① 风扇算在 IT 里：液冷去掉风扇，IT 用电也降，PUE 反而变化不大（Vertiv 测算：总用电降 10.2%，PUE 只从 1.38 到 1.35）\n② 只报最低那一刻：要报全年平均\n③ 省电可能费水：蒸发冷却压低 PUE，WUE 会上去\n④ Tokens/W 口径不一：模型、精度、输入输出长度一变就差好几倍\n\n收藏备用 👇\n\n#数据中心 #PUE #智算中心 #AI基础设施 #能效"
+  }
+}
