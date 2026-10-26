@@ -1,0 +1,88 @@
+<div class="g2 row1">
+  <div class="ai wob box ca">
+    <div class="lab hd">冷通道封闭 CACS</div>
+    <svg viewBox="0 0 460 220" class="dg">
+      <defs>
+        <marker id="ab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 10 5 0 10z" fill="#1797b8"/></marker>
+        <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 10 5 0 10z" fill="#e2315f"/></marker>
+      </defs>
+      <rect x="0" y="0" width="460" height="190" fill="#fdf1f4"/>
+      <rect x="150" y="44" width="160" height="146" fill="#dff2f8"/>
+      <rect x="0" y="190" width="460" height="24" fill="#dff2f8" stroke="#1d2b4f" stroke-width="2"/>
+      <text x="230" y="208" class="t s" text-anchor="middle">架空地板送冷风</text>
+      <path d="M144 40H316" stroke="#1d2b4f" stroke-width="6" stroke-linecap="round"/>
+      <rect x="90" y="40" width="60" height="150" rx="4" class="rk"/>
+      <rect x="310" y="40" width="60" height="150" rx="4" class="rk"/>
+      <path d="M200 186V120" stroke="#1797b8" stroke-width="4" marker-end="url(#ab)"/><path d="M260 186V120" stroke="#1797b8" stroke-width="4" marker-end="url(#ab)"/>
+      <path d="M190 100H156" stroke="#1797b8" stroke-width="4" marker-end="url(#ab)"/><path d="M270 100H304" stroke="#1797b8" stroke-width="4" marker-end="url(#ab)"/>
+      <path d="M88 100H40" stroke="#e2315f" stroke-width="4" marker-end="url(#ar)"/><path d="M372 100H420" stroke="#e2315f" stroke-width="4" marker-end="url(#ar)"/>
+      <path d="M40 80Q30 30 70 18" fill="none" stroke="#e2315f" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#ar)"/><path d="M420 80Q430 30 390 18" fill="none" stroke="#e2315f" stroke-width="3" stroke-dasharray="6 5" marker-end="url(#ar)"/>
+      <text x="230" y="72" class="t b" text-anchor="middle">冷池</text>
+      <text x="230" y="30" class="t s" text-anchor="middle">顶板封闭</text>
+      <text x="40" y="140" class="t r" text-anchor="middle">热</text>
+      <text x="420" y="140" class="t r" text-anchor="middle">热</text>
+    </svg>
+    <ul>
+      <li><b>封住：</b>机柜正面相对的冷通道</li>
+      <li><b>房间：</b>变成热回风区，比进风温度高得多</li>
+      <li><b>适合：</b>已有架空地板的机房改造</li>
+    </ul>
+  </div>
+  <div class="ai wob box ha">
+    <div class="lab hd">热通道封闭 HACS</div>
+    <svg viewBox="0 0 460 220" class="dg">
+      <rect x="0" y="0" width="460" height="190" fill="#eef8fb"/>
+      <rect x="170" y="44" width="120" height="146" fill="#fde7ee"/>
+      <rect x="208" y="0" width="44" height="44" fill="#fde7ee"/>
+      <path d="M164 40H208V0M252 0V40H296" fill="none" stroke="#1d2b4f" stroke-width="6" stroke-linejoin="round"/>
+      <path d="M0 190H460" stroke="#1d2b4f" stroke-width="3"/>
+      <rect x="110" y="40" width="60" height="150" rx="4" class="rk"/>
+      <rect x="290" y="40" width="60" height="150" rx="4" class="rk"/>
+      <path d="M40 110H104" stroke="#1797b8" stroke-width="4" marker-end="url(#ab)"/><path d="M420 110H356" stroke="#1797b8" stroke-width="4" marker-end="url(#ab)"/>
+      <path d="M176 110H206" stroke="#e2315f" stroke-width="4" marker-end="url(#ar)"/><path d="M284 110H254" stroke="#e2315f" stroke-width="4" marker-end="url(#ar)"/>
+      <path d="M230 150V8" stroke="#e2315f" stroke-width="4" marker-end="url(#ar)"/>
+      <text x="230" y="176" class="t r" text-anchor="middle">热池</text>
+      <text x="300" y="22" class="t s">回风管到空调</text>
+      <text x="56" y="150" class="t c" text-anchor="middle">冷</text>
+      <text x="404" y="150" class="t c" text-anchor="middle">冷</text>
+      <text x="230" y="208" class="t s" text-anchor="middle">不依赖架空地板</text>
+    </svg>
+    <ul>
+      <li><b>封住：</b>机柜背面相对的热通道</li>
+      <li><b>房间：</b>保持在进风温度，人待着舒服</li>
+      <li><b>适合：</b>新建机房、列间空调</li>
+    </ul>
+  </div>
+</div>
+
+<div class="g2">
+  <div class="tp wob box">
+    <div class="lab hd">温度看哪个数</div>
+    <div class="big"><span>18</span><i>～</i><span>27</span><em>°C</em></div>
+    <p class="cap">ASHRAE 推荐的服务器<b>进风</b>温度（A1–A4 类）</p>
+    <p>A1 类允许范围放宽到 15～32°C，露点推荐 −9～15°C</p>
+    <p>测点在<b>机柜正面进风处</b>，不是空调回风口</p>
+  </div>
+  <div class="lk wob box">
+    <div class="lab hd">冷风从哪儿漏</div>
+    <div class="lg">
+      <span>空 U 位没装盲板</span><span>顶板、端门没关严</span>
+      <span>地板走线孔没封</span><span>机柜之间、柜底缝隙</span>
+      <span>机柜侧面开孔</span><span>不同高度机柜的顶部落差</span>
+    </div>
+    <p class="nt"><b>顶板要和消防联动：</b>火警时自动打开，让灭火剂进得去；方案报当地消防确认</p>
+  </div>
+</div>
+
+<div class="vs wob">
+  <b>能省多少？</b>施耐德白皮书在同等条件下对比：热通道封闭比冷通道封闭省约 <em>40%</em> 制冷能耗，主要来自更多的自然冷却小时数
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="10" y="6" width="28" height="36" rx="3"/><path d="M14 16h20M14 24h20M14 32h20"/></svg><p>空 U 位<br>一律装盲板</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M24 6v24"/><circle cx="24" cy="36" r="6"/></svg><p>温度看进风面，<br>不看回风口</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="10" y="6" width="28" height="36" rx="3"/><circle cx="31" cy="24" r="2"/></svg><p>通道门<br>进出随手关</p></div>
+  </div>
+</div>

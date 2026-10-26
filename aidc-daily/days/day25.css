@@ -1,0 +1,29 @@
+.row1{margin-top:30px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+.ai{padding:24px 14px 12px;display:flex;flex-direction:column;gap:8px}
+.ca{border-color:var(--teal)}.ca>.lab{color:var(--teal)}
+.ha{border-color:var(--red)}.ha>.lab{color:var(--red)}
+.dg{width:100%;height:auto;display:block;border-radius:10px}
+.dg .rk{fill:#1d2b4f}
+.dg .t{font-family:'LXGW WenKai';font-weight:700;font-size:15px;fill:#34426a}
+.dg .s{font-size:13px;fill:#5b6682}
+.dg .b{fill:#1797b8;font-size:17px}.dg .c{fill:#1797b8;font-size:17px}.dg .r{fill:#e2315f;font-size:17px}
+.ai ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:5px}
+.ai li{font-family:'LXGW WenKai';font-size:15px;line-height:1.45;color:#34426a}
+.ca li b{color:var(--teal)}.ha li b{color:var(--red)}
+.tp,.lk{padding:22px 14px 12px;display:flex;flex-direction:column;gap:8px}
+.tp{border-color:var(--orange)}.tp>.lab{color:#c26400}
+.big{text-align:center;font-family:'Kalam';font-weight:700;color:#c26400;line-height:1}
+.big span{font-size:56px}.big i{font-style:normal;font-size:34px;padding:0 6px}.big em{font-style:normal;font-size:30px;margin-left:4px}
+.tp p{font-family:'LXGW WenKai';font-size:15px;line-height:1.45;color:#34426a}
+.tp p.cap{text-align:center;font-weight:700}
+.tp p:not(.cap){background:#fff6ec;border-radius:8px;padding:5px 10px}
+.tp b{color:#c26400}
+.lk{border-color:var(--navy)}
+.lg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lg span{font-family:'LXGW WenKai';font-size:15px;color:#34426a;background:#f2f5fa;border-radius:8px;padding:6px 10px;border-left:4px solid var(--red)}
+.nt{margin-top:auto;font-family:'LXGW WenKai';font-size:14.5px;line-height:1.45;color:#34426a;border:2px dashed #f3c3d0;background:#fff4f7;border-radius:10px;padding:6px 10px}
+.nt b{color:var(--red)}
+.vs{margin-top:20px;padding:10px 18px;border-color:#2f9e6a;background:#f1faf5;font-family:'LXGW WenKai';font-size:16px;line-height:1.5;color:#34426a}
+.vs b{color:#2f9e6a;margin-right:8px}
+.vs em{font-style:normal;font-family:'Kalam';font-weight:700;font-size:22px;color:#2f9e6a}
