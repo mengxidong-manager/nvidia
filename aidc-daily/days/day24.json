@@ -1,0 +1,11 @@
+{
+  "day": "24",
+  "title": "UPS vs 240V vs 800V",
+  "subtitle": "同样是给机柜供电，三条路线差在转换次数和电压",
+  "source": "参考：数据中心供电架构详解 · HGX B300 运维手册 · NVIDIA 800 VDC 博客",
+  "caption": "AIDC 每日一图 · Day 24｜UPS vs 240V vs 800V ⚡\n\n交流 UPS：AC→DC→AC 两次转换，兼容性最好\n240V HVDC：只整流一次，国内 HVDC 主流，PSU 要支持直流输入\n800V HVDC：机房边上 13.8kV 直接整流到 800V，给 MW 级 AI 机柜用\n\n直流没有过零点，电弧不会自己灭：开关要直流额定，不带载插拔\n\n收藏备用 👇\n#数据中心 #HVDC #UPS #AIInfra #AIDC",
+  "xhs": {
+    "title": "UPS、240V、800V怎么选？",
+    "body": "AIDC 每日一图 · Day 24\n\n机房给机柜供电，三条路线：\n\n🔵 交流 UPS\nAC→DC→AC 两次转换，送 380/220V 交流，服务器用通用 PSU，兼容性最好\n\n🔷 240V HVDC\n只整流一次，电池直接挂在 240V 直流母线上；国内 HVDC 主流，常见「市电 + HVDC」双路。服务器 PSU 要支持直流输入（HGX B300 的 240V DC 输入仅限中国区）\n\n🟠 800V HVDC\nNVIDIA 主推：机房边上把 13.8kV 交流直接整流成 800V 直流。1MW 机柜用 54V 要 1.8 万安以上，800V 只要 1250 安。800V 电源柜 2026 下半年，行级 2MW 配电 2027 年\n\n怎么选：\n· 存量机房、设备杂 → 交流 UPS\n· 国内新建、PSU 支持直流 → 240V HVDC\n· 新建 MW 级 AI 机柜 → 800V HVDC\n\n直流运维要注意：\n· 没有过零点，电弧不会自己灭\n· 断路器、熔断器必须直流额定\n· 先断开关，再插拔\n\n收藏备用 👇\n\n#数据中心 #HVDC #UPS #智算中心 #运维"
+  }
+}

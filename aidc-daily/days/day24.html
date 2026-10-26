@@ -1,0 +1,65 @@
+<div class="cmpt wob box">
+  <div class="lab hd">三种供电，差在哪</div>
+  <div class="tb">
+    <div class="th"></div>
+    <div class="th h1">交流 UPS</div>
+    <div class="th h2">240V HVDC</div>
+    <div class="th h3">800V HVDC</div>
+
+    <div class="rh">怎么转换</div>
+    <div class="c">AC→DC→AC，两次转换</div>
+    <div class="c">AC→DC，整流一次</div>
+    <div class="c">机房边上 13.8kV AC 直接整流成 800V DC</div>
+
+    <div class="rh">送进机柜</div>
+    <div class="c">380 / 220V 交流</div>
+    <div class="c">240V 直流</div>
+    <div class="c">800V 直流，柜内再降到低压</div>
+
+    <div class="rh">电池在哪</div>
+    <div class="c">UPS 内部直流母线</div>
+    <div class="c">直接挂在 240V 直流母线</div>
+    <div class="c">行级 / 机房级储能</div>
+
+    <div class="rh">服务器电源</div>
+    <div class="c">通用交流 PSU</div>
+    <div class="c">PSU 要支持直流输入<br>（HGX B300：240V DC 仅中国区）</div>
+    <div class="c">专用 800V 机柜（Kyber 等）</div>
+
+    <div class="rh">现状</div>
+    <div class="c">兼容性最好，国内仍以交流为主</div>
+    <div class="c">国内 HVDC 主流，常见「市电 + HVDC」双路</div>
+    <div class="c">800V 电源柜 2026 下半年；<br>行级 2&nbsp;MW 配电 2027 年</div>
+
+    <div class="rh">运维难点</div>
+    <div class="c">两次转换损耗；ECO 旁路模式效率高但切换有风险</div>
+    <div class="c">直流断开会拉弧，<br>开关必须直流额定</div>
+    <div class="c">电压更高，标准还在定（NVIDIA、Google、微软 2026 年白皮书）</div>
+  </div>
+</div>
+
+<div class="g2">
+  <div class="pick wob box">
+    <div class="lab hd">怎么选</div>
+    <div class="pk"><b class="k1">交流 UPS</b><p>存量机房、设备杂、要兼容各种服务器</p></div>
+    <div class="pk"><b class="k2">240V HVDC</b><p>国内新建机房，服务器 PSU 支持直流输入</p></div>
+    <div class="pk"><b class="k3">800V HVDC</b><p>新建 MW 级 AI 机柜；<br>54V 下 1&nbsp;MW 柜要 1.8 万安</p></div>
+    <div class="tip"><b>存量交流机房过渡：</b>先上 800V 电源柜（sidecar），给新机柜供电，机房侧不用全改</div>
+  </div>
+  <div class="dc wob box">
+    <div class="lab hd">直流运维和交流不一样</div>
+    <p><b>没有过零点：</b>交流电弧过零就灭，直流电弧不会自己断</p>
+    <p><b>开关要对：</b>断路器、熔断器必须是直流额定，不能拿交流开关代替</p>
+    <p><b>先断再拔：</b>带载拔直流插头会拉弧，先断开关再操作</p>
+    <p><b>800V 仍算低压直流：</b>IEC 把 ≤1500V DC 划为低压，但比 240V 危险得多，按高压规程做绝缘防护</p>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="8" y="10" width="32" height="28" rx="4"/><path d="M16 20h16M16 28h10"/></svg><p>上架前核对 PSU<br>输入：交流还是直流</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M26 4 12 28h12l-2 16 14-24H24z"/></svg><p>直流回路<br>不带载插拔</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><circle cx="24" cy="24" r="16"/><path d="M14 34 34 14"/></svg><p>直流开关只用<br>直流额定的</p></div>
+  </div>
+</div>
