@@ -1,0 +1,25 @@
+.lp{margin-top:30px;padding:26px 16px 12px}
+.fl{display:grid;grid-template-columns:1fr 50px 1.2fr 50px 1fr;align-items:stretch}
+.nd{border-radius:14px;padding:12px 10px;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:6px}
+.nd b{font-family:'ZCOOL KuaiLe';font-weight:400;font-size:24px}
+.nd span{font-family:'LXGW WenKai';font-size:15px;line-height:1.45;color:#34426a}
+.n1{background:#f2f5fa;border:2.4px solid #2c4a7a}.n1 b{color:#2c4a7a}
+.n2{background:#fff6ec;border:2.4px solid var(--orange)}.n2 b{color:#c26400;font-family:'Kalam';font-weight:700;font-size:30px}
+.n3{background:#eef8fb;border:2.4px solid var(--teal)}.n3 b{color:var(--teal)}
+.ar{display:flex;align-items:center;justify-content:center}
+.ar i{font-style:normal;font-size:34px;color:var(--navy)}
+.lp .nt{margin-top:10px;font-family:'LXGW WenKai';font-size:15px;color:#34426a;text-align:center}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:30px}
+.mn,.pg{padding:22px 14px 12px;display:flex;flex-direction:column;gap:8px}
+.mn{border-color:var(--navy)}
+.rw{display:grid;grid-template-columns:96px 1fr;gap:10px;align-items:center;border-bottom:2px dashed #d3d9e6;padding-bottom:7px}
+.rw:last-child{border-bottom:none}
+.rw b{font-family:'LXGW WenKai';font-weight:700;font-size:15px;color:#fff;background:#2c4a7a;border-radius:8px;padding:5px 6px;text-align:center}
+.rw p{font-family:'LXGW WenKai';font-size:14.5px;line-height:1.45;color:#34426a}
+.pg{border-color:var(--teal)}.pg>.lab{color:var(--teal)}
+.kv{display:flex;justify-content:space-between;align-items:center;background:#eef8fb;border-radius:8px;padding:6px 12px}
+.kv span{font-family:'LXGW WenKai';font-size:15px;color:#34426a}
+.kv b{font-family:'LXGW WenKai';font-weight:700;font-size:15.5px;color:var(--teal)}
+.pg .sm{margin-top:auto;font-family:'LXGW WenKai';font-size:14.5px;line-height:1.45;color:#34426a;border:2px dashed #f3c3d0;background:#fff4f7;border-radius:10px;padding:6px 10px}
+.mn .tp{margin-top:auto;font-family:'LXGW WenKai';font-size:14.5px;line-height:1.45;color:#34426a;background:#fff6ec;border:2px dashed #f5c08a;border-radius:10px;padding:6px 10px}
+.mn .tp b{color:#c26400}

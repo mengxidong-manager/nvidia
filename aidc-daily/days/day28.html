@@ -1,0 +1,40 @@
+<div class="lp wob box">
+  <div class="lab hd">CDU 夹在两个水路中间</div>
+  <div class="fl">
+    <div class="nd n1"><b>一次侧 · 设施水</b><span>冷却塔 / 干冷器 / 冷机</span></div>
+    <div class="ar"><i>⇄</i></div>
+    <div class="nd n2"><b>CDU</b><span>板式换热器 · 泵 · 过滤器<br>补液箱 · 控制器</span></div>
+    <div class="ar"><i>⇄</i></div>
+    <div class="nd n3"><b>二次侧 · PG25</b><span>机柜 Manifold → 快接头 → 冷板</span></div>
+  </div>
+  <p class="nt">两侧液体不混，只在换热器里交换热量；二次侧流过冷板，干净程度直接决定 GPU 温度</p>
+</div>
+
+<div class="g2">
+  <div class="mn wob box">
+    <div class="lab hd">CDU 面板每天看什么</div>
+    <div class="rw"><b>供液温度</b><p>按设计值稳住。ASHRAE 按设施水上限分 W17 / W27 / W32 / W40 / W45</p></div>
+    <div class="rw"><b>流量 + 压差</b><p>流量掉、压差涨：过滤器堵了，或快接头没插到位</p></div>
+    <div class="rw"><b>进出温差</b><p>突然变大：流量不够；突然变小：负载掉了或旁通了</p></div>
+    <div class="rw"><b>液位 / 补液</b><p>补液越来越勤，就是哪里在漏</p></div>
+    <p class="tp"><b>多卡同时升温：</b>先查同一台 CDU 的流量和供液温度</p>
+  </div>
+  <div class="pg wob box">
+    <div class="lab hd">PG25 冷却液怎么管</div>
+    <div class="kv"><span>丙二醇浓度</span><b>24.5–27.5%</b></div>
+    <div class="kv"><span>pH</span><b>8.0–10.5（OAT 型 7.0–10.5）</b></div>
+    <div class="kv"><span>过滤精度</span><b>≤50 µm，推荐 25 µm</b></div>
+    <div class="kv"><span>运行温度</span><b>17–66°C</b></div>
+    <div class="kv"><span>冰点</span><b>约 −13 至 −10°C</b></div>
+    <p class="sm">冷板鳍片间距约 50 µm，脏了就堵，GPU 降频。新系统先每天测，稳定约一周后每周测，再放宽到每月</p>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="10" y="6" width="28" height="36" rx="3"/><path d="M16 16h16M16 24h16M16 32h10"/></svg><p>每次补液都记账，<br>越补越勤就是在漏</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M16 6h16M18 6v12L8 40h32L30 18V6M14 30h20"/></svg><p>只加原厂认可的液体<br>和添加剂，不混用</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><circle cx="24" cy="26" r="16"/><path d="M24 16v10l7 5M18 4h12"/></svg><p>冲洗完 24 小时内<br>灌上冷却液</p></div>
+  </div>
+</div>
