@@ -215,7 +215,7 @@ Vera Rubin 引入 ICMS（推理上下文内存存储），在 GPU HBM 与传统�
 
 **Quantum-X800 InfiniBand**：传统 HPC/AI 训练的首选网络。提供与 Spectrum-X 相同的每 GPU 带宽（2 × 800 Gb/s），但使用 InfiniBand 协议，在集合通信（AllReduce 等）场景下有独特的硬件加速优势。
 
-- 协议：InfiniBand HDR/NDR
+- 协议：InfiniBand XDR（800 Gb/s）
 - 优势：集合通信硬件卸载
 - 场景：大规模分布式训练
 - 生态：成熟的 HPC 生态
