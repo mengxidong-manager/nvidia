@@ -15,17 +15,17 @@
 | NVFP4 推理算力 | **3.6 EFLOPS** |
 | 训练算力 | 2.5 EFLOPS |
 | HBM4 总容量 | ~20.7 TB（288 GB × 72） |
-| HBM4 总带宽 | 1.6 PB/s |
+| HBM4 总带宽 | 1.4 PB/s（1,400 TB/s，2026-10 官网修订值） |
 | LPDDR5X 总容量 | 最高 54 TB（1.5 TB × 36） |
-| NVLink 全互联 | **260 TB/s** |
-| Scale-out / GPU | 1.6 Tb/s（2 × 800G） |
+| NVLink 全互联 | **216 TB/s**（2026-10 官网修订值） |
+| Scale-out / GPU | 1.6 Tb/s（ConnectX-9；官网口径为整柜网络 32.4 TB/s 双向，折合每 GPU 0.45 TB/s） |
 | ICMS 容量 / GPU | 最高 16 TB（Pod 级） |
 | ICMS Pod 总容量 | ~9,600 TB |
-| 机架功耗 | 120-130 kW |
+| 机架功耗 | 官方未公布（业内估算约 120-130 kW，非官方） |
 | 冷却 | **100% 液冷，45°C 温水，无需冷水机** |
 | 供电 | 8 × 电源架（54V DC），97% 效率 |
 | 架构 | 第三代 MGX，无线缆模块化托盘 |
-| 组装时间 | ~5 分钟（计算托盘） |
+| 组装时间 | 计算托盘组装、维护提速 18 倍（GB300 约 100 分钟） |
 | 机密计算 | 第三代，全系统加密 |
 | vs Blackwell 推理 | **5× 性能，10× 成本效率** |
 | vs Blackwell 训练 | 3.5× 性能，4× GPU 效率 |
@@ -52,7 +52,7 @@ VR NVL72 是 NVIDIA 第二代机架级 Oberon 架构，将六种协同设计的�
 
 ### 机架物理设计
 
-**无线缆模块化**：计算托盘通过板对板连接器连接，无线缆设计将组装时间从 2 小时缩短到 5 分钟。基于第三代 MGX 机架架构，支持从 Blackwell 无缝升级。
+**无线缆模块化**：计算托盘通过板对板连接器连接，无线缆设计使组装和维护提速 18 倍（GB300 NVL72 组装一个计算托盘约需 100 分钟）。基于第三代 MGX 机架架构，支持从 Blackwell 无缝升级。
 
 **可靠性设计**：第二代 RAS 引擎覆盖 GPU、CPU 和 NVLink，支持不停机预防性维护。NVLink 交换托盘支持零停机维护，可在运行中移除或部分填充。
 
@@ -69,9 +69,9 @@ VR NVL72 是 NVIDIA 第二代机架级 Oberon 架构，将六种协同设计的�
 台积电 3nm 双芯片设计，3360 亿晶体管（Blackwell 的 1.6 倍）。
 
 - HBM4：288 GB / 卡
-- 带宽：22 TB/s / 卡
-- TDP：2,300W
-- NVLink：3.6 TB/s 双向
+- 带宽：19.2 TB/s / 卡（2026-10 官网修订值，发布会为 22 TB/s）
+- TDP：官方未公布（业内传闻约 2,300W，非官方）
+- NVLink：3 TB/s 双向（2026-10 官网修订值，发布会为 3.6 TB/s）
 
 ### Vera CPU（ARM）
 
@@ -83,10 +83,10 @@ VR NVL72 是 NVIDIA 第二代机架级 Oberon 架构，将六种协同设计的�
 
 ### NVLink 6 Switch
 
-第六代 NVLink，72 颗 GPU 全互联。Scale-up 带宽比上一代翻倍。
+第六代 NVLink，72 颗 GPU 全互联。每 GPU Scale-up 带宽约为上一代（1.8 TB/s）的 1.7 倍。
 
-- 每 GPU：3.6 TB/s 双向
-- 机架全互联：260 TB/s
+- 每 GPU：3 TB/s 双向（发布会为 3.6 TB/s）
+- 机架全互联：216 TB/s（发布会为 260 TB/s）
 
 ### ConnectX-9 SuperNIC
 
@@ -136,7 +136,7 @@ Dry Cooler（室外散热） → CDU（冷却液分配） → 45°C → Cold Pla
 
 ## 4. 供电架构
 
-单机柜 130kW，从电网到 GPU 核心经历五级降压。当前 54V DC，未来演进至 800V HVDC。
+单机柜功耗官方尚未公布（业内估算约 130 kW 级），从电网到 GPU 核心经历五级降压。当前 54V DC，未来演进至 800V HVDC。
 
 ### 供电链路：从电网到 GPU 核心
 
@@ -155,7 +155,7 @@ Dry Cooler（室外散热） → CDU（冷却液分配） → 45°C → Cold Pla
 
 | 机架型号 | 功耗 | 配电 | 上市 |
 |----------|------|------|------|
-| VR NVL72 | 120-130 kW | 54V DC | 2026 H2 |
+| VR NVL72 | 约 120-130 kW（非官方估算） | 54V DC | 2026 H2 |
 | VR NVL144 | 190 kW | 800V→54V 混合 | 2026 H2 |
 | NVL144 CPX | 370 kW | 800V HVDC | 2026-2027 |
 | Rubin Ultra Kyber | 600 kW | 800V HVDC | 2027 H2 |
@@ -174,7 +174,7 @@ Vera Rubin 引入 ICMS（推理上下文内存存储），在 GPU HBM 与传统�
 
 | 层级 | 介质 | 容量 | 用途 |
 |------|------|------|------|
-| G1 | GPU HBM4 | 288 GB/卡 · 22 TB/s | 热 KV Cache，当前推理窗口 |
+| G1 | GPU HBM4 | 288 GB/卡 · 19.2 TB/s | 热 KV Cache，当前推理窗口 |
 | G2 | CPU LPDDR5X | 最高 1.5 TB/CPU | 温 KV Cache，预加载上下文 |
 | G3 | 本地 NVMe SSD | 节点级快速缓存 | 本地溢出，毫秒级延迟 |
 | G3.5 | ICMS（BlueField-4） | 每 GPU 最高 16 TB | Pod 级共享 KV Cache 存储 |
@@ -198,9 +198,9 @@ Vera Rubin 引入 ICMS（推理上下文内存存储），在 GPU HBM 与传统�
 
 双层网络架构：NVLink 6 负责机架内 72 颗 GPU 全互联（scale-up），Spectrum-X Ethernet 或 Quantum-X InfiniBand 负责跨机架通信（scale-out）。
 
-### Scale-Up：NVLink 6（机架内全互联，260 TB/s）
+### Scale-Up：NVLink 6（机架内全互联，216 TB/s）
 
-第六代 NVLink 为每颗 GPU 提供 3.6 TB/s 双向带宽，比 Blackwell 翻倍。72 颗 GPU 通过 NVLink 交换机实现全互联，整个机架的 bisection 带宽达到 260 TB/s。NVLink 交换托盘支持零停机维护——可在运行中移除或部分填充，机架仍可正常工作。软件定义的 NVLink 路由可在链路故障时自动绕行。
+第六代 NVLink 为每颗 GPU 提供 3 TB/s 双向带宽（2026-10 官网修订值，发布会为 3.6 TB/s），约为 Blackwell（1.8 TB/s）的 1.7 倍。72 颗 GPU 通过 NVLink 交换机实现全互联，整个机架的 NVLink 总带宽为 216 TB/s（发布会为 260 TB/s）。NVLink 交换托盘支持零停机维护——可在运行中移除或部分填充，机架仍可正常工作。软件定义的 NVLink 路由可在链路故障时自动绕行。
 
 ### Scale-Out：双模可选
 
@@ -237,19 +237,19 @@ NVL72 机架核心参数一览：
 | GPU | 72 × Rubin R100（3nm，双芯片，3360 亿晶体管） |
 | CPU | 36 × Vera（88 核 Arm Olympus，176 线程） |
 | HBM4 总容量 | ~20.7 TB（288 GB × 72） |
-| HBM4 总带宽 | 1.6 PB/s |
+| HBM4 总带宽 | 1.4 PB/s（1,400 TB/s，2026-10 官网修订值） |
 | LPDDR5X 总容量 | 最高 54 TB（1.5 TB × 36） |
 | NVFP4 推理算力 | 3.6 EFLOPS |
 | 训练算力 | 2.5 EFLOPS |
-| NVLink 全互联带宽 | 260 TB/s |
-| Scale-out 带宽 / GPU | 1.6 Tb/s（2 × 800G） |
+| NVLink 全互联带宽 | 216 TB/s（2026-10 官网修订值） |
+| Scale-out 带宽 / GPU | 1.6 Tb/s（ConnectX-9；官网口径为整柜网络 32.4 TB/s 双向，折合每 GPU 0.45 TB/s） |
 | ICMS 容量 / GPU | 最高 16 TB（Pod 级） |
 | ICMS Pod 总容量 | ~9,600 TB |
-| 机架功耗 | 120-130 kW |
+| 机架功耗 | 官方未公布（业内估算约 120-130 kW，非官方） |
 | 冷却方式 | 100% 液冷，45°C 温水，无需冷水机 |
 | 供电 | 8 × 电源架（54V DC），97% 效率 |
 | 机架架构 | 第三代 MGX，无线缆模块化托盘 |
-| 组装时间 | ~5 分钟（计算托盘） |
+| 组装时间 | 计算托盘组装、维护提速 18 倍（GB300 约 100 分钟） |
 | 机密计算 | 第三代，全系统加密 |
 | vs Blackwell 推理 | 5× 性能，10× 成本效率 |
 | vs Blackwell 训练 | 3.5× 性能，4× GPU 效率 |
