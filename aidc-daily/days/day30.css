@@ -1,0 +1,37 @@
+.row1{margin-top:30px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.num,.rev{padding:24px 14px 12px;display:flex;flex-direction:column;gap:8px}
+.num{border-color:var(--teal)}.num>.lab{color:var(--teal)}
+.ng{display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:1}
+.n{border:2px solid #9ccfdd;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 6px;background:#fbfeff}
+.n b{font-family:'Kalam';font-weight:700;font-size:28px;color:var(--navy);line-height:1.1}
+.n span{font-family:'LXGW WenKai';font-size:14px;color:#5b6682;text-align:center}
+.rev{border-color:var(--red)}.rev>.lab{color:var(--red)}
+.rt{display:flex;flex-direction:column;gap:6px}
+.rh,.rr{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:8px;align-items:center;font-family:'LXGW WenKai';font-size:15px;padding:6px 10px;border-radius:8px}
+.rh{color:#5b6682;font-size:14px}
+.rr{background:#fff4f7}
+.rr span{color:var(--navy);font-weight:700}
+.rr s{color:#8a93ad;font-family:'Kalam';font-size:17px}
+.rr b{color:var(--red);font-family:'Kalam';font-size:19px}
+.note{font-family:'LXGW WenKai';font-size:14px;line-height:1.5;color:#34426a;background:#f2f5fa;border-radius:8px;padding:8px 10px;margin-top:auto}
+.cmp{margin-top:30px;padding:24px 14px 12px;border-color:var(--navy)}
+.ct{display:flex;flex-direction:column;gap:5px}
+.ch,.cr{display:grid;grid-template-columns:1fr 1.5fr 1.5fr;gap:10px;align-items:center;font-family:'LXGW WenKai';font-size:15px;padding:5px 12px;border-radius:8px}
+.ch{font-weight:700;color:#5b6682}
+.ch span:last-child{color:var(--teal)}
+.cr:nth-child(even){background:#f2f5fa}
+.cr span:first-child{font-weight:700;color:var(--navy)}
+.cr span{color:#34426a}
+.cr b{color:var(--teal);font-weight:700}
+.ops{margin-top:30px;padding:24px 14px 12px;border-color:var(--orange)}.ops>.lab{color:#c26400}
+.og{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.o{border-radius:10px;padding:8px 10px;border-left:5px solid}
+.o b{display:block;font-family:'LXGW WenKai';font-weight:700;font-size:16px;margin-bottom:3px}
+.o p{font-family:'LXGW WenKai';font-size:14px;line-height:1.45;color:#34426a}
+.o1{background:#fff6ec;border-color:var(--orange)}.o1 b{color:#c26400}
+.o2{background:#f2f5fa;border-color:#2c4a7a}.o2 b{color:#2c4a7a}
+.o3{background:#eef8fb;border-color:var(--teal)}.o3 b{color:var(--teal)}
+.o4{background:#f1faf5;border-color:#2f9e6a}.o4 b{color:#2f9e6a}
+.o5{background:#f7f3ff;border-color:#8a6fd1}.o5 b{color:#6a4fb8}
+.o6{background:#fff4f7;border-color:var(--red)}.o6 b{color:var(--red)}

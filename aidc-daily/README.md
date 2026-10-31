@@ -35,6 +35,7 @@
 | 27 | PUE · WUE · Tokens/W | 《数据中心绿色低碳发展专项行动计划》（2024-07）· GB 40879-2021 · ISO/IEC 30134-9 · NVIDIA GB300 NVL72 官网 · Vertiv 液冷与 PUE 分析 |
 | 28 | CDU 液冷运维 | OCP PG25 冷却液指南（Rev 2.0，2026-09）· ASHRAE 热环境指南第 5 版液冷分级 · 施耐德冷却液选型博客 · AIDC 故障全生命周期管理流程 |
 | 29 | GB300 NVL72 解剖 | NVIDIA NVL72 AI Factory 企业参考架构 · NVIDIA GB300 NVL72 官网规格 · Lenovo GB300 NVL72 硬件手册 · B300/GB300 NVL72 技术全解 |
+| 30 | Vera Rubin NVL72 看点 | NVIDIA Vera Rubin NVL72 官网规格（2026-10 修订版）· NVIDIA 规格修订声明 · CES 2026 Vera Rubin 发布 · Vera Rubin NVL72 技术全解 |
 
 ## 选题计划
 
@@ -44,7 +45,7 @@
 | 第 2 周 AI 网络 | 08 集合通信原语 ✅ · 09 TP/PP/DP/EP 与通信量 ✅ · 10 Rail 优化拓扑 ✅ · 11 RoCEv2 vs InfiniBand ✅ · 12 800G 光模块与 breakout ✅ · 13 光纤连接器选型 ✅ · 14 NCCL 调试变量 ✅ |
 | 第 3 周 K8s × GPU | 15 GPU Operator 全家福 ✅ · 16 GPU 调用链 ✅ · 17 Time-Slicing / MIG / DRA ✅ · 18 GPU Pod 排障 ✅ · 19 DCGM 告警阈值 ✅ · 20 etcd 空间超限 ✅ · 21 K8s HA 架构 ✅ |
 | 第 4 周 机房基础设施 | 22 从市电到 0.7V ✅ · 23 四级备电时间接力 ✅ · 24 UPS vs 240V vs 800V HVDC ✅ · 25 冷热通道封闭 ✅ · 26 冷板 / 浸没 / 喷淋 ✅ · 27 PUE、WUE、Tokens per Watt ✅ · 28 CDU 液冷运维 ✅ |
-| 第 5 周 机柜级系统 | 29 GB300 NVL72 解剖 ✅ · 30 Vera Rubin NVL72 看点 |
+| 第 5 周 机柜级系统 | 29 GB300 NVL72 解剖 ✅ · 30 Vera Rubin NVL72 看点 ✅ |
 
 ## 目录结构
 

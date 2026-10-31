@@ -1,0 +1,11 @@
+{
+  "day": "30",
+  "title": "Vera Rubin NVL72 看点",
+  "subtitle": "官网 10 月刚修订规格：规划按量产数字算",
+  "source": "参考：NVIDIA Vera Rubin NVL72 官网 · NVIDIA 规格修订声明 · CES&nbsp;2026 · Vera&nbsp;Rubin 技术全解",
+  "caption": "AIDC 每日一图 · Day 30｜Vera Rubin NVL72 看点 🚀\n\n整柜（官网 10 月版）：72 Rubin + 36 Vera / NVFP4 推理 3.6 EF / 20.7 TB HBM4 / NVLink 216 TB/s / 54 TB LPDDR5X / 45°C 进水\n\n⚠️ 规格刚修订：HBM4 22→19.2 TB/s/GPU，NVLink 3.6→3 TB/s/GPU（整柜 260→216 TB/s），算力和容量没变\n\n运维看点：无缆托盘组装维护提速 18×、NVLink 交换托盘零停机维护、BlueField-4 推理上下文存储、整柜机密计算\n\n收藏备用 👇\n#VeraRubin #NVL72 #AIInfra #AIDC",
+  "xhs": {
+    "title": "Vera Rubin NVL72看点",
+    "body": "AIDC 每日一图 · Day 30\n\nVera Rubin NVL72 今年下半年起量，NVIDIA 官网 10 月底刚修订过规格，规划时请按新数字算。\n\n📊 整柜数字（官网最新版）\n· 72 颗 Rubin GPU + 36 颗 Vera CPU\n· NVFP4 推理 3.6 EF（稀疏）/ 训练 2.5 EF\n· 20.7 TB HBM4 · 1400 TB/s\n· NVLink 6 全互联 216 TB/s\n· 最高 54 TB LPDDR5X\n· 进水温度 45°C\n\n⚠️ 规格修订（发布会 → 量产）\nHBM4 每卡：22 → 19.2 TB/s\nNVLink 每卡：3.6 → 3 TB/s\nNVLink 整柜：260 → 216 TB/s\n算力和显存容量没变\n\n🆚 对比 GB300 NVL72\nCPU：Grace 72 核 → Vera 88 核\n显存带宽：576 → 1400 TB/s\nNVLink：130 → 216 TB/s\nLPDDR5X：17 → 54 TB\nFP4 推理：1440 → 3600 PF\n网卡/DPU：CX-8 + BF-3 → CX-9 + BF-4\n\n🔧 运维要盯的变化\n· 无缆托盘：组装维护提速 18×\n· NVLink 交换托盘零停机维护\n· BlueField-4 推理上下文存储\n· 整柜机密计算、第二代 RAS\n\n三条铁律：\n· 容量规划按量产规格，不按发布会数字\n· 45°C 进水照样盯水质和流量\n· 托盘换得再快，也先迁走作业\n\n收藏备用 👇\n\n#VeraRubin #英伟达 #智算中心 #AI基础设施 #运维"
+  }
+}

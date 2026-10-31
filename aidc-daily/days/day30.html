@@ -1,0 +1,58 @@
+<div class="g2 row1">
+  <div class="num wob box">
+    <div class="lab hd">整柜数字（官网 10 月版）</div>
+    <div class="ng">
+      <div class="n"><b>72 + 36</b><span>Rubin GPU + Vera CPU</span></div>
+      <div class="n"><b>3.6 EF</b><span>NVFP4 推理（稀疏）</span></div>
+      <div class="n"><b>2.5 EF</b><span>NVFP4 训练（稠密）</span></div>
+      <div class="n"><b>20.7 TB</b><span>HBM4 · 1400 TB/s</span></div>
+      <div class="n"><b>216 TB/s</b><span>NVLink 6 全互联</span></div>
+      <div class="n"><b>54 TB</b><span>LPDDR5X</span></div>
+    </div>
+  </div>
+  <div class="rev wob box">
+    <div class="lab hd">规格刚改过：按量产算</div>
+    <div class="rt">
+      <div class="rh"><span>项目</span><span>发布会</span><span>量产</span></div>
+      <div class="rr"><span>HBM4 / GPU</span><s>22 TB/s</s><b>19.2 TB/s</b></div>
+      <div class="rr"><span>HBM4 / 整柜</span><s>1.6 PB/s</s><b>1.4 PB/s</b></div>
+      <div class="rr"><span>NVLink / GPU</span><s>3.6 TB/s</s><b>3 TB/s</b></div>
+      <div class="rr"><span>NVLink / 整柜</span><s>260 TB/s</s><b>216 TB/s</b></div>
+    </div>
+    <p class="note">NVL72 的 FP4 算力和显存容量没变。NVIDIA 称旧数字是预期目标，新数字是量产可持续值。</p>
+  </div>
+</div>
+
+<div class="cmp wob box">
+  <div class="lab hd">对比 GB300 NVL72</div>
+  <div class="ct">
+    <div class="ch"><span></span><span>GB300 NVL72</span><span>Vera Rubin NVL72</span></div>
+    <div class="cr"><span>CPU</span><span>Grace · 72 核</span><b>Vera · 88 核</b></div>
+    <div class="cr"><span>显存</span><span>20 TB HBM3e · 576 TB/s</span><b>20.7 TB HBM4 · 1400 TB/s</b></div>
+    <div class="cr"><span>NVLink</span><span>130 TB/s</span><b>216 TB/s</b></div>
+    <div class="cr"><span>LPDDR5X</span><span>17 TB</span><b>54 TB</b></div>
+    <div class="cr"><span>FP4 推理（稀疏）</span><span>1440 PF</span><b>3600 PF</b></div>
+    <div class="cr"><span>网卡 / DPU</span><span>CX-8 + BlueField-3</span><b>CX-9 + BlueField-4</b></div>
+  </div>
+</div>
+
+<div class="ops wob box">
+  <div class="lab hd">运维要盯的六个变化</div>
+  <div class="og">
+    <div class="o o1"><b>无缆托盘</b><p>装配维护提速 18×（GB300 约 100 分钟）</p></div>
+    <div class="o o2"><b>交换托盘零停机</b><p>NVLink 交换托盘可在机柜运行中拆下维护</p></div>
+    <div class="o o3"><b>45°C 进水</b><p>官网标注进水温度 45°C，更利于干冷器散热</p></div>
+    <div class="o o4"><b>推理上下文存储</b><p>BlueField-4 托管 KV Cache，吞吐最高 5×</p></div>
+    <div class="o o5"><b>整柜机密计算</b><p>第三代，覆盖 CPU、GPU 和整个 NVLink 域</p></div>
+    <div class="o o6"><b>第二代 RAS</b><p>覆盖 GPU、CPU、NVLink，可在线健康检查</p></div>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="10" y="6" width="28" height="36" rx="3"/><path d="M16 16h16M16 24h16M16 32h10"/></svg><p>容量规划按量产规格<br>不按发布会数字</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M24 6C18 16 12 22 12 30a12 12 0 0 0 24 0c0-8-6-14-12-24z"/></svg><p>45°C 进水<br>照样盯水质和流量</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="6" y="14" width="36" height="20" rx="3"/><path d="M14 22h4M22 22h4M30 22h4"/></svg><p>托盘换得再快<br>也先迁走作业</p></div>
+  </div>
+</div>
