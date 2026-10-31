@@ -1,0 +1,11 @@
+{
+  "day": "29",
+  "title": "GB300 NVL72 解剖",
+  "subtitle": "一个 142 kW 的机柜，拆开来是 18 + 9 + 8 + 2",
+  "source": "参考：NVIDIA NVL72 参考架构 · NVIDIA GB300 官网 · Lenovo GB300 手册 · B300 技术全解",
+  "caption": "AIDC 每日一图 · Day 29｜GB300 NVL72 解剖 🔩\n\n一个机柜 = 18 计算托盘 + 9 NVLink 交换托盘 + 8 电源架 + 2 管理交换机\n\n每个计算托盘：4×B300 + 2×Grace + 4×CX-8 + 1×BlueField-3\n整柜：72 GPU / 20 TB HBM3e / 130 TB/s NVLink / FP4 稠密 1080 PF / 最高 142 kW\n\n四张网别接错：NVLink 柜内、CX-8 计算网、BlueField-3 南北向、SN2201 带外\n\n收藏备用 👇\n#GB300 #NVL72 #AIInfra #AIDC",
+  "xhs": {
+    "title": "GB300 NVL72拆开看",
+    "body": "AIDC 每日一图 · Day 29\n\n一个 GB300 NVL72 机柜，拆开是 18 + 9 + 8 + 2：\n\n🧱 整柜清单\n· 18 个计算托盘：共 72 颗 B300 + 36 颗 Grace\n· 9 个 NVLink 交换托盘：每盘 2 颗 NVSwitch，72 卡全互联\n· 8 个电源架：每架 6 × 5.5 kW = 33 kW\n· 2 台 SN2201 管理交换机\n· 漏液托盘 + 托盘级、机架级漏液检测\n\n🔍 一个计算托盘\n4 × B300（每颗 288 GB HBM3e）\n2 × Grace（每颗 72 核）\n4 × ConnectX-8（每颗 800 Gb/s）\n1 × BlueField-3（约 480 Gb/s 南北向）\n4 × E1.S + 1 × M.2\n\n📊 整柜数字（NVIDIA 官方）\n130 TB/s NVLink · 20 TB HBM3e · 37 TB 快速内存 · FP4 稠密 1080 PF（稀疏 1440）· 最高 142 kW\n\n🌐 四张网别接错\nNVLink：柜内互联，背板盲插\nCX-8：跨机柜计算网\nBlueField-3：存储、业务等南北向\nSN2201：带外管理\n\n三条铁律：\n· 拔一个计算托盘 = 4 颗 GPU 下线\n· 计算网、存储网、带外管理分开接\n· 漏液告警先定位到托盘\n\n收藏备用 👇\n\n#GB300 #NVL72 #智算中心 #AI基础设施 #运维"
+  }
+}
