@@ -1,0 +1,51 @@
+<div class="lv wob box row1">
+  <div class="lab hd">先定级：级别决定响应速度</div>
+  <div class="lt">
+    <div class="lr l0"><b>P0 灾难</b><span>整集群不可用 / 数据有丢失风险</span><span>机柜断电、液冷主管路泄漏</span><i>5 分钟响应</i></div>
+    <div class="lr l1"><b>P1 严重</b><span>训练中断 / 部分集群不可用</span><span>多卡故障、NVLink 中断、CDU 故障</span><i>15 分钟</i></div>
+    <div class="lr l2"><b>P2 一般</b><span>性能降级，业务还能跑</span><span>单卡 ECC、降频、单 PSU 故障</span><i>30 分钟</i></div>
+    <div class="lr l3"><b>P3 轻微</b><span>不影响当前业务</span><span>阈值预警、备件消耗预警</span><i>4 小时</i></div>
+  </div>
+</div>
+
+<div class="flow wob box">
+  <div class="lab hd">七个阶段，一张工单走到底</div>
+  <div class="fg">
+    <div class="st s1"><em>1</em><b>发现确认</b><p>2 分钟内认领告警<br>两个数据源交叉验证</p><code>nvidia-smi -q -i &lt;id&gt;</code></div>
+    <div class="st s2"><em>2</em><b>分级研判</b><p>判定故障域和影响面<br>P0/P1 电话通知</p><code>受影响 GPU / 任务数</code></div>
+    <div class="st s3"><em>3</em><b>应急保护</b><p>评估紧急 checkpoint<br>迁走或优雅暂停任务</p><code>kubectl drain &lt;node&gt;</code></div>
+    <div class="st s4"><em>4</em><b>隔离定位</b><p>按域深度诊断<br>按时间线找根因</p><code>dcgmi diag -r 3</code></div>
+    <div class="st s5"><em>5</em><b>修复执行</b><p>方案含回滚和备件<br>审批后逐步执行</p><code>每步结果写进工单</code></div>
+    <div class="st s6"><em>6</em><b>恢复验证</b><p>诊断 + 压测 ≥ 1 小时<br>先回切低优先级任务</p><code>kubectl uncordon &lt;node&gt;</code></div>
+    <div class="st s7"><em>7</em><b>复盘归档</b><p>P0/P1 三个工作日内复盘<br>改进项单独建单跟踪</p><code>记录 MTTD / MTTR</code></div>
+    <div class="st snap"><b>现场快照清单</b><p>GPU：nvidia-smi -q、XID 日志<br>链路：nvidia-smi nvlink -e<br>设施：CDU、PSU、温湿度读数</p><code>采集时间写进工单</code></div>
+  </div>
+</div>
+
+<div class="g2">
+  <div class="red wob box">
+    <div class="lab hd">四条红线</div>
+    <div class="rd"><b>快照没采完</b><span>不做任何修复操作</span></div>
+    <div class="rd"><b>方案没审批</b><span>不动手（紧急可电话审批，事后补签）</span></div>
+    <div class="rd"><b>高压、液冷操作</b><span>必须双人作业</span></div>
+    <div class="rd"><b>训练进程</b><span>不直接 kill -9，除非节点已失联</span></div>
+  </div>
+  <div class="obs wob box">
+    <div class="lab hd">修好了也别急着关单</div>
+    <div class="og">
+      <div class="o"><b>72 h</b><span>P0 / P1 观察期</span></div>
+      <div class="o"><b>48 h</b><span>P2 观察期</span></div>
+      <div class="o"><b>24 h</b><span>P3 观察期</span></div>
+    </div>
+    <p class="tip">观察期内复发，退回第 4 阶段重新定位。<br>关单记 MTTD（发现用时）、MTTR（恢复用时）。</p>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><rect x="6" y="12" width="36" height="26" rx="4"/><circle cx="24" cy="25" r="7"/><path d="M16 12l3-5h10l3 5"/></svg><p>先拍快照<br>再动手</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M8 24h26M26 14l10 10-10 10"/></svg><p>先迁走任务<br>再隔离设备</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><circle cx="24" cy="24" r="17"/><path d="M24 13v11l7 5"/></svg><p>观察期过了<br>才能关单</p></div>
+  </div>
+</div>
