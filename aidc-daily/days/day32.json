@@ -1,0 +1,11 @@
+{
+  "day": "32",
+  "title": "FRU 序列号修改",
+  "subtitle": "换完主板，用 ipmitool 把 SN 写回去",
+  "source": "参考：B300 FRU 序列号修改 SOP · ipmitool 手册与源码 · IPMI FRU 规范 · dmidecode&nbsp;手册",
+  "caption": "AIDC 每日一图 · Day 32｜FRU 序列号修改 🔢\n\n换完主板，主板 SN 和整机 SN 要写回 FRU：\n主板 SN：fru edit 0 field b 2\n整机 SN：fru edit 0 field p 4\n\n六步：连 BMC → fru read 备份 .bin → 长度预检 → 一次改一个字段 → mc reset cold → 重启后 dmidecode 核对\n\n看到 checksum 错、SN 对不上工单、长度不一致，立刻停\n回滚：fru write 0 before.bin\n\n收藏备用 👇\n#IPMI #BMC #AIInfra #AIDC",
+  "xhs": {
+    "title": "换主板后SN怎么写回去",
+    "body": "AIDC 每日一图 · Day 32\n\n服务器换完主板，新板上的 SN 是空的或不对，要用 ipmitool 把主板 SN、整机 SN 写回 FRU。\n\n🔢 要改的两个字段\n主板 SN：fru edit 0 field b 2\n整机 SN：fru edit 0 field p 4\n（b = Board 区，p = Product 区，索引从 0 开始）\n\n🧭 六步走\n1 连上 BMC：mc info，连不上先试 -C 17\n2 先备份：fru read 0 before.bin + fru print 0 > before.txt\n3 长度预检：新旧 SN 位数一致再动手\n4 一次改一个字段，改完立刻 fru print 核对\n5 BMC 冷复位：mc reset cold，期间不断电\n6 主机重启后 dmidecode 交叉验证\n\n⛔ 看到这些立刻停\n· fru print 报 checksum 错误\n· 目标 SN 和工单对不上\n· 新旧长度不一致（ipmitool 会重排整个 FRU，风险高）\n\n↩️ 回滚\nfru write 0 before.bin，再 mc reset cold\n\n三条铁律：\n· 先备份 .bin 再动 FRU\n· 一次改一个字段，改完就查\n· 长度对不上就停手\n\n收藏备用 👇\n\n#服务器运维 #IPMI #智算中心 #AI基础设施 #运维"
+  }
+}

@@ -1,0 +1,50 @@
+<div class="g2 row1">
+  <div class="fld wob box">
+    <div class="lab hd">要改的只有两个字段</div>
+    <div class="fc mb"><b>主板 SN</b><span>Board Serial</span><code>field b 2</code></div>
+    <div class="fc sys"><b>整机 SN</b><span>Product Serial</span><code>field p 4</code></div>
+    <p class="note">区域代码：<b>c</b> 机箱 · <b>b</b> 主板 · <b>p</b> 产品<br>索引按 IPMI FRU 规范的字段顺序，从 0 开始</p>
+  </div>
+  <div class="idx wob box">
+    <div class="lab hd">索引对照</div>
+    <div class="it"><div class="ih">Board 区 <i>b</i></div><ol start="0"><li>Manufacturer</li><li>Product Name</li><li class="on">Serial ← 主板 SN</li><li>Part Number</li><li>FRU File ID</li></ol></div>
+    <div class="it"><div class="ih">Product 区 <i>p</i></div><ol start="0"><li>Manufacturer</li><li>Name</li><li>Part Number</li><li>Version</li><li class="on">Serial ← 整机 SN</li><li>Asset Tag</li><li>FRU File ID</li></ol></div>
+  </div>
+</div>
+
+<div class="flow wob box">
+  <div class="lab hd">六步改完，每步都能回头</div>
+  <div class="fg">
+    <div class="st"><em>1</em><b>连上 BMC</b><code>ipmitool … mc info</code><p>连不上先试 <span>-C 17</span>；本机操作用 <span>-I open</span></p></div>
+    <div class="st bk"><em>2</em><b>先备份</b><code>fru read 0 before.bin</code><code>fru print 0 &gt; before.txt</code><p>两份都拷到本机之外</p></div>
+    <div class="st"><em>3</em><b>长度预检</b><code>echo ${#NEW_SN}</code><p>新旧 SN 位数一致再动手</p></div>
+    <div class="st"><em>4</em><b>一次改一个</b><code>fru edit 0 field b 2 "$NEW_MB"</code><p>改完立刻 <span>fru print 0</span> 核对</p></div>
+    <div class="st"><em>5</em><b>BMC 冷复位</b><code>mc reset cold</code><p>等 1～2 分钟再复查，期间不断电</p></div>
+    <div class="st ok"><em>6</em><b>交叉验证</b><code>dmidecode -s system-serial-number</code><p>主机重启后 SMBIOS 才更新</p></div>
+  </div>
+</div>
+
+<div class="g2">
+  <div class="red wob box">
+    <div class="lab hd">看到这些立刻停</div>
+    <div class="rd"><b>fru print 报 checksum 错</b><span>FRU 已损坏，找厂商</span></div>
+    <div class="rd"><b>目标 SN 对不上工单</b><span>不凭猜测写入</span></div>
+    <div class="rd"><b>写入过程中</b><span>不断电、不重启 BMC</span></div>
+    <div class="rd"><b>新旧长度不一致</b><span>ipmitool 会重排整个 FRU，风险高</span></div>
+  </div>
+  <div class="rb wob box">
+    <div class="lab hd">写错了怎么回滚</div>
+    <code class="big">fru write 0 before.bin</code>
+    <code class="big">mc reset cold</code>
+    <p class="tip">回滚后再 fru print 0，两个字段逐字符核对。<br>没有 before.bin 就没有回滚。<br>SN 视同凭据：不进截图、不进群聊。</p>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M10 8h22l6 6v26H10z"/><path d="M16 8v10h14V8M16 40V28h16v12"/></svg><p>先备份 .bin<br>再动 FRU</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M10 25l9 9 19-20"/></svg><p>一次改一个字段<br>改完就查</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M8 18h32M8 30h20"/><path d="M34 26l8 8M42 26l-8 8"/></svg><p>长度对不上<br>就停手</p></div>
+  </div>
+</div>
