@@ -83,8 +83,10 @@ ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus mc info
 ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus -C 17 mc info
 ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus -C 3 mc info
 
-# 确认端口可达，IPMI over LAN 走 UDP 623
-nc -zvu $BMC 623
+# 确认端口可达：IPMI over LAN 走 UDP 623
+# UDP 没有握手，nc -zu 收不到 ICMP 不可达就会显示成功，结果不可信
+# 以上面 mc info 能否返回为准；需要扫描时用 nmap（open|filtered 也不代表一定可达）
+nmap -sU -p 623 $BMC
 ```
 
 > **凭据安全。** 命令行带明文密码会进入 shell history 和进程列表。正式环境建议改用 `-f <密码文件>`，或用 `-a` 交互式输入。操作完成后执行 `history -c` 清理。
@@ -155,7 +157,7 @@ ipmitool -H $BMC -U $BMCUSER -P $BMCPASS -I lanplus fru print 0
 
 ## 07　长度预检
 
-> **ipmitool 的 `fru edit` 不能改变字段长度。** 新值长度必须与原值完全一致，否则命令报错；部分版本会静默截断，后果更严重。
+> **新旧 SN 长度一致再写入。** 新版 ipmitool（1.8.19 实测）遇到长度不同既不报错也不截断，而是提示 `String size are not equal, resizing fru to fit new string`，随后重排整个 FRU 并写回。重排已知会误改 MultiRecord 区偏移（ipmitool issue #364），因此长度不符时不要直接执行 `fru edit`。
 
 技嘉 B300 的 SN 格式：整机 SN 14 位、主板 SN 11 位，均为纯大写字母与数字。上述长度依据实际样例，不同批次可能存在差异，**每次仍以设备标签和当前 FRU 读数为准**。
 
@@ -184,7 +186,7 @@ printf "整机 SN  当前 [%s] %d 位 -> 目标 [%s] %d 位\n" \
 两项都显示「长度匹配」才进入下一节。长度不符时的处理：
 
 - **新值较短**：用尾部空格补齐到相同长度
-- **新值较长**：只能编辑二进制 FRU 后整体写回，见第 10 节
+- **新值较长**：不要直接 `fru edit`（会触发整区重排）。用第 05 节的 `.bin` 离线编辑并重算校验和后整体写回，或联系技嘉获取官方 FRU 工具，见第 10 节
 
 ## 08　执行修改
 
@@ -237,8 +239,12 @@ dmidecode -s system-serial-number
 ### Redfish 交叉验证
 
 ```bash
-curl -sk -u $BMCUSER:$BMCPASS https://$BMC/redfish/v1/Systems/ | jq
-curl -sk -u $BMCUSER:$BMCPASS https://$BMC/redfish/v1/Chassis/ | jq
+# Systems / Chassis 根路径只返回成员列表，要逐个查成员才有 SerialNumber
+for col in Systems Chassis; do
+  for m in $(curl -sk -u $BMCUSER:$BMCPASS https://$BMC/redfish/v1/$col | jq -r '.Members[]."@odata.id"'); do
+    curl -sk -u $BMCUSER:$BMCPASS https://$BMC$m | jq '{"@odata.id", SerialNumber}'
+  done
+done
 ```
 
 ### 留存修改后备份
@@ -281,7 +287,7 @@ ipmitool ... fru write 0 fru0-edit.bin
 
 | 报错 | 原因与处理 |
 |---|---|
-| Length of the new string is not the same | 新值长度不符，回到第 07 节重新核对 |
+| String size are not equal, resizing fru to fit new string | 新旧长度不一致，ipmitool 已重排整个 FRU 并写入。立即 `fru print 0` 核对全部字段，有异常用第 05 节备份回滚；下次先过第 07 节预检 |
 | FRU write failed | 权限不足，确认账号具备 Administrator 权限 |
 | Unable to establish IPMI v2 / RMCP+ session | 凭据或加密套件问题，尝试 `-C 17` 或 `-C 3` |
 | fru print 出现 checksum 错误 | FRU 区域已损坏，立即停止操作，联系厂商 |
