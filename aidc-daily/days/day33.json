@@ -1,0 +1,11 @@
+{
+  "day": "33",
+  "title": "CX-8 诊断与自环",
+  "subtitle": "端口告了警、手边又没有对端，怎么查",
+  "source": "参考：CX8 诊断命令手册 · CX8 单机自环测试手册 · NVIDIA MFT mlxlink 文档 · IBTA&nbsp;phys_state&nbsp;定义",
+  "caption": "AIDC 每日一图 · Day 33｜CX-8 诊断与自环 🔌\n\n端口告警，五步从下往上查：\nmst status -v → mlxlink -m -c -e → ethtool -m 交叉验证 → flint query / ofed_info → dmesg -T 对时间线\n\nphys_state：2 Polling 找不到对端，3 Disabled 被关了，5 LinkUp 正常\n\n没有对端就自环：MPO-8 Type-B + 5～10 dB 衰减器；同机跑 RoCE 要 netns 隔离\n合格线：纠错后 BER = 0\n\n测完：--test_mode DS、--loopback NO、--port_state UP\n\n收藏备用 👇\n#ConnectX #RoCE #AIInfra #AIDC",
+  "xhs": {
+    "title": "CX-8网卡排障与自环测试",
+    "body": "AIDC 每日一图 · Day 33\n\nCX-8 端口告警，或者新卡上架前想验一遍，手边又没有对端交换机，怎么办？\n\n🔍 五步从下往上查\n1 卡在不在：mst status -v、lspci 看 LnkCap / LnkSta\n2 物理层：mlxlink -d $D -p 1 -m -c -e\n3 模块交叉验证：ethtool -m（和 mlxlink 走不同路径）\n4 固件 / 驱动：flint query、ofed_info -s\n5 对时间线：dmesg -T | grep mlx5\n\n🚦 phys_state 一眼判断\n2 Polling：找不到对端\n3 Disabled：被管理端关了，查配置\n4 Training：长期停留＝协商失败\n6 ErrRecovery：反复出现＝信号差\n5 LinkUp：正常\n\n🔁 三种自环\n· 同模块双通道：能跑 RoCE，首选\n· 跨卡互环：多覆盖笼体和 PCIe\n· 单通道回接：只测物理层\nMPO-8 跳线必须 Type-B，串 5～10 dB 衰减器；同机 RoCE 要把一个口放进独立 netns\n\n✅ 合格线\n纠错后 BER = 0；Rx 光功率在规格内；400G 带宽 ≥ 线速 90%；各 lane 眼图均衡\n\n↩️ 测完复原\n--test_mode DS、--loopback NO、--port_state UP、rdma system set netns shared\n\n三条铁律：\n· 高误码先清洁端面，再怀疑模块\n· 模块换端口重测，故障跟着走就是模块\n· PRBS、环回测完全部退掉\n\n收藏备用 👇\n\n#网络运维 #RDMA #智算中心 #AI基础设施 #运维"
+  }
+}

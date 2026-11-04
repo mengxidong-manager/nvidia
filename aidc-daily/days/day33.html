@@ -1,0 +1,58 @@
+<div class="steps wob box row1">
+  <div class="lab hd">端口告警：五步从下往上查</div>
+  <div class="sg">
+    <div class="sp"><em>1</em><b>卡在不在</b><code>mst status -v</code><code>lspci -d 15b3: -vvv</code><p>LnkCap ≠ LnkSta<br>→ PCIe 没协商满</p></div>
+    <div class="sp"><em>2</em><b>物理层</b><code>mlxlink -d $D -p 1 -m -c -e</code><p>看 down reason、BER、<br>眼图、收发光功率</p></div>
+    <div class="sp"><em>3</em><b>模块交叉验证</b><code>ethtool -m &lt;iface&gt;</code><p>一个能读一个不能 → I2C<br>都读不出 → 模块没插好</p></div>
+    <div class="sp"><em>4</em><b>固件 / 驱动</b><code>flint -d $D query</code><code>ofed_info -s</code><p>版本不配套是隐蔽故障源</p></div>
+    <div class="sp"><em>5</em><b>对时间线</b><code>dmesg -T | grep mlx5</code><p>内核报错时间<br>对上业务失败时间</p></div>
+  </div>
+</div>
+
+<div class="g2">
+  <div class="ps wob box">
+    <div class="lab hd">phys_state 一眼判断</div>
+    <div class="pr p2"><b>2</b><span>Polling</span><i>找不到对端：光纤、模块、对端没通</i></div>
+    <div class="pr p3"><b>3</b><span>Disabled</span><i>被管理端关了：查配置，不是硬件</i></div>
+    <div class="pr p4"><b>4</b><span>Training</span><i>长期停在这：链路协商失败</i></div>
+    <div class="pr p6"><b>6</b><span>ErrRecovery</span><i>反复出现：信号质量差</i></div>
+    <div class="pr p5"><b>5</b><span>LinkUp</span><i>物理链路正常</i></div>
+  </div>
+  <div class="lb wob box">
+    <div class="lab hd">没有对端？三种自环</div>
+    <div class="lt">
+      <div class="lh"><span>接法</span><span>覆盖</span><span>RoCE</span></div>
+      <div class="lr"><b>同模块双通道</b><span>光路 + 两路 DSP + 数据面</span><i class="y">能</i></div>
+      <div class="lr"><b>跨卡互环</b><span>再加两个笼体、两条 PCIe</span><i class="y">能</i></div>
+      <div class="lr"><b>单通道回接</b><span>只到物理层</span><i class="n">不能</i></div>
+    </div>
+    <p class="tip">MPO-8 跳线必须 Type-B，串 5～10 dB 衰减器<br>同机跑 RoCE：一个口连同 RDMA 设备放进独立 netns</p>
+  </div>
+</div>
+
+<div class="g2">
+  <div class="pass wob box">
+    <div class="lab hd">合格线</div>
+    <div class="ok"><b>纠错后 BER = 0</b><span>出现任何非零值，不上生产</span></div>
+    <div class="ok"><b>Rx 光功率在规格内</b><span>顶到上限就加衰减</span></div>
+    <div class="ok"><b>400G 带宽 ≥ 线速 90%</b><span>约 45 GB/s；偏低先查 PCIe 和 NUMA</span></div>
+    <div class="ok"><b>各 lane 眼图均衡</b><span>单 lane 偏低：那一芯脏了或错位</span></div>
+  </div>
+  <div class="clean wob box">
+    <div class="lab hd">测完一定要复原</div>
+    <code>mlxlink -d $D -p 1 --test_mode DS</code>
+    <code>mlxlink -d $D -p 1 --loopback NO</code>
+    <code>mlxlink -d $D -p 1 --port_state UP</code>
+    <code>rdma system set netns shared</code>
+    <p class="tip">CX-7 及之后的卡，环回要在链路完全 down 时配置。<br>接非管理型交换机的口，别用 mlxlink 关。</p>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><circle cx="24" cy="24" r="10"/><path d="M24 6v6M24 36v6M6 24h6M36 24h6"/></svg><p>高误码先清洁端面<br>再怀疑模块</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M8 18h28l-6-6M40 30H12l6 6"/></svg><p>模块换端口重测<br>故障跟着走就是模块</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M14 24a10 10 0 1 0 3-7"/><path d="M12 10v8h8"/></svg><p>PRBS、环回<br>测完全部退掉</p></div>
+  </div>
+</div>
