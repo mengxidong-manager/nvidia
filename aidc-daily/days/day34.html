@@ -1,0 +1,58 @@
+<div class="g2 row1">
+  <div class="lv wob box">
+    <div class="lab hd">坏一块盘，各级别扛得住吗</div>
+    <div class="lt">
+      <div class="lh"><span>级别</span><span>最少盘</span><span>可坏</span><span>坏盘后</span></div>
+      <div class="lr r0"><b>RAID 0</b><span>2</span><i>0</i><em>数据全丢，只能靠备份</em></div>
+      <div class="lr r1"><b>RAID 1</b><span>2</span><i>1</i><em>降级运行，换盘自动重建</em></div>
+      <div class="lr r5"><b>RAID 5</b><span>3</span><i>1</i><em>重建最慢，最怕再坏一块</em></div>
+      <div class="lr r10"><b>RAID 10</b><span>4</span><i>每组 1</i><em>同组坏两块＝阵列失败</em></div>
+    </div>
+    <p class="tip">RAID 不是备份。动手前先确认最近一次备份可用。</p>
+  </div>
+  <div class="led wob box">
+    <div class="lab hd">看懂硬盘灯（Dell 官方）</div>
+    <div class="ld"><i class="d g"></i><b>绿色常亮</b><span>在线正常</span></div>
+    <div class="ld"><i class="d g blink"></i><b>绿色慢闪</b><span>正在重建</span></div>
+    <div class="ld"><i class="d g fast"></i><b>绿色每秒 2 次</b><span>定位中 / 准备拔出</span></div>
+    <div class="ld"><i class="d ga"></i><b>绿 → 琥珀 → 灭</b><span>预测故障，尽快换</span></div>
+    <div class="ld bad"><i class="d a"></i><b>琥珀每秒 4 次</b><span>硬盘已故障</span></div>
+    <div class="ld"><i class="d o"></i><b>熄灭</b><span>可插拔 / 未识别</span></div>
+  </div>
+</div>
+
+<div class="flow wob box">
+  <div class="lab hd">热插拔换盘六步（perccli）</div>
+  <div class="fg">
+    <div class="st"><em>1</em><b>确认降级</b><code>perccli /c0/v0 show</code><p>State: Degraded，系统还在跑</p></div>
+    <div class="st"><em>2</em><b>找到坏盘</b><code>perccli /c0/eall/sall show</code><p>记下 Enclosure:Slot 和序列号</p></div>
+    <div class="st bk"><em>3</em><b>点灯再拔</b><code>perccli /c0/e32/s2 start locate</code><p>灯对上了再拔，别碰相邻盘</p></div>
+    <div class="st"><em>4</em><b>插新盘</b><p>同型号，容量 ≥ 原盘<br>等 10～30 秒被识别</p></div>
+    <div class="st"><em>5</em><b>盯重建</b><code>perccli /c0/eall/sall show rebuild</code><p>没自动开始：<span>set good</span> → <span>start rebuild</span></p></div>
+    <div class="st ok"><em>6</em><b>收尾</b><code>perccli /c0/v0 start cc</code><p>Optimal 后跑一致性检查，记日志</p></div>
+  </div>
+</div>
+
+<div class="g2">
+  <div class="red wob box">
+    <div class="lab hd">三种最危险的时刻</div>
+    <div class="rd"><b>RAID 0 坏盘</b><span>数据重要又没备份：别重建、别拔盘，找数据恢复</span></div>
+    <div class="rd"><b>RAID 5 重建中</b><span>所有盘满负荷，再坏一块就全丢；大盘建议 RAID 6/10</span></div>
+    <div class="rd"><b>RAID 10 同组双坏</b><span>该镜像组数据没了，整个阵列失败</span></div>
+  </div>
+  <div class="hs wob box">
+    <div class="lab hd">配一块热备盘</div>
+    <code>perccli /c0/e32/s7 add hotsparedrive</code>
+    <code>perccli /c0/e32/s7 add hotsparedrive DGs=0</code>
+    <p class="tip">第一条：全局热备，任何阵列都能用<br>第二条：只给磁盘组 0 用<br>坏盘后秒级开始重建，不用等人到场</p>
+  </div>
+</div>
+
+<div class="rules wob box">
+  <div class="lab hd">三条铁律</div>
+  <div class="rg">
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><path d="M10 14h28v24H10z"/><path d="M16 14V9h16v5M18 26h12"/></svg><p>先确认备份<br>再动阵列</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><circle cx="24" cy="20" r="9"/><path d="M20 32h8M21 37h6"/></svg><p>点灯确认槽位<br>再拔盘</p></div>
+    <div class="rl"><svg class="i" width="42" height="42" viewBox="0 0 48 48"><circle cx="24" cy="24" r="16"/><path d="M14 34L34 14"/></svg><p>重建期间<br>不重启、少 I/O</p></div>
+  </div>
+</div>

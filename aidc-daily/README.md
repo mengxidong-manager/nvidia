@@ -39,6 +39,7 @@
 | 31 | 故障全生命周期 | AIDC 故障全生命周期管理流程 · NVIDIA nvidia-smi 手册 · NVIDIA DCGM Diagnostics 文档 · Kubernetes Safely Drain a Node 文档 |
 | 32 | FRU 序列号修改 | B300 FRU 序列号修改 SOP · ipmitool 手册与源码（fru edit / read / write）· IPMI Platform Management FRU 规范 · dmidecode 手册 |
 | 33 | CX-8 诊断与自环 | CX8 诊断命令手册 · CX8 单机自环测试手册 · NVIDIA MFT mlxlink 文档 · IBTA PortPhysicalState 定义 |
+| 34 | Dell RAID 故障恢复 | Dell RAID 故障恢复手册 · Dell PowerEdge 硬盘指示灯说明（KB 000413096）· Dell PERCCLI 管理文档（KB 000394815） |
 
 ## 选题计划
 
@@ -49,7 +50,7 @@
 | 第 3 周 K8s × GPU | 15 GPU Operator 全家福 ✅ · 16 GPU 调用链 ✅ · 17 Time-Slicing / MIG / DRA ✅ · 18 GPU Pod 排障 ✅ · 19 DCGM 告警阈值 ✅ · 20 etcd 空间超限 ✅ · 21 K8s HA 架构 ✅ |
 | 第 4 周 机房基础设施 | 22 从市电到 0.7V ✅ · 23 四级备电时间接力 ✅ · 24 UPS vs 240V vs 800V HVDC ✅ · 25 冷热通道封闭 ✅ · 26 冷板 / 浸没 / 喷淋 ✅ · 27 PUE、WUE、Tokens per Watt ✅ · 28 CDU 液冷运维 ✅ |
 | 第 5 周 机柜级系统 | 29 GB300 NVL72 解剖 ✅ · 30 Vera Rubin NVL72 看点 ✅ |
-| 第 6 周 现场运维 SOP | 31 故障全生命周期 ✅ · 32 FRU 序列号修改 ✅ · 33 CX-8 诊断与自环测试 ✅ · 34 Dell RAID 故障恢复 · 35 HGX B300 日常运维 |
+| 第 6 周 现场运维 SOP | 31 故障全生命周期 ✅ · 32 FRU 序列号修改 ✅ · 33 CX-8 诊断与自环测试 ✅ · 34 Dell RAID 故障恢复 ✅ · 35 HGX B300 日常运维 |
 
 ## 目录结构
 

@@ -1,0 +1,11 @@
+{
+  "day": "34",
+  "title": "Dell RAID 故障恢复",
+  "subtitle": "硬盘亮了琥珀灯：先认灯、再换盘、盯住重建",
+  "source": "参考：Dell RAID 故障恢复手册 · Dell PowerEdge 硬盘指示灯说明（KB&nbsp;000413096）· Dell PERCCLI 管理文档（KB&nbsp;000394815）",
+  "caption": "AIDC 每日一图 · Day 34｜Dell RAID 故障恢复 💽\n\n能坏几块：RAID 0 一块都不行，RAID 1/5 一块，RAID 10 每个镜像组一块\n\n看灯：琥珀每秒闪 4 次＝已故障；绿→琥珀→灭＝预测故障；绿色慢闪＝重建中\n\n换盘六步：v0 show 确认降级 → eall/sall show 找盘 → start locate 点灯 → 热插拔 → show rebuild → Optimal 后 start cc\n\n热备盘：add hotsparedrive，坏盘后秒级开始重建\n\n收藏备用 👇\n#RAID #PowerEdge #AIInfra #AIDC",
+  "xhs": {
+    "title": "Dell服务器RAID坏盘怎么换",
+    "body": "AIDC 每日一图 · Day 34\n\n服务器硬盘亮了琥珀灯，别急着拔。先认灯，再换盘，然后盯住重建。\n\n💽 各级别能坏几块\nRAID 0：一块都不行，数据全丢\nRAID 1：可坏 1 块，换盘自动重建\nRAID 5：可坏 1 块，重建最慢，最怕再坏一块\nRAID 10：每个镜像组可坏 1 块，同组坏两块＝阵列失败\n\n🚥 看懂硬盘灯（Dell 官方）\n绿色常亮：在线\n绿色慢闪：重建中\n绿色每秒 2 次：定位中 / 准备拔出\n绿 → 琥珀 → 灭：预测故障\n琥珀每秒 4 次：已故障\n熄灭：可插拔\n\n🔧 热插拔换盘六步\n1 perccli /c0/v0 show 确认 Degraded\n2 perccli /c0/eall/sall show 找坏盘\n3 start locate 点灯，对上再拔\n4 插同型号新盘，容量不小于原盘\n5 show rebuild 看进度，没自动开始就 set good + start rebuild\n6 Optimal 后 start cc 跑一致性检查\n\n⛔ 最危险的三个时刻\n· RAID 0 坏盘又没备份：别重建，找数据恢复\n· RAID 5 重建中再坏一块：全丢\n· RAID 10 同组两块都坏：阵列失败\n\n🛟 配一块热备盘\nperccli /c0/e32/s7 add hotsparedrive\n\n三条铁律：\n· 先确认备份，再动阵列\n· 点灯确认槽位，再拔盘\n· 重建期间不重启、少 I/O\n\n收藏备用 👇\n\n#服务器运维 #RAID #数据中心 #AI基础设施 #运维"
+  }
+}
