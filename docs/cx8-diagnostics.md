@@ -107,8 +107,8 @@ NVIDIA Firmware Tools 套件。绝大部分命令需要 root 权限，且必须�
 | `mlxconfig -d /dev/mst/mt4131_pciconf0 reset` | 全部配置恢复出厂默认。 |
 | `mlxconfig -d /dev/mst/mt4131_pciconf0 -j /tmp/cfg.json query` | 配置导出为 JSON，便于比对多台机器的差异。 |
 | `mlxfwreset -d /dev/mst/mt4131_pciconf0 query` | 查询当前平台支持哪些 reset level。 |
-| `mlxfwreset -d /dev/mst/mt4131_pciconf0 -l 3 reset` | Level 3 重置，PCIe 设备的默认级别。 |
-| `mlxfwreset -d /dev/mst/mt4131_pciconf0 -l 4 reset` | Level 4 重置，加载新 mlxconfig 配置需要。不支持则冷启动（断电，而非 reboot）。 |
+| `mlxfwreset -d /dev/mst/mt4131_pciconf0 -l 3 reset` | Level 3 重置（驱动重启 + PCI 复位），默认级别。 |
+| `mlxfwreset -d /dev/mst/mt4131_pciconf0 -l 4 reset` | Level 4 是 Warm Reboot（整机热重启），不是加载 mlxconfig 的必需级别。mlxconfig 改动一般用默认的 Level 3 即可生效；先用 query 确认平台支持的级别，都不支持时再整机冷启动（断电，而非 reboot）。 |
 | `mlxprivhost -d /dev/mst/mt4131_pciconf0 q` | 多主机场景下查询当前 host 的权限等级。 |
 
 ### 底层调试
